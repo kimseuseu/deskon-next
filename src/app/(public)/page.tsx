@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
 
 const stats = [
@@ -35,6 +36,15 @@ const serviceIcons: Record<string, string> = {
   products: "📦",
 };
 
+const serviceImages: Record<string, string> = {
+  subscribe: "/images/office-furniture.png",
+  sharing: "/images/office-equipment.png",
+  rental: "/images/aovo-ergo-side.png",
+  recycle: "/images/certa.png",
+  wholesale: "/images/auth-office/1.png",
+  products: "/images/aovo-lineup.png",
+};
+
 const valueProps = [
   {
     icon: "💰",
@@ -64,7 +74,20 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Background video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/images/aovo-brand-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/85 via-gray-900/80 to-primary/85" />
+
         {/* Decorative grid */}
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -85,7 +108,7 @@ export default function HomePage() {
             사지 마세요, 운영하세요
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed">
             산업 자산의 구매에서 운영으로
             <br />
             비용 구조를 바꾸는 통합 플랫폼
@@ -98,7 +121,7 @@ export default function HomePage() {
                 <div className="font-paperlogy text-3xl md:text-4xl font-bold text-accent-light">
                   {s.value}
                 </div>
-                <div className="text-sm text-gray-500 mt-1">{s.label}</div>
+                <div className="text-sm text-gray-400 mt-1">{s.label}</div>
               </div>
             ))}
           </div>
@@ -138,10 +161,25 @@ export default function HomePage() {
               <Link
                 key={card.slug}
                 href={card.href}
-                className={`group block relative overflow-hidden rounded-2xl bg-gradient-to-br ${card.color} p-8 min-h-[220px] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl`}
+                className="group block relative overflow-hidden rounded-2xl min-h-[220px] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
               >
+                {/* Background image */}
+                {serviceImages[card.slug] && (
+                  <Image
+                    src={serviceImages[card.slug]}
+                    alt={card.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                )}
+                {/* Dark overlay with gradient color tint */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-80 group-hover:opacity-70 transition-opacity duration-300`}
+                />
+                {/* Decorative circle */}
                 <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-                <div className="relative z-10">
+                <div className="relative z-10 p-8">
                   <div className="text-3xl mb-4">{serviceIcons[card.slug]}</div>
                   <h3 className="font-paperlogy text-xl font-bold text-white mb-1">
                     {card.title}
@@ -158,8 +196,18 @@ export default function HomePage() {
       </section>
 
       {/* ── Value Proposition ── */}
-      <section className="py-24 bg-surface">
-        <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">
+      <section className="relative py-24 bg-surface overflow-hidden">
+        {/* Background lifestyle image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/images/aovo-living.png"
+            alt=""
+            fill
+            className="object-cover opacity-[0.04]"
+            sizes="100vw"
+          />
+        </div>
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">
               Why AOVO
@@ -224,7 +272,16 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative py-24 bg-gradient-to-r from-accent to-amber-700 overflow-hidden">
+      <section className="relative py-24 overflow-hidden">
+        {/* Background image */}
+        <Image
+          src="/images/auth-office/2.png"
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-accent/90 to-amber-700/90" />
         <div className="relative z-10 w-full max-w-3xl mx-auto px-6 text-center">
           <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white mb-6">
             지금 맞춤 견적을 받아보세요

@@ -51,8 +51,63 @@ export default function CIPage() {
         </motion.div>
       </section>
 
-      {/* Logo */}
+      {/* Symbol Mark */}
       <section className="py-24 bg-cream">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+          >
+            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Symbol Mark</span>
+            <h2 className="font-paperlogy text-3xl font-bold text-primary">심볼 마크</h2>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
+              <Image
+                src="/images/aovo_symbol.svg"
+                alt="AOVO 심볼 마크"
+                width={120}
+                height={120}
+                className="mb-4"
+              />
+              <p className="text-sm text-muted">Symbol Mark (SVG)</p>
+            </motion.div>
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
+              <Image
+                src="/images/aovo_symbol.png"
+                alt="AOVO 심볼 마크"
+                width={120}
+                height={120}
+                className="mb-4"
+              />
+              <p className="text-sm text-muted">Symbol Mark (PNG)</p>
+            </motion.div>
+            <motion.div variants={fadeInUp} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px]">
+              <Image
+                src="/images/aovo_symbol2.png"
+                alt="AOVO 심볼 마크 화이트"
+                width={120}
+                height={120}
+                className="mb-4"
+              />
+              <p className="text-sm text-gray-500">Symbol Mark (Dark BG)</p>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Logo */}
+      <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             className="text-center mb-16"
@@ -66,40 +121,110 @@ export default function CIPage() {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
-            {/* Light bg */}
+            {/* Color Logo */}
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
-              <div className="flex items-center gap-4 mb-4">
-                <Image
-                  src="/images/aovo_symbol.svg"
-                  alt="AOVO Symbol"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12"
-                />
-                <span className="font-paperlogy text-4xl font-bold tracking-tight text-primary">AOVO</span>
-              </div>
-              <p className="text-sm text-muted">Light Background</p>
+              <Image
+                src="/images/aovologo.png"
+                alt="AOVO 로고 컬러"
+                width={240}
+                height={80}
+                className="object-contain mb-4"
+              />
+              <p className="text-sm text-muted">Color Logo</p>
             </motion.div>
-            {/* Dark bg */}
+            {/* Black Logo on Light */}
+            <motion.div variants={fadeInUp} className="bg-cream rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
+              <Image
+                src="/images/aovologo_black.png"
+                alt="AOVO 로고 블랙"
+                width={240}
+                height={80}
+                className="object-contain mb-4"
+              />
+              <p className="text-sm text-muted">Black Logo (Light BG)</p>
+            </motion.div>
+            {/* White Logo on Dark */}
             <motion.div variants={fadeInUp} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px]">
-              <div className="flex items-center gap-4 mb-4">
-                <Image
-                  src="/images/aovo_symbol.svg"
-                  alt="AOVO Symbol"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12 brightness-200"
-                />
-                <span className="font-paperlogy text-4xl font-bold tracking-tight text-white">AOVO</span>
-              </div>
-              <p className="text-sm text-gray-500">Dark Background</p>
+              <Image
+                src="/images/aovologo_white.png"
+                alt="AOVO 로고 화이트"
+                width={240}
+                height={80}
+                className="object-contain mb-4"
+              />
+              <p className="text-sm text-gray-500">White Logo (Dark BG)</p>
             </motion.div>
+          </motion.div>
+
+          {/* Text Logos */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+              <Image
+                src="/images/aovo_text.png"
+                alt="AOVO 텍스트 로고"
+                width={200}
+                height={60}
+                className="object-contain mb-4"
+              />
+              <p className="text-sm text-muted">Text Logo</p>
+            </motion.div>
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+              <Image
+                src="/images/aovo_text_thin.png"
+                alt="AOVO 텍스트 로고 (Thin)"
+                width={200}
+                height={60}
+                className="object-contain mb-4"
+              />
+              <p className="text-sm text-muted">Text Logo (Thin)</p>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CI Examples */}
+      <section className="py-24 bg-cream">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+          >
+            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">CI Application</span>
+            <h2 className="font-paperlogy text-3xl font-bold text-primary">CI 활용 예시</h2>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            {[1, 2, 3].map((n) => (
+              <motion.div key={n} variants={fadeInUp} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+                <Image
+                  src={`/images/ci${n}.png`}
+                  alt={`AOVO CI 활용 예시 ${n}`}
+                  fill
+                  className="object-cover"
+                />
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>

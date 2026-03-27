@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
 
@@ -25,9 +26,15 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[50vh] flex items-center justify-center bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent/8 rounded-full blur-[100px]" />
+      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+        <Image
+          src="/images/aovo-banner2.png"
+          alt="AOVO 회사 소개 배경"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-primary/80" />
         <motion.div
           className="relative z-10 max-w-3xl mx-auto px-6 text-center"
           initial="hidden"
@@ -40,7 +47,7 @@ export default function AboutPage() {
           <motion.h1 variants={fadeInUp} className="font-paperlogy text-4xl md:text-6xl font-bold text-white mb-6">
             회사 소개
           </motion.h1>
-          <motion.p variants={fadeInUp} className="text-lg text-gray-400 leading-relaxed">
+          <motion.p variants={fadeInUp} className="text-lg text-gray-300 leading-relaxed">
             산업용품의 구매부터 운영, 순환까지 &mdash; 기업이 본업에 집중할 수 있도록 돕습니다.
           </motion.p>
         </motion.div>
@@ -95,7 +102,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Service Overview */}
+      {/* Service Overview with Product Lineup Image */}
       <section className="py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -109,6 +116,22 @@ export default function AboutPage() {
             <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">
               5대 핵심 서비스
             </h2>
+          </motion.div>
+
+          {/* Product Lineup Image */}
+          <motion.div
+            className="relative w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+          >
+            <Image
+              src="/images/aovo-lineup.png"
+              alt="AOVO 제품 라인업"
+              fill
+              className="object-contain"
+            />
           </motion.div>
 
           <motion.div
@@ -127,6 +150,43 @@ export default function AboutPage() {
                   <h3 className="font-paperlogy text-xl font-bold mb-1">{cat.nameKo}</h3>
                   <p className="text-sm text-white/60">{cat.nameEn}</p>
                 </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Office Gallery */}
+      <section className="py-24 bg-surface">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+          >
+            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Office</span>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">
+              사무실 소개
+            </h2>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            {[1, 2, 3, 4].map((n) => (
+              <motion.div key={n} variants={fadeInUp} className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <Image
+                  src={`/images/auth-office/${n}.png`}
+                  alt={`AOVO 사무실 ${n}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                />
               </motion.div>
             ))}
           </motion.div>
