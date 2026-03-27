@@ -275,12 +275,18 @@ export default function CIPage() {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
           >
+            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-gray-100">
+              <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Logo Typeface</span>
+              <h3 style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-5xl font-bold text-primary mb-4">Syne</h3>
+              <p style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-xl text-muted mb-2 tracking-wider">AOVO</p>
+              <p className="text-sm text-muted">텍스트 로고에 사용되는 메인 서체입니다.</p>
+            </motion.div>
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-gray-100">
               <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Primary Display</span>
               <h3 className="font-paperlogy text-5xl font-bold text-primary mb-4">Paperlogy</h3>

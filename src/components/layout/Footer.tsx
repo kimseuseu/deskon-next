@@ -93,7 +93,7 @@ export default function Footer() {
                 height={32}
                 className="w-8 h-8 brightness-0 invert"
               />
-              <span className="font-paperlogy text-lg font-bold tracking-tight">
+              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-lg font-bold tracking-tight">
                 AOVO
               </span>
             </Link>

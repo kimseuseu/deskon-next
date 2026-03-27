@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Sans_KR } from "next/font/google";
+import { Noto_Sans_KR, Syne } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import MetaPixel from "@/components/seo/MetaPixel";
@@ -8,6 +8,13 @@ const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500", "700", "900"],
+  display: "swap",
+});
+
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -65,7 +72,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={`${notoSansKR.variable} antialiased`}>
+    <html lang="ko" className={`${notoSansKR.variable} ${syne.variable} antialiased`}>
       <head>
         <script
           type="application/ld+json"

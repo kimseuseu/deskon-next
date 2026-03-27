@@ -61,7 +61,7 @@ export default function Header() {
               height={36}
               className="w-9 h-9"
             />
-            <span className="font-paperlogy text-xl font-bold tracking-tight text-primary">
+            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-xl font-bold tracking-tight text-primary">
               AOVO
             </span>
           </Link>
