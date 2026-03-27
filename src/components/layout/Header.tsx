@@ -57,9 +57,9 @@ export default function Header() {
             <Image
               src="/images/ex_aovo_symbol.png"
               alt="AOVO"
-              width={40}
+              width={32}
               height={40}
-              className="w-10 h-10"
+              className="h-10 w-auto object-contain"
             />
             <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-2xl font-bold tracking-tight text-primary leading-none pb-[1px]">
               AOVO
