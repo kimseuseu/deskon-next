@@ -61,7 +61,7 @@ export default function Header() {
               height={40}
               className="h-10 w-auto object-contain"
             />
-            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-2xl font-bold tracking-tight text-primary leading-none pb-[1px]">
+            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-3xl font-bold tracking-tight text-primary leading-none pb-[1px]">
               AOVO
             </span>
           </Link>
