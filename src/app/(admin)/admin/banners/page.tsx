@@ -1,58 +1,180 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Banner } from "@/types";
 
-const mockBanners: Banner[] = [
-  {
-    id: 1,
-    imageUrl: "/images/banner-01.jpg",
-    title: "AOVO 프리미엄 오피스 체어",
-    titleEn: "AOVO Premium Office Chair",
-    tag: "NEW",
-    description: "인체공학 설계로 장시간 편안한 업무 환경을 제공합니다.",
-    linkUrl: "/products/1",
-    isActive: true,
-    sortOrder: 1,
-  },
-  {
-    id: 2,
-    imageUrl: "/images/banner-02.jpg",
-    title: "사무실 가구 렌탈 서비스",
-    titleEn: "Office Furniture Rental Service",
-    description: "초기 비용 부담 없이 프리미엄 사무 가구를 이용하세요.",
-    badge: "BEST",
-    linkUrl: "/rental",
-    isActive: true,
-    sortOrder: 2,
-  },
-  {
-    id: 3,
-    imageUrl: "/images/banner-03.jpg",
-    title: "스타트업 패키지 특가",
-    titleEn: "Startup Package Special",
-    tag: "EVENT",
-    description: "스타트업을 위한 합리적인 사무 가구 패키지를 만나보세요.",
-    linkUrl: "/subscription-startup",
-    isActive: false,
-    sortOrder: 3,
-  },
-];
-
 export default function BannersPage() {
-  const [banners, setBanners] = useState(mockBanners);
+  const [banners, setBanners] = useState<Banner[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [formData, setFormData] = useState({
+    imageUrl: "",
+    title: "",
+    titleEn: "",
+    tag: "",
+    description: "",
+    descriptionEn: "",
+    linkUrl: "",
+    badge: "",
+    isActive: true,
+    sortOrder: 0,
+  });
+  const [submitting, setSubmitting] = useState(false);
 
-  const toggleActive = (id: number) => {
-    setBanners((prev) =>
-      prev.map((b) => (b.id === id ? { ...b, isActive: !b.isActive } : b))
-    );
-  };
-
-  const handleDelete = (id: number) => {
-    if (confirm("이 배너를 삭제하시겠습니까?")) {
-      setBanners((prev) => prev.filter((b) => b.id !== id));
+  const fetchBanners = async () => {
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+      const res = await fetch("/api/banners", { headers });
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : data.data || [];
+      setBanners(list);
+    } catch {
+      // Keep empty on error
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchBanners();
+  }, []);
+
+  const resetForm = () => {
+    setFormData({
+      imageUrl: "",
+      title: "",
+      titleEn: "",
+      tag: "",
+      description: "",
+      descriptionEn: "",
+      linkUrl: "",
+      badge: "",
+      isActive: true,
+      sortOrder: 0,
+    });
+    setEditingId(null);
+    setShowForm(false);
+  };
+
+  const openEditForm = (banner: Banner) => {
+    setFormData({
+      imageUrl: banner.imageUrl || "",
+      title: banner.title || "",
+      titleEn: banner.titleEn || "",
+      tag: banner.tag || "",
+      description: banner.description || "",
+      descriptionEn: banner.descriptionEn || "",
+      linkUrl: banner.linkUrl || "",
+      badge: banner.badge || "",
+      isActive: banner.isActive,
+      sortOrder: banner.sortOrder,
+    });
+    setEditingId(banner.id);
+    setShowForm(true);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const headers: HeadersInit = {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
+
+      let res: Response;
+      if (editingId) {
+        res = await fetch(`/api/banners/${editingId}`, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify(formData),
+        });
+      } else {
+        res = await fetch("/api/banners", {
+          method: "POST",
+          headers,
+          body: JSON.stringify(formData),
+        });
+      }
+
+      if (res.ok) {
+        resetForm();
+        fetchBanners();
+      } else {
+        alert(editingId ? "배너 수정에 실패했습니다." : "배너 추가에 실패했습니다.");
+      }
+    } catch {
+      alert("서버에 연결할 수 없습니다.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const toggleActive = async (id: number) => {
+    const banner = banners.find((b) => b.id === id);
+    if (!banner) return;
+
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const res = await fetch(`/api/banners/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ isActive: !banner.isActive }),
+      });
+
+      if (res.ok) {
+        setBanners((prev) =>
+          prev.map((b) => (b.id === id ? { ...b, isActive: !b.isActive } : b))
+        );
+      }
+    } catch {
+      alert("상태 변경에 실패했습니다.");
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("이 배너를 삭제하시겠습니까?")) return;
+
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const res = await fetch(`/api/banners/${id}`, {
+        method: "DELETE",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+
+      if (res.ok) {
+        setBanners((prev) => prev.filter((b) => b.id !== id));
+      } else {
+        alert("삭제에 실패했습니다.");
+      }
+    } catch {
+      alert("삭제에 실패했습니다.");
+    }
+  };
+
+  const inputClass =
+    "w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all";
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-primary font-paperlogy">배너 관리</h1>
+          <p className="text-muted text-sm mt-1">로딩 중...</p>
+        </div>
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin h-8 w-8 border-4 border-accent border-t-transparent rounded-full" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -62,13 +184,133 @@ export default function BannersPage() {
           <h1 className="text-2xl font-bold text-primary font-paperlogy">배너 관리</h1>
           <p className="text-muted text-sm mt-1">메인 페이지 배너를 관리합니다.</p>
         </div>
-        <button className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors">
+        <button
+          onClick={() => { resetForm(); setShowForm(true); }}
+          className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors"
+        >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
           </svg>
           배너 추가
         </button>
       </div>
+
+      {/* Banner Form */}
+      {showForm && (
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-5">
+          <h2 className="text-base font-bold text-primary">
+            {editingId ? "배너 수정" : "새 배너 추가"}
+          </h2>
+          <form onSubmit={handleFormSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">제목 (한글)</label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
+                  placeholder="배너 제목"
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">제목 (영문)</label>
+                <input
+                  type="text"
+                  value={formData.titleEn}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, titleEn: e.target.value }))}
+                  placeholder="Banner Title"
+                  className={inputClass}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">설명</label>
+              <input
+                type="text"
+                value={formData.description}
+                onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+                placeholder="배너 설명"
+                className={inputClass}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">이미지 URL *</label>
+                <input
+                  type="text"
+                  value={formData.imageUrl}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, imageUrl: e.target.value }))}
+                  placeholder="/images/banner.jpg"
+                  required
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">링크 URL</label>
+                <input
+                  type="text"
+                  value={formData.linkUrl}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, linkUrl: e.target.value }))}
+                  placeholder="/products/1"
+                  className={inputClass}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">태그</label>
+                <input
+                  type="text"
+                  value={formData.tag}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, tag: e.target.value }))}
+                  placeholder="NEW"
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">배지</label>
+                <input
+                  type="text"
+                  value={formData.badge}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, badge: e.target.value }))}
+                  placeholder="BEST"
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">정렬 순서</label>
+                <input
+                  type="number"
+                  value={formData.sortOrder}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, sortOrder: Number(e.target.value) }))}
+                  className={inputClass}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={resetForm}
+                className="px-5 py-2 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
+              >
+                취소
+              </button>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="px-5 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-light rounded-xl transition-colors disabled:opacity-50"
+              >
+                {submitting ? "저장 중..." : editingId ? "수정" : "추가"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* Banner cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -145,7 +387,10 @@ export default function BannersPage() {
                 </button>
 
                 <div className="flex items-center gap-2">
-                  <button className="px-3 py-1.5 text-xs font-medium text-accent hover:bg-accent/10 rounded-lg transition-colors">
+                  <button
+                    onClick={() => openEditForm(banner)}
+                    className="px-3 py-1.5 text-xs font-medium text-accent hover:bg-accent/10 rounded-lg transition-colors"
+                  >
                     수정
                   </button>
                   <button
@@ -159,6 +404,12 @@ export default function BannersPage() {
             </div>
           </div>
         ))}
+
+        {banners.length === 0 && (
+          <div className="col-span-full text-center py-12 text-muted">
+            등록된 배너가 없습니다.
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,17 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { COMPANY } from "@/lib/constants";
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-};
-
-const staggerContainer = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
 
 const infoItems = [
   {
@@ -55,12 +44,53 @@ const infoItems = [
   },
   {
     label: "영업시간",
-    value: "월~금 09:00~18:00",
+    value: "평일 09:00 - 18:00",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
       </svg>
     ),
+  },
+];
+
+const directions = [
+  {
+    label: "지하철",
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+      </svg>
+    ),
+    lines: [
+      "서울 지하철 7호선 철산역 하차 → 2번 출구 → 버스 환승 (약 15분)",
+      "서울 지하철 1호선 금천구청역 하차 → 마을버스 환승 (약 20분)",
+    ],
+  },
+  {
+    label: "버스",
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+      </svg>
+    ),
+    lines: [
+      "간선버스: 금오로 방면 정류장 하차 후 도보 약 5분",
+      "마을버스: 옥길동 방면 운행 노선 이용",
+    ],
+  },
+  {
+    label: "자가용",
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+      </svg>
+    ),
+    lines: [
+      "서해안고속도로 광명IC → 금오로 방면 우회전 → 약 10분 소요",
+      "내비게이션에 \"경기도 광명시 금오로 679\" 입력",
+      "건물 내 주차장 이용 가능",
+    ],
   },
 ];
 
@@ -70,50 +100,38 @@ export default function LocationPage() {
       {/* Hero */}
       <section className="relative py-24 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent/8 rounded-full blur-[100px]" />
-        <motion.div
-          className="relative z-10 max-w-3xl mx-auto px-6 text-center"
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-        >
-          <motion.span variants={fadeInUp} className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
+        <div className="relative z-10 max-w-3xl mx-auto px-6 text-center animate-fade-in">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
             Location
-          </motion.span>
-          <motion.h1 variants={fadeInUp} className="font-paperlogy text-4xl md:text-5xl font-bold text-white mb-4">
+          </span>
+          <h1 className="font-paperlogy text-4xl md:text-5xl font-bold text-white mb-4">
             오시는 길
-          </motion.h1>
-          <motion.p variants={fadeInUp} className="text-gray-400 text-lg">
+          </h1>
+          <p className="text-gray-400 text-lg">
             AOVO 본사를 방문해 주세요
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
       </section>
 
       {/* Map + Info */}
       <section className="py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="grid grid-cols-1 lg:grid-cols-5 gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            {/* Map Placeholder */}
-            <motion.div
-              variants={fadeInUp}
-              className="lg:col-span-3 bg-gray-200 rounded-2xl min-h-[400px] flex items-center justify-center overflow-hidden"
-            >
-              <div className="text-center text-muted">
-                <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
-                </svg>
-                <p className="font-medium text-lg">지도 영역</p>
-                <p className="text-sm mt-1">{COMPANY.address}</p>
-              </div>
-            </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            {/* Kakao Map */}
+            <div className="lg:col-span-3 rounded-2xl min-h-[450px] overflow-hidden shadow-sm border border-gray-100">
+              <iframe
+                src="https://map.kakao.com/link/map/AOVO,37.4372,126.8603"
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: 450 }}
+                allowFullScreen
+                loading="lazy"
+                title="AOVO 본사 위치 - 경기도 광명시 금오로 679"
+              />
+            </div>
 
             {/* Contact Info */}
-            <motion.div variants={fadeInUp} className="lg:col-span-2">
+            <div className="lg:col-span-2">
               <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
                 <h2 className="font-paperlogy text-xl font-bold text-primary mb-8">연락처 정보</h2>
                 <div className="space-y-6">
@@ -147,8 +165,73 @@ export default function LocationPage() {
                   </a>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 찾아오시는 방법 */}
+      <section className="py-24 bg-surface">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/10 text-accent border border-accent/20 mb-4">
+              Directions
+            </span>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">
+              찾아오시는 방법
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {directions.map((dir) => (
+              <div
+                key={dir.label}
+                className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-6">
+                  {dir.icon}
+                </div>
+                <h3 className="font-paperlogy text-lg font-bold text-primary mb-4">
+                  {dir.label}
+                </h3>
+                <ul className="space-y-3">
+                  {dir.lines.map((line, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted leading-relaxed">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-1.5" />
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Address summary bar */}
+          <div className="mt-12 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wider text-muted">방문 주소</p>
+                <p className="text-primary font-medium">{COMPANY.address}</p>
+              </div>
+            </div>
+            <a
+              href="https://map.kakao.com/link/to/AOVO,37.4372,126.8603"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-white font-medium hover:bg-accent-light transition-colors text-sm"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+              카카오맵에서 길찾기
+            </a>
+          </div>
         </div>
       </section>
     </>

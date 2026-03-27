@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { useCart } from "@/contexts/CartContext";
 
 const serviceLabel: Record<string, string> = {
@@ -16,6 +15,8 @@ const serviceLabel: Record<string, string> = {
 export default function QuotePage() {
   const { items, totalItems, clearCart } = useCart();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [form, setForm] = useState({
     companyName: "",
     contactName: "",
@@ -35,37 +36,54 @@ export default function QuotePage() {
     form.contactName.trim() &&
     form.phone.trim() &&
     form.privacyAgreed &&
-    items.length > 0;
+    items.length > 0 &&
+    !submitting;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmit) return;
 
-    const payload = {
-      ...form,
-      items: items.map((item) => ({
-        productName: item.productName,
-        quantity: item.quantity,
-        serviceType: item.serviceType,
-      })),
-      totalItems,
-      submittedAt: new Date().toISOString(),
-    };
+    setSubmitting(true);
+    setErrorMsg("");
 
-    console.log("Quote request submitted:", payload);
-    clearCart();
-    setSubmitted(true);
+    try {
+      const res = await fetch("/api/quotes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          company: form.companyName,
+          contact_name: form.contactName,
+          phone: form.phone,
+          email: form.email,
+          address: form.address,
+          delivery_date: form.deliveryDate || null,
+          message: form.message,
+          items: items.map((item) => ({
+            productName: item.productName,
+            quantity: item.quantity,
+            serviceType: item.serviceType,
+          })),
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "견적 요청에 실패했습니다.");
+      }
+
+      clearCart();
+      setSubmitted(true);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "오류가 발생했습니다.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="text-center max-w-md"
-        >
+        <div className="text-center max-w-md">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg
               className="w-10 h-10 text-green-600"
@@ -93,7 +111,7 @@ export default function QuotePage() {
           >
             상품 계속 둘러보기
           </Link>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -103,35 +121,28 @@ export default function QuotePage() {
       {/* Hero */}
       <section className="bg-primary py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="font-paperlogy text-4xl font-bold text-white mb-3"
-          >
+          <h1 className="font-paperlogy text-4xl font-bold text-white mb-3">
             견적 요청
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-white/70"
-          >
+          </h1>
+          <p className="text-white/70">
             아래 양식을 작성하시면 빠르게 견적을 보내드립니다.
-          </motion.p>
+          </p>
         </div>
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Left: Form */}
-          <motion.form
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+          <form
             onSubmit={handleSubmit}
             className="lg:col-span-2 space-y-6"
           >
+            {errorMsg && (
+              <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+                {errorMsg}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Company Name */}
               <div>
@@ -258,16 +269,12 @@ export default function QuotePage() {
                   : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
               }`}
             >
-              견적 요청 전송
+              {submitting ? "전송 중..." : "견적 요청 전송"}
             </button>
-          </motion.form>
+          </form>
 
           {/* Right: Order Summary */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
+          <div>
             <div className="bg-surface rounded-2xl p-6 sticky top-28">
               <h3 className="font-paperlogy font-bold text-lg text-primary mb-4">
                 견적 요약
@@ -319,7 +326,7 @@ export default function QuotePage() {
                 </>
               )}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

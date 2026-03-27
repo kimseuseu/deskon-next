@@ -37,6 +37,8 @@ export default function ProductNewPage() {
   });
 
   const [specs, setSpecs] = useState<SpecPair[]>([{ key: "", value: "" }]);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -56,8 +58,10 @@ export default function ProductNewPage() {
     setSpecs((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setSubmitting(true);
 
     const specifications: Record<string, string> = {};
     specs.forEach((s) => {
@@ -82,8 +86,29 @@ export default function ProductNewPage() {
       specifications,
     };
 
-    console.log("Product data:", data);
-    alert("상품 데이터가 콘솔에 출력되었습니다.");
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        setError(errData.error || "상품 등록에 실패했습니다.");
+        setSubmitting(false);
+        return;
+      }
+
+      router.push("/admin/products");
+    } catch {
+      setError("서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.");
+      setSubmitting(false);
+    }
   };
 
   const inputClass =
@@ -107,6 +132,12 @@ export default function ProductNewPage() {
           <p className="text-muted text-sm mt-1">새 상품 정보를 입력하세요.</p>
         </div>
       </div>
+
+      {error && (
+        <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic info */}
@@ -338,9 +369,10 @@ export default function ProductNewPage() {
           </button>
           <button
             type="submit"
-            className="px-6 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-light rounded-xl transition-colors"
+            disabled={submitting}
+            className="px-6 py-2.5 text-sm font-medium text-white bg-accent hover:bg-accent-light rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            상품 등록
+            {submitting ? "등록 중..." : "상품 등록"}
           </button>
         </div>
       </form>

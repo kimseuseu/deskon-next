@@ -59,8 +59,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const isAuth = localStorage.getItem("authenticated");
-    if (!isAuth) {
+    const token = localStorage.getItem("deskon_admin_token");
+    if (!token) {
       router.push("/login");
     } else {
       setMounted(true);
@@ -68,7 +68,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("authenticated");
+    localStorage.removeItem("deskon_admin_token");
     router.push("/login");
   };
 

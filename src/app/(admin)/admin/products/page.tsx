@@ -1,38 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-
-interface MockProduct {
-  id: number;
-  category: string;
-  name: string;
-  priceDisplay: string;
-  isActive: boolean;
-  badge?: string;
-}
+import type { Product } from "@/types";
 
 const categories = ["전체", "의자", "책상", "파티션", "수납", "소파", "기타"];
-
-const mockProducts: MockProduct[] = [
-  { id: 1, category: "의자", name: "AOVO 이그제큐티브 체어", priceDisplay: "월 45,000원", isActive: true, badge: "BEST" },
-  { id: 2, category: "의자", name: "AOVO 태스크 체어", priceDisplay: "월 35,000원", isActive: true },
-  { id: 3, category: "의자", name: "AOVO 메쉬 체어 프로", priceDisplay: "월 55,000원", isActive: true, badge: "NEW" },
-  { id: 4, category: "책상", name: "스탠딩 전동 데스크 1200", priceDisplay: "월 30,000원", isActive: true },
-  { id: 5, category: "책상", name: "스탠딩 전동 데스크 1400", priceDisplay: "월 35,000원", isActive: true },
-  { id: 6, category: "파티션", name: "패브릭 파티션 1200", priceDisplay: "월 15,000원", isActive: false },
-  { id: 7, category: "파티션", name: "유리 파티션 1500", priceDisplay: "월 25,000원", isActive: true },
-  { id: 8, category: "수납", name: "3단 사무 캐비닛", priceDisplay: "월 12,000원", isActive: true },
-  { id: 9, category: "수납", name: "개인 락커 4인용", priceDisplay: "월 20,000원", isActive: true },
-  { id: 10, category: "소파", name: "2인 라운지 소파", priceDisplay: "월 40,000원", isActive: true },
-  { id: 11, category: "기타", name: "모니터암 듀얼", priceDisplay: "월 8,000원", isActive: true },
-  { id: 12, category: "기타", name: "케이블 트레이", priceDisplay: "월 5,000원", isActive: false },
-];
 
 export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState("전체");
   const [search, setSearch] = useState("");
-  const [products, setProducts] = useState(mockProducts);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchProducts = async () => {
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+      const res = await fetch("/api/products", { headers });
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : data.data || [];
+      setProducts(list);
+    } catch {
+      // Keep empty on error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const filtered = products.filter((p) => {
     const matchCategory = activeCategory === "전체" || p.category === activeCategory;
@@ -40,17 +37,66 @@ export default function ProductsPage() {
     return matchCategory && matchSearch;
   });
 
-  const toggleStatus = (id: number) => {
-    setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, isActive: !p.isActive } : p))
-    );
-  };
+  const toggleStatus = async (id: number) => {
+    const product = products.find((p) => p.id === id);
+    if (!product) return;
 
-  const handleDelete = (id: number) => {
-    if (confirm("정말 삭제하시겠습니까?")) {
-      setProducts((prev) => prev.filter((p) => p.id !== id));
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const res = await fetch(`/api/products/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ isActive: !product.isActive }),
+      });
+
+      if (res.ok) {
+        setProducts((prev) =>
+          prev.map((p) => (p.id === id ? { ...p, isActive: !p.isActive } : p))
+        );
+      }
+    } catch {
+      alert("상태 변경에 실패했습니다.");
     }
   };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const res = await fetch(`/api/products/${id}`, {
+        method: "DELETE",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+
+      if (res.ok) {
+        setProducts((prev) => prev.filter((p) => p.id !== id));
+      } else {
+        alert("삭제에 실패했습니다.");
+      }
+    } catch {
+      alert("삭제에 실패했습니다.");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-primary font-paperlogy">상품 관리</h1>
+            <p className="text-muted text-sm mt-1">로딩 중...</p>
+          </div>
+        </div>
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin h-8 w-8 border-4 border-accent border-t-transparent rounded-full" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -144,7 +190,7 @@ export default function ProductsPage() {
                       )}
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-gray-600">{product.priceDisplay}</td>
+                  <td className="px-6 py-4 text-gray-600">{product.priceDisplay || "-"}</td>
                   <td className="px-6 py-4">
                     <button
                       onClick={() => toggleStatus(product.id)}

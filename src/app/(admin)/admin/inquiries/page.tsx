@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Inquiry } from "@/types";
 
 const statusTabs = [
@@ -22,82 +22,6 @@ const statusStyle: Record<Inquiry["status"], string> = {
   resolved: "bg-green-100 text-green-700",
 };
 
-const mockInquiries: Inquiry[] = [
-  {
-    id: 1,
-    name: "김민수",
-    company: "테크스타트",
-    phone: "010-1234-5678",
-    email: "minsu@techstart.kr",
-    inquiryType: "제품문의",
-    message: "AOVO 이그제큐티브 체어 50대 대량 렌탈 시 할인이 가능한지 문의드립니다. 6개월 계약 기준으로 견적을 받고 싶습니다.",
-    status: "new",
-    createdAt: "2025-01-15T14:30:00Z",
-    updatedAt: "2025-01-15T14:30:00Z",
-  },
-  {
-    id: 2,
-    name: "이영희",
-    company: "디자인랩",
-    phone: "010-2345-6789",
-    email: "yh@designlab.co",
-    inquiryType: "견적요청",
-    message: "사무실 인테리어 전체 가구 렌탈을 진행하고 싶습니다. 의자 30대, 책상 30대, 파티션 15세트가 필요합니다.",
-    status: "in-progress",
-    adminNote: "견적서 작성 중 - 1/16 발송 예정",
-    createdAt: "2025-01-15T11:20:00Z",
-    updatedAt: "2025-01-15T16:00:00Z",
-  },
-  {
-    id: 3,
-    name: "박지훈",
-    company: "그린오피스",
-    phone: "010-3456-7890",
-    inquiryType: "AS문의",
-    message: "렌탈 중인 메쉬 체어의 가스리프트에 문제가 있습니다. A/S 방문 요청드립니다.",
-    status: "resolved",
-    adminNote: "1/15 A/S 기사 방문 완료. 가스리프트 교체 처리.",
-    createdAt: "2025-01-14T16:45:00Z",
-    updatedAt: "2025-01-15T10:00:00Z",
-  },
-  {
-    id: 4,
-    name: "최서연",
-    company: "웰니스케어",
-    phone: "010-4567-8901",
-    email: "sy.choi@wellness.kr",
-    inquiryType: "렌탈문의",
-    message: "병원 대기실용 소파와 의자 렌탈 가능 여부를 확인하고 싶습니다.",
-    status: "new",
-    createdAt: "2025-01-14T09:10:00Z",
-    updatedAt: "2025-01-14T09:10:00Z",
-  },
-  {
-    id: 5,
-    name: "정현우",
-    company: "코워킹스페이스 해브",
-    phone: "010-5678-9012",
-    email: "hw@have.space",
-    inquiryType: "제품문의",
-    message: "공유오피스에 적합한 의자와 책상 조합을 추천받고 싶습니다. 20석 규모입니다.",
-    status: "in-progress",
-    adminNote: "상담 전화 완료. 방문 상담 1/17 예정",
-    createdAt: "2025-01-13T15:30:00Z",
-    updatedAt: "2025-01-14T11:00:00Z",
-  },
-  {
-    id: 6,
-    name: "한지민",
-    company: "에듀플러스",
-    phone: "010-6789-0123",
-    inquiryType: "제품문의",
-    message: "학원 강의실용 의자 100대 렌탈 관련하여 문의드립니다. 예산이 제한적이라 가장 경제적인 옵션을 알고 싶습니다.",
-    status: "new",
-    createdAt: "2025-01-13T10:00:00Z",
-    updatedAt: "2025-01-13T10:00:00Z",
-  },
-];
-
 function formatDate(iso: string) {
   const d = new Date(iso);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
@@ -106,8 +30,28 @@ function formatDate(iso: string) {
 export default function InquiriesPage() {
   const [activeTab, setActiveTab] = useState<string>("all");
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [inquiries, setInquiries] = useState(mockInquiries);
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [adminNotes, setAdminNotes] = useState<Record<number, string>>({});
+  const [loading, setLoading] = useState(true);
+
+  const fetchInquiries = async () => {
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+      const res = await fetch("/api/inquiries", { headers });
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : data.data || [];
+      setInquiries(list);
+    } catch {
+      // Keep empty on error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInquiries();
+  }, []);
 
   const filtered =
     activeTab === "all"
@@ -118,15 +62,48 @@ export default function InquiriesPage() {
     setExpandedId((prev) => (prev === id ? null : id));
   };
 
-  const updateStatus = (id: number, status: Inquiry["status"]) => {
-    setInquiries((prev) =>
-      prev.map((inq) =>
-        inq.id === id
-          ? { ...inq, status, adminNote: adminNotes[id] || inq.adminNote, updatedAt: new Date().toISOString() }
-          : inq
-      )
-    );
+  const updateStatus = async (id: number, status: Inquiry["status"]) => {
+    try {
+      const token = localStorage.getItem("deskon_admin_token");
+      const note = adminNotes[id] ?? inquiries.find((i) => i.id === id)?.adminNote;
+      const res = await fetch(`/api/inquiries/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ status, adminNote: note }),
+      });
+
+      if (res.ok) {
+        setInquiries((prev) =>
+          prev.map((inq) =>
+            inq.id === id
+              ? { ...inq, status, adminNote: note || inq.adminNote, updatedAt: new Date().toISOString() }
+              : inq
+          )
+        );
+      } else {
+        alert("상태 변경에 실패했습니다.");
+      }
+    } catch {
+      alert("상태 변경에 실패했습니다.");
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-primary font-paperlogy">문의 관리</h1>
+          <p className="text-muted text-sm mt-1">로딩 중...</p>
+        </div>
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin h-8 w-8 border-4 border-accent border-t-transparent rounded-full" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -252,6 +229,13 @@ export default function InquiriesPage() {
                   )}
                 </>
               ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-muted">
+                    문의가 없습니다.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
