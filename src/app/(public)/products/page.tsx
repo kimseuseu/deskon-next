@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "@/contexts/CartContext";
 import type { Product } from "@/types";
@@ -72,6 +72,13 @@ export default function ProductsPage() {
   const { addItem } = useCart();
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
+
+  // URL의 ?q= 파라미터로 검색어 초기화
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+    if (q) setSearch(q);
+  }, []);
 
   const filtered = useMemo(() => {
     return mockProducts

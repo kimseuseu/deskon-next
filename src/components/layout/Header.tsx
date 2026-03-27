@@ -3,15 +3,20 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
 import { navigation, NavItem } from "@/data/navigation";
 import MobileNav from "./MobileNav";
 
 export default function Header() {
+  const router = useRouter();
   const { totalItems, setIsOpen } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -122,7 +127,67 @@ export default function Header() {
           </nav>
 
           {/* Right Side */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {/* Search */}
+            <div className="relative flex items-center">
+              <div
+                className={`flex items-center overflow-hidden transition-all duration-300 ${
+                  searchOpen ? "w-56 opacity-100" : "w-0 opacity-0"
+                }`}
+              >
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (searchQuery.trim()) {
+                      router.push(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+                      setSearchOpen(false);
+                      setSearchQuery("");
+                    }
+                  }}
+                >
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="상품 검색..."
+                    className="w-full h-9 pl-3 pr-2 text-sm bg-surface border border-gray-200 rounded-full outline-none focus:border-accent transition-colors"
+                    onBlur={() => {
+                      if (!searchQuery) setTimeout(() => setSearchOpen(false), 150);
+                    }}
+                  />
+                </form>
+              </div>
+              <button
+                onClick={() => {
+                  if (searchOpen && searchQuery.trim()) {
+                    router.push(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+                    setSearchOpen(false);
+                    setSearchQuery("");
+                  } else {
+                    setSearchOpen(!searchOpen);
+                    setTimeout(() => searchInputRef.current?.focus(), 100);
+                  }
+                }}
+                className="p-2.5 rounded-full hover:bg-surface transition-colors duration-200 group"
+                aria-label="검색"
+              >
+                <svg
+                  className="w-5 h-5 text-primary/70 group-hover:text-primary transition-colors"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg>
+              </button>
+            </div>
+
             {/* Cart Button */}
             <button
               onClick={() => setIsOpen(true)}

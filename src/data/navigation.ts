@@ -23,13 +23,13 @@ export const navigation: NavItem[] = [
     labelEn: "Subscription",
     href: "/subscribe",
     children: [
+      { label: "체어", labelEn: "Chair", href: "/subscribe/chair" },
       { label: "롤테이너", labelEn: "Roll Tainer", href: "/subscribe/rolltainer" },
       { label: "파랫트", labelEn: "Pallet", href: "/subscribe/pallet" },
       { label: "인테이너", labelEn: "Intainer", href: "/subscribe/intainer" },
       { label: "이사바구니", labelEn: "Moving Box", href: "/subscribe/movingbox" },
       { label: "주방집기", labelEn: "Kitchen", href: "/subscribe/kitchen" },
       { label: "냉난방기", labelEn: "HVAC", href: "/subscribe/hvac" },
-      { label: "체어", labelEn: "Chair", href: "/subscribe/chair" },
     ],
   },
   {
@@ -64,8 +64,8 @@ export const navigation: NavItem[] = [
     labelEn: "Recycling",
     href: "/recycle",
     children: [
-      { label: "물류장비", labelEn: "Logistics", href: "/recycle/logistics" },
       { label: "체어(세르타)", labelEn: "Chair (Serta)", href: "/recycle/chair" },
+      { label: "물류장비", labelEn: "Logistics", href: "/recycle/logistics" },
       { label: "사무가구/기기", labelEn: "Office Furniture", href: "/recycle/furniture" },
       { label: "주방집기", labelEn: "Kitchen", href: "/recycle/kitchen" },
       { label: "이동식에어컨", labelEn: "Portable AC", href: "/recycle/aircon" },
