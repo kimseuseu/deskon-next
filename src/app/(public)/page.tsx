@@ -82,12 +82,13 @@ export default function HomePage() {
           </span>
 
           <h1 className="font-paperlogy text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
-            쓸 때만 비용을 내세요
+            사지 마세요, 운영하세요
           </h1>
 
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-            구독 &middot; 공유 &middot; 렌탈 &middot; 순환 &middot; 유통 —
-            산업용품을 가장 효율적으로 운영하는 방법
+            산업 자산의 구매에서 운영으로
+            <br />
+            비용 구조를 바꾸는 통합 플랫폼
           </p>
 
           {/* Stats */}
