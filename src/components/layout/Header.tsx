@@ -53,15 +53,15 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0">
+          <Link href="/" className="flex items-end gap-2 shrink-0">
             <Image
               src="/images/ex_aovo_symbol.png"
               alt="AOVO"
-              width={36}
-              height={36}
-              className="w-9 h-9"
+              width={40}
+              height={40}
+              className="w-10 h-10"
             />
-            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-xl font-bold tracking-tight text-primary">
+            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-2xl font-bold tracking-tight text-primary leading-none pb-[1px]">
               AOVO
             </span>
           </Link>
