@@ -74,31 +74,21 @@ export default function CIPage() {
           >
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
               <Image
-                src="/images/aovo_symbol.svg"
+                src="/images/ex_aovo_symbol.png"
                 alt="AOVO 심볼 마크"
                 width={120}
                 height={120}
                 className="mb-4"
               />
-              <p className="text-sm text-muted">Symbol Mark (SVG)</p>
-            </motion.div>
-            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
-              <Image
-                src="/images/aovo_symbol.png"
-                alt="AOVO 심볼 마크"
-                width={120}
-                height={120}
-                className="mb-4"
-              />
-              <p className="text-sm text-muted">Symbol Mark (PNG)</p>
+              <p className="text-sm text-muted">Symbol Mark</p>
             </motion.div>
             <motion.div variants={fadeInUp} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px]">
               <Image
-                src="/images/aovo_symbol2.png"
+                src="/images/ex_aovo_symbol.png"
                 alt="AOVO 심볼 마크 화이트"
                 width={120}
                 height={120}
-                className="mb-4"
+                className="mb-4 brightness-0 invert"
               />
               <p className="text-sm text-gray-500">Symbol Mark (Dark BG)</p>
             </motion.div>

@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   description:
     "구독 · 공유 · 렌탈 · 순환 · 유통 — 산업용품을 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
   icons: {
-    icon: "/images/aovo_symbol.png",
-    apple: "/images/aovo_symbol.png",
+    icon: "/images/ex_aovo_symbol.png",
+    apple: "/images/ex_aovo_symbol.png",
   },
   keywords: [
     "산업용품",

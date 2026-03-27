@@ -87,7 +87,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
               <Image
-                src="/images/aovo_symbol.svg"
+                src="/images/ex_aovo_symbol.png"
                 alt="AOVO"
                 width={32}
                 height={32}
