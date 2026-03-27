@@ -85,15 +85,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
+            <Link href="/" className="inline-flex items-end gap-2 mb-4">
               <Image
                 src="/images/ex_aovo_symbol.png"
                 alt="AOVO"
                 width={32}
-                height={32}
-                className="w-8 h-8 brightness-0 invert"
+                height={40}
+                className="h-10 w-auto object-contain brightness-0 invert"
               />
-              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-lg font-bold tracking-tight">
+              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-3xl font-bold tracking-tight leading-none pb-[1px]">
                 AOVO
               </span>
             </Link>
