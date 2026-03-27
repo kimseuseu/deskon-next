@@ -142,6 +142,8 @@ body {
   background-color: var(--color-cream);
   color: var(--color-primary);
   line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* Custom scrollbar */

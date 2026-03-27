@@ -100,7 +100,7 @@ export default function Header() {
                         : "opacity-0 -translate-y-2 pointer-events-none"
                     }`}
                   >
-                    <div className="bg-white rounded-xl shadow-xl shadow-black/8 border border-gray-100/80 py-2 min-w-[200px] overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-xl shadow-black/8 border border-gray-100/80 py-2 min-w-[240px] overflow-hidden">
                       <div className="px-4 py-2 border-b border-gray-50">
                         <span className="text-[11px] font-medium uppercase tracking-widest text-accent/70">
                           {item.labelEn}
@@ -113,8 +113,8 @@ export default function Header() {
                           className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary hover:bg-surface transition-colors duration-150 group"
                         >
                           <span className="w-1 h-1 rounded-full bg-accent/40 group-hover:bg-accent group-hover:scale-125 transition-all duration-150" />
-                          <span className="font-medium">{child.label}</span>
-                          <span className="ml-auto text-[11px] text-gray-400 group-hover:text-accent/60 transition-colors">
+                          <span className="font-medium whitespace-nowrap">{child.label}</span>
+                          <span className="ml-auto text-[11px] text-gray-400 group-hover:text-accent/60 transition-colors whitespace-nowrap">
                             {child.labelEn}
                           </span>
                         </Link>
