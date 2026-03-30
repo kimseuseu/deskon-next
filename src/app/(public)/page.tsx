@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
-import Lenis from "@studio-freight/lenis";
+/* Fullpage scroll utility */
 
 /* ── Data ── */
 
@@ -201,19 +201,62 @@ export default function HomePage() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Lenis smooth scroll
+  // Fullpage scroll – wheel/touch snap to sections
+  const [currentSection, setCurrentSection] = useState(0);
+  const isScrolling = useRef(false);
+  const touchStartY = useRef(0);
+
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-    return () => lenis.destroy();
-  }, []);
+    const sections = containerRef.current?.querySelectorAll<HTMLElement>("[data-section]");
+    if (!sections?.length) return;
+
+    const scrollTo = (index: number) => {
+      const clamped = Math.max(0, Math.min(index, sections.length - 1));
+      if (clamped === currentSection && index !== 0) return;
+      isScrolling.current = true;
+      setCurrentSection(clamped);
+      sections[clamped].scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => { isScrolling.current = false; }, 1000);
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (isScrolling.current) { e.preventDefault(); return; }
+      // Allow normal scroll inside contact form section (last section)
+      const target = e.target as HTMLElement;
+      if (target.closest("form") || target.closest("textarea") || target.closest("select")) return;
+
+      if (Math.abs(e.deltaY) < 30) return;
+      e.preventDefault();
+      scrollTo(currentSection + (e.deltaY > 0 ? 1 : -1));
+    };
+
+    const onTouchStart = (e: TouchEvent) => { touchStartY.current = e.touches[0].clientY; };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (isScrolling.current) return;
+      const diff = touchStartY.current - e.changedTouches[0].clientY;
+      if (Math.abs(diff) < 50) return;
+      scrollTo(currentSection + (diff > 0 ? 1 : -1));
+    };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (isScrolling.current) return;
+      if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); scrollTo(currentSection + 1); }
+      if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); scrollTo(currentSection - 1); }
+      if (e.key === "Home") { e.preventDefault(); scrollTo(0); }
+      if (e.key === "End") { e.preventDefault(); scrollTo(sections.length - 1); }
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [currentSection]);
 
   // IntersectionObserver for data-animate elements
   useEffect(() => {
@@ -321,11 +364,40 @@ export default function HomePage() {
         }
       `}</style>
 
+      {/* Section navigation dots */}
+      <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-3" aria-label="Page sections">
+        {["히어로", "소개", "서비스", "의자구독", "물류장비", "물류창고", "AOVO", "문의"].map((label, i) => (
+          <button
+            key={i}
+            onClick={() => {
+              const sections = containerRef.current?.querySelectorAll<HTMLElement>("[data-section]");
+              if (sections?.[i]) {
+                isScrolling.current = true;
+                setCurrentSection(i);
+                sections[i].scrollIntoView({ behavior: "smooth" });
+                setTimeout(() => { isScrolling.current = false; }, 1000);
+              }
+            }}
+            className={`group relative w-3 h-3 rounded-full border-2 transition-all duration-300 ${
+              currentSection === i
+                ? "bg-accent border-accent scale-125"
+                : "bg-transparent border-white/40 hover:border-accent/60"
+            }`}
+            aria-label={label}
+          >
+            <span className="absolute right-6 top-1/2 -translate-y-1/2 whitespace-nowrap text-xs font-medium text-white bg-primary/80 backdrop-blur-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              {label}
+            </span>
+          </button>
+        ))}
+      </nav>
+
       <div ref={containerRef}>
         {/* ═══════════════════════════════════════════
             Section 1: HERO
         ═══════════════════════════════════════════ */}
         <section
+          data-section="0"
           className="relative min-h-screen overflow-hidden"
         >
           {/* Video bg */}
@@ -453,6 +525,7 @@ export default function HomePage() {
             Section 2: ASSET MESSAGE
         ═══════════════════════════════════════════ */}
         <section
+          data-section="1"
           className="min-h-screen bg-primary flex items-center relative overflow-hidden"
         >
           {/* Radial gradient bg */}
@@ -528,6 +601,7 @@ export default function HomePage() {
             Section 3: 5대 서비스 카테고리
         ═══════════════════════════════════════════ */}
         <section
+          data-section="2"
           className="min-h-screen bg-cream flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
@@ -602,6 +676,7 @@ export default function HomePage() {
             Section 4: 의자 구독 서비스
         ═══════════════════════════════════════════ */}
         <section
+          data-section="3"
           className="min-h-screen bg-primary flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
@@ -667,6 +742,7 @@ export default function HomePage() {
             Section 5: 물류장비 구독 & 공유
         ═══════════════════════════════════════════ */}
         <section
+          data-section="4"
           className="min-h-screen bg-surface flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -744,6 +820,7 @@ export default function HomePage() {
             Section 6: 전국 물류 창고 네트워크
         ═══════════════════════════════════════════ */}
         <section
+          data-section="5"
           className="min-h-screen bg-cream flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
@@ -811,6 +888,7 @@ export default function HomePage() {
             Section 7: WHY AOVO
         ═══════════════════════════════════════════ */}
         <section
+          data-section="6"
           className="min-h-screen bg-primary flex items-center relative overflow-hidden"
         >
           {/* Background image overlay */}
@@ -892,6 +970,7 @@ export default function HomePage() {
             Section 8: CONTACT
         ═══════════════════════════════════════════ */}
         <section
+          data-section="7"
           className="min-h-screen bg-cream flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
