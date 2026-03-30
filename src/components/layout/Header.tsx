@@ -45,10 +45,10 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-white/95 backdrop-blur-xl shadow-lg shadow-black/5"
-            : "bg-white/90 backdrop-blur-md"
+            : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -59,9 +59,13 @@ export default function Header() {
               alt="AOVO"
               width={32}
               height={40}
-              className="h-10 w-auto object-contain"
+              className={`h-10 w-auto object-contain transition-all duration-500 ${
+                scrolled ? "" : "brightness-0 invert"
+              }`}
             />
-            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-3xl font-bold tracking-tight text-primary leading-none pb-[1px]">
+            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-3xl font-bold tracking-tight leading-none pb-[1px] transition-colors duration-500 ${
+              scrolled ? "text-primary" : "text-white"
+            }`}>
               AOVO
             </span>
           </Link>
@@ -80,7 +84,9 @@ export default function Header() {
                   className={`relative px-4 py-2.5 font-paperlogy text-[15px] font-medium tracking-wide transition-colors duration-200 ${
                     activeDropdown === index
                       ? "text-accent"
-                      : "text-primary/80 hover:text-primary"
+                      : scrolled
+                        ? "text-primary/80 hover:text-primary"
+                        : "text-white/80 hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -169,11 +175,11 @@ export default function Header() {
                     setTimeout(() => searchInputRef.current?.focus(), 100);
                   }
                 }}
-                className="p-2.5 rounded-full hover:bg-surface transition-colors duration-200 group"
+                className={`p-2.5 rounded-full transition-colors duration-200 group ${scrolled ? "hover:bg-surface" : "hover:bg-white/10"}`}
                 aria-label="검색"
               >
                 <svg
-                  className="w-5 h-5 text-primary/70 group-hover:text-primary transition-colors"
+                  className={`w-5 h-5 transition-colors duration-500 ${scrolled ? "text-primary/70 group-hover:text-primary" : "text-white/80 group-hover:text-white"}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -191,11 +197,11 @@ export default function Header() {
             {/* Cart Button */}
             <button
               onClick={() => setIsOpen(true)}
-              className="relative p-2.5 rounded-full hover:bg-surface transition-colors duration-200 group"
+              className={`relative p-2.5 rounded-full transition-colors duration-200 group ${scrolled ? "hover:bg-surface" : "hover:bg-white/10"}`}
               aria-label="장바구니"
             >
               <svg
-                className="w-5 h-5 text-primary/70 group-hover:text-primary transition-colors"
+                className={`w-5 h-5 transition-colors duration-500 ${scrolled ? "text-primary/70 group-hover:text-primary" : "text-white/80 group-hover:text-white"}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -217,24 +223,24 @@ export default function Header() {
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2.5 rounded-full hover:bg-surface transition-colors duration-200"
+              className={`lg:hidden p-2.5 rounded-full transition-colors duration-200 ${scrolled ? "hover:bg-surface" : "hover:bg-white/10"}`}
               aria-label="메뉴"
             >
               <div className="w-5 h-4 flex flex-col justify-between">
                 <span
-                  className={`block h-[1.5px] bg-primary rounded-full transition-all duration-300 origin-center ${
-                    mobileOpen ? "rotate-45 translate-y-[5px]" : ""
-                  }`}
+                  className={`block h-[1.5px] rounded-full transition-all duration-300 origin-center ${
+                    scrolled ? "bg-primary" : "bg-white"
+                  } ${mobileOpen ? "rotate-45 translate-y-[5px]" : ""}`}
                 />
                 <span
-                  className={`block h-[1.5px] bg-primary rounded-full transition-all duration-300 ${
-                    mobileOpen ? "opacity-0 scale-x-0" : ""
-                  }`}
+                  className={`block h-[1.5px] rounded-full transition-all duration-300 ${
+                    scrolled ? "bg-primary" : "bg-white"
+                  } ${mobileOpen ? "opacity-0 scale-x-0" : ""}`}
                 />
                 <span
-                  className={`block h-[1.5px] bg-primary rounded-full transition-all duration-300 origin-center ${
-                    mobileOpen ? "-rotate-45 -translate-y-[5px]" : ""
-                  }`}
+                  className={`block h-[1.5px] rounded-full transition-all duration-300 origin-center ${
+                    scrolled ? "bg-primary" : "bg-white"
+                  } ${mobileOpen ? "-rotate-45 -translate-y-[5px]" : ""}`}
                 />
               </div>
             </button>
