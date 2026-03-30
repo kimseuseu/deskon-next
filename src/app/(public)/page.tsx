@@ -321,17 +321,12 @@ export default function HomePage() {
         }
       `}</style>
 
-      <div
-        ref={containerRef}
-        className="h-screen overflow-y-auto"
-        style={{ scrollSnapType: "y mandatory" }}
-      >
+      <div ref={containerRef}>
         {/* ═══════════════════════════════════════════
             Section 1: HERO
         ═══════════════════════════════════════════ */}
         <section
-          className="relative min-h-screen overflow-hidden snap-start"
-          style={{ scrollSnapAlign: "start" }}
+          className="relative min-h-screen overflow-hidden"
         >
           {/* Video bg */}
           <video
@@ -458,8 +453,7 @@ export default function HomePage() {
             Section 2: ASSET MESSAGE
         ═══════════════════════════════════════════ */}
         <section
-          className="min-h-screen snap-start bg-primary flex items-center relative overflow-hidden"
-          style={{ scrollSnapAlign: "start" }}
+          className="min-h-screen bg-primary flex items-center relative overflow-hidden"
         >
           {/* Radial gradient bg */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(184,151,126,0.08),transparent_70%)]" />
@@ -534,8 +528,7 @@ export default function HomePage() {
             Section 3: 5대 서비스 카테고리
         ═══════════════════════════════════════════ */}
         <section
-          className="min-h-screen snap-start bg-cream flex items-center"
-          style={{ scrollSnapAlign: "start" }}
+          className="min-h-screen bg-cream flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
             <div className="text-center mb-16" data-animate>
@@ -609,8 +602,7 @@ export default function HomePage() {
             Section 4: 의자 구독 서비스
         ═══════════════════════════════════════════ */}
         <section
-          className="min-h-screen snap-start bg-primary flex items-center"
-          style={{ scrollSnapAlign: "start" }}
+          className="min-h-screen bg-primary flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
             <div className="text-center mb-16" data-animate>
@@ -675,8 +667,7 @@ export default function HomePage() {
             Section 5: 물류장비 구독 & 공유
         ═══════════════════════════════════════════ */}
         <section
-          className="min-h-screen snap-start bg-surface flex items-center"
-          style={{ scrollSnapAlign: "start" }}
+          className="min-h-screen bg-surface flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left: text */}
@@ -753,8 +744,7 @@ export default function HomePage() {
             Section 6: 전국 물류 창고 네트워크
         ═══════════════════════════════════════════ */}
         <section
-          className="min-h-screen snap-start bg-cream flex items-center"
-          style={{ scrollSnapAlign: "start" }}
+          className="min-h-screen bg-cream flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
             <div className="text-center mb-16" data-animate>
@@ -821,8 +811,7 @@ export default function HomePage() {
             Section 7: WHY AOVO
         ═══════════════════════════════════════════ */}
         <section
-          className="min-h-screen snap-start bg-primary flex items-center relative overflow-hidden"
-          style={{ scrollSnapAlign: "start" }}
+          className="min-h-screen bg-primary flex items-center relative overflow-hidden"
         >
           {/* Background image overlay */}
           <div className="absolute inset-0">
@@ -903,8 +892,7 @@ export default function HomePage() {
             Section 8: CONTACT
         ═══════════════════════════════════════════ */}
         <section
-          className="min-h-screen snap-start bg-cream flex items-center"
-          style={{ scrollSnapAlign: "start" }}
+          className="min-h-screen bg-cream flex items-center"
         >
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-24">
             <div className="text-center mb-16" data-animate>
