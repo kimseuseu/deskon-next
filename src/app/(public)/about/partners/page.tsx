@@ -320,7 +320,7 @@ export default function PartnersPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Left: Sticky */}
-            <div className="lg:sticky lg:top-[50vh] lg:-translate-y-1/2 lg:self-start lg:h-fit py-24">
+            <div className="lg:sticky lg:top-32 lg:self-start lg:h-fit py-24">
               <Reveal>
                 <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">
                   Furniture Referral
@@ -380,7 +380,7 @@ export default function PartnersPage() {
             </div>
 
             {/* Right: Sticky (on desktop) */}
-            <div className="lg:sticky lg:top-[50vh] lg:-translate-y-1/2 lg:self-start lg:h-fit py-24 order-1 lg:order-2">
+            <div className="lg:sticky lg:top-32 lg:self-start lg:h-fit py-24 order-1 lg:order-2">
               <Reveal>
                 <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">
                   QR Sharing Partner
