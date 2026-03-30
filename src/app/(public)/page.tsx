@@ -8,8 +8,8 @@ import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
 
 /* ── Data ── */
 
-const heroTitleLine1 = "쓸 때만";
-const heroTitleLine2 = "비용을 내세요";
+const heroTitleLine1 = "사지 마세요,";
+const heroTitleLine2 = "운영하세요";
 
 const statsData = [
   { target: 2500, suffix: "+", label: "거래 기업" },
@@ -398,7 +398,8 @@ export default function HomePage() {
         ═══════════════════════════════════════════ */}
         <section
           data-section="0"
-          className="relative min-h-screen overflow-hidden"
+          className="relative overflow-hidden"
+          style={{ height: "100dvh" }}
         >
           {/* Video bg */}
           <video
@@ -424,9 +425,9 @@ export default function HomePage() {
                   textShadow: "0 2px 15px rgba(0,0,0,0.4)",
                 }}
               >
-                <span className="block">산업용품 통합 운영 플랫폼</span>
+                <span className="block">산업 자산의 구매에서 운영으로</span>
                 <span className="block mt-1">
-                  구독 · 공유 · 렌탈 · 순환 · 유통
+                  비용 구조를 바꾸는 통합 플랫폼
                 </span>
               </p>
 
@@ -470,7 +471,7 @@ export default function HomePage() {
 
           {/* Bottom-left stats */}
           <div
-            className="absolute bottom-12 left-12 z-10 flex gap-10 opacity-0 max-md:bottom-44 max-md:left-0 max-md:right-0 max-md:justify-center max-md:gap-8 max-md:px-4"
+            className="absolute bottom-8 left-12 z-10 flex gap-10 opacity-0 max-md:bottom-36 max-md:left-0 max-md:right-0 max-md:justify-center max-md:gap-8 max-md:px-4"
             style={{ animation: "heroFadeIn 0.8s ease-out 1.2s forwards" }}
           >
             {statsData.map((s) => (
@@ -486,7 +487,7 @@ export default function HomePage() {
 
           {/* Bottom-right CTAs */}
           <div
-            className="absolute bottom-12 right-12 z-10 flex items-center gap-4 opacity-0 max-md:bottom-12 max-md:left-0 max-md:right-0 max-md:flex-col max-md:items-center max-md:px-4"
+            className="absolute bottom-8 right-12 z-10 flex items-center gap-4 opacity-0 max-md:bottom-8 max-md:left-0 max-md:right-0 max-md:flex-col max-md:items-center max-md:px-4"
             style={{ animation: "heroFadeIn 0.8s ease-out 1.4s forwards" }}
           >
             <Link
