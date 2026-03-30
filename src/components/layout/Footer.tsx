@@ -89,11 +89,11 @@ export default function Footer() {
               <Image
                 src="/images/ex_aovo_symbol.png"
                 alt="AOVO"
-                width={32}
-                height={40}
-                className="h-10 w-auto object-contain brightness-0 invert"
+                width={28}
+                height={35}
+                className="h-9 w-auto object-contain brightness-0 invert"
               />
-              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-3xl font-bold tracking-tight leading-none pb-[1px]">
+              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-2xl font-bold text-white tracking-tight leading-none pb-[1px]">
                 AOVO
               </span>
             </Link>
