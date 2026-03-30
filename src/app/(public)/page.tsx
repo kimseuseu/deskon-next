@@ -401,22 +401,32 @@ export default function HomePage() {
           className="relative overflow-hidden"
           style={{ height: "100dvh" }}
         >
-          {/* Video bg */}
+          {/* Poster image (shows instantly while video loads) */}
+          <Image
+            src="/images/aovo-banner1.png"
+            alt=""
+            fill
+            priority
+            className="object-cover"
+          />
+          {/* Video bg (loads over poster) */}
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover"
+            preload="auto"
+            poster="/images/aovo-banner1.png"
+            className="absolute inset-0 w-full h-full object-cover z-[1]"
           >
             <source src="/images/aovo-brand-bg.mp4" type="video/mp4" />
           </video>
 
           {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 z-[1]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60 z-[2]" />
 
           {/* Center content */}
-          <div className="absolute inset-0 z-10 flex items-center justify-center">
+          <div className="absolute inset-0 z-10 flex items-center justify-center pt-20">
             <div className="text-center px-4">
               <p
                 className="mb-8 text-[clamp(1rem,2.2vw,1.35rem)] font-normal text-white/70 tracking-[0.06em] leading-relaxed opacity-0"
@@ -469,55 +479,53 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Bottom-left stats */}
+          {/* Bottom bar: stats left + CTAs right */}
           <div
-            className="absolute bottom-8 left-12 z-10 flex gap-10 opacity-0 max-md:bottom-36 max-md:left-0 max-md:right-0 max-md:justify-center max-md:gap-8 max-md:px-4"
+            className="absolute bottom-0 left-0 right-0 z-10 opacity-0"
             style={{ animation: "heroFadeIn 0.8s ease-out 1.2s forwards" }}
           >
-            {statsData.map((s) => (
-              <CountUpStat
-                key={s.label}
-                target={s.target}
-                suffix={s.suffix}
-                label={s.label}
-                start={statsVisible}
-              />
-            ))}
-          </div>
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-10 flex flex-col md:flex-row items-center md:items-end justify-between gap-6">
+              {/* Stats */}
+              <div className="flex gap-8 md:gap-10">
+                {statsData.map((s) => (
+                  <CountUpStat
+                    key={s.label}
+                    target={s.target}
+                    suffix={s.suffix}
+                    label={s.label}
+                    start={statsVisible}
+                  />
+                ))}
+              </div>
 
-          {/* Bottom-right CTAs */}
-          <div
-            className="absolute bottom-8 right-12 z-10 flex items-center gap-4 opacity-0 max-md:bottom-8 max-md:left-0 max-md:right-0 max-md:flex-col max-md:items-center max-md:px-4"
-            style={{ animation: "heroFadeIn 0.8s ease-out 1.4s forwards" }}
-          >
-            <Link
-              href="/support/contact"
-              className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white text-sm font-medium tracking-[0.02em] rounded-full px-8 py-4 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(184,151,126,0.3)] transition-all duration-300 max-md:w-[220px] max-md:justify-center"
-            >
-              맞춤 견적 받기
-              <span className="ml-1">&rarr;</span>
-            </Link>
-            <Link
-              href="/subscribe"
-              className="inline-flex items-center border border-white/30 text-white hover:bg-white/10 text-sm font-normal tracking-[0.03em] rounded-full px-8 py-4 transition-all duration-300 max-md:w-[220px] max-md:justify-center"
-            >
-              서비스 둘러보기
-            </Link>
-          </div>
+              {/* CTAs */}
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/support/contact"
+                  className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white text-sm font-medium tracking-[0.02em] rounded-full px-7 py-3.5 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(184,151,126,0.3)] transition-all duration-300"
+                >
+                  맞춤 견적 받기
+                  <span className="ml-1">&rarr;</span>
+                </Link>
+                <Link
+                  href="/subscribe"
+                  className="inline-flex items-center border border-white/30 text-white hover:bg-white/10 text-sm font-normal tracking-[0.03em] rounded-full px-7 py-3.5 transition-all duration-300"
+                >
+                  서비스 둘러보기
+                </Link>
+              </div>
+            </div>
 
-          {/* Scroll indicator */}
-          <div
-            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 opacity-0 max-md:hidden"
-            style={{ animation: "heroFadeIn 0.8s ease-out 1.6s forwards" }}
-          >
-            <div className="w-px h-[50px] bg-white/[0.15] relative">
-              <div
-                className="absolute top-0 left-1/2 w-[3px] h-[3px] bg-accent rounded-full"
-                style={{
-                  animation:
-                    "scrollBounce 2.5s cubic-bezier(0.4,0,0.2,1) infinite",
-                }}
-              />
+            {/* Scroll indicator */}
+            <div className="flex justify-center pb-4 max-md:hidden">
+              <div className="w-px h-[40px] bg-white/[0.15] relative">
+                <div
+                  className="absolute top-0 left-1/2 w-[3px] h-[3px] bg-accent rounded-full"
+                  style={{
+                    animation: "scrollBounce 2.5s cubic-bezier(0.4,0,0.2,1) infinite",
+                  }}
+                />
+              </div>
             </div>
           </div>
         </section>
