@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Plain text password comparison (no bcrypt in edge runtime)
-    if (admin.password !== password) {
+    if (admin.password_hash !== password) {
       return NextResponse.json(
         { error: "이메일 또는 비밀번호가 올바르지 않습니다." },
         { status: 401 }
