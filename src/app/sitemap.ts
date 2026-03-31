@@ -18,9 +18,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Recycle
     "/recycle/logistics", "/recycle/chair", "/recycle/furniture", "/recycle/kitchen",
     "/recycle/aircon", "/recycle/seasonal", "/recycle/dehumidifier", "/recycle/special",
-    // Wholesale
-    "/wholesale/logistics", "/wholesale/kitchen", "/wholesale/event",
-    "/wholesale/seasonal", "/wholesale/medical",
+    // Buyback
+    "/buyback/furniture", "/buyback/logistics", "/buyback/event",
+    "/buyback/commercial",
   ];
 
   return routes.map((route) => ({

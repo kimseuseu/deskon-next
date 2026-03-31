@@ -37,14 +37,14 @@ export const SERVICE_CATEGORIES = [
   },
   {
     slug: "recycle",
-    nameKo: "순환서비스",
-    nameEn: "Recycling",
+    nameKo: "리뉴얼서비스",
+    nameEn: "Renewal",
     color: "from-amber-900 to-amber-600",
   },
   {
-    slug: "wholesale",
-    nameKo: "도소매/유통",
-    nameEn: "Wholesale",
+    slug: "buyback",
+    nameKo: "매입서비스",
+    nameEn: "Buyback",
     color: "from-slate-900 to-slate-600",
   },
 ] as const;

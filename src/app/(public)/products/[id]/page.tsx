@@ -15,7 +15,7 @@ const mockProducts: Product[] = [
   { id: 5, category: "subscribe", name: "프리미엄 체어 JNS-901", description: "인체공학 사무용 의자", features: ["메쉬 등판", "요추지지", "4D 팔걸이"], priceMonthly: 49000, priceDisplay: "월 49,000원", imageUrl: undefined, badge: "BEST", isActive: true, sortOrder: 5, createdAt: "", updatedAt: "" },
   { id: 6, category: "sharing", name: "핸드카트 HC-200", description: "접이식 핸드카트 200kg", features: ["접이식", "200kg", "고무바퀴"], priceMonthly: 8000, priceDisplay: "일 8,000원", imageUrl: undefined, badge: "", isActive: true, sortOrder: 6, createdAt: "", updatedAt: "" },
   { id: 7, category: "recycle", name: "리퍼 체어 세르타 A급", description: "세르타 인증 리퍼비시 체어", features: ["A급 품질", "1년 보증", "무상 수리"], priceMonthly: 29000, priceDisplay: "월 29,000원", imageUrl: undefined, badge: "세르타", isActive: true, sortOrder: 7, createdAt: "", updatedAt: "" },
-  { id: 8, category: "wholesale", name: "업소용 냉장고 CR-1000", description: "1000L 업소용 냉장고", features: ["1000L", "에너지효율1등급", "스테인리스"], priceMonthly: undefined, priceDisplay: "견적 문의", imageUrl: undefined, badge: "", isActive: true, sortOrder: 8, createdAt: "", updatedAt: "" },
+  { id: 8, category: "buyback", name: "업소용 냉장고 CR-1000", description: "1000L 업소용 냉장고", features: ["1000L", "에너지효율1등급", "스테인리스"], priceMonthly: undefined, priceDisplay: "견적 문의", imageUrl: undefined, badge: "", isActive: true, sortOrder: 8, createdAt: "", updatedAt: "" },
   { id: 9, category: "rental", name: "이동식에어컨 AC-5000", description: "산업용 이동식에어컨 5HP", features: ["5HP", "냉방면적 60㎡", "이동식"], priceMonthly: 150000, priceDisplay: "월 150,000원", imageUrl: undefined, badge: "", isActive: true, sortOrder: 9, createdAt: "", updatedAt: "" },
   { id: 10, category: "rental", name: "서빙로봇 SR-100", description: "자율주행 서빙로봇", features: ["자율주행", "4단 트레이", "음성안내"], priceMonthly: 290000, priceDisplay: "월 290,000원", imageUrl: undefined, badge: "신규", isActive: true, sortOrder: 10, createdAt: "", updatedAt: "" },
 ];
@@ -25,15 +25,15 @@ const categoryEmoji: Record<string, string> = {
   sharing: "🤝",
   rental: "📦",
   recycle: "♻️",
-  wholesale: "🏭",
+  buyback: "🏭",
 };
 
 const serviceTypes = [
   { value: "subscribe", label: "구독" },
   { value: "sharing", label: "공유" },
   { value: "rental", label: "렌탈" },
-  { value: "recycle", label: "순환" },
-  { value: "wholesale", label: "도소매" },
+  { value: "recycle", label: "리뉴얼" },
+  { value: "buyback", label: "매입" },
 ] as const;
 
 export default function ProductDetailPage() {
@@ -41,7 +41,7 @@ export default function ProductDetailPage() {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [serviceType, setServiceType] = useState<
-    "subscribe" | "sharing" | "rental" | "recycle" | "wholesale"
+    "subscribe" | "sharing" | "rental" | "recycle" | "buyback"
   >("subscribe");
 
   const product = mockProducts.find((p) => p.id === Number(params.id));

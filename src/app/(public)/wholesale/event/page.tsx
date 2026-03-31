@@ -1,14 +1,5 @@
-import { Metadata } from "next";
-import ServicePageTemplate from "@/components/service/ServicePageTemplate";
-import { getServiceData } from "@/data/services";
-
-const data = getServiceData("wholesale", "event")!;
-
-export const metadata: Metadata = {
-  title: data.title,
-  description: data.metaDescription,
-};
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <ServicePageTemplate data={data} />;
+  redirect("/buyback/event");
 }

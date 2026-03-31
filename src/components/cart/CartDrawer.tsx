@@ -8,8 +8,8 @@ const serviceLabel: Record<string, string> = {
   subscribe: "구독",
   sharing: "공유",
   rental: "렌탈",
-  recycle: "순환",
-  wholesale: "도소매",
+  recycle: "리뉴얼",
+  buyback: "매입",
 };
 
 export default function CartDrawer() {

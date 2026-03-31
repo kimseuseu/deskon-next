@@ -14,7 +14,7 @@ export interface CartItem {
   productName: string;
   productImage: string | null;
   quantity: number;
-  serviceType: "subscribe" | "sharing" | "rental" | "recycle" | "wholesale";
+  serviceType: "subscribe" | "sharing" | "rental" | "recycle" | "buyback";
   rentalMonths?: number;
   notes?: string;
 }

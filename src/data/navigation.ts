@@ -57,11 +57,13 @@ export const navigation: NavItem[] = [
       { label: "의료장비", labelEn: "Medical", href: "/rental/medical" },
       { label: "이동식에어컨", labelEn: "Portable AC", href: "/rental/aircon" },
       { label: "산업용제습기", labelEn: "Dehumidifier", href: "/rental/dehumidifier" },
+      { label: "물류장비", labelEn: "Logistics", href: "/rental/logistics" },
+      { label: "계절집기", labelEn: "Seasonal", href: "/rental/seasonal" },
     ],
   },
   {
-    label: "순환서비스",
-    labelEn: "Recycling",
+    label: "리뉴얼서비스",
+    labelEn: "Renewal",
     href: "/recycle",
     children: [
       { label: "체어(세르타)", labelEn: "Chair (Serta)", href: "/recycle/chair" },
@@ -75,15 +77,14 @@ export const navigation: NavItem[] = [
     ],
   },
   {
-    label: "도소매/유통",
-    labelEn: "Wholesale",
-    href: "/wholesale",
+    label: "매입서비스",
+    labelEn: "Buyback",
+    href: "/buyback",
     children: [
-      { label: "물류장비", labelEn: "Logistics", href: "/wholesale/logistics" },
-      { label: "주방집기", labelEn: "Kitchen", href: "/wholesale/kitchen" },
-      { label: "행사집기", labelEn: "Event", href: "/wholesale/event" },
-      { label: "계절집기", labelEn: "Seasonal", href: "/wholesale/seasonal" },
-      { label: "의료집기", labelEn: "Medical", href: "/wholesale/medical" },
+      { label: "사무가구 매입", labelEn: "Office Furniture", href: "/buyback/furniture" },
+      { label: "물류장비 매입", labelEn: "Logistics", href: "/buyback/logistics" },
+      { label: "행사집기 매입", labelEn: "Event", href: "/buyback/event" },
+      { label: "업소용집기 매입", labelEn: "Commercial", href: "/buyback/commercial" },
     ],
   },
 ];

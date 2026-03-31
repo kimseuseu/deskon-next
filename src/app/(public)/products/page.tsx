@@ -60,10 +60,10 @@ const categoryIcon: Record<string, string> = {
 };
 
 /* Map product categories to the cart's serviceType union */
-const categoryToServiceType: Record<string, "subscribe" | "sharing" | "rental" | "recycle" | "wholesale"> = {
+const categoryToServiceType: Record<string, "subscribe" | "sharing" | "rental" | "recycle" | "buyback"> = {
   "물류장비": "subscribe",
   "사무가구": "rental",
-  "주방집기": "wholesale",
+  "주방집기": "rental",
   "의료장비": "rental",
   "IT기기": "rental",
   "행사장비": "sharing",
