@@ -815,7 +815,7 @@ export default function HomePage() {
             <div className="relative" data-animate data-delay="2">
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/aovo-lineup.png"
+                  src="/images/logistics/steel-rolltainer-use.jpg"
                   alt="물류장비 라인업"
                   fill
                   className="object-cover"

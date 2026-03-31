@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const actions = [
   {
     label: "카카오채널 상담",
-    href: "https://pf.kakao.com/_KxmnZn/chat",
+    href: "http://pf.kakao.com/_qxkxnRX",
     external: true,
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">

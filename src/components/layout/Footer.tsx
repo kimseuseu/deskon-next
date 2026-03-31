@@ -25,7 +25,7 @@ const supportLinks = [
   { label: "문의하기", href: "/support/contact" },
   {
     label: "카카오 채널",
-    href: "https://pf.kakao.com/_KxmnZn",
+    href: "http://pf.kakao.com/_qxkxnRX",
     external: true,
   },
 ];

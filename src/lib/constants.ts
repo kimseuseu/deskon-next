@@ -8,7 +8,7 @@ export const COMPANY = {
   fax: "02-844-3361",
   email: "mbc8447289@naver.com",
   address: "경기도 광명시 금오로 679(옥길동)",
-  kakaoChannel: "https://pf.kakao.com/_KxmnZn/chat",
+  kakaoChannel: "http://pf.kakao.com/_qxkxnRX",
   metaPixelId: "1364619415439477",
   cloudinary: {
     cloudName: "daftq93ys",
