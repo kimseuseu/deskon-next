@@ -164,10 +164,10 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
               <div className="mt-10 p-4 rounded-xl bg-white/5 border border-white/10">
                 <p className="text-xs text-white/40 mb-2">상담 전화</p>
                 <a
-                  href="tel:02-2683-4459"
+                  href="tel:010-9929-5363"
                   className="text-lg font-paperlogy font-bold text-accent"
                 >
-                  02-2683-4459
+                  010-9929-5363
                 </a>
               </div>
             </div>

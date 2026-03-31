@@ -57,7 +57,7 @@ const jsonLd = {
   name: "AOVO (아오보)",
   legalName: "mbc",
   url: "https://aovo.kr",
-  telephone: "02-2683-4459",
+  telephone: "010-9929-5363",
   address: {
     "@type": "PostalAddress",
     streetAddress: "금오로 679(옥길동)",

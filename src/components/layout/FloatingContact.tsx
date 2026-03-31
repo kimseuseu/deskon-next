@@ -18,7 +18,7 @@ const actions = [
   },
   {
     label: "전화 상담",
-    href: "tel:02-2683-4459",
+    href: "tel:010-9929-5363",
     external: false,
     icon: (
       <svg

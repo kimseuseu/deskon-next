@@ -4,7 +4,7 @@ export const COMPANY = {
   legalName: "mbc",
   ceo: "강귀원",
   bizNumber: "108-12-35112",
-  phone: "02-2683-4459",
+  phone: "010-9929-5363",
   fax: "02-844-3361",
   email: "mbc8447289@naver.com",
   address: "경기도 광명시 금오로 679(옥길동)",
