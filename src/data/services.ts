@@ -1090,12 +1090,12 @@ export const services: ServiceData[] = [
       "AOVO 산업용제습기 렌탈 - 공장, 창고의 습도를 하루 최대 150L 제습으로 관리하세요. 실시간 모니터링 포함.",
   },
 
-  // === RECYCLE (8) — 리뉴얼서비스 ===
+  // === RECYCLE (8) — 순환서비스 ===
   {
     category: "recycle",
-    categoryLabel: "리뉴얼서비스",
+    categoryLabel: "순환서비스",
     slug: "logistics",
-    title: "물류장비 리뉴얼",
+    title: "물류장비 순환",
     subtitle:
       "전문 재정비를 거친 검증 롤테이너, 파랫트, 인테이너 등 물류장비를 합리적인 가격에 도입하세요. AOVO 품질 기준을 통과한 장비만 제공하며, 3단계 검수 완료 후 새것처럼 관리된 상태로 현장에 배치합니다. 신규 구매 대비 대폭 절감된 비용으로 동일한 성능을 확보할 수 있습니다.",
     heroGradient: "from-lime-950 to-lime-600",
@@ -1116,7 +1116,7 @@ export const services: ServiceData[] = [
         icon: "💰",
         title: "신규 구매 대비 최대 50% 절감",
         description:
-          "합리적인 가격의 리뉴얼 장비로 신규 구매 대비 최대 50%까지 비용을 절감하면서도 동일한 현장 성능을 확보합니다.",
+          "합리적인 가격의 순환 장비로 신규 구매 대비 최대 50%까지 비용을 절감하면서도 동일한 현장 성능을 확보합니다.",
       },
     ],
     process: [
@@ -1142,13 +1142,13 @@ export const services: ServiceData[] = [
       },
     ],
     metaDescription:
-      "AOVO 물류장비 리뉴얼 - 3단계 검수를 통과한 롤테이너, 파랫트 등을 합리적인 가격으로 도입하세요. 전문 재정비 완료.",
+      "AOVO 물류장비 순환 - 3단계 검수를 통과한 롤테이너, 파랫트 등을 합리적인 가격으로 도입하세요. 전문 재정비 완료.",
   },
   {
     category: "recycle",
-    categoryLabel: "리뉴얼서비스",
+    categoryLabel: "순환서비스",
     slug: "chair",
-    title: "체어 리뉴얼 (세르타)",
+    title: "체어 순환 (세르타)",
     subtitle:
       "AOVO 품질 기준을 통과한 프리미엄 사무용 의자를 합리적인 가격에 도입하세요. 전문가가 완전 분해, 정밀 검수, 부품 교체, 세척, 재조립하여 새것처럼 관리된 상태로 제공합니다. 세르타 인증 기준을 충족한 의자만 출고되며, 새 제품 대비 40~60% 절감된 가격으로 동일한 품질을 보장합니다.",
     heroGradient: "from-primary to-gray-700",
@@ -1176,7 +1176,7 @@ export const services: ServiceData[] = [
       {
         step: 1,
         title: "모델 선택",
-        description: "재고 중인 리뉴얼 체어 모델과 수량을 확인하고 선택합니다",
+        description: "재고 중인 순환 체어 모델과 수량을 확인하고 선택합니다",
       },
       {
         step: 2,
@@ -1195,13 +1195,13 @@ export const services: ServiceData[] = [
       },
     ],
     metaDescription:
-      "AOVO 체어 리뉴얼 (세르타) - 전문 재정비를 거친 프리미엄 의자를 새 제품 대비 40~60% 합리적 가격에 제공합니다. 세르타 인증.",
+      "AOVO 체어 순환 (세르타) - 전문 재정비를 거친 프리미엄 의자를 새 제품 대비 40~60% 합리적 가격에 제공합니다. 세르타 인증.",
   },
   {
     category: "recycle",
-    categoryLabel: "리뉴얼서비스",
+    categoryLabel: "순환서비스",
     slug: "furniture",
-    title: "사무가구/기기 리뉴얼",
+    title: "사무가구/기기 순환",
     subtitle:
       "전문 재정비를 거친 검증 사무가구와 기기를 합리적인 가격에 도입하세요. 책상, 캐비닛, 파티션, 복합기, 모니터 등 AOVO 품질 기준을 통과한 장비만 제공합니다. 신규 구매 대비 최대 50% 절감된 가격으로 사무실을 구축할 수 있습니다.",
     heroGradient: "from-stone-900 to-stone-600",
@@ -1222,7 +1222,7 @@ export const services: ServiceData[] = [
         icon: "💰",
         title: "합리적인 가격으로 사무실 구축",
         description:
-          "AOVO 품질 기준을 통과한 리뉴얼 가구·기기로 신규 구매 대비 최대 50% 비용을 절감하면서 동일한 업무 환경을 조성합니다.",
+          "AOVO 품질 기준을 통과한 순환 가구·기기로 신규 구매 대비 최대 50% 비용을 절감하면서 동일한 업무 환경을 조성합니다.",
       },
     ],
     process: [
@@ -1248,13 +1248,13 @@ export const services: ServiceData[] = [
       },
     ],
     metaDescription:
-      "AOVO 사무가구/기기 리뉴얼 - 전문 재정비를 거친 검증 가구·기기를 합리적인 가격으로 도입하세요. 3단계 검수 완료.",
+      "AOVO 사무가구/기기 순환 - 전문 재정비를 거친 검증 가구·기기를 합리적인 가격으로 도입하세요. 3단계 검수 완료.",
   },
   {
     category: "recycle",
-    categoryLabel: "리뉴얼서비스",
+    categoryLabel: "순환서비스",
     slug: "kitchen",
-    title: "주방집기 리뉴얼",
+    title: "주방집기 순환",
     subtitle:
       "전문 재정비를 거친 검증 업소용 주방 장비를 합리적인 가격에 도입하세요. 고온 고압 세척과 UV 살균으로 위생 기준을 충족하고, AOVO 품질 기준을 통과한 장비만 제공합니다. 새 장비 대비 최대 50% 절감된 가격으로 주방을 구축할 수 있습니다.",
     heroGradient: "from-yellow-900 to-yellow-600",
@@ -1301,13 +1301,13 @@ export const services: ServiceData[] = [
       },
     ],
     metaDescription:
-      "AOVO 주방집기 리뉴얼 - 전문 재정비와 위생 인증을 완료한 업소용 주방장비를 합리적 가격으로 도입하세요. 3단계 검수 완료.",
+      "AOVO 주방집기 순환 - 전문 재정비와 위생 인증을 완료한 업소용 주방장비를 합리적 가격으로 도입하세요. 3단계 검수 완료.",
   },
   {
     category: "recycle",
-    categoryLabel: "리뉴얼서비스",
+    categoryLabel: "순환서비스",
     slug: "aircon",
-    title: "이동식에어컨 리뉴얼",
+    title: "이동식에어컨 순환",
     subtitle:
       "전문 재정비를 거친 검증 이동식 에어컨을 합리적인 가격에 도입하세요. 냉매 충전, 필터 교체, 압축기 점검 등 완벽한 재정비를 완료하고 AOVO 품질 기준을 통과한 장비만 제공합니다. 신규 구매 대비 최대 60% 절감된 가격으로 동일한 냉방 성능을 확보할 수 있습니다.",
     heroGradient: "from-teal-900 to-teal-500",
@@ -1328,14 +1328,14 @@ export const services: ServiceData[] = [
         icon: "💰",
         title: "신규 구매 대비 최대 60% 절감",
         description:
-          "합리적인 가격의 리뉴얼 장비로 신규 구매 대비 최대 60%까지 비용을 절감하면서 동일 성능을 확보합니다.",
+          "합리적인 가격의 순환 장비로 신규 구매 대비 최대 60%까지 비용을 절감하면서 동일 성능을 확보합니다.",
       },
     ],
     process: [
       {
         step: 1,
         title: "장비 선택",
-        description: "필요한 용량과 수량을 상담하고 리뉴얼 재고를 확인합니다",
+        description: "필요한 용량과 수량을 상담하고 순환 재고를 확인합니다",
       },
       {
         step: 2,
@@ -1354,20 +1354,20 @@ export const services: ServiceData[] = [
       },
     ],
     metaDescription:
-      "AOVO 이동식에어컨 리뉴얼 - 전문 재정비를 거친 이동식 에어컨을 신규 대비 최대 60% 합리적 가격으로 도입하세요.",
+      "AOVO 이동식에어컨 순환 - 전문 재정비를 거친 이동식 에어컨을 신규 대비 최대 60% 합리적 가격으로 도입하세요.",
   },
   {
     category: "recycle",
-    categoryLabel: "리뉴얼서비스",
+    categoryLabel: "순환서비스",
     slug: "seasonal",
-    title: "계절상품 리뉴얼",
+    title: "계절상품 순환",
     subtitle:
       "전문 재정비를 거친 검증 계절 장비를 합리적인 가격에 도입하세요. 선풍기, 냉풍기, 온풍기, 히터 등 AOVO 품질 기준을 통과한 장비만 제공합니다. 시즌별 성능 점검과 정비를 완료하여 새것처럼 관리된 상태로 배치합니다.",
     heroGradient: "from-orange-900 to-red-500",
     features: [
       {
         icon: "🌸",
-        title: "사계절 리뉴얼 장비 구비",
+        title: "사계절 순환 장비 구비",
         description:
           "냉풍기, 선풍기, 서큘레이터(여름), 온풍기, 전기장판, 히터(겨울) 등 전문 재정비를 완료한 사계절 장비를 제공합니다.",
       },
@@ -1407,13 +1407,13 @@ export const services: ServiceData[] = [
       },
     ],
     metaDescription:
-      "AOVO 계절상품 리뉴얼 - 전문 재정비를 거친 계절 장비를 합리적 가격으로 도입하세요. 3단계 검수 완료, 품질 보증.",
+      "AOVO 계절상품 순환 - 전문 재정비를 거친 계절 장비를 합리적 가격으로 도입하세요. 3단계 검수 완료, 품질 보증.",
   },
   {
     category: "recycle",
-    categoryLabel: "리뉴얼서비스",
+    categoryLabel: "순환서비스",
     slug: "dehumidifier",
-    title: "산업용제습기 리뉴얼",
+    title: "산업용제습기 순환",
     subtitle:
       "전문 재정비를 거친 검증 산업용 제습기를 합리적인 가격에 도입하세요. 필터 교체, 압축기 정비, 배수 시스템 점검 등 완벽한 재정비를 완료하고 AOVO 품질 기준을 통과한 장비만 제공합니다. 신규 구매 대비 대폭 절감된 가격으로 동일한 제습 성능을 확보할 수 있습니다.",
     heroGradient: "from-blue-900 to-blue-500",
@@ -1432,7 +1432,7 @@ export const services: ServiceData[] = [
       },
       {
         icon: "💰",
-        title: "합리적인 가격의 리뉴얼 장비",
+        title: "합리적인 가격의 순환 장비",
         description:
           "신규 구매 대비 대폭 절감된 가격으로 AOVO 품질 기준을 통과한 산업용 제습기를 도입할 수 있습니다.",
       },
@@ -1441,7 +1441,7 @@ export const services: ServiceData[] = [
       {
         step: 1,
         title: "장비 선택",
-        description: "필요한 제습 용량과 수량을 상담하고 리뉴얼 재고를 확인합니다",
+        description: "필요한 제습 용량과 수량을 상담하고 순환 재고를 확인합니다",
       },
       {
         step: 2,
@@ -1460,13 +1460,13 @@ export const services: ServiceData[] = [
       },
     ],
     metaDescription:
-      "AOVO 산업용제습기 리뉴얼 - 전문 재정비를 거친 산업용 제습기를 합리적 가격으로 도입하세요. 3단계 검수 완료.",
+      "AOVO 산업용제습기 순환 - 전문 재정비를 거친 산업용 제습기를 합리적 가격으로 도입하세요. 3단계 검수 완료.",
   },
   {
     category: "recycle",
-    categoryLabel: "리뉴얼서비스",
+    categoryLabel: "순환서비스",
     slug: "special",
-    title: "특수집기 리뉴얼",
+    title: "특수집기 순환",
     subtitle:
       "전문 재정비를 거친 검증 특수 용도 집기를 합리적인 가격에 도입하세요. 실험실 장비, 클린룸 설비, ESD 방지 랙 등 AOVO 품질 기준을 통과한 장비만 제공합니다. 특수 환경 안전 기준을 준수하며, 장비별 정비 이력을 체계적으로 관리합니다.",
     heroGradient: "from-gray-900 to-gray-500",
@@ -1513,7 +1513,7 @@ export const services: ServiceData[] = [
       },
     ],
     metaDescription:
-      "AOVO 특수집기 리뉴얼 - 실험실, 클린룸 등 특수 환경 집기를 전문 재정비 후 합리적 가격으로 도입하세요. 이력 추적 관리.",
+      "AOVO 특수집기 순환 - 실험실, 클린룸 등 특수 환경 집기를 전문 재정비 후 합리적 가격으로 도입하세요. 이력 추적 관리.",
   },
 
   // === BUYBACK (4) ===

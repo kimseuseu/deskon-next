@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | AOVO",
   },
   description:
-    "구독 · 공유 · 렌탈 · 리뉴얼 · 매입 — 산업용품을 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
+    "구독 · 공유 · 렌탈 · 순환 · 매입 — 산업용품을 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
   icons: {
     icon: "/images/ex_aovo_symbol.png",
     apple: "/images/ex_aovo_symbol.png",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     "구독",
     "렌탈",
     "공유",
-    "리뉴얼",
+    "순환",
     "매입",
     "물류장비",
     "AOVO",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     siteName: "AOVO",
     title: "AOVO | 산업용품 통합 운영 플랫폼",
     description:
-      "구독 · 공유 · 렌탈 · 리뉴얼 · 매입 — 산업용품을 가장 효율적으로 운영하는 방법",
+      "구독 · 공유 · 렌탈 · 순환 · 매입 — 산업용품을 가장 효율적으로 운영하는 방법",
   },
 };
 

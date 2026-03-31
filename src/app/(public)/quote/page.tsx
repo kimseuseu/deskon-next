@@ -8,7 +8,7 @@ const serviceLabel: Record<string, string> = {
   subscribe: "구독",
   sharing: "공유",
   rental: "렌탈",
-  recycle: "리뉴얼",
+  recycle: "순환",
   buyback: "매입",
 };
 

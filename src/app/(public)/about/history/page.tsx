@@ -28,7 +28,7 @@ const milestones = [
   },
   {
     year: "2020",
-    title: "리뉴얼서비스 시작",
+    title: "순환서비스 시작",
     desc: "전문 재정비를 거친 검증된 품질의 장비를 합리적 가격으로 재공급하는 모델을 구축하고 ESG 경영을 본격화했습니다.",
     image: "/images/certa.png",
     accent: "from-teal-600 to-teal-400",
@@ -49,8 +49,8 @@ const milestones = [
   },
   {
     year: "2025",
-    title: "통합 플랫폼 리뉴얼",
-    desc: "구독·공유·렌탈·리뉴얼·매입 5대 서비스를 하나로 통합한 AOVO 플랫폼으로 새롭게 오픈했습니다.",
+    title: "통합 플랫폼 순환",
+    desc: "구독·공유·렌탈·순환·매입 5대 서비스를 하나로 통합한 AOVO 플랫폼으로 새롭게 오픈했습니다.",
     image: "/images/aovo-banner1.png",
     accent: "from-accent to-gold",
   },

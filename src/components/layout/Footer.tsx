@@ -13,8 +13,8 @@ const subscriptionLinks = [
 const serviceLinks = [
   { label: "사무가구 렌탈", href: "/rental/furniture" },
   { label: "IT기기 렌탈", href: "/rental/it" },
-  { label: "물류장비 리뉴얼", href: "/recycle/logistics" },
-  { label: "사무가구 리뉴얼", href: "/recycle/furniture" },
+  { label: "물류장비 순환", href: "/recycle/logistics" },
+  { label: "사무가구 순환", href: "/recycle/furniture" },
   { label: "사무가구 매입", href: "/buyback/furniture" },
   { label: "물류장비 매입", href: "/buyback/logistics" },
 ];
@@ -101,7 +101,7 @@ export default function Footer() {
               산업용품 통합 운영 플랫폼
             </p>
             <p className="mt-2 text-xs text-white/30 leading-relaxed max-w-xs">
-              구독, 공유, 렌탈, 리뉴얼, 매입까지
+              구독, 공유, 렌탈, 순환, 매입까지
               <br />
               산업 자산의 모든 라이프사이클을 관리합니다.
             </p>
@@ -109,7 +109,7 @@ export default function Footer() {
 
           {/* Link Columns */}
           <FooterColumn title="구독 · 공유" links={subscriptionLinks} />
-          <FooterColumn title="렌탈 · 리뉴얼 · 매입" links={serviceLinks} />
+          <FooterColumn title="렌탈 · 순환 · 매입" links={serviceLinks} />
           <FooterColumn title="고객지원" links={supportLinks} />
           <FooterColumn title="회사소개" links={companyLinks} />
         </div>

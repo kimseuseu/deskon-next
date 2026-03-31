@@ -65,8 +65,8 @@ const serviceTimeline = [
   },
   {
     slug: "recycle",
-    badge: "리뉴얼",
-    title: "리뉴얼서비스",
+    badge: "순환",
+    title: "순환서비스",
     desc: "전문 재정비를 거친 검증된 품질의 장비를 합리적인 가격으로",
     href: "/recycle",
     icon: "♻️",
@@ -600,7 +600,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 {[
                   "필요한 만큼만 빌려 쓰고 반납",
-                  "구독·공유·렌탈·리뉴얼·매입 통합",
+                  "구독·공유·렌탈·순환·매입 통합",
                   "초기 비용 ZERO, 월정액 운영",
                 ].map((text, i) => (
                   <div
