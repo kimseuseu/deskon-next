@@ -8,8 +8,8 @@ import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
 
 /* ── Data ── */
 
-const heroTitleLine1 = "사지 마세요,";
-const heroTitleLine2 = "운영하세요";
+const heroTitleLine1 = "자리가 비면";
+const heroTitleLine2 = "비용도 멈춥니다";
 
 const statsData = [
   { target: 2500, suffix: "+", label: "거래 기업" },
@@ -436,9 +436,9 @@ export default function HomePage() {
                   textShadow: "0 2px 15px rgba(0,0,0,0.4)",
                 }}
               >
-                <span className="block">산업 자산의 구매에서 운영으로</span>
-                <span className="block mt-1">
-                  비용 구조를 바꾸는 통합 플랫폼
+                <span className="block tracking-[0.02em]">인원변화에 반응하는</span>
+                <span className="block mt-1 tracking-[0.02em]">
+                  자산 관리 서비스
                 </span>
               </p>
 
