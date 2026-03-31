@@ -24,6 +24,14 @@ const serviceTimeline = [
     title: "구독서비스",
     desc: "매달 정액으로 필요한 장비를 사용하고 언제든 교체·반납",
     href: "/subscribe",
+    icon: "🔄",
+    color: "from-blue-600 to-blue-400",
+    details: [
+      "롤테이너·파랫트·인테이너 등 물류장비",
+      "사무용 의자·냉난방기·주방집기",
+      "월정액 납부, 유휴 시 반납으로 비용 절감",
+      "3개월 주기 정기 점검 및 부품 교체 포함",
+    ],
   },
   {
     slug: "sharing",
@@ -31,6 +39,14 @@ const serviceTimeline = [
     title: "공유서비스",
     desc: "유휴 장비를 기업 간 공유하여 자산 가동률 극대화",
     href: "/sharing",
+    icon: "🤝",
+    color: "from-emerald-600 to-emerald-400",
+    details: [
+      "QR 코드 스캔으로 즉시 대여·반납",
+      "시간·일·주 단위 유연한 요금제",
+      "카트·스테커·계단리프트 등 현장 장비",
+      "전국 거점에 공유 스테이션 운영",
+    ],
   },
   {
     slug: "rental",
@@ -38,6 +54,14 @@ const serviceTimeline = [
     title: "렌탈서비스",
     desc: "단기부터 장기까지 필요한 기간만큼 렌탈로 운영",
     href: "/rental",
+    icon: "🚚",
+    color: "from-violet-600 to-violet-400",
+    details: [
+      "사무가구·IT기기·의료장비 등 전 카테고리",
+      "1개월~36개월 자유 계약 기간",
+      "설치·철거·유지보수 전담팀 운영",
+      "계약 종료 후 무상 수거",
+    ],
   },
   {
     slug: "recycle",
@@ -45,6 +69,14 @@ const serviceTimeline = [
     title: "순환서비스",
     desc: "수거·정비·재배치로 장비 수명을 늘리고 폐기를 줄임",
     href: "/recycle",
+    icon: "♻️",
+    color: "from-teal-600 to-teal-400",
+    details: [
+      "사용 완료 장비 무상 수거",
+      "3단계 품질 검수 및 재정비",
+      "ESG 인증서 발급 가능",
+      "재정비 장비 할인 재공급",
+    ],
   },
   {
     slug: "wholesale",
@@ -52,6 +84,14 @@ const serviceTimeline = [
     title: "도소매/유통",
     desc: "대량 구매 할인 및 전국 유통 네트워크 활용",
     href: "/wholesale",
+    icon: "🏭",
+    color: "from-orange-600 to-orange-400",
+    details: [
+      "공장 직거래 최저가 보장",
+      "50개 이상 대량 주문 추가 할인",
+      "전국 물류 네트워크 활용 익일 배송",
+      "주방집기·의료집기·행사집기 등",
+    ],
   },
 ];
 
@@ -624,46 +664,71 @@ export default function HomePage() {
               </h2>
             </div>
 
-            {/* Timeline */}
-            <div className="relative mb-20" data-animate data-delay="1">
-              {/* Connecting line */}
-              <div className="hidden lg:block absolute top-[18px] left-[10%] right-[10%] h-px bg-accent/20" />
+            {/* Interactive Service Cards */}
+            <div className="flex flex-col lg:flex-row gap-3 lg:gap-2 lg:h-[420px]" data-animate data-delay="1">
+              {serviceTimeline.map((svc) => (
+                <div
+                  key={svc.slug}
+                  className="group relative flex-1 lg:hover:flex-[3] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-2xl overflow-hidden cursor-pointer min-h-[100px] lg:min-h-0"
+                >
+                  {/* Background gradient */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${svc.color} opacity-90 group-hover:opacity-100 transition-opacity duration-500`} />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-4">
-                {serviceTimeline.map((svc, i) => (
-                  <div
-                    key={svc.slug}
-                    className="flex flex-col items-center text-center"
-                    data-animate
-                    data-delay={String(i + 1)}
-                  >
-                    {/* Dot */}
-                    <div className="w-9 h-9 rounded-full bg-accent/10 border-2 border-accent flex items-center justify-center mb-4 relative z-10">
-                      <div className="w-2.5 h-2.5 rounded-full bg-accent" />
+                  {/* Default state: compact vertical card */}
+                  <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 py-6 lg:py-0 text-center transition-all duration-700">
+                    {/* Icon + badge (always visible) */}
+                    <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-500">
+                      {svc.icon}
                     </div>
-                    {/* Badge */}
-                    <span className="inline-block text-[0.65rem] font-medium uppercase tracking-wider text-accent bg-accent/10 rounded-full px-3 py-1 mb-3">
+                    <span className="text-[0.6rem] font-medium uppercase tracking-widest text-white/60 mb-2">
                       {svc.badge}
                     </span>
-                    {/* Title */}
-                    <Link
-                      href={svc.href}
-                      className="font-paperlogy text-lg font-bold text-primary hover:text-accent transition-colors mb-2"
-                    >
+                    <h3 className="font-paperlogy text-lg font-bold text-white mb-1 whitespace-nowrap">
                       {svc.title}
-                    </Link>
-                    {/* Description */}
-                    <p className="text-sm text-muted leading-relaxed max-w-[200px]">
+                    </h3>
+
+                    {/* Short desc (visible in default state, hidden on hover) */}
+                    <p className="text-xs text-white/50 max-w-[160px] leading-relaxed lg:opacity-100 lg:group-hover:opacity-0 transition-opacity duration-300">
                       {svc.desc}
                     </p>
+
+                    {/* Expanded details (hidden by default, visible on hover) */}
+                    <div className="hidden lg:block overflow-hidden max-h-0 group-hover:max-h-[300px] opacity-0 group-hover:opacity-100 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] mt-4">
+                      <div className="border-t border-white/20 pt-4 text-left px-2">
+                        <ul className="space-y-2.5">
+                          {svc.details.map((detail, j) => (
+                            <li key={j} className="flex items-start gap-2.5 text-sm text-white/80"
+                              style={{ transitionDelay: `${j * 60}ms` }}
+                            >
+                              <svg className="w-4 h-4 text-white/60 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                              <span>{detail}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <Link
+                          href={svc.href}
+                          className="inline-flex items-center gap-1.5 mt-5 text-sm font-medium text-white bg-white/15 hover:bg-white/25 rounded-full px-5 py-2 transition-colors duration-200"
+                        >
+                          자세히 보기
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                          </svg>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                ))}
-              </div>
+
+                  {/* Mobile: link overlay */}
+                  <Link href={svc.href} className="absolute inset-0 z-20 lg:hidden" aria-label={svc.title} />
+                </div>
+              ))}
             </div>
 
             {/* Feature boxes */}
             <div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
               data-animate
               data-delay="2"
             >
