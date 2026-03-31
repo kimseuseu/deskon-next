@@ -75,7 +75,7 @@ export default function Header() {
                 scrolled ? "" : "brightness-0 invert"
               }`}
             />
-            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-3xl font-bold tracking-tight leading-none pb-[1px] transition-colors duration-500 ${
+            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-3xl font-semibold tracking-tight leading-none pb-[1px] transition-colors duration-500 ${
               scrolled ? "text-primary" : "text-white"
             }`}>
               AOVO
