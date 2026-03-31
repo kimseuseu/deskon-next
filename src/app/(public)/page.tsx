@@ -57,20 +57,20 @@ const serviceTimeline = [
 
 const chairCards = [
   {
-    name: "AOVO 어고 사이드",
-    image: "/images/aovo-ergo-side.png",
+    name: "JNS-801",
+    image: "/images/chairs/jns-801.png",
     price: "월 29,000원~",
     href: "/subscribe/chair",
   },
   {
     name: "JNS-1018",
-    image: "/images/aovo-jns1018.jpg",
+    image: "/images/chairs/jns-1018.jpg",
     price: "월 25,000원~",
     href: "/subscribe/chair",
   },
   {
     name: "JNS-901",
-    image: "/images/aovo-jns901.jpg",
+    image: "/images/chairs/jns-901.jpg",
     price: "월 19,000원~",
     href: "/subscribe/chair",
   },
