@@ -119,7 +119,7 @@ export default function QuotePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-primary py-16">
+      <section data-hero-dark className="bg-primary pt-28 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-paperlogy text-4xl font-bold text-white mb-3">
             견적 요청

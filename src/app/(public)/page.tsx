@@ -398,6 +398,7 @@ export default function HomePage() {
         ═══════════════════════════════════════════ */}
         <section
           data-section="0"
+          data-hero-dark
           className="relative overflow-hidden"
           style={{ height: "100dvh" }}
         >

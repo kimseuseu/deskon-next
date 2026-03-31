@@ -35,7 +35,7 @@ export default function NoticePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
+      <section data-hero-dark className="relative pt-32 pb-20 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent/8 rounded-full blur-[100px]" />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">

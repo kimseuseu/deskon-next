@@ -20,9 +20,21 @@ export default function Header() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    // Check if current page has a dark hero (homepage, service pages, etc.)
+    const checkScroll = () => {
+      const heroEl = document.querySelector("[data-hero-dark]");
+      if (heroEl) {
+        // Transparent header when inside the dark hero area
+        const heroBottom = heroEl.getBoundingClientRect().bottom;
+        setScrolled(heroBottom <= 80); // 80 = header height
+      } else {
+        // No dark hero: always scrolled (white bg)
+        setScrolled(true);
+      }
+    };
+    checkScroll();
+    window.addEventListener("scroll", checkScroll, { passive: true });
+    return () => window.removeEventListener("scroll", checkScroll);
   }, []);
 
   // Lock body scroll when mobile nav is open

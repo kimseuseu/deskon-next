@@ -265,7 +265,7 @@ export default function PartnersPage() {
   return (
     <>
       {/* ========== HERO ========== */}
-      <section className="relative py-28 md:py-36 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
+      <section data-hero-dark className="relative pt-36 md:pt-44 pb-20 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
         {/* glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent/8 rounded-full blur-[120px]" />
 

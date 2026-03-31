@@ -11,7 +11,7 @@ export default function PrivacyPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-primary via-gray-900 to-primary py-24">
+      <section data-hero-dark className="relative bg-gradient-to-br from-primary via-gray-900 to-primary pt-32 pb-20">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
             Privacy Policy

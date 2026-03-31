@@ -54,7 +54,7 @@ export default function HistoryPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
+      <section data-hero-dark className="relative pt-32 pb-20 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent/8 rounded-full blur-[100px]" />
         <motion.div
           className="relative z-10 max-w-3xl mx-auto px-6 text-center"

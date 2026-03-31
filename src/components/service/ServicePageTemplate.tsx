@@ -9,7 +9,8 @@ export default function ServicePageTemplate({ data }: { data: ServiceData }) {
     <div>
       {/* Hero Section */}
       <section
-        className={`relative bg-gradient-to-br ${data.heroGradient} text-white py-32 px-6`}
+        data-hero-dark
+        className={`relative bg-gradient-to-br ${data.heroGradient} text-white pt-32 pb-20 px-6`}
       >
         <div className="max-w-7xl mx-auto">
           <motion.div

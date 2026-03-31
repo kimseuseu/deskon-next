@@ -38,7 +38,7 @@ export default function ChairSubscribePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
+      <section data-hero-dark className="relative min-h-[70vh] flex items-center overflow-hidden pt-20">
         <Image
           src="/images/aovo-ergo-side.png"
           alt="AOVO Chair"

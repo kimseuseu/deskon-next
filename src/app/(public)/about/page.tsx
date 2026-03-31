@@ -26,7 +26,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+      <section data-hero-dark className="relative min-h-[50vh] flex items-center justify-center overflow-hidden pt-20">
         <Image
           src="/images/aovo-banner2.png"
           alt="AOVO 회사 소개 배경"
