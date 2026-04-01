@@ -290,6 +290,13 @@ export default function HomePage() {
       if (target.closest("form") || target.closest("textarea") || target.closest("select")) return;
 
       if (Math.abs(e.deltaY) < 30) return;
+
+      // Last section + scrolling down → let normal scroll to footer
+      const lastIndex = sections.length - 1;
+      if (currentSection === lastIndex && e.deltaY > 0) {
+        return; // don't prevent default, allow natural scroll to footer
+      }
+
       e.preventDefault();
       scrollTo(currentSection + (e.deltaY > 0 ? 1 : -1));
     };
@@ -297,10 +304,14 @@ export default function HomePage() {
     const onKeyDown = (e: KeyboardEvent) => {
       if (isMobile()) return;
       if (isScrolling.current) return;
-      if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); scrollTo(currentSection + 1); }
+      const lastIndex = sections.length - 1;
+      if (e.key === "ArrowDown" || e.key === "PageDown") {
+        if (currentSection === lastIndex) return; // allow natural scroll to footer
+        e.preventDefault(); scrollTo(currentSection + 1);
+      }
       if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); scrollTo(currentSection - 1); }
       if (e.key === "Home") { e.preventDefault(); scrollTo(0); }
-      if (e.key === "End") { e.preventDefault(); scrollTo(sections.length - 1); }
+      if (e.key === "End") { e.preventDefault(); scrollTo(lastIndex); }
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
