@@ -280,7 +280,7 @@ export default function HomePage() {
       isScrolling.current = true;
       setCurrentSection(clamped);
       const targetTop = sections[clamped].getBoundingClientRect().top + window.scrollY;
-      smoothScrollTo(targetTop, 1400);
+      smoothScrollTo(targetTop, 750);
     };
 
     const onWheel = (e: WheelEvent) => {
