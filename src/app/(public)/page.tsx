@@ -253,13 +253,34 @@ export default function HomePage() {
     const sections = containerRef.current?.querySelectorAll<HTMLElement>("[data-section]");
     if (!sections?.length) return;
 
+    const smoothScrollTo = (target: number, duration: number) => {
+      const start = window.scrollY;
+      const distance = target - start;
+      const startTime = performance.now();
+
+      const easeInOutCubic = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+      const animate = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        window.scrollTo(0, start + distance * easeInOutCubic(progress));
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          isScrolling.current = false;
+        }
+      };
+      requestAnimationFrame(animate);
+    };
+
     const scrollTo = (index: number) => {
       const clamped = Math.max(0, Math.min(index, sections.length - 1));
       if (clamped === currentSection && index !== 0) return;
       isScrolling.current = true;
       setCurrentSection(clamped);
-      sections[clamped].scrollIntoView({ behavior: "smooth" });
-      setTimeout(() => { isScrolling.current = false; }, 1000);
+      const targetTop = sections[clamped].getBoundingClientRect().top + window.scrollY;
+      smoothScrollTo(targetTop, 1400);
     };
 
     const onWheel = (e: WheelEvent) => {
