@@ -247,6 +247,9 @@ export default function HomePage() {
   const touchStartY = useRef(0);
 
   useEffect(() => {
+    // Disable fullpage scroll on mobile (< 1024px)
+    const isMobile = () => window.innerWidth < 1024;
+
     const sections = containerRef.current?.querySelectorAll<HTMLElement>("[data-section]");
     if (!sections?.length) return;
 
@@ -260,8 +263,8 @@ export default function HomePage() {
     };
 
     const onWheel = (e: WheelEvent) => {
+      if (isMobile()) return; // normal scroll on mobile
       if (isScrolling.current) { e.preventDefault(); return; }
-      // Allow normal scroll inside contact form section (last section)
       const target = e.target as HTMLElement;
       if (target.closest("form") || target.closest("textarea") || target.closest("select")) return;
 
@@ -270,15 +273,8 @@ export default function HomePage() {
       scrollTo(currentSection + (e.deltaY > 0 ? 1 : -1));
     };
 
-    const onTouchStart = (e: TouchEvent) => { touchStartY.current = e.touches[0].clientY; };
-    const onTouchEnd = (e: TouchEvent) => {
-      if (isScrolling.current) return;
-      const diff = touchStartY.current - e.changedTouches[0].clientY;
-      if (Math.abs(diff) < 50) return;
-      scrollTo(currentSection + (diff > 0 ? 1 : -1));
-    };
-
     const onKeyDown = (e: KeyboardEvent) => {
+      if (isMobile()) return;
       if (isScrolling.current) return;
       if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); scrollTo(currentSection + 1); }
       if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); scrollTo(currentSection - 1); }
@@ -287,13 +283,9 @@ export default function HomePage() {
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchend", onTouchEnd, { passive: true });
     window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [currentSection]);
