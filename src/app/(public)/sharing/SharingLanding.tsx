@@ -170,7 +170,7 @@ export default function SharingLanding() {
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
           >
             {equipment.map((e) => (
-              <motion.div key={e.href} variants={fadeInUp}>
+              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={fadeInUp}>
                 <Link href={e.href} className="group block bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:border-emerald-200 transition-all duration-300">
                   <span className="text-4xl mb-4 block group-hover:scale-110 transition-transform">{e.emoji}</span>
                   <h3 className="font-paperlogy text-xl font-bold text-primary mb-2 group-hover:text-emerald-600 transition-colors">{e.name}</h3>

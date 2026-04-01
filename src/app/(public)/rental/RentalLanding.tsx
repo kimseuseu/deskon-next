@@ -118,7 +118,7 @@ export default function RentalLanding() {
           </motion.div>
           <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
             {equipment.map((e) => (
-              <motion.div key={e.href} variants={fadeInUp}>
+              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={fadeInUp}>
                 <Link href={e.href} className="group block bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:border-accent/30 transition-all duration-300">
                   <span className="text-4xl mb-4 block group-hover:scale-110 transition-transform">{e.emoji}</span>
                   <h3 className="font-paperlogy text-xl font-bold text-primary mb-2 group-hover:text-accent transition-colors">{e.name}</h3>

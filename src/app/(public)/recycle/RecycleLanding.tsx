@@ -140,7 +140,7 @@ export default function RecycleLanding() {
           </motion.div>
           <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
             {equipment.map((e) => (
-              <motion.div key={e.href} variants={fadeInUp}>
+              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={fadeInUp}>
                 <Link href={e.href} className="group block bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-xl hover:border-green-200 transition-all duration-300">
                   <span className="text-3xl mb-3 block group-hover:scale-110 transition-transform">{e.emoji}</span>
                   <h3 className="font-paperlogy text-lg font-bold text-primary mb-1 group-hover:text-green-700 transition-colors">{e.name}</h3>

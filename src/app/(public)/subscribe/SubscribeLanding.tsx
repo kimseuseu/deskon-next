@@ -326,7 +326,7 @@ export default function SubscribeLanding() {
             variants={staggerContainer}
           >
             {products.map((p) => (
-              <motion.div key={p.slug} variants={fadeInUp}>
+              <motion.div key={p.slug} id={p.slug} className="scroll-mt-24" variants={fadeInUp}>
                 <Link
                   href={`/subscribe/${p.slug}`}
                   className="group block bg-white rounded-2xl p-8 border border-gray-100 hover:border-accent/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full"
