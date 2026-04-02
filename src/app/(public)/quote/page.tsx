@@ -9,7 +9,7 @@ const serviceLabel: Record<string, string> = {
   sharing: "공유",
   rental: "렌탈",
   recycle: "순환",
-  buyback: "매입",
+  buyback: "유통",
 };
 
 export default function QuotePage() {

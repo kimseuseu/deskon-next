@@ -4,15 +4,15 @@ import Link from "next/link";
 import { COMPANY } from "@/lib/constants";
 
 const steps = [
-  { num: "01", title: "매입 문의", desc: "전화·카카오톡·웹으로 매입 희망 장비를 알려주세요.", icon: "📞" },
-  { num: "02", title: "방문 견적", desc: "전문 감정사가 방문하여 장비 상태를 확인하고 매입가를 제안합니다.", icon: "📋" },
+  { num: "01", title: "유통 문의", desc: "전화·카카오톡·웹으로 유통 희망 장비를 알려주세요.", icon: "📞" },
+  { num: "02", title: "방문 견적", desc: "전문 감정사가 방문하여 장비 상태를 확인하고 유통가를 제안합니다.", icon: "📋" },
   { num: "03", title: "수거", desc: "합의된 일정에 전문팀이 방문하여 장비를 수거합니다.", icon: "🚛" },
-  { num: "04", title: "정산", desc: "수거 완료 후 합의된 매입 대금을 신속히 정산합니다.", icon: "💰" },
+  { num: "04", title: "정산", desc: "수거 완료 후 합의된 유통 대금을 신속히 정산합니다.", icon: "💰" },
 ];
 
 const benefits = [
   { icon: "🏢", title: "공간 효율화", desc: "사용하지 않는 장비를 정리하여 사무 공간을 확보하세요." },
-  { icon: "💵", title: "합리적 매입가", desc: "시장 시세에 기반한 투명하고 공정한 매입 가격을 제안합니다." },
+  { icon: "💵", title: "합리적 유통가", desc: "시장 시세에 기반한 투명하고 공정한 유통 가격을 제안합니다." },
   { icon: "🚚", title: "무료 방문 수거", desc: "별도 운반 비용 없이 전문팀이 직접 방문하여 수거합니다." },
   { icon: "⚡", title: "간편한 절차", desc: "문의부터 정산까지 빠르고 간편하게 진행됩니다." },
 ];
@@ -38,15 +38,15 @@ export default function BuybackLanding() {
             Buyback Service
           </span>
           <h1 className="font-paperlogy text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            보유 장비, 합리적으로 매입합니다
+            보유 장비, 합리적으로 유통합니다
           </h1>
           <p className="text-white/60 text-lg md:text-xl max-w-xl mx-auto mb-10">
             사무실 이전, 인원 축소, 리모델링 등으로 처분이 필요한 장비를
-            AOVO가 적정 가격에 매입합니다.
+            AOVO가 적정 가격에 유통합니다.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/support/contact" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-accent text-white font-medium hover:bg-accent-light transition-colors shadow-lg shadow-accent/25">
-              매입 문의하기
+              유통 문의하기
             </Link>
             <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/10 transition-colors">
               📞 {COMPANY.phone}
@@ -60,7 +60,7 @@ export default function BuybackLanding() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Process</span>
-            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">매입 절차</h2>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">유통 절차</h2>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((s, i) => (
@@ -104,7 +104,7 @@ export default function BuybackLanding() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Categories</span>
-            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">매입 가능 품목</h2>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">유통 가능 품목</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {categories.map((c) => (
@@ -126,13 +126,13 @@ export default function BuybackLanding() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-slate-900 to-slate-700 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">장비 매입이 필요하신가요?</h2>
+          <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">장비 유통이 필요하신가요?</h2>
           <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-3 mt-4 mb-8 group">
             <span className="font-paperlogy text-3xl md:text-4xl font-bold text-white group-hover:text-accent-light transition-colors">{COMPANY.phone}</span>
           </a>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/support/contact" className="inline-flex items-center justify-center px-10 py-4 bg-accent hover:bg-accent-light text-white font-semibold rounded-full transition-all">
-              매입 문의하기
+              유통 문의하기
             </Link>
             <a href={COMPANY.kakaoChannel} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-10 py-4 border border-white/30 text-white font-semibold rounded-full hover:bg-white/10 transition-all">
               카카오톡 상담

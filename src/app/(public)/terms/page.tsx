@@ -47,7 +47,7 @@ export default function TermsPage() {
           <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
             <li>
               &ldquo;서비스&rdquo;란 회사가 제공하는 산업용품 구독, 렌탈, 공유,
-              순환(재정비), 매입 등 일체의 B2B 서비스를 말합니다.
+              순환(재정비), 유통 등 일체의 B2B 서비스를 말합니다.
             </li>
             <li>
               &ldquo;이용자&rdquo;란 본 약관에 따라 회사가 제공하는 서비스를
@@ -76,7 +76,7 @@ export default function TermsPage() {
             </li>
             <li>렌탈서비스: 사무가구, IT장비 등의 중장기 렌탈</li>
             <li>순환서비스: 전문 재정비를 거친 검증된 품질의 장비 재공급</li>
-            <li>유통서비스: 기업 보유 장비의 합리적 매입 및 자산 정리 지원</li>
+            <li>유통서비스: 기업 보유 장비의 합리적 유통 및 자산 정리 지원</li>
           </ol>
           <p className="text-muted leading-relaxed mb-4">
             서비스 이용시간은 원칙적으로 연중무휴 24시간으로 하며, 회사의

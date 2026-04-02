@@ -43,14 +43,14 @@ const milestones = [
   {
     year: "2024",
     title: "유통서비스 사업 개시",
-    desc: "기업의 보유 장비를 합리적 가격으로 매입하는 서비스를 오픈하고 자산 정리 솔루션으로 카테고리를 다각화했습니다.",
+    desc: "기업의 보유 장비를 합리적 가격으로 유통하는 서비스를 오픈하고 자산 정리 솔루션으로 카테고리를 다각화했습니다.",
     image: "/images/auth-office/3.png",
     accent: "from-orange-600 to-orange-400",
   },
   {
     year: "2025",
     title: "통합 플랫폼 순환",
-    desc: "구독·공유·렌탈·순환·매입 5대 서비스를 하나로 통합한 AOVO 플랫폼으로 새롭게 오픈했습니다.",
+    desc: "구독·공유·렌탈·순환·유통 5대 서비스를 하나로 통합한 AOVO 플랫폼으로 새롭게 오픈했습니다.",
     image: "/images/aovo-banner1.png",
     accent: "from-accent to-gold",
   },

@@ -33,7 +33,7 @@ const serviceTypes = [
   { value: "sharing", label: "공유" },
   { value: "rental", label: "렌탈" },
   { value: "recycle", label: "순환" },
-  { value: "buyback", label: "매입" },
+  { value: "buyback", label: "유통" },
 ] as const;
 
 export default function ProductDetailPage() {

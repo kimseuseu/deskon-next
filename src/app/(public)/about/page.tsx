@@ -70,7 +70,7 @@ export default function AboutPage() {
               쓰는 만큼, 낭비 없이
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-muted text-lg leading-relaxed">
-              AOVO는 산업용품을 소유가 아닌 운영의 관점에서 바라봅니다. 구독, 공유, 렌탈, 순환, 매입의 다섯 가지 서비스 모델을 통해 기업의 자산 운영 효율을 극대화하고, 불필요한 비용을 제거합니다.
+              AOVO는 산업용품을 소유가 아닌 운영의 관점에서 바라봅니다. 구독, 공유, 렌탈, 순환, 유통의 다섯 가지 서비스 모델을 통해 기업의 자산 운영 효율을 극대화하고, 불필요한 비용을 제거합니다.
             </motion.p>
           </motion.div>
         </div>
