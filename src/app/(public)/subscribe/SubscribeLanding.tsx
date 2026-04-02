@@ -74,45 +74,52 @@ const benefits = [
 const products = [
   {
     slug: "chair",
-    name: "체어(사무용의자)",
-    desc: "인체공학 사무용 의자를 월 구독으로 사용하세요.",
+    name: "사무용 의자",
+    desc: "인체공학 메쉬, 가죽, 회의용 등 다양한 의자 라인업을 구독으로 이용하세요.",
     icon: "🪑",
+    items: "JNS-801 · JNS-1018 · JNS-901 · JNS-501 · AKENT-A 외",
   },
   {
     slug: "rolltainer",
     name: "롤테이너",
-    desc: "물류·유통 현장의 필수 운반 장비, 필요한 만큼만.",
+    desc: "철제·메쉬·접이식 등 용도별 롤테이너를 필요한 수량만큼 구독합니다.",
     icon: "📦",
+    items: "철제 롤테이너 · 메쉬 롤테이너 · 접이식 롤테이너 외",
   },
   {
     slug: "pallet",
     name: "파렛트",
-    desc: "적재·보관·운송에 필요한 파렛트 구독 서비스.",
+    desc: "플라스틱·목재·철제 등 규격별 파렛트 구독 서비스.",
     icon: "🏗️",
+    items: "PP-1200 · 목재 파렛트 · 철제 파렛트 외",
   },
   {
     slug: "intainer",
     name: "인테이너",
-    desc: "산업용 접이식 컨테이너, 공간 효율을 극대화합니다.",
+    desc: "산업용 접이식 컨테이너, 다양한 사이즈로 공간 효율을 극대화합니다.",
     icon: "📐",
+    items: "대형 인테이너 · 중형 인테이너 · 소형 인테이너",
   },
   {
     slug: "movingbox",
     name: "이사바구니",
-    desc: "이사·배송·정리에 최적화된 바구니 구독.",
+    desc: "이사·배송·정리에 최적화된 바구니를 시즌별로 구독합니다.",
     icon: "🧺",
+    items: "대형 바구니 · 중형 바구니 · 소형 바구니",
   },
   {
     slug: "kitchen",
     name: "주방집기",
-    desc: "급식·외식 현장에 필요한 주방 기물을 월 단위로.",
+    desc: "급식·외식 현장에 필요한 업소용 주방 기물을 월 단위로 운영합니다.",
     icon: "🍳",
+    items: "업소용 냉장고 · 식기세척기 · 인덕션 · 조리대 외",
   },
   {
     slug: "hvac",
     name: "냉난방기",
-    desc: "계절 수요에 맞춘 냉난방 장비, 비수기엔 반납.",
+    desc: "계절 수요에 맞춘 냉난방 장비, 비수기엔 반납하여 비용을 절감합니다.",
     icon: "❄️",
+    items: "이동식 에어컨 · 산업용 제습기 · 온풍기 외",
   },
 ];
 
@@ -302,19 +309,19 @@ export default function SubscribeLanding() {
               variants={fadeInUp}
               className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block"
             >
-              Products
+              AOVO Group Business Subscription Service
             </motion.span>
             <motion.h2
               variants={fadeInUp}
               className="font-paperlogy text-3xl md:text-4xl font-bold text-primary"
             >
-              구독 가능 품목
+              구독 서비스 라인업
             </motion.h2>
             <motion.p
               variants={fadeInUp}
               className="text-muted mt-4 max-w-xl mx-auto"
             >
-              각 품목을 클릭하면 상세 정보와 요금을 확인할 수 있습니다.
+              각 카테고리를 클릭하면 제품 종류와 상세 정보를 확인할 수 있습니다.
             </motion.p>
           </motion.div>
 
@@ -335,8 +342,11 @@ export default function SubscribeLanding() {
                   <h3 className="font-paperlogy text-lg font-bold text-primary mb-2 group-hover:text-accent transition-colors">
                     {p.name}
                   </h3>
-                  <p className="text-sm text-muted leading-relaxed mb-4">
+                  <p className="text-sm text-muted leading-relaxed mb-3">
                     {p.desc}
+                  </p>
+                  <p className="text-xs text-accent/60 leading-relaxed mb-4">
+                    {p.items}
                   </p>
                   <span className="inline-flex items-center text-sm font-medium text-accent/70 group-hover:text-accent transition-colors">
                     자세히 보기 →
