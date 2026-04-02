@@ -83,7 +83,7 @@ export default function Header() {
               }`}>
                 AOVO
               </span>
-              <span style={{ fontFamily: "'Dyson Sans Modern', sans-serif" }} className={`text-sm font-normal tracking-wide leading-none transition-colors duration-500 ${
+              <span style={{ fontFamily: "'Dyson Sans Modern', sans-serif" }} className={`text-sm font-normal tracking-wide leading-none -translate-y-[1px] transition-colors duration-500 ${
                 scrolled ? "text-primary/50" : "text-white/50"
               }`}>
                 group
