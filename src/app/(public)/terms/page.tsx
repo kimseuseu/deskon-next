@@ -4,7 +4,7 @@ import { COMPANY } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "이용약관 | AOVO Group",
   description:
-    "AOVO Group 산업용품 구독·렌탈·공유 서비스 이용약관입니다.",
+    "AOVO Group 비즈니스 장비 구독·렌탈·공유 서비스 이용약관입니다.",
 };
 
 export default function TermsPage() {
@@ -46,7 +46,7 @@ export default function TermsPage() {
           </h2>
           <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
             <li>
-              &ldquo;서비스&rdquo;란 회사가 제공하는 산업용품 구독, 렌탈, 공유,
+              &ldquo;서비스&rdquo;란 회사가 제공하는 비즈니스 장비 구독, 렌탈, 공유,
               순환(재정비), 유통 등 일체의 B2B 서비스를 말합니다.
             </li>
             <li>

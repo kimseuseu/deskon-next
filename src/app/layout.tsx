@@ -20,17 +20,17 @@ const syne = Syne({
 
 export const metadata: Metadata = {
   title: {
-    default: "AOVO | 산업용품 통합 운영 플랫폼",
+    default: "AOVO | 비즈니스 자산 통합 운영 플랫폼",
     template: "%s | AOVO Group",
   },
   description:
-    "구독 · 공유 · 렌탈 · 순환 · 유통 — 산업용품을 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
+    "구독 · 공유 · 렌탈 · 순환 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
   icons: {
     icon: "/images/ex_aovo_symbol.png",
     apple: "/images/ex_aovo_symbol.png",
   },
   keywords: [
-    "산업용품",
+    "비즈니스 장비",
     "구독",
     "렌탈",
     "공유",
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
     siteName: "AOVO Group",
-    title: "AOVO | 산업용품 통합 운영 플랫폼",
+    title: "AOVO | 비즈니스 자산 통합 운영 플랫폼",
     description:
-      "구독 · 공유 · 렌탈 · 순환 · 유통 — 산업용품을 가장 효율적으로 운영하는 방법",
+      "구독 · 공유 · 렌탈 · 순환 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법",
   },
 };
 

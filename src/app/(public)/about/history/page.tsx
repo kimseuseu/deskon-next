@@ -8,7 +8,7 @@ const milestones = [
   {
     year: "2015",
     title: "회사 설립",
-    desc: "산업용품 유통 전문기업으로 출발. B2B 물류장비 공급 사업을 시작하며 업계에 첫 발을 내딛었습니다.",
+    desc: "B2B 장비 유통 전문기업으로 출발. B2B 물류장비 공급 사업을 시작하며 업계에 첫 발을 내딛었습니다.",
     image: "/images/auth-office/1.webp",
     accent: "from-blue-600 to-blue-400",
   },
@@ -161,7 +161,7 @@ export default function HistoryPage() {
             걸어온 길,<br />만들어갈 미래
           </h1>
           <p className="text-white/60 text-lg md:text-xl max-w-xl">
-            산업용품 통합 운영의 새로운 기준을 세워가는 AOVO의 여정
+            비즈니스 장비 운영의 새로운 기준을 세워가는 AOVO의 여정
           </p>
 
           {/* Stats */}
@@ -271,7 +271,7 @@ export default function HistoryPage() {
               Vision
             </span>
             <h2 className="font-paperlogy text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              산업용품의 미래를<br />함께 만들어갑니다
+              기업의 미래를<br />함께 만들어갑니다
             </h2>
             <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
               구매에서 운영으로, 소유에서 공유로. AOVO는 산업 자산의 패러다임을 바꾸고 있습니다.

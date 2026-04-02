@@ -98,7 +98,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-white/50 leading-relaxed max-w-xs">
-              산업용품 통합 운영 플랫폼
+              비즈니스 자산 통합 운영 플랫폼
             </p>
 
             {/* Phone CTA */}

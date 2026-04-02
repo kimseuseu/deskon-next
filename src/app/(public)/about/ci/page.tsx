@@ -22,7 +22,7 @@ const brandColors = [
 
 const brandValues = [
   { title: "효율", desc: "불필요한 비용 없이, 꼭 필요한 만큼만" },
-  { title: "신뢰", desc: "10년 이상의 산업용품 운영 노하우" },
+  { title: "신뢰", desc: "10년 이상의 장비 운영 노하우" },
   { title: "지속", desc: "순환경제를 통한 지속가능한 비즈니스" },
   { title: "혁신", desc: "소유에서 운영으로, 패러다임 전환" },
 ];
@@ -290,7 +290,7 @@ export default function CIPage() {
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-gray-100">
               <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Primary Display</span>
               <h3 className="font-paperlogy text-5xl font-bold text-primary mb-4">Paperlogy</h3>
-              <p className="font-paperlogy text-xl text-muted mb-2">산업용품 통합 운영 플랫폼</p>
+              <p className="font-paperlogy text-xl text-muted mb-2">비즈니스 자산 통합 운영 플랫폼</p>
               <p className="text-sm text-muted">헤드라인, 타이틀, 강조 텍스트에 사용됩니다.</p>
             </motion.div>
             <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-gray-100">
