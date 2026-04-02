@@ -73,9 +73,8 @@ export default function ChairSubscriptionPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent z-[1]" />
 
         <div className="relative z-10 min-h-[85vh] flex items-center">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
-            {/* Left text */}
-            <div>
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-16 w-full">
+            <div className="max-w-2xl">
               <Reveal>
                 <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
                   Chair Subscription
@@ -106,15 +105,7 @@ export default function ChairSubscriptionPage() {
               </Reveal>
             </div>
 
-            {/* Right: featured chair */}
-            <Reveal delay={400} className="hidden lg:block">
-              <div className="relative flex items-center justify-center">
-                <div className="absolute -inset-8 bg-accent/10 rounded-full blur-[80px]" />
-                <div className="relative z-10 w-full aspect-square rounded-3xl overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center p-8">
-                  <Image src="/images/chairs/jns-801.png" alt="JNS-801" width={400} height={400} className="w-full h-auto object-contain drop-shadow-2xl" />
-                </div>
-              </div>
-            </Reveal>
+            {/* Right: empty for full-width hero text impact */}
           </div>
         </div>
       </section>
