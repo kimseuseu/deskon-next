@@ -8,8 +8,32 @@ import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
 
 /* ── Data ── */
 
-const heroTitleLine1 = "자리가 비면";
-const heroTitleLine2 = "비용도 멈춥니다";
+const heroSlides = [
+  {
+    video: "/images/aovo-brand-bg.mp4",
+    poster: "/images/aovo-banner1.webp",
+    sub1: "인원변화에 반응하는",
+    sub2: "사무용 의자 구독 서비스",
+    line1: "자리가 비면",
+    line2: "비용도 멈춥니다",
+  },
+  {
+    video: "/images/hero-desk.mp4",
+    poster: "/images/aovo-banner2.webp",
+    sub1: "사무 공간을 완성하는",
+    sub2: "가구 구독 & 렌탈",
+    line1: "사무가구,",
+    line2: "구독하세요",
+  },
+  {
+    video: "/images/hero-rolltainer.mp4",
+    poster: "/images/aovo-banner3.webp",
+    sub1: "물류 현장의 필수 장비",
+    sub2: "롤테이너 구독 & 공유",
+    line1: "필요한 만큼,",
+    line2: "쓰고 반납하세요",
+  },
+];
 
 const statsData = [
   { target: 2500, suffix: "+", label: "거래 기업" },
@@ -228,6 +252,8 @@ function CountUpStat({
 
 export default function HomePage() {
   const [statsVisible, setStatsVisible] = useState(false);
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [heroFading, setHeroFading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     company: "",
@@ -348,6 +374,18 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Hero slide auto-rotation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroFading(true);
+      setTimeout(() => {
+        setHeroIndex((prev) => (prev + 1) % heroSlides.length);
+        setHeroFading(false);
+      }, 600); // fade out duration
+    }, 7000); // slide duration
+    return () => clearInterval(interval);
+  }, []);
+
   const handleFormSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -466,82 +504,79 @@ export default function HomePage() {
           className="relative overflow-hidden"
           style={{ height: "100dvh" }}
         >
-          {/* Poster image (shows instantly while video loads) */}
-          <Image
-            src="/images/aovo-banner1.webp"
-            alt=""
-            fill
-            priority
-            className="object-cover"
-          />
-          {/* Video bg (loads over poster) */}
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster="/images/aovo-banner1.webp"
-            className="absolute inset-0 w-full h-full object-cover z-[1]"
-          >
-            <source src="/images/aovo-brand-bg.mp4" type="video/mp4" />
-          </video>
+          {/* Video slides */}
+          {heroSlides.map((slide, i) => (
+            <div
+              key={i}
+              className="absolute inset-0 transition-opacity duration-[800ms] ease-in-out"
+              style={{ opacity: heroIndex === i ? 1 : 0, zIndex: heroIndex === i ? 1 : 0 }}
+            >
+              <Image src={slide.poster} alt="" fill priority={i === 0} className="object-cover" />
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload={i === 0 ? "auto" : "none"}
+                className="absolute inset-0 w-full h-full object-cover"
+              >
+                <source src={slide.video} type="video/mp4" />
+              </video>
+            </div>
+          ))}
 
           {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60 z-[2]" />
 
           {/* Center content */}
           <div className="absolute inset-0 z-10 flex items-center justify-center pt-20">
-            <div className="text-center px-4">
+            <div
+              className="text-center px-4 transition-all duration-[600ms] ease-in-out"
+              style={{
+                opacity: heroFading ? 0 : 1,
+                transform: heroFading ? "translateY(20px)" : "translateY(0)",
+              }}
+            >
               <p
-                className="mb-8 text-[clamp(1rem,2.2vw,1.35rem)] font-normal text-white/70 tracking-[0.06em] leading-relaxed opacity-0"
-                style={{
-                  animation: "heroFadeIn 0.8s ease-out 0.3s forwards",
-                  textShadow: "0 2px 15px rgba(0,0,0,0.4)",
-                }}
+                className="mb-8 text-[clamp(1rem,2.2vw,1.35rem)] font-normal text-white/70 tracking-[0.02em] leading-relaxed"
+                style={{ textShadow: "0 2px 15px rgba(0,0,0,0.4)" }}
               >
-                <span className="block tracking-[0.02em]">인원변화에 반응하는</span>
-                <span className="block mt-1 tracking-[0.02em]">
-                  자산 관리 서비스
-                </span>
+                <span className="block">{heroSlides[heroIndex].sub1}</span>
+                <span className="block mt-1">{heroSlides[heroIndex].sub2}</span>
               </p>
 
               <h1
                 className="font-paperlogy leading-[1.15] tracking-[-0.02em] m-0"
                 style={{
                   fontSize: "clamp(2.75rem, 8vw, 5.5rem)",
-                  textShadow:
-                    "0 4px 30px rgba(0,0,0,0.4), 0 2px 10px rgba(0,0,0,0.3)",
+                  textShadow: "0 4px 30px rgba(0,0,0,0.4), 0 2px 10px rgba(0,0,0,0.3)",
                 }}
               >
                 <span className="block text-white mb-[0.1em] font-light">
-                  {heroTitleLine1.split("").map((char, i) => (
-                    <AnimatedChar
-                      key={i}
-                      char={char}
-                      delay={0.6 + i * 0.05}
-                    />
-                  ))}
+                  {heroSlides[heroIndex].line1}
                 </span>
                 <span
                   className="block font-bold text-accent-light"
-                  style={{
-                    textShadow:
-                      "0 4px 30px rgba(184,151,126,0.3), 0 2px 10px rgba(0,0,0,0.3)",
-                  }}
+                  style={{ textShadow: "0 4px 30px rgba(184,151,126,0.3), 0 2px 10px rgba(0,0,0,0.3)" }}
                 >
-                  {heroTitleLine2.split("").map((char, i) => (
-                    <AnimatedChar
-                      key={i}
-                      char={char}
-                      delay={
-                        0.6 + heroTitleLine1.length * 0.05 + i * 0.05
-                      }
-                    />
-                  ))}
+                  {heroSlides[heroIndex].line2}
                 </span>
               </h1>
             </div>
+          </div>
+
+          {/* Slide indicators */}
+          <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+            {heroSlides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setHeroFading(true); setTimeout(() => { setHeroIndex(i); setHeroFading(false); }, 400); }}
+                className={`h-[3px] rounded-full transition-all duration-500 ${
+                  heroIndex === i ? "w-8 bg-accent" : "w-4 bg-white/30 hover:bg-white/50"
+                }`}
+                aria-label={`슬라이드 ${i + 1}`}
+              />
+            ))}
           </div>
 
           {/* Bottom bar: stats left + CTAs right */}
