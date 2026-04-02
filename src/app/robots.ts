@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin/", "/api/", "/login"],
     },
-    sitemap: "https://aovo.kr/sitemap.xml",
+    sitemap: "https://www.aovo.kr/sitemap.xml",
   };
 }
