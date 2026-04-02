@@ -86,7 +86,7 @@ export default function Header() {
               <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-sm font-medium tracking-wide leading-none transition-colors duration-500 ${
                 scrolled ? "text-primary/50" : "text-white/50"
               }`}>
-                group
+                GROUP
               </span>
             </span>
           </Link>
