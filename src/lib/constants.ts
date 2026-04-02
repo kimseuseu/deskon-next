@@ -43,7 +43,7 @@ export const SERVICE_CATEGORIES = [
   },
   {
     slug: "buyback",
-    nameKo: "매입서비스",
+    nameKo: "유통서비스",
     nameEn: "Buyback",
     color: "from-slate-900 to-slate-600",
   },

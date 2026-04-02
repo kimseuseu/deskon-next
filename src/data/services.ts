@@ -1519,7 +1519,7 @@ export const services: ServiceData[] = [
   // === BUYBACK (4) ===
   {
     category: "buyback",
-    categoryLabel: "매입서비스",
+    categoryLabel: "유통서비스",
     slug: "furniture",
     title: "사무가구 매입",
     subtitle:
@@ -1572,7 +1572,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "buyback",
-    categoryLabel: "매입서비스",
+    categoryLabel: "유통서비스",
     slug: "logistics",
     title: "물류장비 매입",
     subtitle:
@@ -1625,7 +1625,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "buyback",
-    categoryLabel: "매입서비스",
+    categoryLabel: "유통서비스",
     slug: "event",
     title: "행사집기 매입",
     subtitle:
@@ -1678,7 +1678,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "buyback",
-    categoryLabel: "매입서비스",
+    categoryLabel: "유통서비스",
     slug: "commercial",
     title: "업소용집기 매입",
     subtitle:

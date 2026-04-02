@@ -81,7 +81,7 @@ const serviceTimeline = [
   {
     slug: "buyback",
     badge: "매입",
-    title: "매입서비스",
+    title: "유통서비스",
     desc: "보유 장비를 합리적인 가격으로 매입하여 자산 정리 지원",
     href: "/buyback",
     icon: "🏭",

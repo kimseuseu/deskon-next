@@ -76,7 +76,7 @@ export default function TermsPage() {
             </li>
             <li>렌탈서비스: 사무가구, IT장비 등의 중장기 렌탈</li>
             <li>순환서비스: 전문 재정비를 거친 검증된 품질의 장비 재공급</li>
-            <li>매입서비스: 기업 보유 장비의 합리적 매입 및 자산 정리 지원</li>
+            <li>유통서비스: 기업 보유 장비의 합리적 매입 및 자산 정리 지원</li>
           </ol>
           <p className="text-muted leading-relaxed mb-4">
             서비스 이용시간은 원칙적으로 연중무휴 24시간으로 하며, 회사의

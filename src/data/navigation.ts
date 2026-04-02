@@ -77,7 +77,7 @@ export const navigation: NavItem[] = [
     ],
   },
   {
-    label: "매입서비스",
+    label: "유통서비스",
     labelEn: "Buyback",
     href: "/buyback",
     children: [

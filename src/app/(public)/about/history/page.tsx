@@ -42,7 +42,7 @@ const milestones = [
   },
   {
     year: "2024",
-    title: "매입서비스 사업 개시",
+    title: "유통서비스 사업 개시",
     desc: "기업의 보유 장비를 합리적 가격으로 매입하는 서비스를 오픈하고 자산 정리 솔루션으로 카테고리를 다각화했습니다.",
     image: "/images/auth-office/3.png",
     accent: "from-orange-600 to-orange-400",

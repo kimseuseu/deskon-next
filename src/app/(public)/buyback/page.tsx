@@ -85,7 +85,7 @@ export default function BuybackLanding() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Benefits</span>
-            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">매입서비스의 장점</h2>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">유통서비스의 장점</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {benefits.map((b) => (
