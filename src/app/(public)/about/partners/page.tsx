@@ -68,13 +68,13 @@ const programACards = [
       { num: "01", label: "고객 발굴", desc: "사무실 집기/가구가 필요한 고객을 확인합니다" },
       { num: "02", label: "아오보 소개", desc: "고객 연락처를 아오보에 전달합니다" },
       { num: "03", label: "상담 및 계약", desc: "아오보가 직접 고객을 상담하고 계약합니다" },
-      { num: "04", label: "수수료 지급", desc: "계약 성사 후 D+7일 이내 수수료를 정산합니다" },
+      { num: "04", label: "리워드 정산", desc: "계약 성사 후 D+7일 이내 파트너 리워드를 정산합니다" },
     ],
   },
   {
-    title: "수수료 구조",
+    title: "리워드 구조",
     details: [
-      { stat: "10%", label: "계약 금액 대비 수수료율" },
+      { stat: "협의", label: "계약 금액 기반 리워드" },
       { stat: "무제한", label: "소개 횟수 제한 없음" },
       { stat: "D+7", label: "계약 후 7일 이내 정산" },
       { stat: "전담", label: "파트너 전담 매니저 배정" },
@@ -83,7 +83,7 @@ const programACards = [
   {
     title: "이런 경우를 상상해 보세요",
     scenario:
-      "부동산 중개사 A씨는 사무실 임대 계약을 마친 고객에게 아오보를 소개했습니다. 고객은 사무가구 패키지 500만 원 계약을 체결했고, A씨는 별도 영업 없이 50만 원의 소개 수수료를 D+7일 이내에 지급받았습니다. 소개만 했을 뿐인데 추가 수익이 발생한 것입니다.",
+      "부동산 중개사 A씨는 사무실 임대 계약을 마친 고객에게 아오보를 소개했습니다. 고객은 사무가구 패키지 500만 원 계약을 체결했고, A씨는 별도 영업 없이 파트너 리워드를 D+7일 이내에 지급받았습니다. 소개만 했을 뿐인데 추가 수익이 발생한 것입니다.",
   },
 ];
 
@@ -103,14 +103,14 @@ const programBCards = [
       { num: "01", label: "파트너 신청", desc: "온라인 또는 전화로 파트너를 신청합니다" },
       { num: "02", label: "현장 실사", desc: "아오보가 업장을 방문하여 배치 계획을 수립합니다" },
       { num: "03", label: "장비 설치", desc: "물류장비와 QR 시스템을 설치합니다" },
-      { num: "04", label: "운영 및 정산", desc: "이용료 발생 시 매월 수수료를 정산합니다" },
+      { num: "04", label: "운영 및 정산", desc: "이용료 발생 시 매월 파트너 리워드를 정산합니다" },
     ],
   },
   {
     title: "수익 구조",
     details: [
       { stat: "0원", label: "초기 비용 (장비 무상 제공)" },
-      { stat: "매월", label: "이용료 기반 수수료 정산" },
+      { stat: "매월", label: "이용료 기반 리워드 정산" },
       { stat: "자동", label: "아오보 앱으로 자동 관리" },
       { stat: "무관리", label: "장비 유지보수 아오보 부담" },
     ],
@@ -292,8 +292,8 @@ export default function PartnersPage() {
           <Reveal delay={300}>
             <div className="flex flex-col sm:flex-row gap-5 justify-center">
               <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[200px]">
-                <p className="font-paperlogy text-3xl font-bold text-accent">10%</p>
-                <p className="text-gray-400 text-sm mt-1">사무가구 소개 수수료</p>
+                <p className="font-paperlogy text-3xl font-bold text-accent">협의</p>
+                <p className="text-gray-400 text-sm mt-1">사무가구 파트너 리워드</p>
               </div>
               <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[200px]">
                 <p className="font-paperlogy text-3xl font-bold text-accent">QR</p>
@@ -315,7 +315,7 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* ========== PROGRAM A: 사무가구 소개 수수료 ========== */}
+      {/* ========== PROGRAM A: 사무가구 파트너 리워드 ========== */}
       <section className="relative bg-surface">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
@@ -328,19 +328,19 @@ export default function PartnersPage() {
               </Reveal>
               <Reveal delay={100}>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary mb-5">
-                  고객만 소개하면<br />수수료 10%
+                  고객만 소개하면<br />파트너 리워드 지급
                 </h2>
               </Reveal>
               <Reveal delay={200}>
                 <p className="text-muted text-base leading-relaxed mb-10 max-w-md">
-                  사무실 집기/가구가 필요한 고객을 아오보에 소개해 주세요. 아오보가 직접 상담하고 계약하며, 계약 성사 시 계약 금액의 10%를 수수료로 지급합니다. 영업 부담 없이 소개만 하시면 됩니다.
+                  사무실 집기/가구가 필요한 고객을 아오보에 소개해 주세요. 아오보가 직접 상담하고 계약하며, 계약 성사 시 계약 규모에 따른 파트너 리워드를 지급합니다. 영업 부담 없이 소개만 하시면 됩니다.
                 </p>
               </Reveal>
               <Reveal delay={300}>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="bg-white rounded-xl p-4 border border-gray-100 text-center">
-                    <p className="font-paperlogy text-2xl font-bold text-accent">10%</p>
-                    <p className="text-muted text-xs mt-1">수수료율</p>
+                    <p className="font-paperlogy text-2xl font-bold text-accent">협의</p>
+                    <p className="text-muted text-xs mt-1">리워드</p>
                   </div>
                   <div className="bg-white rounded-xl p-4 border border-gray-100 text-center">
                     <p className="font-paperlogy text-2xl font-bold text-accent">D+7</p>
@@ -393,7 +393,7 @@ export default function PartnersPage() {
               </Reveal>
               <Reveal delay={200}>
                 <p className="text-muted text-base leading-relaxed mb-10 max-w-md">
-                  파트너 업장에 아오보 물류장비(롤테이너, 카트, 스태커 등)를 배치하면, 방문 고객이 QR 코드로 장비를 대여합니다. 발생하는 이용료의 일부를 파트너에게 매월 수수료로 지급합니다.
+                  파트너 업장에 아오보 물류장비(롤테이너, 카트, 스태커 등)를 배치하면, 방문 고객이 QR 코드로 장비를 대여합니다. 발생하는 이용료의 일부를 파트너에게 매월 파트너 리워드로 지급합니다.
                 </p>
               </Reveal>
               <Reveal delay={300}>
@@ -457,7 +457,7 @@ export default function PartnersPage() {
           </Reveal>
           <Reveal delay={100}>
             <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">
-              소개 수수료든, 장비 공유 수익이든, 아오보와 함께라면 새로운 수익 채널이 열립니다. 부담 없이 문의해 주세요.
+              파트너 리워드든, 장비 공유 수익이든, 아오보와 함께라면 새로운 수익 채널이 열립니다. 부담 없이 문의해 주세요.
             </p>
           </Reveal>
           <Reveal delay={200}>
