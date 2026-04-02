@@ -21,7 +21,7 @@ const syne = Syne({
 export const metadata: Metadata = {
   title: {
     default: "AOVO | 산업용품 통합 운영 플랫폼",
-    template: "%s | AOVO",
+    template: "%s | AOVO Group",
   },
   description:
     "구독 · 공유 · 렌탈 · 순환 · 유통 — 산업용품을 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
@@ -40,11 +40,11 @@ export const metadata: Metadata = {
     "AOVO",
     "아오보",
   ],
-  authors: [{ name: "AOVO" }],
+  authors: [{ name: "AOVO Group" }],
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "AOVO",
+    siteName: "AOVO Group",
     title: "AOVO | 산업용품 통합 운영 플랫폼",
     description:
       "구독 · 공유 · 렌탈 · 순환 · 유통 — 산업용품을 가장 효율적으로 운영하는 방법",

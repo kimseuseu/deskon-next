@@ -1,6 +1,6 @@
 export const COMPANY = {
-  name: "AOVO",
-  nameKo: "아오보",
+  name: "AOVO Group",
+  nameKo: "아오보 그룹",
   legalName: "mbc",
   ceo: "강귀원",
   bizNumber: "108-12-35112",

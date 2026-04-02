@@ -56,7 +56,7 @@ export default function RentalLanding() {
           </motion.h1>
           <motion.p variants={fadeInUp} className="text-lg md:text-xl text-gray-300 max-w-2xl mb-10 leading-relaxed">
             프로젝트, 시즌, 행사에 맞춰 장비를 렌탈하세요.
-            설치부터 유지보수, 회수까지 전 과정을 AOVO가 관리합니다.
+            설치부터 유지보수, 회수까지 전 과정을 아오보 그룹이 관리합니다.
           </motion.p>
           <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
             <Link href="/support/contact" className="px-8 py-4 bg-accent text-white rounded-full font-semibold hover:bg-accent/90 transition-all">

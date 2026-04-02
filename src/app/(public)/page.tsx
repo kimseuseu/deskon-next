@@ -617,7 +617,7 @@ export default function HomePage() {
                 빌리면 딱 맞습니다.
               </h2>
               <p className="text-white/60 text-base md:text-lg leading-relaxed mb-10 max-w-xl">
-                물류장비부터 사무가구, 주방집기, 의료장비까지 아오보 통합 운영
+                물류장비부터 사무가구, 주방집기, 의료장비까지 아오보 그룹 통합 운영
                 서비스로 자산을 최적화하세요.
               </p>
 
@@ -661,7 +661,7 @@ export default function HomePage() {
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
                   src="/images/aovo-banner2.webp"
-                  alt="아오보 통합 장비 운영"
+                  alt="아오보 그룹 통합 장비 운영"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"

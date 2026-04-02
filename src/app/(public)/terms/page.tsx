@@ -2,9 +2,9 @@ import { Metadata } from "next";
 import { COMPANY } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "이용약관 | AOVO",
+  title: "이용약관 | AOVO Group",
   description:
-    "AOVO 산업용품 구독·렌탈·공유 서비스 이용약관입니다.",
+    "AOVO Group 산업용품 구독·렌탈·공유 서비스 이용약관입니다.",
 };
 
 export default function TermsPage() {

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { COMPANY } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "개인정보처리방침 | AOVO",
+  title: "개인정보처리방침 | AOVO Group",
   description:
     "AOVO 서비스의 개인정보처리방침입니다. 수집하는 개인정보 항목, 수집 목적, 보유 기간 등을 안내합니다.",
 };

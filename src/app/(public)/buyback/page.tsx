@@ -42,7 +42,7 @@ export default function BuybackLanding() {
           </h1>
           <p className="text-white/60 text-lg md:text-xl max-w-xl mx-auto mb-10">
             사무실 이전, 인원 축소, 리모델링 등으로 처분이 필요한 장비를
-            AOVO가 적정 가격에 유통합니다.
+            아오보 그룹이 적정 가격에 유통합니다.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/support/contact" className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-accent text-white font-medium hover:bg-accent-light transition-colors shadow-lg shadow-accent/25">
