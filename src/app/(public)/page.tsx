@@ -98,19 +98,19 @@ const serviceTimeline = [
 const chairCards = [
   {
     name: "JNS-801",
-    image: "/images/chairs/jns-801.png",
+    image: "/images/chairs/jns-801.webp",
     price: "월 29,000원~",
     href: "/subscribe/chair",
   },
   {
     name: "JNS-1018",
-    image: "/images/chairs/jns-1018.jpg",
+    image: "/images/chairs/jns-1018.webp",
     price: "월 25,000원~",
     href: "/subscribe/chair",
   },
   {
     name: "JNS-901",
-    image: "/images/chairs/jns-901.jpg",
+    image: "/images/chairs/jns-901.webp",
     price: "월 19,000원~",
     href: "/subscribe/chair",
   },
@@ -468,7 +468,7 @@ export default function HomePage() {
         >
           {/* Poster image (shows instantly while video loads) */}
           <Image
-            src="/images/aovo-banner1.png"
+            src="/images/aovo-banner1.webp"
             alt=""
             fill
             priority
@@ -481,7 +481,7 @@ export default function HomePage() {
             loop
             playsInline
             preload="auto"
-            poster="/images/aovo-banner1.png"
+            poster="/images/aovo-banner1.webp"
             className="absolute inset-0 w-full h-full object-cover z-[1]"
           >
             <source src="/images/aovo-brand-bg.mp4" type="video/mp4" />
@@ -660,7 +660,7 @@ export default function HomePage() {
             <div className="relative" data-animate data-delay="2">
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/aovo-banner2.png"
+                  src="/images/aovo-banner2.webp"
                   alt="아오보 통합 장비 운영"
                   fill
                   className="object-cover"
@@ -904,7 +904,7 @@ export default function HomePage() {
             <div className="relative" data-animate data-delay="2">
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/logistics/steel-rolltainer-use.jpg"
+                  src="/images/logistics/steel-rolltainer-use.webp"
                   alt="물류장비 라인업"
                   fill
                   className="object-cover"
@@ -993,7 +993,7 @@ export default function HomePage() {
           {/* Background image overlay */}
           <div className="absolute inset-0">
             <Image
-              src="/images/aovo-banner1.png"
+              src="/images/aovo-banner1.webp"
               alt=""
               fill
               className="object-cover opacity-[0.06]"

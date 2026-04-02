@@ -8,7 +8,7 @@ export default function RecycleChairPage() {
     <>
       {/* Hero */}
       <section data-hero-dark className="relative min-h-[60vh] flex items-center overflow-hidden pt-20">
-        <Image src="/images/certa.png" alt="CERTA 순환 서비스" fill className="object-cover" priority />
+        <Image src="/images/certa.webp" alt="CERTA 순환 서비스" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-24">
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">

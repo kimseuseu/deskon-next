@@ -28,7 +28,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section data-hero-dark className="relative min-h-[50vh] flex items-center justify-center overflow-hidden pt-20">
         <Image
-          src="/images/aovo-banner2.png"
+          src="/images/aovo-banner2.webp"
           alt="AOVO 회사 소개 배경"
           fill
           className="object-cover"
@@ -127,7 +127,7 @@ export default function AboutPage() {
             variants={fadeInUp}
           >
             <Image
-              src="/images/aovo-lineup.png"
+              src="/images/aovo-lineup.webp"
               alt="AOVO 제품 라인업"
               fill
               className="object-contain"

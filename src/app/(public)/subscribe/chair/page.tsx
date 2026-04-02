@@ -31,12 +31,12 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
 
 /* ── Data ── */
 const chairModels = [
-  { name: "JNS-901 풀메쉬", image: "/images/chairs/jns-901.jpg", price: "월 65,000원", purchasePrice: "3,920,000원", spec: "풀메쉬 · 요추지지 · 알루미늄 베이스", tag: "PREMIUM" },
-  { name: "JNS-801L", image: "/images/chairs/jns-801l.png", price: "월 45,000원", purchasePrice: "2,600,000원", spec: "가죽 시트 · 헤드레스트 · 임원용", tag: "BEST" },
-  { name: "JNS-1018AFYK", image: "/images/chairs/jns-1018.jpg", price: "월 35,000원", purchasePrice: "1,400,000원", spec: "풀메쉬 · 싱크로틸트 · 4D 팔걸이", tag: "" },
-  { name: "AKENT-A", image: "/images/chairs/akent-a.jpg", price: "월 27,500원", purchasePrice: "1,100,000원", spec: "천연가죽 · 심플 디자인 · 회의실", tag: "" },
-  { name: "N831", image: "/images/chairs/n831.jpg", price: "월 25,000원", purchasePrice: "1,520,000원", spec: "회의용 · 스태킹 · 대량 도입 최적", tag: "" },
-  { name: "JNS-501", image: "/images/chairs/jns-501.jpg", price: "월 15,000원", purchasePrice: "1,520,000원", spec: "메쉬 · 메모리폼 · 가성비 사무용", tag: "가성비" },
+  { name: "JNS-901 풀메쉬", image: "/images/chairs/jns-901.webp", price: "월 65,000원", purchasePrice: "3,920,000원", spec: "풀메쉬 · 요추지지 · 알루미늄 베이스", tag: "PREMIUM" },
+  { name: "JNS-801L", image: "/images/chairs/jns-801l.webp", price: "월 45,000원", purchasePrice: "2,600,000원", spec: "가죽 시트 · 헤드레스트 · 임원용", tag: "BEST" },
+  { name: "JNS-1018AFYK", image: "/images/chairs/jns-1018.webp", price: "월 35,000원", purchasePrice: "1,400,000원", spec: "풀메쉬 · 싱크로틸트 · 4D 팔걸이", tag: "" },
+  { name: "AKENT-A", image: "/images/chairs/akent-a.webp", price: "월 27,500원", purchasePrice: "1,100,000원", spec: "천연가죽 · 심플 디자인 · 회의실", tag: "" },
+  { name: "N831", image: "/images/chairs/n831.webp", price: "월 25,000원", purchasePrice: "1,520,000원", spec: "회의용 · 스태킹 · 대량 도입 최적", tag: "" },
+  { name: "JNS-501", image: "/images/chairs/jns-501.webp", price: "월 15,000원", purchasePrice: "1,520,000원", spec: "메쉬 · 메모리폼 · 가성비 사무용", tag: "가성비" },
 ];
 
 const benefits = [
@@ -69,7 +69,7 @@ export default function ChairSubscriptionPage() {
     <>
       {/* ═══ HERO ═══ */}
       <section data-hero-dark className="relative overflow-hidden" style={{ minHeight: "85vh" }}>
-        <Image src="/images/aovo-banner1.png" alt="" fill priority className="object-cover" />
+        <Image src="/images/aovo-banner1.webp" alt="" fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent z-[1]" />
 
         <div className="relative z-10 min-h-[85vh] flex items-center">
@@ -329,7 +329,7 @@ export default function ChairSubscriptionPage() {
 
       {/* ═══ CTA ═══ */}
       <section className="relative py-24 overflow-hidden">
-        <Image src="/images/aovo-banner2.png" alt="" fill className="object-cover" />
+        <Image src="/images/aovo-banner2.webp" alt="" fill className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-accent/90 to-amber-800/90" />
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">

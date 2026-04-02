@@ -31,10 +31,10 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
 
 /* ── Data ── */
 const rolltainerTypes = [
-  { name: "철제 롤테이너", image: "/images/logistics/steel-rolltainer.jpg", spec: "500L · 내구성 강화 · 잠금장치", price: "월 45,000원~", tag: "BEST" },
-  { name: "메쉬 롤테이너", image: "/images/logistics/steel-rolltainer-use.jpg", spec: "경량 · 통풍형 · 식품물류 최적", price: "월 40,000원~", tag: "" },
-  { name: "접이식 롤테이너", image: "/images/logistics/rolltainer-use.jpg", spec: "접이식 · 보관 효율 · 소규모 물류", price: "월 35,000원~", tag: "" },
-  { name: "대형 롤테이너", image: "/images/logistics/rolltainer-use-alt.jpg", spec: "800L · 대용량 · 창고·공장용", price: "월 55,000원~", tag: "대용량" },
+  { name: "철제 롤테이너", image: "/images/logistics/steel-rolltainer.webp", spec: "500L · 내구성 강화 · 잠금장치", price: "월 45,000원~", tag: "BEST" },
+  { name: "메쉬 롤테이너", image: "/images/logistics/steel-rolltainer-use.webp", spec: "경량 · 통풍형 · 식품물류 최적", price: "월 40,000원~", tag: "" },
+  { name: "접이식 롤테이너", image: "/images/logistics/rolltainer-use.webp", spec: "접이식 · 보관 효율 · 소규모 물류", price: "월 35,000원~", tag: "" },
+  { name: "대형 롤테이너", image: "/images/logistics/rolltainer-use-alt.webp", spec: "800L · 대용량 · 창고·공장용", price: "월 55,000원~", tag: "대용량" },
 ];
 
 const benefits = [
@@ -73,7 +73,7 @@ export default function RolltainerSubscriptionPage() {
     <>
       {/* ═══ HERO ═══ */}
       <section data-hero-dark className="relative overflow-hidden" style={{ minHeight: "85vh" }}>
-        <Image src="/images/logistics/cover.jpg" alt="" fill priority className="object-cover" />
+        <Image src="/images/logistics/cover.webp" alt="" fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent z-[1]" />
 
         <div className="relative z-10 min-h-[85vh] flex items-center">
@@ -111,7 +111,7 @@ export default function RolltainerSubscriptionPage() {
             <Reveal delay={400} className="hidden lg:block">
               <div className="relative">
                 <div className="absolute -inset-8 bg-blue-500/10 rounded-full blur-[80px]" />
-                <Image src="/images/logistics/steel-rolltainer.jpg" alt="철제 롤테이너" width={500} height={400} className="relative z-10 w-full h-auto object-contain rounded-2xl shadow-2xl" />
+                <Image src="/images/logistics/steel-rolltainer.webp" alt="철제 롤테이너" width={500} height={400} className="relative z-10 w-full h-auto object-contain rounded-2xl shadow-2xl" />
               </div>
             </Reveal>
           </div>

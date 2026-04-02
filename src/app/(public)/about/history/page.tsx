@@ -9,49 +9,49 @@ const milestones = [
     year: "2015",
     title: "회사 설립",
     desc: "산업용품 유통 전문기업으로 출발. B2B 물류장비 공급 사업을 시작하며 업계에 첫 발을 내딛었습니다.",
-    image: "/images/auth-office/1.png",
+    image: "/images/auth-office/1.webp",
     accent: "from-blue-600 to-blue-400",
   },
   {
     year: "2016",
     title: "사무용 의자 구독 서비스 론칭",
     desc: "업계 최초 사무용 의자 구독 모델 도입. 중소기업을 대상으로 월정액 의자 운영 서비스를 시작했습니다.",
-    image: "/images/chairs/jns-801.png",
+    image: "/images/chairs/jns-801.webp",
     accent: "from-accent to-amber-600",
   },
   {
     year: "2018",
     title: "물류장비 사업 확장",
     desc: "롤테이너, 파랫트, 인테이너 등 물류장비 라인업을 대폭 확대하고 대형 유통사 납품 계약을 체결했습니다.",
-    image: "/images/logistics/steel-rolltainer.jpg",
+    image: "/images/logistics/steel-rolltainer.webp",
     accent: "from-emerald-600 to-emerald-400",
   },
   {
     year: "2020",
     title: "순환서비스 시작",
     desc: "전문 재정비를 거친 검증된 품질의 장비를 합리적 가격으로 재공급하는 모델을 구축하고 ESG 경영을 본격화했습니다.",
-    image: "/images/certa.png",
+    image: "/images/certa.webp",
     accent: "from-teal-600 to-teal-400",
   },
   {
     year: "2022",
     title: "공유서비스 플랫폼 오픈",
     desc: "카트, 스테커 등 물류장비 QR 기반 공유 플랫폼을 론칭하고 행사장비 공유 서비스로 영역을 확대했습니다.",
-    image: "/images/logistics/service-concept.png",
+    image: "/images/logistics/service-concept.webp",
     accent: "from-violet-600 to-violet-400",
   },
   {
     year: "2024",
     title: "유통서비스 사업 개시",
     desc: "기업의 보유 장비를 합리적 가격으로 유통하는 서비스를 오픈하고 자산 정리 솔루션으로 카테고리를 다각화했습니다.",
-    image: "/images/auth-office/3.png",
+    image: "/images/auth-office/3.webp",
     accent: "from-orange-600 to-orange-400",
   },
   {
     year: "2025",
     title: "통합 플랫폼 순환",
     desc: "구독·공유·렌탈·순환·유통 5대 서비스를 하나로 통합한 AOVO 플랫폼으로 새롭게 오픈했습니다.",
-    image: "/images/aovo-banner1.png",
+    image: "/images/aovo-banner1.webp",
     accent: "from-accent to-gold",
   },
 ];
@@ -150,7 +150,7 @@ export default function HistoryPage() {
     <>
       {/* ── Hero ── */}
       <section data-hero-dark className="relative overflow-hidden" style={{ minHeight: "70vh" }}>
-        <Image src="/images/aovo-banner2.png" alt="" fill className="object-cover" priority />
+        <Image src="/images/aovo-banner2.webp" alt="" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/60 to-primary/90 z-[1]" />
 
         <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-36 pb-20 min-h-[70vh]">
