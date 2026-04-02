@@ -108,9 +108,11 @@ export default function ChairSubscriptionPage() {
 
             {/* Right: featured chair */}
             <Reveal delay={400} className="hidden lg:block">
-              <div className="relative">
+              <div className="relative flex items-center justify-center">
                 <div className="absolute -inset-8 bg-accent/10 rounded-full blur-[80px]" />
-                <Image src="/images/chairs/jns-801.png" alt="JNS-801" width={500} height={500} className="relative z-10 w-full h-auto object-contain drop-shadow-2xl" />
+                <div className="relative z-10 w-full aspect-square rounded-3xl overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center p-8">
+                  <Image src="/images/chairs/jns-801.png" alt="JNS-801" width={400} height={400} className="w-full h-auto object-contain drop-shadow-2xl" />
+                </div>
               </div>
             </Reveal>
           </div>
