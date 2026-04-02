@@ -83,10 +83,10 @@ export default function Header() {
               }`}>
                 AOVO
               </span>
-              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-sm font-medium tracking-wide leading-none transition-colors duration-500 ${
+              <span style={{ fontFamily: "'Dyson Sans Modern', sans-serif" }} className={`text-sm font-normal tracking-wide leading-none transition-colors duration-500 ${
                 scrolled ? "text-primary/50" : "text-white/50"
               }`}>
-                GROUP
+                group
               </span>
             </span>
           </Link>
