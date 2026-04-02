@@ -18,7 +18,7 @@ const heroSlides = [
     line2: "비용도 멈춥니다",
   },
   {
-    video: "/images/hero-desk.mp4",
+    video: "/images/hero-rolltainer.mp4",
     poster: "/images/aovo-banner2.webp",
     sub1: "사무 공간을 완성하는",
     sub2: "가구 구독 & 렌탈",
@@ -26,7 +26,7 @@ const heroSlides = [
     line2: "구독하세요",
   },
   {
-    video: "/images/hero-rolltainer.mp4",
+    video: "/images/hero-desk.mp4",
     poster: "/images/aovo-banner3.webp",
     sub1: "물류 현장의 필수 장비",
     sub2: "롤테이너 구독 & 공유",
