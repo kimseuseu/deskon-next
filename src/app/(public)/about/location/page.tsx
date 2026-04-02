@@ -120,13 +120,14 @@ export default function LocationPage() {
             {/* Kakao Map */}
             <div className="lg:col-span-3 rounded-2xl min-h-[450px] overflow-hidden shadow-sm border border-gray-100">
               <iframe
-                src="https://map.kakao.com/link/map/AOVO,37.4372,126.8603"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3170.5!2d126.8603!3d37.4372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDI2JzE0LjAiTiAxMjbCsDUxJzM3LjEiRQ!5e0!3m2!1sko!2skr!4v1"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: 450 }}
                 allowFullScreen
                 loading="lazy"
-                title="AOVO 본사 위치 - 경기도 광명시 금오로 679"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="AOVO Group 본사 위치 - 경기도 광명시 금오로 679"
               />
             </div>
 
