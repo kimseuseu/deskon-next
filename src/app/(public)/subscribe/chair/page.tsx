@@ -30,56 +30,13 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
 }
 
 /* ── Data ── */
-const plans = [
-  {
-    name: "STANDARD",
-    nameKo: "일반용",
-    grade: "기본 사무용 의자",
-    cycle: "계약 종료 시",
-    as: "유상",
-    inspection: "요청 시",
-    color: "border-gray-300",
-    popular: false,
-  },
-  {
-    name: "BUSINESS",
-    nameKo: "업무용",
-    grade: "인체공학 메쉬 의자",
-    cycle: "3년",
-    as: "부품 무상",
-    inspection: "연 1회 (가스·휠·베이스)",
-    color: "border-accent",
-    popular: true,
-  },
-  {
-    name: "EXECUTIVE",
-    nameKo: "경영진용",
-    grade: "프리미엄 패브릭 의자",
-    cycle: "2년",
-    as: "전체 무상",
-    inspection: "반기 1회 (모든 부품)",
-    color: "border-accent",
-    popular: false,
-  },
-  {
-    name: "VIP",
-    nameKo: "최고급",
-    grade: "프리미엄 가죽 의자",
-    cycle: "1년",
-    as: "전체 무상 + 즉시 교체",
-    inspection: "분기 1회 (모든 부품)",
-    color: "border-gold",
-    popular: false,
-  },
-];
-
 const chairModels = [
-  { name: "JNS-801", image: "/images/chairs/jns-801.png", price: "월 29,000원~", spec: "메쉬 등판 · 4D 팔걸이 · 요추지지 · 틸트", tag: "BEST" },
-  { name: "JNS-1018", image: "/images/chairs/jns-1018.jpg", price: "월 25,000원~", spec: "헤드레스트 · 싱크로틸트 · 메쉬", tag: "" },
-  { name: "JNS-901", image: "/images/chairs/jns-901.jpg", price: "월 19,000원~", spec: "풀메쉬 · 요추지지 · 알루미늄", tag: "" },
-  { name: "JNS-801L", image: "/images/chairs/jns-801l.png", price: "월 35,000원~", spec: "가죽 시트 · 헤드레스트 · 임원용", tag: "PREMIUM" },
-  { name: "JNS-501", image: "/images/chairs/jns-501.jpg", price: "월 15,000원~", spec: "메쉬 등판 · 고정팔 · 가성비", tag: "" },
-  { name: "AKENT-A", image: "/images/chairs/akent-a.jpg", price: "월 22,000원~", spec: "심플 디자인 · 회의실 · 공용", tag: "" },
+  { name: "JNS-901 풀메쉬", image: "/images/chairs/jns-901.jpg", price: "월 65,000원", purchasePrice: "3,920,000원", spec: "풀메쉬 · 요추지지 · 알루미늄 베이스", tag: "PREMIUM" },
+  { name: "JNS-801L", image: "/images/chairs/jns-801l.png", price: "월 45,000원", purchasePrice: "2,600,000원", spec: "가죽 시트 · 헤드레스트 · 임원용", tag: "BEST" },
+  { name: "JNS-1018AFYK", image: "/images/chairs/jns-1018.jpg", price: "월 35,000원", purchasePrice: "1,400,000원", spec: "풀메쉬 · 싱크로틸트 · 4D 팔걸이", tag: "" },
+  { name: "AKENT-A", image: "/images/chairs/akent-a.jpg", price: "월 27,500원", purchasePrice: "1,100,000원", spec: "천연가죽 · 심플 디자인 · 회의실", tag: "" },
+  { name: "N831", image: "/images/chairs/n831.jpg", price: "월 25,000원", purchasePrice: "1,520,000원", spec: "회의용 · 스태킹 · 대량 도입 최적", tag: "" },
+  { name: "JNS-501", image: "/images/chairs/jns-501.jpg", price: "월 15,000원", purchasePrice: "1,520,000원", spec: "메쉬 · 메모리폼 · 가성비 사무용", tag: "가성비" },
 ];
 
 const benefits = [
@@ -140,7 +97,7 @@ export default function ChairSubscriptionPage() {
               <Reveal delay={450}>
                 <div className="flex flex-wrap gap-4">
                   <a href="#plans" className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white font-bold rounded-full px-8 py-4 transition-all shadow-lg shadow-accent/25">
-                    플랜 보기 <span>↓</span>
+                    구매 vs 구독 비교 <span>↓</span>
                   </a>
                   <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-2 border border-white/25 text-white font-medium rounded-full px-8 py-4 hover:bg-white/10 transition-all">
                     📞 {COMPANY.phone}
@@ -220,7 +177,10 @@ export default function ChairSubscriptionPage() {
                       <div className="flex-1 min-w-0">
                         <h3 className="font-paperlogy text-lg font-bold text-white mb-1">{chair.name}</h3>
                         <p className="text-white/40 text-xs mb-2">{chair.spec}</p>
-                        <div className="text-accent font-bold text-base">{chair.price}</div>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-accent font-bold text-base">{chair.price}</span>
+                          <span className="text-white/25 text-xs line-through">{chair.purchasePrice}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -266,54 +226,55 @@ export default function ChairSubscriptionPage() {
         </div>
       </section>
 
-      {/* ═══ PLANS ═══ */}
+      {/* ═══ COMPARISON: 구매 vs 구독 ═══ */}
       <section id="plans" className="py-24 bg-white scroll-mt-20">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <Reveal>
-            <div className="text-center mb-16">
-              <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Plans</span>
-              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">구독 플랜</h2>
-              <p className="text-muted mt-3">기업 규모와 용도에 맞는 플랜을 선택하세요</p>
+            <div className="text-center mb-12">
+              <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Comparison</span>
+              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">구매 vs 구독</h2>
+              <p className="text-muted mt-3">50인 사무실 기준, JNS-1018AFYK 모델 비교</p>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {plans.map((plan, i) => (
-              <Reveal key={plan.name} delay={i * 100}>
-                <div className={`relative bg-white rounded-2xl border-2 ${plan.color} p-7 h-full ${plan.popular ? "shadow-lg shadow-accent/10" : "border-gray-100"} transition-all hover:shadow-xl duration-300`}>
-                  {plan.popular && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase bg-accent text-white px-4 py-1 rounded-full">인기</span>
-                  )}
-                  <div className="text-center mb-6">
-                    <h3 className="font-paperlogy text-xl font-bold text-primary">{plan.name}</h3>
-                    <p className="text-sm text-accent font-medium mt-1">{plan.nameKo}</p>
-                  </div>
-                  <div className="space-y-4 text-sm">
-                    <div className="flex justify-between items-start border-b border-gray-50 pb-3">
-                      <span className="text-muted">의자 등급</span>
-                      <span className="text-primary font-medium text-right max-w-[55%]">{plan.grade}</span>
-                    </div>
-                    <div className="flex justify-between items-start border-b border-gray-50 pb-3">
-                      <span className="text-muted">교체 주기</span>
-                      <span className="text-primary font-medium">{plan.cycle}</span>
-                    </div>
-                    <div className="flex justify-between items-start border-b border-gray-50 pb-3">
-                      <span className="text-muted">A/S</span>
-                      <span className="text-primary font-medium text-right max-w-[55%]">{plan.as}</span>
-                    </div>
-                    <div className="flex justify-between items-start">
-                      <span className="text-muted">정기 점검</span>
-                      <span className="text-primary font-medium text-right max-w-[55%]">{plan.inspection}</span>
-                    </div>
-                  </div>
-                  <div className="mt-6 pt-4 border-t border-gray-100 text-center">
-                    <span className="text-sm text-muted">월 구독료</span>
-                    <div className="font-paperlogy text-xl font-bold text-accent mt-1">맞춤 견적</div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={200}>
+            <div className="overflow-hidden rounded-2xl border border-gray-200">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr>
+                    <th className="text-left p-4 bg-surface font-medium text-muted w-1/3">항목</th>
+                    <th className="p-4 bg-surface font-medium text-muted">직접 구매</th>
+                    <th className="p-4 bg-primary text-accent font-bold">AOVO 구독</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ["초기 비용 (50석)", "7,000만원", "0원"],
+                    ["월 비용", "0원 (감가상각 별도)", "월 1,750,000원"],
+                    ["3년 총비용", "7,000만원 + 관리비", "약 6,300만원 (관리 포함)"],
+                    ["인원 축소 시", "유휴 의자 창고 보관", "즉시 반납, 비용 절감"],
+                    ["고장·파손", "자체 수리 (인력·비용)", "무상 교체"],
+                    ["정기 관리", "없음 (자체 관리)", "3개월 정기 세척·점검"],
+                    ["감가상각", "매년 자산가치 하락", "비용 처리, 부담 없음"],
+                    ["퇴직자 의자", "폐기 비용 발생", "무상 수거"],
+                  ].map(([label, buy, sub]) => (
+                    <tr key={label} className="border-t border-gray-100">
+                      <td className="p-4 font-medium text-primary bg-surface/50">{label}</td>
+                      <td className="p-4 text-center text-muted">{buy}</td>
+                      <td className="p-4 text-center font-bold text-accent bg-accent/5">{sub}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Reveal>
+
+          <Reveal delay={300}>
+            <div className="mt-8 p-5 bg-primary text-white rounded-xl text-center text-sm leading-relaxed">
+              <strong className="text-accent">핵심:</strong> 3년 사용 시 구독이 약 10% 저렴하면서, 정기 관리·무상 교체·즉시 반납까지 포함됩니다.
+              <br />인원 변동이 잦을수록 구독의 비용 효율이 더 커집니다.
+            </div>
+          </Reveal>
         </div>
       </section>
 
