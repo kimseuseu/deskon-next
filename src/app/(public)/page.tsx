@@ -22,8 +22,8 @@ const heroSlides = [
     poster: "/images/aovo-banner2.webp",
     sub1: "사무 공간을 완성하는",
     sub2: "가구 구독 & 렌탈",
-    line1: "사무가구,",
-    line2: "구독하세요",
+    line1: "책상이 비면",
+    line2: "비용도 멈춥니다",
   },
   {
     video: "/images/hero-desk.mp4",
