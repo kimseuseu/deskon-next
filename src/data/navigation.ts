@@ -23,7 +23,7 @@ export const navigation: NavItem[] = [
     labelEn: "Subscription",
     href: "/subscribe",
     children: [
-      { label: "체어", labelEn: "Chair", href: "/subscribe#chair" },
+      { label: "체어", labelEn: "Chair", href: "/subscribe/chair" },
       { label: "롤테이너", labelEn: "Roll Tainer", href: "/subscribe#rolltainer" },
       { label: "파랫트", labelEn: "Pallet", href: "/subscribe#pallet" },
       { label: "인테이너", labelEn: "Intainer", href: "/subscribe#intainer" },
