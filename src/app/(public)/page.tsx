@@ -374,17 +374,39 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Hero slide auto-rotation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHeroFading(true);
-      setTimeout(() => {
-        setHeroIndex((prev) => (prev + 1) % heroSlides.length);
-        setHeroFading(false);
-      }, 600); // fade out duration
-    }, 7000); // slide duration
-    return () => clearInterval(interval);
+  // Hero slide auto-rotation — triggered by video end
+  const heroVideoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const heroTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const advanceHeroSlide = useCallback(() => {
+    setHeroFading(true);
+    setTimeout(() => {
+      setHeroIndex((prev) => {
+        const next = (prev + 1) % heroSlides.length;
+        // Play next video from start
+        const nextVideo = heroVideoRefs.current[next];
+        if (nextVideo) { nextVideo.currentTime = 0; nextVideo.play().catch(() => {}); }
+        return next;
+      });
+      setHeroFading(false);
+    }, 600);
   }, []);
+
+  useEffect(() => {
+    const currentVideo = heroVideoRefs.current[heroIndex];
+    if (!currentVideo) return;
+
+    const onEnded = () => advanceHeroSlide();
+    currentVideo.addEventListener("ended", onEnded);
+
+    // Fallback: if video loops or has no end event, advance after 10s
+    heroTimerRef.current = setTimeout(advanceHeroSlide, 12000);
+
+    return () => {
+      currentVideo.removeEventListener("ended", onEnded);
+      if (heroTimerRef.current) clearTimeout(heroTimerRef.current);
+    };
+  }, [heroIndex, advanceHeroSlide]);
 
   const handleFormSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -513,11 +535,11 @@ export default function HomePage() {
             >
               <Image src={slide.poster} alt="" fill priority={i === 0} className="object-cover" />
               <video
-                autoPlay
+                ref={(el) => { heroVideoRefs.current[i] = el; }}
+                autoPlay={i === 0}
                 muted
-                loop
                 playsInline
-                preload={i === 0 ? "auto" : "none"}
+                preload={i === 0 ? "auto" : "metadata"}
                 className="absolute inset-0 w-full h-full object-cover"
               >
                 <source src={slide.video} type="video/mp4" />
