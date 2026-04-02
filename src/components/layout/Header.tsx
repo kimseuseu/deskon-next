@@ -77,10 +77,17 @@ export default function Header() {
                 scrolled ? "" : "brightness-0 invert"
               }`}
             />
-            <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-3xl font-semibold tracking-tight leading-none -mb-[2px] transition-colors duration-500 ${
-              scrolled ? "text-primary" : "text-white"
-            }`}>
-              AOVO
+            <span className="flex items-baseline gap-1.5 -mb-[2px]">
+              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-3xl font-semibold tracking-tight leading-none transition-colors duration-500 ${
+                scrolled ? "text-primary" : "text-white"
+              }`}>
+                AOVO
+              </span>
+              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-sm font-medium tracking-wide leading-none transition-colors duration-500 ${
+                scrolled ? "text-primary/50" : "text-white/50"
+              }`}>
+                group
+              </span>
             </span>
           </Link>
 
