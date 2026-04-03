@@ -295,7 +295,7 @@ export default function SubscribeLanding() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
                 <RollIn>
-                  <span className="text-[11px] font-medium uppercase tracking-widest text-blue-500 mb-3 block">01 · Rolltainer</span>
+                  <span className="text-[11px] font-medium uppercase tracking-widest text-blue-500 mb-2 block">01 · Rolltainer</span><span className="font-paperlogy text-lg font-bold text-primary mb-3 block">롤테이너</span>
                   <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                     굴러가지 않을 땐<br /><span className="text-accent">비용도 멈춥니다</span>
                   </h2>
@@ -338,7 +338,7 @@ export default function SubscribeLanding() {
         <div className="bg-surface py-24">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <Reveal>
-              <span className="text-[11px] font-medium uppercase tracking-widest text-emerald-500 mb-3 block">02 · Pallet</span>
+              <span className="text-[11px] font-medium uppercase tracking-widest text-emerald-500 mb-2 block">02 · Pallet</span><span className="font-paperlogy text-lg font-bold text-primary mb-3 block">파랫트</span>
               <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                 사용이 멈추면<br /><span className="text-accent">비용도 멈춥니다</span>
               </h2>
@@ -369,7 +369,7 @@ export default function SubscribeLanding() {
           <div className="max-w-6xl mx-auto px-6">
             <Reveal>
               <div className="text-center mb-12">
-                <span className="text-[11px] font-medium uppercase tracking-widest text-violet-500 mb-3 block">03 · Intainer</span>
+                <span className="text-[11px] font-medium uppercase tracking-widest text-violet-500 mb-2 block">03 · Intainer</span><span className="font-paperlogy text-lg font-bold text-primary mb-3 block">인테이너</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                   물건이 비면, <span className="text-accent">비용도 멈춥니다</span>
                 </h2>
@@ -403,7 +403,7 @@ export default function SubscribeLanding() {
           <div className="max-w-5xl mx-auto px-6">
             <Reveal>
               <div className="text-center mb-12">
-                <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-3 block">04 · Moving Box</span>
+                <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-2 block">04 · Moving Box</span><span className="font-paperlogy text-lg font-bold text-white mb-3 block">이사바구니</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold leading-snug mb-4">
                   사용하지 않을 땐<br /><span className="text-accent-light">비용도 멈춥니다</span>
                 </h2>
@@ -439,7 +439,7 @@ export default function SubscribeLanding() {
           <div className="max-w-4xl mx-auto px-6">
             <Reveal>
               <div className="text-center mb-12">
-                <span className="text-[11px] font-medium uppercase tracking-widest text-orange-500 mb-3 block">05 · Kitchen Equipment</span>
+                <span className="text-[11px] font-medium uppercase tracking-widest text-orange-500 mb-2 block">05 · Kitchen Equipment</span><span className="font-paperlogy text-lg font-bold text-primary mb-3 block">주방집기</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                   조리가 멈추면, <span className="text-accent">비용도 멈춥니다</span>
                 </h2>
@@ -515,7 +515,7 @@ export default function SubscribeLanding() {
           <div className="max-w-5xl mx-auto px-6">
             <Reveal>
               <div className="text-center mb-12">
-                <span className="text-[11px] font-medium uppercase tracking-widest text-sky-500 mb-3 block">06 · HVAC</span>
+                <span className="text-[11px] font-medium uppercase tracking-widest text-sky-500 mb-2 block">06 · HVAC</span><span className="font-paperlogy text-lg font-bold text-primary mb-3 block">냉난방기</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                   사용하지 않을 때<br /><span className="text-accent">비용도 없습니다</span>
                 </h2>
@@ -559,7 +559,7 @@ export default function SubscribeLanding() {
         <div className="bg-primary py-24">
           <div className="max-w-5xl mx-auto px-6 text-center">
             <Reveal>
-              <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-3 block">07 · Chair</span>
+              <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-2 block">07 · Chair</span><span className="font-paperlogy text-lg font-bold text-white mb-3 block">사무용 의자</span>
               <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white leading-snug mb-4">
                 자리가 비면, <span className="text-accent-light">비용도 멈춥니다</span>
               </h2>
