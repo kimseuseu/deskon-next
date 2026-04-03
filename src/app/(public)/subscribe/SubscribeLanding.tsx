@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { COMPANY } from "@/lib/constants";
 
-/* ── Reveal Hook ── */
+/* ══════════════════════════════════════
+   ANIMATION HOOKS & COMPONENTS
+══════════════════════════════════════ */
+
 function useReveal(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -37,8 +40,113 @@ function Reveal({ children, delay = 0, className = "", direction = "up" }: {
   );
 }
 
-/* ── Counter ── */
-function CountUp({ target, prefix = "", suffix = "" }: { target: number; prefix?: string; suffix?: string }) {
+/* 01 롤테이너: 좌→우 롤링 등장 */
+function RollIn({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const { ref, visible } = useReveal();
+  return (
+    <div ref={ref} className="transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateX(0) rotate(0deg)" : "translateX(-80px) rotate(-8deg)",
+        transitionDelay: `${delay}ms`,
+      }}>
+      {children}
+    </div>
+  );
+}
+
+/* 02 파랫트: 아래서 적층 */
+function StackUp({ children, index = 0 }: { children: React.ReactNode; index?: number }) {
+  const { ref, visible } = useReveal(0.05);
+  return (
+    <div ref={ref} className="transition-all duration-600 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0) scale(1)" : `translateY(${60 + index * 20}px) scale(0.9)`,
+        transitionDelay: `${index * 150}ms`,
+      }}>
+      {children}
+    </div>
+  );
+}
+
+/* 03 인테이너: 접혔다 펼쳐지기 */
+function Unfold({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const { ref, visible } = useReveal();
+  return (
+    <div ref={ref} className="transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)]"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "perspective(800px) rotateY(0deg) scaleX(1)" : "perspective(800px) rotateY(-15deg) scaleX(0.85)",
+        transformOrigin: "left center",
+        transitionDelay: `${delay}ms`,
+      }}>
+      {children}
+    </div>
+  );
+}
+
+/* 04 이사바구니: 톡톡 떨어지는 bounce */
+function DropIn({ children, index = 0 }: { children: React.ReactNode; index?: number }) {
+  const { ref, visible } = useReveal(0.05);
+  return (
+    <div ref={ref} className="transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0) scale(1)" : "translateY(-50px) scale(0.8)",
+        transitionDelay: `${index * 120}ms`,
+      }}>
+      {children}
+    </div>
+  );
+}
+
+/* 05 주방집기: glow 효과 */
+function GlowIn({ children, active = false }: { children: React.ReactNode; active?: boolean }) {
+  return (
+    <div className="transition-all duration-500 ease-out"
+      style={{
+        opacity: active ? 1 : 0,
+        transform: active ? "scale(1)" : "scale(0.95)",
+        filter: active ? "brightness(1)" : "brightness(0.7)",
+      }}>
+      {children}
+    </div>
+  );
+}
+
+/* 06 냉난방기: 바람에 흔들림 */
+function BlowIn({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const { ref, visible } = useReveal();
+  return (
+    <div ref={ref} className="transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateX(0) skewX(0deg)" : "translateX(60px) skewX(-3deg)",
+        transitionDelay: `${delay}ms`,
+      }}>
+      {children}
+    </div>
+  );
+}
+
+/* 07 체어: 회전 등장 */
+function SpinIn({ children, index = 0 }: { children: React.ReactNode; index?: number }) {
+  const { ref, visible } = useReveal(0.05);
+  return (
+    <div ref={ref} className="transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)]"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "rotate(0deg) scale(1)" : "rotate(12deg) scale(0.85)",
+        transitionDelay: `${index * 100}ms`,
+      }}>
+      {children}
+    </div>
+  );
+}
+
+/* ── CountUp ── */
+function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [value, setValue] = useState(0);
   const started = useRef(false);
@@ -60,10 +168,10 @@ function CountUp({ target, prefix = "", suffix = "" }: { target: number; prefix?
     obs.observe(el);
     return () => obs.disconnect();
   }, [target]);
-  return <span ref={ref}>{prefix}{value.toLocaleString()}{suffix}</span>;
+  return <span ref={ref}>{value.toLocaleString()}{suffix}</span>;
 }
 
-/* ── Pricing Card ── */
+/* ── Price Tag ── */
 function PriceTag({ label, price, unit }: { label: string; price: string; unit: string }) {
   return (
     <div className="flex items-baseline gap-1">
@@ -74,11 +182,21 @@ function PriceTag({ label, price, unit }: { label: string; price: string; unit: 
   );
 }
 
-/* ══════════════════════════════════════════
+function PriceTagWhite({ label, price, unit }: { label: string; price: string; unit: string }) {
+  return (
+    <div className="flex items-baseline gap-1">
+      <span className="text-xs text-white/40">{label}</span>
+      <span className="font-paperlogy text-2xl md:text-3xl font-bold text-white">{price}</span>
+      <span className="text-sm text-white/40">{unit}</span>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
    PAGE
-══════════════════════════════════════════ */
+══════════════════════════════════════ */
 export default function SubscribeLanding() {
-  const [activeTab, setActiveTab] = useState(0);
+  const [kitchenTab, setKitchenTab] = useState(0);
 
   return (
     <div className="bg-white">
@@ -107,14 +225,13 @@ export default function SubscribeLanding() {
           <Reveal delay={300}>
             <p className="text-white/40 text-lg md:text-xl max-w-xl leading-relaxed mb-12">
               롤테이너부터 주방집기까지. 구독 중이라도 사용이 멈추면 비용도 멈춥니다.
-              필요한 만큼만 쓰고, 필요 없을 때 반납하세요.
             </p>
           </Reveal>
 
           <Reveal delay={450}>
             <div className="flex flex-wrap gap-4">
               <a href="#categories" className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white font-medium rounded-full px-8 py-4 transition-all shadow-lg shadow-accent/20 text-sm">
-                품목별 요금 보기 <span>↓</span>
+                품목별 요금 보기 ↓
               </a>
               <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-2 border border-white/15 text-white/70 hover:text-white hover:bg-white/5 font-medium rounded-full px-8 py-4 transition-all text-sm">
                 {COMPANY.phone}
@@ -122,7 +239,6 @@ export default function SubscribeLanding() {
             </div>
           </Reveal>
 
-          {/* Stats */}
           <Reveal delay={600}>
             <div className="flex gap-12 mt-20 pt-8 border-t border-white/5">
               {[
@@ -151,9 +267,7 @@ export default function SubscribeLanding() {
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-0 relative">
-            {/* Connecting line */}
             <div className="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-gray-100" />
-
             {[
               { num: "1", title: "문의", desc: "필요한 장비와 수량을 알려주세요", icon: "💬" },
               { num: "2", title: "견적", desc: "24시간 내 맞춤 견적서 발송", icon: "📋" },
@@ -162,9 +276,7 @@ export default function SubscribeLanding() {
             ].map((step, i) => (
               <Reveal key={step.num} delay={i * 120}>
                 <div className="text-center px-4 py-6">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center mx-auto mb-4 font-paperlogy font-bold text-sm relative z-10">
-                    {step.num}
-                  </div>
+                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center mx-auto mb-4 font-paperlogy font-bold text-sm relative z-10">{step.num}</div>
                   <h3 className="font-paperlogy text-base font-bold text-primary mb-1">{step.title}</h3>
                   <p className="text-xs text-muted leading-relaxed">{step.desc}</p>
                 </div>
@@ -177,196 +289,170 @@ export default function SubscribeLanding() {
       {/* ═══ CATEGORIES ═══ */}
       <section id="categories" className="scroll-mt-20">
 
-        {/* ── 1. 롤테이너 ── */}
+        {/* ── 01. 롤테이너: 롤링 등장 ── */}
         <div className="bg-white py-24 border-t border-gray-50">
           <div className="max-w-6xl mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <Reveal direction="left">
-                <div>
+              <div>
+                <RollIn>
                   <span className="text-[11px] font-medium uppercase tracking-widest text-blue-500 mb-3 block">01 · Rolltainer</span>
                   <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                     굴러가지 않을 땐<br /><span className="text-accent">비용도 멈춥니다</span>
                   </h2>
+                </RollIn>
+                <RollIn delay={200}>
                   <p className="text-muted text-sm leading-relaxed mb-8 max-w-md">
                     물류 현장의 필수 장비, 롤테이너. 구독 중이라도 사용하지 않는 기간에는 비용이 발생하지 않습니다.
                   </p>
-
-                  <div className="space-y-4 mb-8">
-                    <div className="bg-surface rounded-2xl p-6">
-                      <PriceTag label="기본료" price="30,000" unit="원/월" />
-                      <div className="mt-2 flex items-center gap-2">
-                        <span className="w-1 h-1 rounded-full bg-accent" />
-                        <span className="text-xs text-muted">1일 사용료 <strong className="text-primary">1,000원</strong>이면 충분해</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Link href="/subscribe/rolltainer" className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors">
-                    자세히 보기 <span>→</span>
-                  </Link>
-                </div>
-              </Reveal>
-
-              <Reveal direction="right" delay={200}>
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-3xl p-12 flex items-center justify-center min-h-[320px]">
-                  <div className="text-center">
-                    <div className="text-7xl mb-4">📦</div>
-                    <p className="font-paperlogy text-lg font-bold text-primary">철제 · 메쉬 · 접이식 · 대형</p>
-                    <p className="text-xs text-muted mt-2">용도에 맞는 다양한 규격 제공</p>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-
-        {/* ── 2. 파랫트 ── */}
-        <div className="bg-surface py-24">
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <Reveal direction="scale" delay={100} className="order-2 lg:order-1">
-                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-3xl p-12 flex items-center justify-center min-h-[320px]">
-                  <div className="text-center">
-                    <div className="text-7xl mb-4">🏗️</div>
-                    <p className="font-paperlogy text-lg font-bold text-primary">플라스틱 · 목재 · 철제</p>
-                    <p className="text-xs text-muted mt-2">1200×1000mm 표준 규격</p>
-                  </div>
-                </div>
-              </Reveal>
-
-              <Reveal direction="right" className="order-1 lg:order-2">
-                <div>
-                  <span className="text-[11px] font-medium uppercase tracking-widest text-emerald-500 mb-3 block">02 · Pallet</span>
-                  <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
-                    사용이 멈추면<br /><span className="text-accent">비용도 멈춥니다</span>
-                  </h2>
-                  <p className="text-muted text-sm leading-relaxed mb-8 max-w-md">
-                    적재·보관·운송에 필요한 파랫트를 구독하세요. 사용하지 않는 기간에는 과금이 멈춥니다.
-                  </p>
-
-                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8">
-                    <PriceTag label="기본료" price="6,000" unit="원/월" />
+                </RollIn>
+                <RollIn delay={400}>
+                  <div className="bg-surface rounded-2xl p-6 mb-8">
+                    <PriceTag label="기본료" price="30,000" unit="원/월" />
                     <div className="mt-2 flex items-center gap-2">
                       <span className="w-1 h-1 rounded-full bg-accent" />
-                      <span className="text-xs text-muted">1일 사용료 <strong className="text-primary">50원</strong>이면 충분해</span>
+                      <span className="text-xs text-muted">1일 사용료 <strong className="text-primary">1,000원</strong>이면 충분해</span>
                     </div>
                   </div>
-
-                  <Link href="/subscribe#pallet" className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors">
-                    자세히 보기 <span>→</span>
+                  <Link href="/subscribe/rolltainer" className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors">
+                    자세히 보기 →
                   </Link>
-                </div>
-              </Reveal>
+                </RollIn>
+              </div>
+
+              <div className="space-y-3">
+                {["철제 롤테이너", "메쉬 롤테이너", "접이식 롤테이너", "대형 롤테이너"].map((name, i) => (
+                  <RollIn key={name} delay={300 + i * 150}>
+                    <div className="bg-gradient-to-r from-blue-50 to-blue-100/30 rounded-2xl p-5 flex items-center gap-4 hover:from-blue-100 hover:to-blue-50 transition-all duration-300 cursor-default group">
+                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">📦</div>
+                      <span className="font-medium text-primary text-sm">{name}</span>
+                      <span className="ml-auto text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </div>
+                  </RollIn>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* ── 3. 인테이너 ── */}
+        {/* ── 02. 파랫트: 적층 효과 ── */}
+        <div className="bg-surface py-24">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <Reveal>
+              <span className="text-[11px] font-medium uppercase tracking-widest text-emerald-500 mb-3 block">02 · Pallet</span>
+              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
+                사용이 멈추면<br /><span className="text-accent">비용도 멈춥니다</span>
+              </h2>
+              <p className="text-muted text-sm mb-12">적재·보관·운송에 필요한 파랫트. 사용하지 않으면 과금도 멈춥니다.</p>
+            </Reveal>
+
+            {/* Stacked blocks */}
+            <div className="max-w-sm mx-auto space-y-3">
+              {[
+                { label: "기본료", value: "6,000원/월", bg: "bg-emerald-50 border-emerald-100" },
+                { label: "1일 사용료", value: "50원", bg: "bg-emerald-100/50 border-emerald-200/50" },
+                { label: "파손 시", value: "무상 교체", bg: "bg-emerald-100 border-emerald-200" },
+                { label: "반납 시", value: "즉시 과금 중지", bg: "bg-emerald-200/50 border-emerald-300/50" },
+              ].map((item, i) => (
+                <StackUp key={item.label} index={i}>
+                  <div className={`${item.bg} border rounded-2xl p-5 flex justify-between items-center`}>
+                    <span className="text-sm text-muted">{item.label}</span>
+                    <span className="font-paperlogy text-lg font-bold text-primary">{item.value}</span>
+                  </div>
+                </StackUp>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── 03. 인테이너: 접혔다 펼쳐지기 ── */}
         <div className="bg-white py-24">
           <div className="max-w-6xl mx-auto px-6">
             <Reveal>
-              <div className="text-center max-w-2xl mx-auto mb-12">
+              <div className="text-center mb-12">
                 <span className="text-[11px] font-medium uppercase tracking-widest text-violet-500 mb-3 block">03 · Intainer</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                   물건이 비면, <span className="text-accent">비용도 멈춥니다</span>
                 </h2>
-                <p className="text-muted text-sm leading-relaxed">
-                  산업용 접이식 컨테이너. 물동량에 따라 유연하게 수량을 조절하세요.
-                </p>
               </div>
             </Reveal>
 
-            <Reveal delay={200}>
-              <div className="bg-gradient-to-r from-violet-50 to-purple-50 rounded-3xl p-8 md:p-12">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
-                    <div className="text-4xl mb-3">📐</div>
-                    <h3 className="font-paperlogy font-bold text-primary mb-2">대형</h3>
-                    <PriceTag label="기본" price="45,000" unit="원/월" />
-                    <p className="text-xs text-muted mt-2">1일 100원</p>
-                  </div>
-                  <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
-                    <div className="text-4xl mb-3">📐</div>
-                    <h3 className="font-paperlogy font-bold text-primary mb-2">중형</h3>
-                    <PriceTag label="기본" price="35,000" unit="원/월" />
-                    <p className="text-xs text-muted mt-2">1일 80원</p>
-                  </div>
-                  <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
-                    <div className="text-4xl mb-3">📐</div>
-                    <h3 className="font-paperlogy font-bold text-primary mb-2">소형</h3>
-                    <PriceTag label="기본" price="25,000" unit="원/월" />
-                    <p className="text-xs text-muted mt-2">1일 60원</p>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-
-        {/* ── 4. 이사바구니 ── */}
-        <div className="bg-primary text-white py-24">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <Reveal direction="left">
-                <div>
-                  <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-3 block">04 · Moving Box</span>
-                  <h2 className="font-paperlogy text-3xl md:text-4xl font-bold leading-snug mb-4">
-                    사용하지 않을 땐<br /><span className="text-accent-light">비용도 멈춥니다</span>
-                  </h2>
-                  <p className="text-white/40 text-sm leading-relaxed mb-8 max-w-md">
-                    이사·배송·정리에 최적화된 바구니. 시즌별 수요에 맞춰 탄력적으로 운영하세요.
-                  </p>
-
-                  <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 mb-8">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-xs text-white/40">기본료</span>
-                      <span className="font-paperlogy text-3xl font-bold text-white">3,000</span>
-                      <span className="text-sm text-white/40">원/월</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { size: "대형", price: "45,000", daily: "100원/일", color: "from-violet-50 to-purple-50" },
+                { size: "중형", price: "35,000", daily: "80원/일", color: "from-purple-50 to-violet-50" },
+                { size: "소형", price: "25,000", daily: "60원/일", color: "from-violet-100/30 to-purple-50" },
+              ].map((item, i) => (
+                <Unfold key={item.size} delay={i * 200}>
+                  <div className={`bg-gradient-to-br ${item.color} rounded-3xl p-8 text-center hover:shadow-lg transition-shadow duration-300`}>
+                    <div className="text-5xl mb-4">📐</div>
+                    <h3 className="font-paperlogy text-xl font-bold text-primary mb-3">{item.size}</h3>
+                    <div className="flex items-baseline gap-1 justify-center">
+                      <span className="font-paperlogy text-3xl font-bold text-primary">{item.price}</span>
+                      <span className="text-sm text-muted">원/월</span>
                     </div>
-                    <div className="mt-2 flex items-center gap-2">
-                      <span className="w-1 h-1 rounded-full bg-accent" />
-                      <span className="text-xs text-white/50">1일 사용료 <strong className="text-white">100원</strong>이면 충분해</span>
-                    </div>
+                    <p className="text-xs text-violet-400 mt-2">{item.daily}</p>
                   </div>
-                </div>
-              </Reveal>
-
-              <Reveal direction="right" delay={200}>
-                <div className="grid grid-cols-2 gap-3">
-                  {["대형 바구니", "중형 바구니", "소형 바구니", "특수 규격"].map((name, i) => (
-                    <div key={name} className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-colors cursor-default"
-                      style={{ transitionDelay: `${i * 50}ms` }}>
-                      <div className="text-3xl mb-2">🧺</div>
-                      <p className="text-sm font-medium text-white">{name}</p>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
+                </Unfold>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* ── 5. 주방집기 (Tab style) ── */}
-        <div className="bg-white py-24">
+        {/* ── 04. 이사바구니: 톡톡 떨어지는 bounce ── */}
+        <div className="bg-primary text-white py-24">
           <div className="max-w-5xl mx-auto px-6">
+            <Reveal>
+              <div className="text-center mb-12">
+                <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-3 block">04 · Moving Box</span>
+                <h2 className="font-paperlogy text-3xl md:text-4xl font-bold leading-snug mb-4">
+                  사용하지 않을 땐<br /><span className="text-accent-light">비용도 멈춥니다</span>
+                </h2>
+              </div>
+            </Reveal>
+
+            <div className="max-w-lg mx-auto">
+              {/* 가격 */}
+              <Reveal delay={200}>
+                <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 mb-6 text-center">
+                  <PriceTagWhite label="기본료" price="3,000" unit="원/월" />
+                  <p className="text-xs text-white/40 mt-2">1일 사용료 <strong className="text-white">100원</strong>이면 충분해</p>
+                </div>
+              </Reveal>
+
+              {/* 바구니에 담기는 아이템들 */}
+              <div className="grid grid-cols-2 gap-3">
+                {["대형 바구니", "중형 바구니", "소형 바구니", "특수 규격"].map((name, i) => (
+                  <DropIn key={name} index={i}>
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center hover:bg-white/10 hover:scale-[1.02] transition-all duration-300 cursor-default">
+                      <div className="text-3xl mb-2">🧺</div>
+                      <p className="text-sm font-medium text-white">{name}</p>
+                    </div>
+                  </DropIn>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 05. 주방집기: Glow 탭 전환 ── */}
+        <div className="bg-white py-24">
+          <div className="max-w-4xl mx-auto px-6">
             <Reveal>
               <div className="text-center mb-12">
                 <span className="text-[11px] font-medium uppercase tracking-widest text-orange-500 mb-3 block">05 · Kitchen Equipment</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                   조리가 멈추면, <span className="text-accent">비용도 멈춥니다</span>
                 </h2>
-                <p className="text-muted text-sm">급식·외식 현장에 필요한 업소용 장비를 시간 단위로 구독합니다.</p>
               </div>
             </Reveal>
 
             <Reveal delay={200}>
-              {/* Tabs */}
               <div className="flex gap-2 mb-8 justify-center">
-                {["튀김기", "철판그릴", "인덕션"].map((name, i) => (
-                  <button key={name} onClick={() => setActiveTab(i)}
-                    className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                      activeTab === i
-                        ? "bg-primary text-white shadow-md"
+                {["🍳 튀김기", "🥩 철판그릴", "🔥 인덕션"].map((name, i) => (
+                  <button key={name} onClick={() => setKitchenTab(i)}
+                    className={`px-5 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                      kitchenTab === i
+                        ? "bg-primary text-white shadow-lg shadow-primary/20 scale-105"
                         : "bg-surface text-muted hover:bg-gray-100"
                     }`}>
                     {name}
@@ -374,50 +460,57 @@ export default function SubscribeLanding() {
                 ))}
               </div>
 
-              {/* Tab content */}
-              <div className="bg-surface rounded-3xl p-8 md:p-12 text-center transition-all duration-500">
-                {activeTab === 0 && (
-                  <div className="animate-fade-in">
-                    <div className="text-6xl mb-6">🍳</div>
-                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-2">업소용 튀김기</h3>
+              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-50 to-amber-50 min-h-[250px]">
+                {/* 튀김기 */}
+                <GlowIn active={kitchenTab === 0}>
+                  <div className={`p-12 text-center ${kitchenTab === 0 ? "" : "absolute inset-0"}`}>
+                    <div className="text-7xl mb-6 drop-shadow-lg">🍳</div>
+                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-4">업소용 튀김기</h3>
                     <div className="flex items-baseline gap-1 justify-center mb-2">
                       <span className="text-xs text-muted">기본료</span>
                       <span className="font-paperlogy text-4xl font-bold text-primary">250,000</span>
                       <span className="text-sm text-muted">원</span>
                     </div>
                     <p className="text-muted text-sm">시간당 <strong className="text-primary">1,000원</strong>이면 조리 끝</p>
+                    <div className="mt-4 w-24 h-1 bg-gradient-to-r from-orange-300 to-amber-300 rounded-full mx-auto" />
                   </div>
-                )}
-                {activeTab === 1 && (
-                  <div className="animate-fade-in">
-                    <div className="text-6xl mb-6">🥩</div>
-                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-2">철판그릴</h3>
+                </GlowIn>
+
+                {/* 철판그릴 */}
+                <GlowIn active={kitchenTab === 1}>
+                  <div className={`p-12 text-center ${kitchenTab === 1 ? "" : "absolute inset-0"}`}>
+                    <div className="text-7xl mb-6 drop-shadow-lg">🥩</div>
+                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-4">철판그릴</h3>
                     <div className="flex items-baseline gap-1 justify-center mb-2">
                       <span className="text-xs text-muted">기본료</span>
                       <span className="font-paperlogy text-4xl font-bold text-primary">250,000</span>
                       <span className="text-sm text-muted">원</span>
                     </div>
                     <p className="text-muted text-sm">시간당 <strong className="text-primary">1,000원</strong></p>
+                    <div className="mt-4 w-24 h-1 bg-gradient-to-r from-red-300 to-orange-300 rounded-full mx-auto" />
                   </div>
-                )}
-                {activeTab === 2 && (
-                  <div className="animate-fade-in">
-                    <div className="text-6xl mb-6">🔥</div>
-                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-2">인덕션</h3>
+                </GlowIn>
+
+                {/* 인덕션 */}
+                <GlowIn active={kitchenTab === 2}>
+                  <div className={`p-12 text-center ${kitchenTab === 2 ? "" : "absolute inset-0"}`}>
+                    <div className="text-7xl mb-6 drop-shadow-lg">🔥</div>
+                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-4">인덕션</h3>
                     <div className="flex items-baseline gap-1 justify-center mb-2">
                       <span className="text-xs text-muted">기본료</span>
                       <span className="font-paperlogy text-4xl font-bold text-primary">80,000</span>
                       <span className="text-sm text-muted">원</span>
                     </div>
-                    <p className="text-muted text-sm">시간 기반 과금, 미사용 시 0원</p>
+                    <p className="text-muted text-sm">미사용 시 <strong className="text-primary">0원</strong></p>
+                    <div className="mt-4 w-24 h-1 bg-gradient-to-r from-blue-300 to-violet-300 rounded-full mx-auto" />
                   </div>
-                )}
+                </GlowIn>
               </div>
             </Reveal>
           </div>
         </div>
 
-        {/* ── 6. 냉난방기 ── */}
+        {/* ── 06. 냉난방기: 바람에 흔들림 ── */}
         <div className="bg-gradient-to-br from-sky-50 to-blue-50 py-24">
           <div className="max-w-5xl mx-auto px-6">
             <Reveal>
@@ -426,54 +519,43 @@ export default function SubscribeLanding() {
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                   사용하지 않을 때<br /><span className="text-accent">비용도 없습니다</span>
                 </h2>
-                <p className="text-muted text-sm">계절 수요에 맞춘 냉난방 장비. 비수기엔 반납하세요.</p>
               </div>
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Reveal delay={100}>
-                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+              <BlowIn delay={0}>
+                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-500">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-2xl">❄️</div>
+                    <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-2xl animate-pulse" style={{ animationDuration: "3s" }}>❄️</div>
                     <div>
                       <h3 className="font-paperlogy text-lg font-bold text-primary">이동식에어컨 2구</h3>
                       <p className="text-xs text-muted">소규모 공간용</p>
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <PriceTag label="기본료" price="150,000" unit="원" />
-                    <div className="flex items-center gap-2">
-                      <span className="w-1 h-1 rounded-full bg-accent" />
-                      <span className="text-xs text-muted">시간당 <strong className="text-primary">1,000원</strong></span>
-                    </div>
-                  </div>
+                  <PriceTag label="기본료" price="150,000" unit="원" />
+                  <p className="text-xs text-muted mt-2">시간당 <strong className="text-primary">1,000원</strong></p>
                 </div>
-              </Reveal>
+              </BlowIn>
 
-              <Reveal delay={200}>
-                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
+              <BlowIn delay={300}>
+                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-500 relative overflow-hidden">
                   <span className="absolute top-4 right-4 text-[10px] font-bold uppercase bg-accent text-white px-2.5 py-0.5 rounded-full">인기</span>
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-2xl">🌬️</div>
+                    <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-2xl animate-pulse" style={{ animationDuration: "2.5s" }}>🌬️</div>
                     <div>
                       <h3 className="font-paperlogy text-lg font-bold text-primary">이동식에어컨 3구</h3>
                       <p className="text-xs text-muted">대규모 공간용</p>
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <PriceTag label="기본료" price="200,000" unit="원" />
-                    <div className="flex items-center gap-2">
-                      <span className="w-1 h-1 rounded-full bg-accent" />
-                      <span className="text-xs text-muted">시간당 <strong className="text-primary">1,500원</strong></span>
-                    </div>
-                  </div>
+                  <PriceTag label="기본료" price="200,000" unit="원" />
+                  <p className="text-xs text-muted mt-2">시간당 <strong className="text-primary">1,500원</strong></p>
                 </div>
-              </Reveal>
+              </BlowIn>
             </div>
           </div>
         </div>
 
-        {/* ── 7. 체어 (링크형) ── */}
+        {/* ── 07. 체어: 회전 등장 ── */}
         <div className="bg-primary py-24">
           <div className="max-w-5xl mx-auto px-6 text-center">
             <Reveal>
@@ -484,28 +566,28 @@ export default function SubscribeLanding() {
               <p className="text-white/40 text-sm max-w-lg mx-auto mb-10">
                 인체공학 프리미엄 사무용 의자를 월 구독으로. 3개월 정기 세척·부품 교체 포함.
               </p>
+            </Reveal>
 
-              <div className="flex justify-center gap-4 mb-12">
-                {[
-                  { price: "15,000", name: "JNS-501" },
-                  { price: "35,000", name: "JNS-1018" },
-                  { price: "45,000", name: "JNS-801L" },
-                  { price: "65,000", name: "JNS-901" },
-                ].map((chair, i) => (
-                  <Reveal key={chair.name} delay={i * 80}>
-                    <div className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-center hover:bg-white/10 transition-colors min-w-[110px]">
-                      <p className="text-accent font-paperlogy font-bold text-lg">{chair.price}<span className="text-xs font-normal text-white/30">원~</span></p>
-                      <p className="text-[11px] text-white/40 mt-1">{chair.name}</p>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
+            <div className="flex justify-center gap-4 flex-wrap mb-12">
+              {[
+                { price: "15,000", name: "JNS-501" },
+                { price: "35,000", name: "JNS-1018" },
+                { price: "45,000", name: "JNS-801L" },
+                { price: "65,000", name: "JNS-901" },
+              ].map((chair, i) => (
+                <SpinIn key={chair.name} index={i}>
+                  <div className="bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-center hover:bg-white/10 hover:border-accent/30 hover:scale-105 transition-all duration-300 min-w-[120px] cursor-default">
+                    <p className="text-accent font-paperlogy font-bold text-xl">{chair.price}<span className="text-xs font-normal text-white/30">원~</span></p>
+                    <p className="text-[11px] text-white/40 mt-1">{chair.name}</p>
+                  </div>
+                </SpinIn>
+              ))}
+            </div>
 
-              <Reveal delay={400}>
-                <Link href="/subscribe/chair" className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white font-medium rounded-full px-8 py-4 transition-all shadow-lg shadow-accent/20 text-sm">
-                  의자 구독 자세히 보기 <span>→</span>
-                </Link>
-              </Reveal>
+            <Reveal delay={500}>
+              <Link href="/subscribe/chair" className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white font-medium rounded-full px-8 py-4 transition-all shadow-lg shadow-accent/20 text-sm">
+                의자 구독 자세히 보기 →
+              </Link>
             </Reveal>
           </div>
         </div>
@@ -524,16 +606,14 @@ export default function SubscribeLanding() {
           <div className="space-y-4">
             {[
               { icon: "💰", title: "초기 비용 ZERO", desc: "대량 구매 비용 없이 월정액으로 바로 시작하세요." },
-              { icon: "📊", title: "사용한 만큼만 비용", desc: "구독 중이라도 사용이 멈추면 비용도 멈춥니다. 유휴 장비 보관 비용이 사라집니다." },
-              { icon: "🔧", title: "파손 시 무상 교체", desc: "파손·노후 장비는 즉시 무상으로 교체합니다. 별도 관리 인력이 필요 없습니다." },
-              { icon: "🚚", title: "전국 당일 배송", desc: "수도권 당일, 전국 익일 배송. 8개 이상 물류 거점에서 운영합니다." },
-              { icon: "♻️", title: "감가상각 부담 없음", desc: "장비를 자산이 아닌 비용으로 처리. 매년 떨어지는 자산가치를 걱정하지 마세요." },
+              { icon: "📊", title: "사용한 만큼만 비용", desc: "구독 중이라도 사용이 멈추면 비용도 멈춥니다." },
+              { icon: "🔧", title: "파손 시 무상 교체", desc: "파손·노후 장비는 즉시 무상으로 교체합니다." },
+              { icon: "🚚", title: "전국 당일 배송", desc: "수도권 당일, 전국 익일 배송. 8개 이상 물류 거점." },
+              { icon: "♻️", title: "감가상각 부담 없음", desc: "장비를 자산이 아닌 비용으로 처리합니다." },
             ].map((item, i) => (
               <Reveal key={item.title} delay={i * 80}>
                 <div className="flex items-start gap-5 p-6 rounded-2xl hover:bg-surface transition-colors duration-300 group">
-                  <div className="w-12 h-12 rounded-2xl bg-surface group-hover:bg-white flex items-center justify-center text-2xl shrink-0 transition-colors">
-                    {item.icon}
-                  </div>
+                  <div className="w-12 h-12 rounded-2xl bg-surface group-hover:bg-white flex items-center justify-center text-2xl shrink-0 transition-colors">{item.icon}</div>
                   <div>
                     <h3 className="font-paperlogy text-base font-bold text-primary mb-1">{item.title}</h3>
                     <p className="text-sm text-muted leading-relaxed">{item.desc}</p>
@@ -549,22 +629,14 @@ export default function SubscribeLanding() {
       <section className="py-20 bg-primary">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <Reveal>
-            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white mb-4">
-              맞춤 견적을 받아보세요
-            </h2>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white mb-4">맞춤 견적을 받아보세요</h2>
             <p className="text-white/40 text-sm mb-8">품목과 수량만 알려주시면 24시간 내 견적서를 보내드립니다.</p>
-
             <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-3 mb-8 group">
               <span className="font-paperlogy text-3xl font-bold text-accent group-hover:text-accent-light transition-colors">{COMPANY.phone}</span>
             </a>
-
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/support/contact" className="inline-flex items-center justify-center px-8 py-4 bg-accent hover:bg-accent-light text-white font-medium rounded-full transition-all text-sm">
-                견적 요청하기
-              </Link>
-              <a href={COMPANY.kakaoChannel} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border border-white/15 text-white/70 hover:text-white hover:bg-white/5 font-medium rounded-full transition-all text-sm">
-                카카오톡 상담
-              </a>
+              <Link href="/support/contact" className="inline-flex items-center justify-center px-8 py-4 bg-accent hover:bg-accent-light text-white font-medium rounded-full transition-all text-sm">견적 요청하기</Link>
+              <a href={COMPANY.kakaoChannel} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border border-white/15 text-white/70 hover:text-white hover:bg-white/5 font-medium rounded-full transition-all text-sm">카카오톡 상담</a>
             </div>
           </Reveal>
         </div>
