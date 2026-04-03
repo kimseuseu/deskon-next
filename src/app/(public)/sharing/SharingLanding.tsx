@@ -1,194 +1,423 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { COMPANY } from "@/lib/constants";
 
+/* ── Animations ── */
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
-const staggerContainer = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
-};
-const slideFromLeft = {
-  hidden: { opacity: 0, x: -40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-};
-const slideFromRight = {
-  hidden: { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.1 } } };
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
-const appSteps = [
-  { num: "01", icon: "📱", title: "앱 다운로드", desc: "에이플로우 앱을 설치하고 간편 가입합니다." },
-  { num: "02", icon: "📷", title: "QR 스캔", desc: "장비에 부착된 QR 코드를 스캔합니다." },
-  { num: "03", icon: "✅", title: "대여 시작", desc: "요금제를 선택하면 바로 사용할 수 있습니다." },
-  { num: "04", icon: "🔄", title: "반납", desc: "스테이션에 반납하면 자동으로 과금이 종료됩니다." },
-];
+/* ── useReveal ── */
+function useReveal(threshold = 0.12) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, visible };
+}
 
-const features = [
-  { icon: "📷", title: "QR 즉시 대여", desc: "QR 코드 스캔 한 번으로 대여 절차 완료. 별도 서류나 대기 없이 바로 사용하세요." },
-  { icon: "👥", title: "그룹 대여", desc: "그룹 QR 하나로 여러 장비를 한꺼번에 대여. 물류 현장에서 팀 단위 운영이 편리합니다." },
-  { icon: "📍", title: "GPS 스테이션 탐색", desc: "현재 위치에서 가까운 장비 스테이션을 지도에서 바로 확인할 수 있습니다." },
-  { icon: "⏱️", title: "실시간 요금 계산", desc: "사용 시간과 현재 요금을 실시간으로 확인. 예상치 못한 추가 요금이 없습니다." },
-  { icon: "⭐", title: "등급별 할인", desc: "사용량에 따라 Green → Silver → Gold 등급 자동 승급, 최대 10% 할인 혜택." },
-  { icon: "💳", title: "간편 결제", desc: "앱 내 카드 결제로 별도 정산 없이 자동 결제됩니다." },
-];
-
-const equipment = [
-  { name: "롤테이너", desc: "물류센터·창고 단기 운용", href: "/sharing/rolltainer", emoji: "📦" },
-  { name: "카트", desc: "운반용 카트 시간 단위 대여", href: "/sharing/cart", emoji: "🛒" },
-  { name: "공항카트", desc: "공항·터미널 여객용 카트", href: "/sharing/airport-cart", emoji: "✈️" },
-  { name: "계단카트", desc: "계단 운반 전용 전동카트", href: "/sharing/stair-cart", emoji: "🪜" },
-  { name: "스테커", desc: "적재·하역용 전동 스테커", href: "/sharing/stacker", emoji: "🏗️" },
-  { name: "행사장장비", desc: "전시·행사 현장 단기 장비", href: "/sharing/event", emoji: "🎪" },
-];
-
-const pricing = [
-  { plan: "시간제", price: "5,000원~", unit: "/ 시간", desc: "30분 단위 과금, 짧은 작업에 최적" },
-  { plan: "일일제", price: "30,000원~", unit: "/ 일", desc: "8시간 기준, 하루 단위 작업에 경제적" },
-  { plan: "주간제", price: "150,000원~", unit: "/ 주", desc: "장기 프로젝트에 가장 합리적" },
-];
-
-export default function SharingLanding() {
+function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const { ref, visible } = useReveal();
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative bg-gradient-to-br from-[#0d3b2e] to-[#1a6b4a] text-white pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-emerald-400 rounded-full blur-[120px]" />
-          <div className="absolute bottom-10 left-10 w-72 h-72 bg-accent rounded-full blur-[100px]" />
-        </div>
-        <motion.div
-          className="max-w-6xl mx-auto px-6 relative z-10"
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-        >
-          <motion.span variants={fadeInUp} className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur rounded-full text-sm text-emerald-300 font-medium mb-6">
-            SHARING · 에이플로우
-          </motion.span>
-          <motion.h1 variants={fadeInUp} className="font-paperlogy text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            QR 스캔 한 번으로<br />
-            <span className="text-emerald-300">장비 공유</span> 시작
-          </motion.h1>
-          <motion.p variants={fadeInUp} className="text-lg md:text-xl text-gray-300 max-w-2xl mb-10 leading-relaxed">
-            에이플로우 앱으로 물류장비를 공유하세요. QR 코드를 스캔하면 바로 대여,
-            반납하면 자동 정산. 시간·일·주 단위로 유연하게 운영합니다.
-          </motion.p>
-          <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
-            <Link href="/support/contact" className="px-8 py-4 bg-emerald-500 text-white rounded-full font-semibold hover:bg-emerald-400 transition-all">
-              도입 문의하기
-            </Link>
-            <a href={COMPANY.kakaoChannel} target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white/10 backdrop-blur text-white rounded-full font-semibold hover:bg-white/20 transition-all">
-              카카오톡 상담
-            </a>
-          </motion.div>
-        </motion.div>
-      </section>
+    <div ref={ref} className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${className}`}
+      style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(40px)", transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  );
+}
 
-      {/* App Flow */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-6xl mx-auto px-6">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="text-center mb-16">
-            <motion.p variants={fadeInUp} className="text-sm font-semibold tracking-widest text-accent mb-3">에이플로우 APP</motion.p>
-            <motion.h2 variants={fadeInUp} className="font-paperlogy text-3xl md:text-4xl font-bold text-primary mb-4">이렇게 사용합니다</motion.h2>
-            <motion.p variants={fadeInUp} className="text-muted max-w-xl mx-auto">스마트폰 하나면 장비 대여부터 반납까지 모두 해결됩니다</motion.p>
-          </motion.div>
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-4 gap-8"
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
-          >
-            {appSteps.map((step, i) => (
-              <motion.div key={step.num} variants={fadeInUp} className="relative text-center">
-                <div className="w-20 h-20 mx-auto mb-4 bg-emerald-50 rounded-2xl flex items-center justify-center text-3xl relative z-10">
-                  {step.icon}
+/* ── Phone Mockup with animated screens ── */
+function PhoneMockup({ activeScreen }: { activeScreen: number }) {
+  const screens = [
+    // Screen 0: Home
+    <div key="home" className="flex flex-col h-full bg-white p-4">
+      <div className="flex items-center justify-between mb-6">
+        <div className="font-paperlogy text-sm font-bold text-primary">에이플로우</div>
+        <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-xs">👤</div>
+      </div>
+      <div className="bg-emerald-50 rounded-xl p-4 mb-4">
+        <p className="text-[10px] text-emerald-600 font-medium mb-1">가까운 스테이션</p>
+        <p className="text-xs font-bold text-primary">광명물류센터 A동</p>
+        <p className="text-[10px] text-muted">350m · 장비 12대 이용 가능</p>
+      </div>
+      <div className="space-y-2">
+        {["롤테이너", "운반카트", "핸드트럭"].map(name => (
+          <div key={name} className="flex items-center gap-3 p-3 bg-surface rounded-lg">
+            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-sm">📦</div>
+            <div className="flex-1">
+              <p className="text-xs font-bold text-primary">{name}</p>
+              <p className="text-[10px] text-muted">시간당 1,000원~</p>
+            </div>
+            <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
+              <span className="text-white text-[10px]">→</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-auto flex justify-around pt-4 border-t border-gray-100">
+        {["🏠", "📷", "📋", "👤"].map((icon, i) => (
+          <div key={i} className={`text-lg ${i === 0 ? "opacity-100" : "opacity-30"}`}>{icon}</div>
+        ))}
+      </div>
+    </div>,
+
+    // Screen 1: QR Scan
+    <div key="qr" className="flex flex-col h-full bg-primary items-center justify-center p-6">
+      <div className="w-48 h-48 border-2 border-accent rounded-2xl flex items-center justify-center mb-6 relative">
+        <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-accent rounded-tl-lg" />
+        <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-accent rounded-tr-lg" />
+        <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-accent rounded-bl-lg" />
+        <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-accent rounded-br-lg" />
+        <div className="w-full h-0.5 bg-accent/60 animate-pulse" />
+      </div>
+      <p className="text-white text-sm font-medium mb-1">QR 코드를 스캔하세요</p>
+      <p className="text-white/40 text-xs">장비에 부착된 QR 코드에 카메라를 맞춰주세요</p>
+    </div>,
+
+    // Screen 2: Rental confirm
+    <div key="confirm" className="flex flex-col h-full bg-white p-4">
+      <div className="text-center mb-4">
+        <p className="text-xs text-muted">대여 확인</p>
+      </div>
+      <div className="bg-surface rounded-xl p-4 text-center mb-4">
+        <div className="text-4xl mb-2">📦</div>
+        <p className="font-bold text-primary text-sm">철제 롤테이너</p>
+        <p className="text-[10px] text-muted">RT-500 · 500L</p>
+      </div>
+      <div className="space-y-3 mb-4">
+        <div className="flex justify-between text-xs">
+          <span className="text-muted">요금제</span>
+          <span className="font-bold text-primary">시간당</span>
+        </div>
+        <div className="flex justify-between text-xs">
+          <span className="text-muted">단가</span>
+          <span className="font-bold text-accent">1,000원/시간</span>
+        </div>
+        <div className="flex justify-between text-xs">
+          <span className="text-muted">스테이션</span>
+          <span className="font-bold text-primary">광명 A동</span>
+        </div>
+      </div>
+      <button className="w-full bg-emerald-500 text-white text-sm font-bold py-3 rounded-xl mt-auto">
+        대여 시작하기
+      </button>
+    </div>,
+
+    // Screen 3: Active rental
+    <div key="active" className="flex flex-col h-full bg-white p-4">
+      <div className="text-center mb-4">
+        <p className="text-xs text-muted">이용 중</p>
+      </div>
+      <div className="bg-emerald-50 rounded-xl p-5 text-center mb-4">
+        <div className="text-4xl mb-2">📦</div>
+        <p className="font-bold text-primary text-sm">철제 롤테이너</p>
+        <div className="mt-3">
+          <p className="text-[10px] text-muted">이용 시간</p>
+          <p className="font-paperlogy text-2xl font-bold text-emerald-600">02:34:15</p>
+        </div>
+        <div className="mt-2">
+          <p className="text-[10px] text-muted">현재 요금</p>
+          <p className="font-paperlogy text-lg font-bold text-accent">3,000원</p>
+        </div>
+      </div>
+      <button className="w-full bg-primary text-white text-sm font-bold py-3 rounded-xl mt-auto">
+        반납하기
+      </button>
+    </div>,
+  ];
+
+  return (
+    <div className="relative mx-auto" style={{ width: 280, height: 560 }}>
+      {/* Phone frame */}
+      <div className="absolute inset-0 rounded-[40px] bg-gradient-to-b from-gray-200 to-gray-300 shadow-2xl" />
+      <div className="absolute inset-[3px] rounded-[37px] bg-white overflow-hidden">
+        {/* Notch */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-b-2xl z-20" />
+        {/* Screen content */}
+        <div className="absolute inset-0 top-6 bottom-2 overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeScreen}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0"
+            >
+              {screens[activeScreen]}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+      {/* Bottom bar */}
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-gray-400 rounded-full z-10" />
+    </div>
+  );
+}
+
+/* ── Data ── */
+const equipment = [
+  { name: "롤테이너", desc: "물류센터·창고 단기 운용", emoji: "📦", href: "/sharing/rolltainer", price: "시간당 1,000원~" },
+  { name: "카트", desc: "운반용 카트 시간 단위 대여", emoji: "🛒", href: "/sharing/cart", price: "시간당 500원~" },
+  { name: "공항카트", desc: "공항·터미널 여객용 카트", emoji: "✈️", href: "/sharing/airport-cart", price: "시간당 1,000원~" },
+  { name: "계단카트", desc: "계단 운반 전용 전동카트", emoji: "🪜", href: "/sharing/stair-cart", price: "시간당 2,000원~" },
+  { name: "스테커", desc: "적재·하역용 전동 스테커", emoji: "🏗️", href: "/sharing/stacker", price: "시간당 3,000원~" },
+  { name: "행사장장비", desc: "전시·행사 현장 단기 장비", emoji: "🎪", href: "/sharing/event", price: "일 10,000원~" },
+];
+
+const benefits = [
+  { icon: "⏱️", title: "시간 단위 과금", desc: "시간/일/주 단위로 유연하게 선택. 쓴 시간만큼만 비용을 지불합니다." },
+  { icon: "📱", title: "QR 즉시 대여", desc: "앱으로 QR 코드를 스캔하면 3초 만에 대여가 시작됩니다. 별도 서류 없이." },
+  { icon: "📍", title: "전국 스테이션", desc: "전국 주요 물류 거점에 공유 스테이션을 운영하여 어디서든 이용 가능합니다." },
+  { icon: "🔧", title: "관리 불필요", desc: "장비 유지보수, 충전, 점검은 모두 아오보 그룹이 담당합니다." },
+];
+
+const partnerBenefits = [
+  { icon: "💰", title: "추가 수익 창출", desc: "유휴 공간에 장비를 배치하면 이용료의 일부가 파트너 리워드로 지급됩니다." },
+  { icon: "🏢", title: "초기 비용 0원", desc: "장비 구매, 설치, 유지보수 비용 모두 아오보 그룹이 부담합니다." },
+  { icon: "📊", title: "자동 관리", desc: "앱 기반으로 대여·반납·정산이 자동화됩니다. 별도 관리 인력이 필요 없습니다." },
+];
+
+/* ══════════════════════════════════════
+   PAGE
+══════════════════════════════════════ */
+export default function SharingLanding() {
+  const [phoneScreen, setPhoneScreen] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
+
+  // Auto-rotate phone screens
+  useEffect(() => {
+    if (!autoPlay) return;
+    const timer = setInterval(() => {
+      setPhoneScreen(prev => (prev + 1) % 4);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [autoPlay]);
+
+  return (
+    <div className="bg-white">
+
+      {/* ═══ HERO ═══ */}
+      <section data-hero-dark className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800" style={{ minHeight: "90vh" }}>
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] bg-emerald-400/10 rounded-full blur-[150px]" />
+          <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] bg-accent/10 rounded-full blur-[120px]" />
+        </div>
+
+        <div className="relative z-10 min-h-[90vh] flex items-center">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+            {/* Left: text */}
+            <div>
+              <Reveal>
+                <span className="inline-block px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase bg-emerald-400/10 text-emerald-300 border border-emerald-400/20 mb-8">
+                  QR 기반 장비 공유 플랫폼
+                </span>
+              </Reveal>
+
+              <Reveal delay={150}>
+                <h1 className="font-paperlogy text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
+                  스캔 한 번으로<br />
+                  <span className="text-emerald-300">장비를 빌리세요</span>
+                </h1>
+              </Reveal>
+
+              <Reveal delay={300}>
+                <p className="text-white/50 text-lg max-w-lg leading-relaxed mb-10">
+                  에이플로우 앱으로 QR 코드를 스캔하면 3초 만에 물류장비를 대여할 수 있습니다.
+                  시간 단위 과금으로 쓴 만큼만 비용을 지불하세요.
+                </p>
+              </Reveal>
+
+              <Reveal delay={450}>
+                <div className="flex flex-wrap gap-4 mb-12">
+                  <a href="#how-it-works" className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white font-medium rounded-full px-8 py-4 transition-all shadow-lg shadow-emerald-500/25 text-sm">
+                    이용 방법 보기 ↓
+                  </a>
+                  <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-2 border border-white/15 text-white/70 hover:text-white hover:bg-white/5 font-medium rounded-full px-8 py-4 transition-all text-sm">
+                    {COMPANY.phone}
+                  </a>
                 </div>
-                {/* Connecting line between steps */}
-                {i < appSteps.length - 1 && (
-                  <motion.div
-                    className="hidden md:block absolute top-10 left-[calc(50%+2.5rem)] h-0.5 bg-emerald-200 origin-left"
-                    style={{ width: "calc(100% - 5rem)" }}
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.2 + 0.3, duration: 0.6, ease: "easeOut" }}
-                  />
-                )}
-                <div className="text-xs font-bold text-emerald-600 mb-2">{step.num}</div>
-                <h3 className="font-paperlogy text-xl font-bold text-primary mb-2">{step.title}</h3>
-                <p className="text-sm text-muted">{step.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+              </Reveal>
+
+              {/* Stats */}
+              <Reveal delay={600}>
+                <div className="flex gap-10 pt-8 border-t border-white/5">
+                  {[
+                    { val: "3초", label: "대여 소요시간" },
+                    { val: "24/7", label: "무인 운영" },
+                    { val: "전국", label: "스테이션 네트워크" },
+                  ].map(s => (
+                    <div key={s.label}>
+                      <div className="font-paperlogy text-2xl font-bold text-emerald-300">{s.val}</div>
+                      <div className="text-[11px] text-white/30 mt-1">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+
+            {/* Right: Phone mockup */}
+            <Reveal delay={400} className="hidden lg:flex justify-center">
+              <div className="relative">
+                <div className="absolute -inset-16 bg-emerald-400/5 rounded-full blur-[80px]" />
+                <PhoneMockup activeScreen={phoneScreen} />
+                {/* Screen indicators */}
+                <div className="flex justify-center gap-2 mt-6">
+                  {["홈", "QR스캔", "대여확인", "이용중"].map((label, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setPhoneScreen(i); setAutoPlay(false); }}
+                      className={`text-[10px] px-3 py-1 rounded-full transition-all duration-300 ${
+                        phoneScreen === i
+                          ? "bg-emerald-400 text-white"
+                          : "bg-white/10 text-white/40 hover:bg-white/20"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* Features */}
+      {/* ═══ HOW IT WORKS (Sticky + Phone) ═══ */}
+      <section id="how-it-works" className="bg-surface scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-16">
+            {/* Left: sticky phone */}
+            <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start py-24">
+              <Reveal>
+                <div className="flex justify-center">
+                  <PhoneMockup activeScreen={1} />
+                </div>
+                <p className="text-center text-xs text-muted mt-6">에이플로우 앱 QR 스캔 화면</p>
+              </Reveal>
+            </div>
+
+            {/* Right: scrolling steps */}
+            <div className="py-24 space-y-8">
+              <Reveal>
+                <span className="text-xs font-medium uppercase tracking-widest text-emerald-600 mb-3 block">How it works</span>
+                <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary mb-4">
+                  이렇게 간단합니다
+                </h2>
+                <p className="text-muted text-sm mb-8">앱 하나로 대여부터 반납까지. 서류도, 보증금도 필요 없습니다.</p>
+              </Reveal>
+
+              {[
+                { num: "01", icon: "📱", title: "에이플로우 앱 설치", desc: "앱스토어 또는 구글플레이에서 '에이플로우'를 검색하여 설치합니다. 휴대폰 번호만으로 30초 만에 가입이 완료됩니다.", color: "bg-blue-50 text-blue-600" },
+                { num: "02", icon: "📷", title: "QR 코드 스캔", desc: "장비에 부착된 QR 코드에 카메라를 맞추면 장비 정보와 요금제가 자동으로 표시됩니다. 시간/일/주 단위를 선택하세요.", color: "bg-emerald-50 text-emerald-600" },
+                { num: "03", icon: "✅", title: "대여 시작", desc: "'대여 시작' 버튼을 누르면 즉시 이용할 수 있습니다. 실시간으로 이용 시간과 현재 요금이 표시됩니다.", color: "bg-amber-50 text-amber-600" },
+                { num: "04", icon: "🔄", title: "반납 완료", desc: "스테이션에 장비를 반납하고 '반납' 버튼을 누르면 자동으로 과금이 종료됩니다. 정산은 자동으로 처리됩니다.", color: "bg-violet-50 text-violet-600" },
+              ].map((step, i) => (
+                <Reveal key={step.num} delay={i * 100}>
+                  <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div className="flex items-start gap-5">
+                      <div className={`w-14 h-14 rounded-2xl ${step.color} flex items-center justify-center text-2xl shrink-0`}>
+                        {step.icon}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-xs font-bold text-accent">{step.num}</span>
+                          <h3 className="font-paperlogy text-lg font-bold text-primary">{step.title}</h3>
+                        </div>
+                        <p className="text-sm text-muted leading-relaxed">{step.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ QR CODE + APP DOWNLOAD ═══ */}
+      <section className="py-24 bg-primary text-white">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <Reveal>
+            <span className="text-xs font-medium uppercase tracking-widest text-emerald-400 mb-3 block">Download App</span>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">
+              지금 바로 시작하세요
+            </h2>
+            <p className="text-white/40 text-sm max-w-lg mx-auto mb-12">
+              QR 코드를 스캔하여 에이플로우 앱을 다운로드하세요
+            </p>
+          </Reveal>
+
+          <Reveal delay={200}>
+            <div className="inline-block bg-white rounded-3xl p-8 shadow-2xl">
+              <Image src="/images/app-qr.png" alt="에이플로우 앱 다운로드 QR" width={200} height={200} className="mx-auto" />
+              <p className="text-primary font-paperlogy font-bold text-sm mt-4">에이플로우</p>
+              <p className="text-muted text-xs mt-1">QR 스캔으로 다운로드</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ BENEFITS ═══ */}
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="text-center mb-16">
-            <motion.p variants={fadeInUp} className="text-sm font-semibold tracking-widest text-accent mb-3">FEATURES</motion.p>
-            <motion.h2 variants={fadeInUp} className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">에이플로우의 핵심 기능</motion.h2>
-          </motion.div>
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
-          >
-            {features.map((f) => (
-              <motion.div key={f.title} variants={fadeInUp} className="group bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <span className="text-3xl mb-4 block group-hover:animate-[attentionBounce_0.5s_ease-out]">{f.icon}</span>
-                <h3 className="font-paperlogy text-lg font-bold text-primary mb-2">{f.title}</h3>
-                <p className="text-sm text-muted leading-relaxed">{f.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+          <Reveal>
+            <div className="text-center mb-16">
+              <span className="text-xs font-medium uppercase tracking-widest text-emerald-600 mb-3 block">Benefits</span>
+              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">공유서비스의 장점</h2>
+            </div>
+          </Reveal>
 
-      {/* Pricing */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-6xl mx-auto px-6">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="text-center mb-16">
-            <motion.p variants={fadeInUp} className="text-sm font-semibold tracking-widest text-accent mb-3">PRICING</motion.p>
-            <motion.h2 variants={fadeInUp} className="font-paperlogy text-3xl md:text-4xl font-bold text-primary mb-4">유연한 요금제</motion.h2>
-            <motion.p variants={fadeInUp} className="text-muted">장비 종류와 사용 기간에 따라 요금이 달라집니다</motion.p>
-          </motion.div>
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
-          >
-            {pricing.map((p) => (
-              <motion.div key={p.plan} variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-gray-100 text-center hover:shadow-xl hover:border-emerald-200 transition-all">
-                <h3 className="font-paperlogy text-lg font-bold text-primary mb-4">{p.plan}</h3>
-                <div className="mb-4">
-                  <span className="font-paperlogy text-3xl font-bold text-emerald-600">{p.price}</span>
-                  <span className="text-sm text-muted ml-1">{p.unit}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {benefits.map((b, i) => (
+              <Reveal key={b.title} delay={i * 100}>
+                <div className="group bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full">
+                  <div className="text-4xl mb-5 group-hover:animate-[attentionBounce_0.5s_ease-out]">{b.icon}</div>
+                  <h3 className="font-paperlogy text-lg font-bold text-primary mb-3">{b.title}</h3>
+                  <p className="text-muted text-sm leading-relaxed">{b.desc}</p>
                 </div>
-                <p className="text-sm text-muted">{p.desc}</p>
-              </motion.div>
+              </Reveal>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Equipment */}
-      <section className="py-24 bg-white">
+      {/* ═══ EQUIPMENT LINEUP ═══ */}
+      <section className="py-24 bg-surface">
         <div className="max-w-6xl mx-auto px-6">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="text-center mb-16">
-            <motion.p variants={fadeInUp} className="text-sm font-semibold tracking-widest text-accent mb-3">EQUIPMENT</motion.p>
-            <motion.h2 variants={fadeInUp} className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">공유 가능 장비</motion.h2>
-          </motion.div>
+          <Reveal>
+            <div className="text-center mb-16">
+              <span className="text-xs font-medium uppercase tracking-widest text-emerald-600 mb-3 block">Equipment</span>
+              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">공유 가능 장비</h2>
+            </div>
+          </Reveal>
+
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}
           >
-            {equipment.map((e, i) => (
-              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={i % 2 === 0 ? slideFromLeft : slideFromRight}>
-                <Link href={e.href} className="group block bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-emerald-200 transition-all duration-300">
-                  <span className="text-4xl mb-4 block group-hover:animate-[attentionBounce_0.5s_ease-out] transition-transform">{e.emoji}</span>
+            {equipment.map((e) => (
+              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={scaleIn}>
+                <Link href={e.href} className="group block bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-emerald-200 transition-all duration-300 h-full">
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="text-4xl group-hover:animate-[attentionBounce_0.5s_ease-out]">{e.emoji}</span>
+                    <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">{e.price}</span>
+                  </div>
                   <h3 className="font-paperlogy text-xl font-bold text-primary mb-2 group-hover:text-emerald-600 transition-colors">{e.name}</h3>
                   <p className="text-sm text-muted mb-4">{e.desc}</p>
                   <span className="inline-flex items-center text-sm text-emerald-600 font-medium">
@@ -201,21 +430,69 @@ export default function SharingLanding() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-r from-emerald-800 to-emerald-600 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">공유서비스 도입을 상담하세요</h2>
-          <p className="text-lg opacity-90 mb-8">귀사 시설에 맞는 스테이션 구축부터 운영까지 함께합니다.</p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/support/contact" className="px-8 py-4 bg-white text-emerald-700 rounded-full font-bold hover:bg-gray-100 transition-colors">
-              도입 상담하기
-            </Link>
-            <a href={`tel:${COMPANY.phone}`} className="px-8 py-4 bg-white/20 backdrop-blur text-white rounded-full font-bold hover:bg-white/30 transition-colors">
-              📞 {COMPANY.phone}
-            </a>
+      {/* ═══ PARTNER PROGRAM ═══ */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <Reveal>
+              <div>
+                <span className="text-xs font-medium uppercase tracking-widest text-emerald-600 mb-3 block">Partner Station</span>
+                <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-6">
+                  귀사의 공간이<br /><span className="text-emerald-600">수익이 됩니다</span>
+                </h2>
+                <p className="text-muted text-sm leading-relaxed mb-8">
+                  업장에 아오보 그룹 물류장비를 배치하면, 방문 고객이 QR 코드로 대여합니다.
+                  발생하는 이용료의 일부가 파트너 리워드로 지급됩니다.
+                  초기 비용 없이, 관리 부담 없이 새로운 수익 채널을 만드세요.
+                </p>
+                <Link href="/about/partners" className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
+                  파트너 프로그램 자세히 보기 →
+                </Link>
+              </div>
+            </Reveal>
+
+            <div className="space-y-4">
+              {partnerBenefits.map((b, i) => (
+                <Reveal key={b.title} delay={i * 120}>
+                  <div className="group flex items-start gap-5 p-6 bg-surface rounded-2xl border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div className="text-3xl group-hover:animate-[attentionBounce_0.5s_ease-out]">{b.icon}</div>
+                    <div>
+                      <h3 className="font-paperlogy text-base font-bold text-primary mb-1">{b.title}</h3>
+                      <p className="text-sm text-muted leading-relaxed">{b.desc}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
+
+      {/* ═══ CTA ═══ */}
+      <section className="py-24 bg-gradient-to-br from-emerald-900 to-emerald-700 text-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <Reveal>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">
+              공유서비스 도입을 상담하세요
+            </h2>
+            <p className="text-white/50 text-sm mb-4">귀사 시설에 맞는 스테이션 구축부터 운영까지 함께합니다.</p>
+
+            <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-3 my-6 group">
+              <span className="ring-pulse font-paperlogy text-3xl font-bold text-white group-hover:text-emerald-300 transition-colors">{COMPANY.phone}</span>
+            </a>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+              <Link href="/support/contact" className="inline-flex items-center justify-center px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-medium rounded-full transition-all text-sm">
+                도입 문의하기
+              </Link>
+              <a href={COMPANY.kakaoChannel} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border border-white/15 text-white/70 hover:text-white hover:bg-white/5 font-medium rounded-full transition-all text-sm">
+                카카오톡 상담
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
     </div>
   );
 }
