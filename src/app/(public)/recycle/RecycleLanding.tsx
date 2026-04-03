@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { COMPANY } from "@/lib/constants";
@@ -8,10 +9,56 @@ const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.85 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+const rotateIn = {
+  hidden: { opacity: 0, scale: 0.8, rotate: -8 },
+  visible: { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
 const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
 };
+
+/* CountUp hook */
+function useCountUp(target: string, duration = 1500) {
+  const [display, setDisplay] = useState("0");
+  const ref = useRef<HTMLDivElement>(null);
+  const triggered = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !triggered.current) {
+          triggered.current = true;
+          const numMatch = target.match(/[\d,]+/);
+          if (!numMatch) { setDisplay(target); return; }
+          const numericEnd = parseInt(numMatch[0].replace(/,/g, ""), 10);
+          const prefix = target.slice(0, target.indexOf(numMatch[0]));
+          const suffix = target.slice(target.indexOf(numMatch[0]) + numMatch[0].length);
+          const start = performance.now();
+          const step = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(numericEnd * eased);
+            setDisplay(`${prefix}${current.toLocaleString()}${suffix}`);
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.3 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target, duration]);
+
+  return { ref, display };
+}
 
 const circularSteps = [
   { num: "01", icon: "🔍", title: "입고 검수", desc: "장비를 입고하여 외관, 기능, 안전성을 면밀히 검수합니다." },
@@ -44,6 +91,16 @@ const stats = [
   { value: "320톤", label: "연간 폐기물 감축" },
   { value: "100+", label: "ESG 인증 지원 기업" },
 ];
+
+function StatCard({ value, label }: { value: string; label: string }) {
+  const { ref, display } = useCountUp(value);
+  return (
+    <motion.div variants={fadeInUp} className="text-center" ref={ref}>
+      <div className="font-paperlogy text-3xl md:text-4xl font-bold text-green-700 mb-1">{display}</div>
+      <div className="text-sm text-muted">{label}</div>
+    </motion.div>
+  );
+}
 
 export default function RecycleLanding() {
   return (
@@ -82,10 +139,7 @@ export default function RecycleLanding() {
         <div className="max-w-6xl mx-auto px-6">
           <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
             {stats.map((s) => (
-              <motion.div key={s.label} variants={fadeInUp} className="text-center">
-                <div className="font-paperlogy text-3xl md:text-4xl font-bold text-green-700 mb-1">{s.value}</div>
-                <div className="text-sm text-muted">{s.label}</div>
-              </motion.div>
+              <StatCard key={s.label} value={s.value} label={s.label} />
             ))}
           </motion.div>
         </div>
@@ -100,12 +154,22 @@ export default function RecycleLanding() {
           </motion.div>
           <motion.div className="grid grid-cols-1 md:grid-cols-4 gap-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
             {circularSteps.map((step, i) => (
-              <motion.div key={step.num} variants={fadeInUp} className="relative text-center">
-                <div className="w-20 h-20 mx-auto mb-4 bg-green-50 rounded-2xl flex items-center justify-center text-3xl">{step.icon}</div>
+              <motion.div key={step.num} variants={rotateIn} className="relative text-center">
+                <div className="w-20 h-20 mx-auto mb-4 bg-green-50 rounded-2xl flex items-center justify-center text-3xl relative z-10">{step.icon}</div>
+                {/* Connecting line between steps */}
+                {i < circularSteps.length - 1 && (
+                  <motion.div
+                    className="hidden md:block absolute top-10 left-[calc(50%+2.5rem)] h-0.5 bg-green-200 origin-left"
+                    style={{ width: "calc(100% - 5rem)" }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.2 + 0.3, duration: 0.6, ease: "easeOut" }}
+                  />
+                )}
                 <div className="text-xs font-bold text-green-600 mb-2">{step.num}</div>
                 <h3 className="font-paperlogy text-xl font-bold text-primary mb-2">{step.title}</h3>
                 <p className="text-sm text-muted">{step.desc}</p>
-                {i < circularSteps.length - 1 && <div className="hidden md:block absolute top-10 -right-4 text-green-300 text-2xl">→</div>}
               </motion.div>
             ))}
           </motion.div>
@@ -121,8 +185,8 @@ export default function RecycleLanding() {
           </motion.div>
           <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
             {benefits.map((b) => (
-              <motion.div key={b.title} variants={fadeInUp} className="bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition-shadow">
-                <span className="text-3xl mb-4 block">{b.icon}</span>
+              <motion.div key={b.title} variants={fadeInUp} className="group bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <span className="text-3xl mb-4 block group-hover:animate-[attentionBounce_0.5s_ease-out]">{b.icon}</span>
                 <h3 className="font-paperlogy text-lg font-bold text-primary mb-2">{b.title}</h3>
                 <p className="text-sm text-muted leading-relaxed">{b.desc}</p>
               </motion.div>
@@ -140,9 +204,9 @@ export default function RecycleLanding() {
           </motion.div>
           <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
             {equipment.map((e) => (
-              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={fadeInUp}>
-                <Link href={e.href} className="group block bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-xl hover:border-green-200 transition-all duration-300">
-                  <span className="text-3xl mb-3 block group-hover:scale-110 transition-transform">{e.emoji}</span>
+              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={scaleIn}>
+                <Link href={e.href} className="group block bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-green-200 transition-all duration-300">
+                  <span className="text-3xl mb-3 block group-hover:animate-[attentionBounce_0.5s_ease-out]">{e.emoji}</span>
                   <h3 className="font-paperlogy text-lg font-bold text-primary mb-1 group-hover:text-green-700 transition-colors">{e.name}</h3>
                   <p className="text-xs text-muted mb-3">{e.desc}</p>
                   <span className="inline-flex items-center text-xs text-green-600 font-medium">

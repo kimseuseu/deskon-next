@@ -56,7 +56,9 @@ export default function NoticePage() {
           {loading ? (
             <div className="text-center py-20 text-muted">불러오는 중...</div>
           ) : notices.length === 0 ? (
-            <div className="text-center py-20 text-muted">등록된 공지사항이 없습니다.</div>
+            <div className="text-center py-20 text-muted animate-fade-in" style={{ animation: "fadeIn 0.6s ease-out, scaleIn 0.5s ease-out", transformOrigin: "center" }}>
+              등록된 공지사항이 없습니다.
+            </div>
           ) : (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               {/* Table Header */}
@@ -67,10 +69,13 @@ export default function NoticePage() {
               </div>
 
               {/* Rows */}
-              {notices.map((notice) => (
+              {notices.map((notice, idx) => (
                 <div
                   key={notice.id}
-                  className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 px-6 py-5 border-b border-gray-50 last:border-0 hover:bg-surface/50 transition-colors cursor-pointer group"
+                  className={`grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 px-6 py-5 border-b border-gray-50 last:border-0 hover:bg-surface/50 transition-all duration-300 cursor-pointer group animate-slide-up ${
+                    notice.is_pinned ? "border-l-4 border-l-accent" : ""
+                  }`}
+                  style={{ animationDelay: `${idx * 60}ms`, animationFillMode: "both" }}
                 >
                   <div className="sm:col-span-2">
                     <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -91,7 +96,7 @@ export default function NoticePage() {
                       {notice.title}
                     </span>
                     {isNew(notice.created_at) && (
-                      <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500 text-white leading-none">
+                      <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500 text-white leading-none ring-pulse">
                         N
                       </span>
                     )}

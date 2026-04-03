@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { COMPANY } from "@/lib/constants";
 
@@ -47,6 +47,119 @@ function Reveal({
       {children}
     </div>
   );
+}
+
+function RevealScale({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("opacity-100", "scale-100");
+          el.classList.remove("opacity-0", "scale-90");
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.15 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div
+      ref={ref}
+      className={`opacity-0 scale-90 transition-all duration-700 ease-out ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function RevealBlurIn({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = "1";
+          el.style.filter = "blur(0)";
+          el.style.transform = "translateY(0)";
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.15 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: 0,
+        filter: "blur(6px)",
+        transform: "translateY(8px)",
+        transition: `all 0.8s ease-out ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function StepNumber({ num }: { num: string }) {
+  const [display, setDisplay] = useState("00");
+  const ref = useRef<HTMLDivElement>(null);
+  const triggered = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !triggered.current) {
+          triggered.current = true;
+          const target = parseInt(num, 10);
+          const start = performance.now();
+          const duration = 600;
+          const step = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const current = Math.round(target * progress);
+            setDisplay(current.toString().padStart(2, "0"));
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.3 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [num]);
+
+  return <span ref={ref}>{display}</span>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -162,7 +275,7 @@ const commonBenefits = [
 /* ------------------------------------------------------------------ */
 function ItemsCard({ title, items }: { title: string; items: { icon: string; label: string; desc: string }[] }) {
   return (
-    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
+    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
       <h4 className="font-paperlogy text-xl font-bold text-primary mb-6">{title}</h4>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {items.map((item) => (
@@ -181,13 +294,13 @@ function ItemsCard({ title, items }: { title: string; items: { icon: string; lab
 
 function StepsCard({ title, steps }: { title: string; steps: { num: string; label: string; desc: string }[] }) {
   return (
-    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
+    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
       <h4 className="font-paperlogy text-xl font-bold text-primary mb-6">{title}</h4>
       <div className="space-y-5">
         {steps.map((s) => (
           <div key={s.num} className="flex gap-4 items-start">
             <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent font-paperlogy font-bold text-sm shrink-0">
-              {s.num}
+              <StepNumber num={s.num} />
             </div>
             <div>
               <p className="font-bold text-primary text-sm">{s.label}</p>
@@ -202,7 +315,7 @@ function StepsCard({ title, steps }: { title: string; steps: { num: string; labe
 
 function DetailsCard({ title, details }: { title: string; details: { stat: string; label: string }[] }) {
   return (
-    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
+    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
       <h4 className="font-paperlogy text-xl font-bold text-primary mb-6">{title}</h4>
       <div className="grid grid-cols-2 gap-6">
         {details.map((d) => (
@@ -218,18 +331,20 @@ function DetailsCard({ title, details }: { title: string; details: { stat: strin
 
 function ScenarioCard({ title, scenario }: { title: string; scenario: string }) {
   return (
-    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
+    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
       <h4 className="font-paperlogy text-xl font-bold text-primary mb-4">{title}</h4>
-      <div className="bg-cream rounded-xl p-6">
-        <p className="text-sm text-primary/80 leading-relaxed">{scenario}</p>
-      </div>
+      <RevealBlurIn delay={200}>
+        <div className="bg-cream rounded-xl p-6">
+          <p className="text-sm text-primary/80 leading-relaxed">{scenario}</p>
+        </div>
+      </RevealBlurIn>
     </div>
   );
 }
 
 function ProvisionsCard({ title, provisions }: { title: string; provisions: string[] }) {
   return (
-    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
+    <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
       <h4 className="font-paperlogy text-xl font-bold text-primary mb-6">{title}</h4>
       <ul className="space-y-3">
         {provisions.map((p) => (
@@ -289,18 +404,20 @@ export default function PartnersPage() {
           </Reveal>
 
           {/* Stat cards */}
-          <Reveal delay={300}>
-            <div className="flex flex-col sm:flex-row gap-5 justify-center">
-              <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[200px]">
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
+            <RevealScale delay={300}>
+              <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[200px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
                 <p className="font-paperlogy text-3xl font-bold text-accent">협의</p>
                 <p className="text-gray-400 text-sm mt-1">사무가구 파트너 리워드</p>
               </div>
-              <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[200px]">
+            </RevealScale>
+            <RevealScale delay={450}>
+              <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[200px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
                 <p className="font-paperlogy text-3xl font-bold text-accent">QR</p>
                 <p className="text-gray-400 text-sm mt-1">물류장비 공유 수익</p>
               </div>
-            </div>
-          </Reveal>
+            </RevealScale>
+          </div>
 
           <Reveal delay={400}>
             <div className="mt-10">
@@ -434,8 +551,8 @@ export default function PartnersPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {commonBenefits.map((b, i) => (
               <Reveal key={b.title} delay={i * 100}>
-                <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm h-full hover:border-accent/20 hover:shadow-lg transition-all duration-300">
-                  <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-5">
+                <div className="group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm h-full hover:border-accent/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-5 group-hover:animate-[attentionBounce_0.5s_ease-out]">
                     {b.icon}
                   </div>
                   <h3 className="font-paperlogy text-lg font-bold text-primary mb-2">{b.title}</h3>
@@ -472,9 +589,11 @@ export default function PartnersPage() {
                 href={`tel:${COMPANY.phone}`}
                 className="inline-flex items-center gap-2 text-white/90 font-medium text-lg hover:text-white transition-colors"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                </svg>
+                <span className="ring-pulse rounded-full inline-flex items-center justify-center">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                  </svg>
+                </span>
                 {COMPANY.phone}
               </a>
             </div>

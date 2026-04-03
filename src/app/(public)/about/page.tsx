@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
@@ -10,30 +11,93 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+
 const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
+const staggerContainerSlow = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
 const metrics = [
-  { value: "2,500+", label: "거래 기업", suffix: "" },
-  { value: "50,000+", label: "운영 장비", suffix: "" },
-  { value: "98%", label: "고객 만족도", suffix: "" },
-  { value: "10년+", label: "업력", suffix: "" },
+  { value: 2500, label: "거래 기업", suffix: "+", prefix: "" },
+  { value: 50000, label: "운영 장비", suffix: "+", prefix: "" },
+  { value: 98, label: "고객 만족도", suffix: "%", prefix: "" },
+  { value: 10, label: "업력", suffix: "년+", prefix: "" },
 ];
 
+/* ── CountUp hook ── */
+function useCountUp(target: number, duration = 1800, start = false) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let raf: number;
+    const t0 = performance.now();
+    const tick = (now: number) => {
+      const elapsed = now - t0;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out quad
+      const eased = 1 - (1 - progress) * (1 - progress);
+      setCount(Math.round(eased * target));
+      if (progress < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration, start]);
+  return count;
+}
+
+function MetricCard({ value, label, suffix, prefix }: { value: number; label: string; suffix: string; prefix: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  const count = useCountUp(value, 1800, inView);
+  return (
+    <motion.div
+      ref={ref}
+      variants={scaleIn}
+      className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+    >
+      <div className="font-paperlogy text-3xl md:text-4xl font-bold text-accent mb-2">
+        {prefix}{count.toLocaleString()}{suffix}
+      </div>
+      <div className="text-sm text-muted">{label}</div>
+    </motion.div>
+  );
+}
+
 export default function AboutPage() {
+  /* ── Parallax for hero ── */
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroImgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
   return (
     <>
-      {/* Hero */}
-      <section data-hero-dark className="relative min-h-[50vh] flex items-center justify-center overflow-hidden pt-20">
-        <Image
-          src="/images/aovo-banner2.webp"
-          alt="AOVO 회사 소개 배경"
-          fill
-          className="object-cover"
-          priority
-        />
+      {/* Hero with Parallax */}
+      <section ref={heroRef} data-hero-dark className="relative min-h-[50vh] flex items-center justify-center overflow-hidden pt-20">
+        <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
+          <Image
+            src="/images/aovo-banner2.webp"
+            alt="AOVO 회사 소개 배경"
+            fill
+            className="object-cover"
+            priority
+          />
+        </motion.div>
         <div className="absolute inset-0 bg-primary/80" />
         <motion.div
           className="relative z-10 max-w-3xl mx-auto px-6 text-center"
@@ -53,7 +117,7 @@ export default function AboutPage() {
         </motion.div>
       </section>
 
-      {/* Vision */}
+      {/* Vision — word-by-word reveal */}
       <section className="py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -69,14 +133,31 @@ export default function AboutPage() {
             <motion.h2 variants={fadeInUp} className="font-paperlogy text-3xl md:text-5xl font-bold text-primary mb-6">
               쓰는 만큼, 낭비 없이
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-muted text-lg leading-relaxed">
-              AOVO는 비즈니스 장비를 소유가 아닌 운영의 관점에서 바라봅니다. 구독, 공유, 렌탈, 순환, 유통의 다섯 가지 서비스 모델을 통해 기업의 자산 운영 효율을 극대화하고, 불필요한 비용을 제거합니다.
+            <motion.p
+              className="text-muted text-lg leading-relaxed"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.03 } } }}
+            >
+              {"AOVO는 비즈니스 장비를 소유가 아닌 운영의 관점에서 바라봅니다. 구독, 공유, 렌탈, 순환, 유통의 다섯 가지 서비스 모델을 통해 기업의 자산 운영 효율을 극대화하고, 불필요한 비용을 제거합니다.".split(" ").map((word, i) => (
+                <motion.span
+                  key={i}
+                  className="inline-block mr-[0.3em]"
+                  variants={{
+                    hidden: { opacity: 0, y: 12 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+                  }}
+                >
+                  {word}
+                </motion.span>
+              ))}
             </motion.p>
           </motion.div>
         </div>
       </section>
 
-      {/* Key Metrics */}
+      {/* Key Metrics — countUp + scale-in */}
       <section className="py-20 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -84,19 +165,10 @@ export default function AboutPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
             {metrics.map((m) => (
-              <motion.div
-                key={m.label}
-                variants={fadeInUp}
-                className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100"
-              >
-                <div className="font-paperlogy text-3xl md:text-4xl font-bold text-accent mb-2">
-                  {m.value}
-                </div>
-                <div className="text-sm text-muted">{m.label}</div>
-              </motion.div>
+              <MetricCard key={m.label} {...m} />
             ))}
           </motion.div>
         </div>
@@ -134,15 +206,16 @@ export default function AboutPage() {
             />
           </motion.div>
 
+          {/* Service cards — stagger scale-in */}
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
             {SERVICE_CATEGORIES.map((cat) => (
-              <motion.div key={cat.slug} variants={fadeInUp}>
+              <motion.div key={cat.slug} variants={scaleIn}>
                 <Link
                   href={`/${cat.slug}`}
                   className={`block rounded-2xl bg-gradient-to-br ${cat.color} p-8 text-white hover:-translate-y-1 hover:shadow-xl transition-all duration-300`}
@@ -193,7 +266,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — ring-pulse on phone link */}
       <section className="py-20 bg-gradient-to-r from-accent to-amber-700">
         <motion.div
           className="max-w-3xl mx-auto px-6 text-center"
@@ -217,7 +290,7 @@ export default function AboutPage() {
             </Link>
             <a
               href={`tel:${COMPANY.phone}`}
-              className="inline-flex items-center gap-2 text-white/90 font-medium text-lg hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-white/90 font-medium text-lg hover:text-white transition-colors ring-pulse rounded-full px-4 py-2"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useCart } from "@/contexts/CartContext";
 
@@ -11,6 +11,29 @@ const serviceLabel: Record<string, string> = {
   recycle: "순환",
   buyback: "유통",
 };
+
+function CountUp({ target }: { target: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (target === 0) { setCount(0); return; }
+    const duration = 600;
+    const steps = 30;
+    const increment = target / steps;
+    let current = 0;
+    let step = 0;
+    const timer = setInterval(() => {
+      step++;
+      current = Math.min(Math.round(increment * step), target);
+      setCount(current);
+      if (step >= steps) clearInterval(timer);
+    }, duration / steps);
+    return () => clearInterval(timer);
+  }, [target]);
+
+  return <span ref={ref}>{count}</span>;
+}
 
 export default function QuotePage() {
   const { items, totalItems, clearCart } = useCart();
@@ -83,8 +106,8 @@ export default function QuotePage() {
   if (submitted) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
-        <div className="text-center max-w-md">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <div className="text-center max-w-md animate-fade-in">
+          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6" style={{ animation: "fadeIn 0.5s ease-out, scaleIn 0.5s ease-out" }}>
             <svg
               className="w-10 h-10 text-green-600"
               fill="none"
@@ -96,18 +119,20 @@ export default function QuotePage() {
                 strokeLinejoin="round"
                 strokeWidth={2}
                 d="M5 13l4 4L19 7"
+                style={{ strokeDasharray: 24, strokeDashoffset: 0, animation: "checkDraw 0.6s ease-out 0.3s both" }}
               />
             </svg>
           </div>
-          <h1 className="font-paperlogy text-3xl font-bold text-primary mb-3">
+          <h1 className="font-paperlogy text-3xl font-bold text-primary mb-3 animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
             견적 요청이 완료되었습니다
           </h1>
-          <p className="text-muted mb-8">
+          <p className="text-muted mb-8 animate-slide-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
             담당자가 확인 후 빠른 시일 내에 연락드리겠습니다.
           </p>
           <Link
             href="/products"
-            className="inline-block bg-primary hover:bg-primary/90 text-white font-medium px-8 py-3 rounded-full transition-colors"
+            className="inline-block bg-primary hover:bg-primary/90 text-white font-medium px-8 py-3 rounded-full transition-all duration-300 hover:-translate-y-1 animate-slide-up"
+            style={{ animationDelay: "400ms", animationFillMode: "both" }}
           >
             상품 계속 둘러보기
           </Link>
@@ -138,14 +163,14 @@ export default function QuotePage() {
             className="lg:col-span-2 space-y-6"
           >
             {errorMsg && (
-              <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+              <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm animate-slide-up">
                 {errorMsg}
               </div>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Company Name */}
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: "0ms", animationFillMode: "both" }}>
                 <label className="block text-sm font-medium text-primary mb-1.5">
                   회사명 <span className="text-red-500">*</span>
                 </label>
@@ -160,7 +185,7 @@ export default function QuotePage() {
               </div>
 
               {/* Contact Name */}
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: "50ms", animationFillMode: "both" }}>
                 <label className="block text-sm font-medium text-primary mb-1.5">
                   담당자명 <span className="text-red-500">*</span>
                 </label>
@@ -175,7 +200,7 @@ export default function QuotePage() {
               </div>
 
               {/* Phone */}
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
                 <label className="block text-sm font-medium text-primary mb-1.5">
                   연락처 <span className="text-red-500">*</span>
                 </label>
@@ -190,7 +215,7 @@ export default function QuotePage() {
               </div>
 
               {/* Email */}
-              <div>
+              <div className="animate-slide-up" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
                 <label className="block text-sm font-medium text-primary mb-1.5">
                   이메일
                 </label>
@@ -205,7 +230,7 @@ export default function QuotePage() {
             </div>
 
             {/* Address */}
-            <div>
+            <div className="animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
               <label className="block text-sm font-medium text-primary mb-1.5">
                 배송 주소
               </label>
@@ -219,7 +244,7 @@ export default function QuotePage() {
             </div>
 
             {/* Delivery Date */}
-            <div>
+            <div className="animate-slide-up" style={{ animationDelay: "250ms", animationFillMode: "both" }}>
               <label className="block text-sm font-medium text-primary mb-1.5">
                 희망 납품일
               </label>
@@ -232,7 +257,7 @@ export default function QuotePage() {
             </div>
 
             {/* Message */}
-            <div>
+            <div className="animate-slide-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
               <label className="block text-sm font-medium text-primary mb-1.5">
                 요청 사항
               </label>
@@ -246,7 +271,7 @@ export default function QuotePage() {
             </div>
 
             {/* Privacy */}
-            <label className="flex items-start gap-3 cursor-pointer">
+            <label className="flex items-start gap-3 cursor-pointer animate-slide-up" style={{ animationDelay: "350ms", animationFillMode: "both" }}>
               <input
                 type="checkbox"
                 checked={form.privacyAgreed}
@@ -260,22 +285,24 @@ export default function QuotePage() {
             </label>
 
             {/* Submit */}
-            <button
-              type="submit"
-              disabled={!canSubmit}
-              className={`w-full font-paperlogy font-bold text-lg py-4 rounded-2xl transition-all shadow-lg ${
-                canSubmit
-                  ? "bg-accent hover:bg-accent-light text-white hover:shadow-xl active:scale-[0.98]"
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
-              }`}
-            >
-              {submitting ? "전송 중..." : "견적 요청 전송"}
-            </button>
+            <div className="animate-slide-up" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
+              <button
+                type="submit"
+                disabled={!canSubmit}
+                className={`w-full font-paperlogy font-bold text-lg py-4 rounded-2xl transition-all duration-300 shadow-lg ${
+                  canSubmit
+                    ? "bg-accent hover:bg-accent-light text-white hover:shadow-xl hover:-translate-y-1 active:scale-[0.98]"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+                }`}
+              >
+                {submitting ? "전송 중..." : "견적 요청 전송"}
+              </button>
+            </div>
           </form>
 
           {/* Right: Order Summary */}
           <div>
-            <div className="bg-surface rounded-2xl p-6 sticky top-28">
+            <div className="bg-surface rounded-2xl p-6 sticky top-28 animate-fade-in">
               <h3 className="font-paperlogy font-bold text-lg text-primary mb-4">
                 견적 요약
               </h3>
@@ -295,10 +322,11 @@ export default function QuotePage() {
               ) : (
                 <>
                   <ul className="space-y-3 mb-6">
-                    {items.map((item) => (
+                    {items.map((item, idx) => (
                       <li
                         key={item.id}
-                        className="flex items-start justify-between bg-white rounded-xl p-3"
+                        className="flex items-start justify-between bg-white rounded-xl p-3 hover:-translate-y-1 transition-all duration-300 animate-slide-up"
+                        style={{ animationDelay: `${idx * 60}ms`, animationFillMode: "both" }}
                       >
                         <div className="min-w-0 flex-1">
                           <p className="font-medium text-primary text-sm truncate">
@@ -319,7 +347,7 @@ export default function QuotePage() {
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted">총 품목 수</span>
                       <span className="font-paperlogy font-bold text-primary text-lg">
-                        {totalItems}개
+                        <CountUp target={totalItems} />개
                       </span>
                     </div>
                   </div>

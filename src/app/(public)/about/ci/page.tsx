@@ -8,9 +8,29 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+
+const fadeInBlur = {
+  hidden: { opacity: 0, filter: "blur(8px)" },
+  visible: { opacity: 1, filter: "blur(0px)", transition: { duration: 0.7, ease: "easeOut" as const } },
+};
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
+
 const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const staggerContainerSlow = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
 };
 
 const brandColors = [
@@ -51,7 +71,7 @@ export default function CIPage() {
         </motion.div>
       </section>
 
-      {/* Symbol Mark */}
+      {/* Symbol Mark — scale-in with stagger */}
       <section className="py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -70,9 +90,9 @@ export default function CIPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
-            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
+            <motion.div variants={scaleIn} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <Image
                 src="/images/ex_aovo_symbol.png"
                 alt="AOVO 심볼 마크"
@@ -82,7 +102,7 @@ export default function CIPage() {
               />
               <p className="text-sm text-muted">Symbol Mark</p>
             </motion.div>
-            <motion.div variants={fadeInUp} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px]">
+            <motion.div variants={scaleIn} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <Image
                 src="/images/ex_aovo_symbol.png"
                 alt="AOVO 심볼 마크 화이트"
@@ -96,7 +116,7 @@ export default function CIPage() {
         </div>
       </section>
 
-      {/* Logo */}
+      {/* Logo — scale-in with stagger */}
       <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -115,10 +135,10 @@ export default function CIPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
             {/* Color Logo */}
-            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
+            <motion.div variants={scaleIn} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <Image
                 src="/images/aovologo.png"
                 alt="AOVO 로고 컬러"
@@ -129,7 +149,7 @@ export default function CIPage() {
               <p className="text-sm text-muted">Color Logo</p>
             </motion.div>
             {/* Black Logo on Light */}
-            <motion.div variants={fadeInUp} className="bg-cream rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px]">
+            <motion.div variants={scaleIn} className="bg-cream rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <Image
                 src="/images/aovologo_black.png"
                 alt="AOVO 로고 블랙"
@@ -140,7 +160,7 @@ export default function CIPage() {
               <p className="text-sm text-muted">Black Logo (Light BG)</p>
             </motion.div>
             {/* White Logo on Dark */}
-            <motion.div variants={fadeInUp} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px]">
+            <motion.div variants={scaleIn} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <Image
                 src="/images/aovologo_white.png"
                 alt="AOVO 로고 화이트"
@@ -158,9 +178,9 @@ export default function CIPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
-            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+            <motion.div variants={scaleIn} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[200px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <Image
                 src="/images/aovo_text.png"
                 alt="AOVO 텍스트 로고"
@@ -170,7 +190,7 @@ export default function CIPage() {
               />
               <p className="text-sm text-muted">Text Logo</p>
             </motion.div>
-            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+            <motion.div variants={scaleIn} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[200px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <Image
                 src="/images/aovo_text_thin.png"
                 alt="AOVO 텍스트 로고 (Thin)"
@@ -184,7 +204,7 @@ export default function CIPage() {
         </div>
       </section>
 
-      {/* CI Examples */}
+      {/* CI Examples — hover zoom on images */}
       <section className="py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -203,15 +223,15 @@ export default function CIPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
             {[1, 2, 3].map((n) => (
-              <motion.div key={n} variants={fadeInUp} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+              <motion.div key={n} variants={scaleIn} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg group">
                 <Image
                   src={`/images/ci${n}.png`}
                   alt={`AOVO CI 활용 예시 ${n}`}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </motion.div>
             ))}
@@ -219,7 +239,7 @@ export default function CIPage() {
         </div>
       </section>
 
-      {/* Brand Colors */}
+      {/* Brand Colors — fill animation on swatches */}
       <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -238,17 +258,28 @@ export default function CIPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
             {brandColors.map((color) => (
-              <motion.div key={color.name} variants={fadeInUp} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-                <div
-                  className="h-32 flex items-end p-4"
-                  style={{ backgroundColor: color.hex }}
-                >
-                  <span className={`text-sm font-mono font-medium ${color.textLight ? "text-white/80" : "text-gray-500"}`}>
-                    {color.hex}
-                  </span>
+              <motion.div
+                key={color.name}
+                variants={fadeInUp}
+                className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="h-32 relative overflow-hidden">
+                  {/* Fill animation: color expands from left */}
+                  <motion.div
+                    className="absolute inset-0 flex items-end p-4"
+                    style={{ backgroundColor: color.hex }}
+                    initial={{ clipPath: "inset(0 100% 0 0)" }}
+                    whileInView={{ clipPath: "inset(0 0% 0 0)" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                  >
+                    <span className={`text-sm font-mono font-medium ${color.textLight ? "text-white/80" : "text-gray-500"}`}>
+                      {color.hex}
+                    </span>
+                  </motion.div>
                 </div>
                 <div className="p-5">
                   <h3 className="font-paperlogy font-bold text-primary mb-1">{color.name}</h3>
@@ -260,7 +291,7 @@ export default function CIPage() {
         </div>
       </section>
 
-      {/* Typography */}
+      {/* Typography — fade-in with blur effect */}
       <section className="py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -279,21 +310,21 @@ export default function CIPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
-            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-gray-100">
+            <motion.div variants={fadeInBlur} className="bg-white rounded-2xl p-8 border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Logo Typeface</span>
               <h3 style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-5xl font-bold text-primary mb-4">Syne</h3>
               <p style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-xl text-muted mb-2 tracking-wider">AOVO</p>
               <p className="text-sm text-muted">텍스트 로고에 사용되는 메인 서체입니다.</p>
             </motion.div>
-            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-gray-100">
+            <motion.div variants={fadeInBlur} className="bg-white rounded-2xl p-8 border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Primary Display</span>
               <h3 className="font-paperlogy text-5xl font-bold text-primary mb-4">Paperlogy</h3>
               <p className="font-paperlogy text-xl text-muted mb-2">비즈니스 자산 통합 운영 플랫폼</p>
               <p className="text-sm text-muted">헤드라인, 타이틀, 강조 텍스트에 사용됩니다.</p>
             </motion.div>
-            <motion.div variants={fadeInUp} className="bg-white rounded-2xl p-8 border border-gray-100">
+            <motion.div variants={fadeInBlur} className="bg-white rounded-2xl p-8 border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Body Text</span>
               <h3 className="font-sans text-5xl font-bold text-primary mb-4">Noto Sans KR</h3>
               <p className="font-sans text-xl text-muted mb-2">본문 텍스트와 UI 요소에 활용됩니다.</p>
@@ -303,7 +334,7 @@ export default function CIPage() {
         </div>
       </section>
 
-      {/* Brand Values */}
+      {/* Brand Values — stagger reveal from left */}
       <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -322,13 +353,13 @@ export default function CIPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            variants={staggerContainerSlow}
           >
             {brandValues.map((val) => (
               <motion.div
                 key={val.title}
-                variants={fadeInUp}
-                className="bg-white rounded-2xl p-8 text-center border border-gray-100 hover:border-accent/30 hover:shadow-lg transition-all duration-300"
+                variants={slideInLeft}
+                className="bg-white rounded-2xl p-8 text-center border border-gray-100 hover:border-accent/30 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
               >
                 <h3 className="font-paperlogy text-xl font-bold text-accent mb-3">{val.title}</h3>
                 <p className="text-sm text-muted leading-relaxed">{val.desc}</p>

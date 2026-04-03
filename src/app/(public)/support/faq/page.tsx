@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface FAQ {
   id: string;
@@ -11,9 +11,13 @@ interface FAQ {
 
 function FAQItem({ faq, index }: { faq: FAQ; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="border-b border-gray-100 last:border-0">
+    <div
+      className="border-b border-gray-100 last:border-0 animate-slide-up"
+      style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
+    >
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-start justify-between gap-4 px-6 py-5 text-left hover:bg-surface/50 transition-colors"
@@ -28,23 +32,28 @@ function FAQItem({ faq, index }: { faq: FAQ; index: number }) {
         </div>
         <svg
           className={`w-5 h-5 text-muted shrink-0 mt-0.5 transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
+            isOpen ? "rotate-45" : ""
           }`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
       </button>
-      {isOpen && (
-        <div className="overflow-hidden">
-          <div className="px-6 pb-5 pl-16">
-            <p className="text-sm text-muted leading-relaxed">{faq.answer}</p>
-          </div>
+      <div
+        ref={contentRef}
+        className="overflow-hidden transition-all duration-300 ease-in-out"
+        style={{
+          maxHeight: isOpen ? contentRef.current?.scrollHeight ? `${contentRef.current.scrollHeight}px` : "500px" : "0px",
+          opacity: isOpen ? 1 : 0,
+        }}
+      >
+        <div className="px-6 pb-5 pl-16">
+          <p className="text-sm text-muted leading-relaxed">{faq.answer}</p>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -89,7 +98,7 @@ export default function FAQPage() {
           {loading ? (
             <div className="text-center py-20 text-muted">불러오는 중...</div>
           ) : faqs.length === 0 ? (
-            <div className="text-center py-20 text-muted">등록된 FAQ가 없습니다.</div>
+            <div className="text-center py-20 text-muted animate-fade-in">등록된 FAQ가 없습니다.</div>
           ) : (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               {faqs.map((faq, i) => (
@@ -99,11 +108,11 @@ export default function FAQPage() {
           )}
 
           {/* Extra CTA */}
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 animate-slide-up" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
             <p className="text-muted mb-4">원하는 답변을 찾지 못하셨나요?</p>
             <a
               href="/support/contact"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-accent text-white font-medium hover:bg-accent-light transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-accent text-white font-medium hover:bg-accent-light hover:-translate-y-1 transition-all duration-300"
             >
               직접 문의하기
             </a>

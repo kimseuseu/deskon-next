@@ -28,9 +28,9 @@ export default function PrivacyPage() {
 
       {/* Content */}
       <section className="py-24 bg-cream">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 animate-fade-in">
           {/* 제1조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 first:mt-0">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 first:mt-0 animate-slide-up" style={{ animationDelay: "0ms", animationFillMode: "both" }}>
             제1조 (수집하는 개인정보 항목)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
           </ol>
 
           {/* 제2조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "50ms", animationFillMode: "both" }}>
             제2조 (개인정보의 수집 목적)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
           </ol>
 
           {/* 제3조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
             제3조 (개인정보의 보유 및 이용 기간)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -93,7 +93,7 @@ export default function PrivacyPage() {
           </ol>
 
           {/* 제4조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
             제4조 (개인정보의 제3자 제공)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -113,7 +113,7 @@ export default function PrivacyPage() {
           </ol>
 
           {/* 제5조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
             제5조 (개인정보의 파기 절차 및 방법)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -134,7 +134,7 @@ export default function PrivacyPage() {
           </ol>
 
           {/* 제6조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "250ms", animationFillMode: "both" }}>
             제6조 (이용자의 권리와 행사 방법)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -153,7 +153,7 @@ export default function PrivacyPage() {
           </p>
 
           {/* 제7조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
             제7조 (개인정보의 안전성 확보 조치)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -167,7 +167,7 @@ export default function PrivacyPage() {
           </ol>
 
           {/* 제8조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "350ms", animationFillMode: "both" }}>
             제8조 (개인정보 보호 책임자)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -184,7 +184,7 @@ export default function PrivacyPage() {
           </div>
 
           {/* 제9조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
             제9조 (개인정보처리방침의 변경)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -194,7 +194,7 @@ export default function PrivacyPage() {
           </p>
 
           {/* 부칙 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
             부칙
           </h2>
           <p className="text-muted leading-relaxed mb-4">

@@ -25,6 +25,7 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [shakeForm, setShakeForm] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -64,6 +65,8 @@ export default function ContactPage() {
       setSubmitted(true);
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : "오류가 발생했습니다.");
+      setShakeForm(true);
+      setTimeout(() => setShakeForm(false), 500);
     } finally {
       setSubmitting(false);
     }
@@ -95,10 +98,15 @@ export default function ContactPage() {
       <section className="py-24 bg-cream">
         <div className="max-w-3xl mx-auto px-6">
           {submitted ? (
-            <div className="text-center py-20">
+            <div className="text-center py-20 animate-fade-in">
               <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
                 <svg className="w-10 h-10 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    style={{ strokeDasharray: 24, strokeDashoffset: 0, animation: "checkDraw 0.6s ease-out forwards" }}
+                  />
                 </svg>
               </div>
               <h2 className="font-paperlogy text-3xl font-bold text-primary mb-4">
@@ -129,21 +137,22 @@ export default function ContactPage() {
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="bg-white rounded-2xl p-8 md:p-10 border border-gray-100 shadow-sm"
+              className={`bg-white rounded-2xl p-8 md:p-10 border border-gray-100 shadow-lg animate-fade-in ${shakeForm ? "shake" : ""}`}
             >
-              <div className="mb-8">
+              {/* Section label: stagger reveal */}
+              <div className="mb-8 animate-slide-up" style={{ animationDelay: "0ms", animationFillMode: "both" }}>
                 <h2 className="font-paperlogy text-2xl font-bold text-primary mb-2">문의 양식</h2>
                 <p className="text-sm text-muted">* 표시 항목은 필수 입력 사항입니다.</p>
               </div>
 
               {errorMsg && (
-                <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+                <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm animate-slide-up">
                   {errorMsg}
                 </div>
               )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
+                <div className="animate-slide-up" style={{ animationDelay: "50ms", animationFillMode: "both" }}>
                   <label htmlFor="name" className={labelClass}>이름 *</label>
                   <input
                     type="text"
@@ -157,7 +166,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div>
+                <div className="animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
                   <label htmlFor="company" className={labelClass}>회사명 *</label>
                   <input
                     type="text"
@@ -171,7 +180,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div>
+                <div className="animate-slide-up" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
                   <label htmlFor="phone" className={labelClass}>연락처 *</label>
                   <input
                     type="tel"
@@ -185,7 +194,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div>
+                <div className="animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
                   <label htmlFor="email" className={labelClass}>이메일</label>
                   <input
                     type="email"
@@ -198,7 +207,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div>
+                <div className="animate-slide-up" style={{ animationDelay: "250ms", animationFillMode: "both" }}>
                   <label htmlFor="inquiryType" className={labelClass}>문의 유형 *</label>
                   <select
                     id="inquiryType"
@@ -215,7 +224,7 @@ export default function ContactPage() {
                   </select>
                 </div>
 
-                <div>
+                <div className="animate-slide-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
                   <label htmlFor="serviceCategory" className={labelClass}>서비스 카테고리</label>
                   <select
                     id="serviceCategory"
@@ -232,7 +241,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-6 animate-slide-up" style={{ animationDelay: "350ms", animationFillMode: "both" }}>
                 <label htmlFor="message" className={labelClass}>문의 내용 *</label>
                 <textarea
                   id="message"
@@ -246,7 +255,7 @@ export default function ContactPage() {
                 />
               </div>
 
-              <div className="mt-6">
+              <div className="mt-6 animate-slide-up" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
@@ -262,17 +271,17 @@ export default function ContactPage() {
                 </label>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-8 animate-slide-up" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 rounded-xl bg-accent text-white font-bold text-base hover:bg-accent-light transition-colors duration-300 shadow-lg shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 rounded-xl bg-accent text-white font-bold text-base hover:bg-accent-light transition-all duration-300 shadow-lg shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-1"
                 >
                   {submitting ? "전송 중..." : "문의하기"}
                 </button>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+              <div className="mt-8 pt-6 border-t border-gray-100 text-center animate-slide-up" style={{ animationDelay: "500ms", animationFillMode: "both" }}>
                 <p className="text-sm text-muted mb-2">전화 상담을 원하시면</p>
                 <a href={`tel:${COMPANY.phone}`} className="text-lg font-bold text-accent hover:text-accent-light transition-colors">
                   {COMPANY.phone}

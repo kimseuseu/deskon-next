@@ -1,6 +1,52 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { COMPANY } from "@/lib/constants";
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
+
+const fadeInScale = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: "easeOut" as const } },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const staggerContainerSlow = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
+/* bounce-in for icons */
+const bounceIn = {
+  hidden: { opacity: 0, y: 20, scale: 0.8 },
+  visible: {
+    opacity: 1, y: 0, scale: 1,
+    transition: { type: "spring" as const, stiffness: 300, damping: 15 },
+  },
+};
+
+/* Direction-specific slide-in variants */
+const slideFromLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
+const slideFromBottom = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
+const slideFromRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
+
+const directionVariants = [slideFromLeft, slideFromBottom, slideFromRight];
 
 const infoItems = [
   {
@@ -17,6 +63,7 @@ const infoItems = [
     label: "전화",
     value: COMPANY.phone,
     href: `tel:${COMPANY.phone}`,
+    isPhone: true,
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
@@ -100,25 +147,36 @@ export default function LocationPage() {
       {/* Hero */}
       <section data-hero-dark className="relative pt-32 pb-20 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent/8 rounded-full blur-[100px]" />
-        <div className="relative z-10 max-w-3xl mx-auto px-6 text-center animate-fade-in">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
+        <motion.div
+          className="relative z-10 max-w-3xl mx-auto px-6 text-center"
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+        >
+          <motion.span variants={fadeInUp} className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
             Location
-          </span>
-          <h1 className="font-paperlogy text-4xl md:text-5xl font-bold text-white mb-4">
+          </motion.span>
+          <motion.h1 variants={fadeInUp} className="font-paperlogy text-4xl md:text-5xl font-bold text-white mb-4">
             오시는 길
-          </h1>
-          <p className="text-gray-400 text-lg">
+          </motion.h1>
+          <motion.p variants={fadeInUp} className="text-gray-400 text-lg">
             AOVO 본사를 방문해 주세요
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </section>
 
       {/* Map + Info */}
       <section className="py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            {/* Kakao Map */}
-            <div className="lg:col-span-3 rounded-2xl min-h-[450px] overflow-hidden shadow-sm border border-gray-100">
+            {/* Map — fade-in with scale */}
+            <motion.div
+              className="lg:col-span-3 rounded-2xl min-h-[450px] overflow-hidden shadow-sm border border-gray-100"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={fadeInScale}
+            >
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3170.5!2d126.8603!3d37.4372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDI2JzE0LjAiTiAxMjbCsDUxJzM3LjEiRQ!5e0!3m2!1sko!2skr!4v1"
                 width="100%"
@@ -129,21 +187,27 @@ export default function LocationPage() {
                 referrerPolicy="no-referrer-when-downgrade"
                 title="AOVO Group 본사 위치 - 경기도 광명시 금오로 679"
               />
-            </div>
+            </motion.div>
 
-            {/* Contact Info */}
-            <div className="lg:col-span-2">
+            {/* Contact Info — stagger reveal with icon bounce */}
+            <motion.div
+              className="lg:col-span-2"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainerSlow}
+            >
               <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-                <h2 className="font-paperlogy text-xl font-bold text-primary mb-8">연락처 정보</h2>
+                <motion.h2 variants={fadeInUp} className="font-paperlogy text-xl font-bold text-primary mb-8">연락처 정보</motion.h2>
                 <div className="space-y-6">
                   {infoItems.map((item) => (
-                    <div key={item.label} className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0">
+                    <motion.div key={item.label} variants={bounceIn} className="flex items-start gap-4">
+                      <div className={`w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0${"isPhone" in item && item.isPhone ? " ring-pulse" : ""}`}>
                         {item.icon}
                       </div>
                       <div>
                         <div className="text-xs font-medium uppercase tracking-wider text-muted mb-1">{item.label}</div>
-                        {item.href ? (
+                        {"href" in item && item.href ? (
                           <a href={item.href} className="text-primary font-medium hover:text-accent transition-colors">
                             {item.value}
                           </a>
@@ -151,11 +215,11 @@ export default function LocationPage() {
                           <div className="text-primary font-medium">{item.value}</div>
                         )}
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-gray-100">
+                <motion.div variants={fadeInUp} className="mt-8 pt-6 border-t border-gray-100">
                   <a
                     href={COMPANY.kakaoChannel}
                     target="_blank"
@@ -164,30 +228,40 @@ export default function LocationPage() {
                   >
                     카카오톡 상담
                   </a>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* 찾아오시는 방법 */}
+      {/* Directions — slide-in from different directions */}
       <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <motion.div
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+          >
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/10 text-accent border border-accent/20 mb-4">
               Directions
             </span>
             <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">
               찾아오시는 방법
             </h2>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {directions.map((dir) => (
-              <div
+            {directions.map((dir, idx) => (
+              <motion.div
                 key={dir.label}
-                className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-80px" }}
+                variants={directionVariants[idx]}
+                className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
               >
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-6">
                   {dir.icon}
@@ -203,12 +277,18 @@ export default function LocationPage() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          {/* Address summary bar */}
-          <div className="mt-12 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+          {/* Address summary bar — slide-up reveal */}
+          <motion.div
+            className="mt-12 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={fadeInUp}
+          >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -232,7 +312,7 @@ export default function LocationPage() {
               </svg>
               카카오맵에서 길찾기
             </a>
-          </div>
+          </motion.div>
         </div>
       </section>
     </>

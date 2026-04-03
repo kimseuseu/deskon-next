@@ -12,6 +12,14 @@ const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
 };
+const slideFromLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
+const slideFromRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
 
 const appSteps = [
   { num: "01", icon: "📱", title: "앱 다운로드", desc: "에이플로우 앱을 설치하고 간편 가입합니다." },
@@ -95,15 +103,23 @@ export default function SharingLanding() {
           >
             {appSteps.map((step, i) => (
               <motion.div key={step.num} variants={fadeInUp} className="relative text-center">
-                <div className="w-20 h-20 mx-auto mb-4 bg-emerald-50 rounded-2xl flex items-center justify-center text-3xl">
+                <div className="w-20 h-20 mx-auto mb-4 bg-emerald-50 rounded-2xl flex items-center justify-center text-3xl relative z-10">
                   {step.icon}
                 </div>
+                {/* Connecting line between steps */}
+                {i < appSteps.length - 1 && (
+                  <motion.div
+                    className="hidden md:block absolute top-10 left-[calc(50%+2.5rem)] h-0.5 bg-emerald-200 origin-left"
+                    style={{ width: "calc(100% - 5rem)" }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.2 + 0.3, duration: 0.6, ease: "easeOut" }}
+                  />
+                )}
                 <div className="text-xs font-bold text-emerald-600 mb-2">{step.num}</div>
                 <h3 className="font-paperlogy text-xl font-bold text-primary mb-2">{step.title}</h3>
                 <p className="text-sm text-muted">{step.desc}</p>
-                {i < appSteps.length - 1 && (
-                  <div className="hidden md:block absolute top-10 -right-4 text-emerald-300 text-2xl">→</div>
-                )}
               </motion.div>
             ))}
           </motion.div>
@@ -122,8 +138,8 @@ export default function SharingLanding() {
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
           >
             {features.map((f) => (
-              <motion.div key={f.title} variants={fadeInUp} className="bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition-shadow">
-                <span className="text-3xl mb-4 block">{f.icon}</span>
+              <motion.div key={f.title} variants={fadeInUp} className="group bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <span className="text-3xl mb-4 block group-hover:animate-[attentionBounce_0.5s_ease-out]">{f.icon}</span>
                 <h3 className="font-paperlogy text-lg font-bold text-primary mb-2">{f.title}</h3>
                 <p className="text-sm text-muted leading-relaxed">{f.desc}</p>
               </motion.div>
@@ -169,10 +185,10 @@ export default function SharingLanding() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
           >
-            {equipment.map((e) => (
-              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={fadeInUp}>
-                <Link href={e.href} className="group block bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:border-emerald-200 transition-all duration-300">
-                  <span className="text-4xl mb-4 block group-hover:scale-110 transition-transform">{e.emoji}</span>
+            {equipment.map((e, i) => (
+              <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={i % 2 === 0 ? slideFromLeft : slideFromRight}>
+                <Link href={e.href} className="group block bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-emerald-200 transition-all duration-300">
+                  <span className="text-4xl mb-4 block group-hover:animate-[attentionBounce_0.5s_ease-out] transition-transform">{e.emoji}</span>
                   <h3 className="font-paperlogy text-xl font-bold text-primary mb-2 group-hover:text-emerald-600 transition-colors">{e.name}</h3>
                   <p className="text-sm text-muted mb-4">{e.desc}</p>
                   <span className="inline-flex items-center text-sm text-emerald-600 font-medium">

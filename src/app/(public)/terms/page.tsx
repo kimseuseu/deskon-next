@@ -28,9 +28,9 @@ export default function TermsPage() {
 
       {/* Content */}
       <section className="py-24 bg-cream">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 animate-fade-in">
           {/* 제1조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 first:mt-0">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 first:mt-0 animate-slide-up" style={{ animationDelay: "0ms", animationFillMode: "both" }}>
             제1조 (목적)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -41,7 +41,7 @@ export default function TermsPage() {
           </p>
 
           {/* 제2조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "50ms", animationFillMode: "both" }}>
             제2조 (용어의 정의)
           </h2>
           <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
@@ -60,7 +60,7 @@ export default function TermsPage() {
           </ol>
 
           {/* 제3조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
             제3조 (서비스 이용)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -85,7 +85,7 @@ export default function TermsPage() {
           </p>
 
           {/* 제4조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
             제4조 (계약의 성립 및 해지)
           </h2>
           <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
@@ -115,7 +115,7 @@ export default function TermsPage() {
           </ol>
 
           {/* 제5조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
             제5조 (요금 및 결제)
           </h2>
           <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
@@ -138,7 +138,7 @@ export default function TermsPage() {
           </ol>
 
           {/* 제6조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "250ms", animationFillMode: "both" }}>
             제6조 (장비 관리)
           </h2>
           <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
@@ -160,7 +160,7 @@ export default function TermsPage() {
           </ol>
 
           {/* 제7조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
             제7조 (손해배상)
           </h2>
           <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
@@ -179,7 +179,7 @@ export default function TermsPage() {
           </ol>
 
           {/* 제8조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "350ms", animationFillMode: "both" }}>
             제8조 (면책조항)
           </h2>
           <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
@@ -203,7 +203,7 @@ export default function TermsPage() {
           </ol>
 
           {/* 제9조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
             제9조 (분쟁 해결)
           </h2>
           <p className="text-muted leading-relaxed mb-4">
@@ -212,7 +212,7 @@ export default function TermsPage() {
           </p>
 
           {/* 부칙 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12">
+          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
             부칙
           </h2>
           <p className="text-muted leading-relaxed mb-4">
