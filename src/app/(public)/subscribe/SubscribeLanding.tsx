@@ -610,7 +610,7 @@ export default function SubscribeLanding() {
           <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover">
             <source src="/images/aovo-flexible-backrest.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-primary/60" />
+          <div className="absolute inset-0 bg-primary/80" />
 
           <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
             <Reveal>
