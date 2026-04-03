@@ -44,100 +44,196 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
 /* ── Phone Mockup with animated screens ── */
 function PhoneMockup({ activeScreen }: { activeScreen: number }) {
   const screens = [
-    // Screen 0: Home
-    <div key="home" className="flex flex-col h-full bg-white p-4">
-      <div className="flex items-center justify-between mb-6">
-        <div className="font-paperlogy text-sm font-bold text-primary">에이플로우</div>
-        <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-xs">👤</div>
+    // Screen 0: Home (에이플로우 앱 실제 디자인 반영)
+    <div key="home" className="flex flex-col h-full p-4" style={{ backgroundColor: "#F8FAFC" }}>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <p className="text-xs font-bold" style={{ color: "#0F172A" }}>안녕하세요, 사용자님</p>
+          <div className="flex items-center gap-1 mt-0.5">
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "#22C55E" }} />
+            <p className="text-[9px]" style={{ color: "#64748B" }}>GREEN</p>
+          </div>
+        </div>
+        <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+          <span className="text-[10px]">🔔</span>
+        </div>
       </div>
-      <div className="bg-blue-50 rounded-xl p-4 mb-4">
-        <p className="text-[10px] text-blue-600 font-medium mb-1">가까운 스테이션</p>
-        <p className="text-xs font-bold text-primary">광명물류센터 A동</p>
-        <p className="text-[10px] text-muted">350m · 장비 12대 이용 가능</p>
+
+      {/* Quick Actions */}
+      <div className="flex gap-2 mb-3">
+        <div className="flex-1 rounded-2xl p-3" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-2" style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)" }}>
+            <span className="text-white text-sm">📷</span>
+          </div>
+          <p className="text-[10px] font-bold" style={{ color: "#0F172A" }}>QR 스캔</p>
+          <p className="text-[8px] mt-0.5" style={{ color: "#94A3B8" }}>장비 QR을 스캔</p>
+          <div className="flex items-center gap-0.5 mt-1">
+            <p className="text-[9px] font-semibold" style={{ color: "#2563EB" }}>스캔하기</p>
+            <span className="text-[8px]" style={{ color: "#2563EB" }}>→</span>
+          </div>
+        </div>
+        <div className="flex-1 rounded-2xl p-3" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-2" style={{ background: "linear-gradient(135deg, #059669, #047857)" }}>
+            <span className="text-white text-sm">📍</span>
+          </div>
+          <p className="text-[10px] font-bold" style={{ color: "#0F172A" }}>주변 거점</p>
+          <p className="text-[8px] mt-0.5" style={{ color: "#94A3B8" }}>가장 가까운 거점</p>
+          <div className="flex items-center gap-0.5 mt-1">
+            <p className="text-[9px] font-semibold" style={{ color: "#059669" }}>지도 보기</p>
+            <span className="text-[8px]" style={{ color: "#059669" }}>→</span>
+          </div>
+        </div>
       </div>
-      <div className="space-y-2">
-        {["롤테이너", "운반카트", "핸드트럭"].map(name => (
-          <div key={name} className="flex items-center gap-3 p-3 bg-surface rounded-lg">
-            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-sm">📦</div>
-            <div className="flex-1">
-              <p className="text-xs font-bold text-primary">{name}</p>
-              <p className="text-[10px] text-muted">시간당 1,000원~</p>
-            </div>
-            <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-              <span className="text-white text-[10px]">→</span>
-            </div>
+
+      {/* Stats */}
+      <div className="flex rounded-2xl p-3 mb-3" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+        {[{ num: "3", label: "주변 거점", color: "#0F172A" }, { num: "12", label: "이용 가능", color: "#22C55E" }, { num: "7", label: "총 이용", color: "#0F172A" }].map((s, i) => (
+          <div key={s.label} className="flex-1 text-center" style={{ borderLeft: i > 0 ? "1px solid #E2E8F0" : "none" }}>
+            <p className="text-sm font-bold" style={{ color: s.color }}>{s.num}</p>
+            <p className="text-[8px]" style={{ color: "#94A3B8" }}>{s.label}</p>
           </div>
         ))}
       </div>
-      <div className="mt-auto flex justify-around pt-4 border-t border-gray-100">
-        {["🏠", "📷", "📋", "👤"].map((icon, i) => (
-          <div key={i} className={`text-lg ${i === 0 ? "opacity-100" : "opacity-30"}`}>{icon}</div>
+
+      {/* Nearby Stations */}
+      <p className="text-[10px] font-bold mb-2" style={{ color: "#0F172A" }}>가까운 거점</p>
+      {[{ name: "광명물류센터 A동", dist: "350m", count: 5 }, { name: "시흥배송센터", dist: "1.2km", count: 7 }].map(st => (
+        <div key={st.name} className="flex items-center gap-3 p-2.5 rounded-xl mb-1.5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#EFF6FF" }}>
+            <span className="text-sm">📍</span>
+          </div>
+          <div className="flex-1">
+            <p className="text-[10px] font-bold" style={{ color: "#0F172A" }}>{st.name}</p>
+            <p className="text-[8px]" style={{ color: "#94A3B8" }}>{st.dist} · {st.count}대 이용 가능</p>
+          </div>
+          <span className="text-[10px]" style={{ color: "#94A3B8" }}>›</span>
+        </div>
+      ))}
+
+      {/* Tab bar */}
+      <div className="mt-auto flex justify-around pt-3" style={{ borderTop: "1px solid #E2E8F0" }}>
+        {[{ icon: "🏠", label: "홈", active: true }, { icon: "📷", label: "스캔" }, { icon: "📋", label: "이용내역" }, { icon: "👤", label: "마이" }].map(tab => (
+          <div key={tab.label} className="text-center">
+            <div className={`text-base ${tab.active ? "opacity-100" : "opacity-30"}`}>{tab.icon}</div>
+            <p className="text-[7px] mt-0.5" style={{ color: tab.active ? "#2563EB" : "#94A3B8" }}>{tab.label}</p>
+          </div>
         ))}
       </div>
     </div>,
 
-    // Screen 1: QR Scan
-    <div key="qr" className="flex flex-col h-full bg-primary items-center justify-center p-6">
-      <div className="w-48 h-48 border-2 border-accent rounded-2xl flex items-center justify-center mb-6 relative">
-        <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-accent rounded-tl-lg" />
-        <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-accent rounded-tr-lg" />
-        <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-accent rounded-bl-lg" />
-        <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-accent rounded-br-lg" />
-        <div className="w-full h-0.5 bg-accent/60 animate-pulse" />
+    // Screen 1: QR Scan (에이플로우 앱 스캔 화면)
+    <div key="qr" className="flex flex-col h-full items-center justify-center relative" style={{ backgroundColor: "#0F172A" }}>
+      {/* Scan frame */}
+      <div className="w-44 h-44 relative mb-6">
+        {/* Corner brackets */}
+        <div className="absolute top-0 left-0 w-8 h-8 border-t-[3px] border-l-[3px] rounded-tl-xl" style={{ borderColor: "#2563EB" }} />
+        <div className="absolute top-0 right-0 w-8 h-8 border-t-[3px] border-r-[3px] rounded-tr-xl" style={{ borderColor: "#2563EB" }} />
+        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-[3px] border-l-[3px] rounded-bl-xl" style={{ borderColor: "#2563EB" }} />
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-[3px] border-r-[3px] rounded-br-xl" style={{ borderColor: "#2563EB" }} />
+        {/* Scan line */}
+        <div className="absolute left-2 right-2 h-0.5 rounded-full animate-[scanMove_2s_ease-in-out_infinite]" style={{ backgroundColor: "#2563EB", top: "50%", boxShadow: "0 0 8px #2563EB" }} />
       </div>
-      <p className="text-white text-sm font-medium mb-1">QR 코드를 스캔하세요</p>
-      <p className="text-white/40 text-xs">장비에 부착된 QR 코드에 카메라를 맞춰주세요</p>
+      <p className="text-white text-sm font-semibold mb-1">QR 코드를 스캔하세요</p>
+      <p className="text-[11px]" style={{ color: "#64748B" }}>장비에 부착된 QR 코드에 카메라를 맞춰주세요</p>
+      <div className="absolute bottom-6 left-0 right-0 flex justify-center">
+        <div className="px-4 py-2 rounded-full" style={{ backgroundColor: "#1E293B" }}>
+          <p className="text-[10px] text-white/60">직접 입력</p>
+        </div>
+      </div>
     </div>,
 
-    // Screen 2: Rental confirm
-    <div key="confirm" className="flex flex-col h-full bg-white p-4">
-      <div className="text-center mb-4">
-        <p className="text-xs text-muted">대여 확인</p>
+    // Screen 2: Rental confirm (에이플로우 대여 확인 화면)
+    <div key="confirm" className="flex flex-col h-full" style={{ backgroundColor: "#F8FAFC" }}>
+      <div className="px-4 py-3 text-center" style={{ borderBottom: "1px solid #E2E8F0" }}>
+        <p className="text-xs font-bold" style={{ color: "#0F172A" }}>대여 확인</p>
       </div>
-      <div className="bg-surface rounded-xl p-4 text-center mb-4">
-        <div className="text-4xl mb-2">📦</div>
-        <p className="font-bold text-primary text-sm">철제 롤테이너</p>
-        <p className="text-[10px] text-muted">RT-500 · 500L</p>
+      <div className="flex-1 p-4 overflow-auto">
+        {/* Device card */}
+        <div className="rounded-2xl p-5 text-center mb-4" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+          <div className="w-12 h-12 mx-auto rounded-xl flex items-center justify-center mb-3" style={{ backgroundColor: "#EFF6FF" }}>
+            <span className="text-2xl">📦</span>
+          </div>
+          <p className="text-sm font-bold" style={{ color: "#0F172A" }}>철제 롤테이너</p>
+          <p className="text-[10px]" style={{ color: "#94A3B8" }}>RT-0042 · 광명 A동</p>
+        </div>
+
+        {/* Plan selector */}
+        <div className="flex gap-1.5 mb-4">
+          {[{ label: "시간제", active: true }, { label: "일일(8h)", active: false }, { label: "주간", active: false }].map(p => (
+            <div key={p.label} className="flex-1 py-2 rounded-xl text-center" style={{
+              backgroundColor: p.active ? "#2563EB" : "#FFFFFF",
+              border: p.active ? "none" : "1px solid #E2E8F0"
+            }}>
+              <p className="text-[10px] font-semibold" style={{ color: p.active ? "#FFFFFF" : "#64748B" }}>{p.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Fee info */}
+        <div className="rounded-xl p-4 mb-4" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+          <div className="flex justify-between mb-2">
+            <span className="text-[10px]" style={{ color: "#94A3B8" }}>기본료</span>
+            <span className="text-[10px] font-bold" style={{ color: "#0F172A" }}>5,000원</span>
+          </div>
+          <div className="flex justify-between mb-2">
+            <span className="text-[10px]" style={{ color: "#94A3B8" }}>시간당</span>
+            <span className="text-[10px] font-bold" style={{ color: "#0F172A" }}>1,500원/h</span>
+          </div>
+          <div className="flex justify-between pt-2" style={{ borderTop: "1px solid #F1F5F9" }}>
+            <span className="text-[10px] font-bold" style={{ color: "#0F172A" }}>예상 요금 (4시간)</span>
+            <span className="text-xs font-bold" style={{ color: "#2563EB" }}>11,000원</span>
+          </div>
+        </div>
       </div>
-      <div className="space-y-3 mb-4">
-        <div className="flex justify-between text-xs">
-          <span className="text-muted">요금제</span>
-          <span className="font-bold text-primary">시간당</span>
-        </div>
-        <div className="flex justify-between text-xs">
-          <span className="text-muted">단가</span>
-          <span className="font-bold text-accent">1,000원/시간</span>
-        </div>
-        <div className="flex justify-between text-xs">
-          <span className="text-muted">스테이션</span>
-          <span className="font-bold text-primary">광명 A동</span>
+
+      <div className="px-4 pb-4">
+        <div className="w-full py-3 rounded-xl text-center" style={{ backgroundColor: "#2563EB" }}>
+          <p className="text-sm font-bold text-white">대여 시작하기</p>
         </div>
       </div>
-      <button className="w-full bg-blue-500 text-white text-sm font-bold py-3 rounded-xl mt-auto">
-        대여 시작하기
-      </button>
     </div>,
 
-    // Screen 3: Active rental
-    <div key="active" className="flex flex-col h-full bg-white p-4">
-      <div className="text-center mb-4">
-        <p className="text-xs text-muted">이용 중</p>
+    // Screen 3: Active rental (에이플로우 이용 중 화면)
+    <div key="active" className="flex flex-col h-full" style={{ backgroundColor: "#F8FAFC" }}>
+      <div className="px-4 py-3 text-center" style={{ borderBottom: "1px solid #E2E8F0" }}>
+        <p className="text-xs font-bold" style={{ color: "#0F172A" }}>이용 중</p>
       </div>
-      <div className="bg-blue-50 rounded-xl p-5 text-center mb-4">
-        <div className="text-4xl mb-2">📦</div>
-        <p className="font-bold text-primary text-sm">철제 롤테이너</p>
-        <div className="mt-3">
-          <p className="text-[10px] text-muted">이용 시간</p>
-          <p className="font-paperlogy text-2xl font-bold text-blue-600">02:34:15</p>
+      <div className="flex-1 p-4">
+        {/* Active card with border glow */}
+        <div className="relative rounded-2xl mb-4">
+          <div className="absolute -inset-0.5 rounded-2xl animate-pulse" style={{ border: "2px solid #2563EB", opacity: 0.4 }} />
+          <div className="relative rounded-2xl p-5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #DBEAFE" }}>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ backgroundColor: "#F0FDF4" }}>
+                <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#22C55E" }} />
+                <span className="text-[9px] font-bold" style={{ color: "#22C55E" }}>이용 중</span>
+              </div>
+              <span className="text-[10px] font-bold ml-auto" style={{ color: "#0F172A" }}>철제 롤테이너</span>
+            </div>
+
+            <div className="text-center mb-3">
+              <p className="text-[9px]" style={{ color: "#94A3B8" }}>이용 시간</p>
+              <p className="text-2xl font-bold tracking-tight" style={{ color: "#0F172A", fontFamily: "monospace" }}>02:34:15</p>
+            </div>
+
+            <div className="flex justify-between items-center p-3 rounded-xl" style={{ backgroundColor: "#EFF6FF" }}>
+              <div>
+                <p className="text-[9px]" style={{ color: "#64748B" }}>현재 요금</p>
+                <p className="text-base font-bold" style={{ color: "#2563EB" }}>8,500원</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[9px]" style={{ color: "#64748B" }}>스테이션</p>
+                <p className="text-[10px] font-semibold" style={{ color: "#0F172A" }}>광명 A동</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="mt-2">
-          <p className="text-[10px] text-muted">현재 요금</p>
-          <p className="font-paperlogy text-lg font-bold text-accent">3,000원</p>
+
+        <div className="w-full py-3 rounded-xl text-center" style={{ backgroundColor: "#0F172A" }}>
+          <p className="text-sm font-bold text-white">반납하기</p>
         </div>
       </div>
-      <button className="w-full bg-primary text-white text-sm font-bold py-3 rounded-xl mt-auto">
-        반납하기
-      </button>
     </div>,
   ];
 
