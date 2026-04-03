@@ -464,7 +464,7 @@ export default function SubscribeLanding() {
         {/* ── 05. 주방집기: Glow 탭 전환 ── */}
         <div className="bg-white py-24">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
               {/* Left: image */}
               <Reveal direction="left" className="lg:col-span-2">
                 <div className="relative rounded-3xl overflow-hidden bg-orange-50 aspect-[3/4] max-h-[420px]">
