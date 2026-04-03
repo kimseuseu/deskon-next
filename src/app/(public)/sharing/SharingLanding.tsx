@@ -469,6 +469,151 @@ export default function SharingLanding() {
         </div>
       </section>
 
+      {/* ═══ STATS ═══ */}
+      <section className="py-20 bg-white border-y border-gray-100">
+        <div className="max-w-5xl mx-auto px-6">
+          <Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {[
+                { value: "500+", label: "등록 장비 수" },
+                { value: "30+", label: "전국 스테이션" },
+                { value: "15,000+", label: "누적 대여 건수" },
+                { value: "99.2%", label: "정상 운영률" },
+              ].map((s, i) => (
+                <div key={s.label} className="animate-slide-up opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: `${i * 100}ms` }}>
+                  <p className="font-paperlogy text-3xl md:text-4xl font-bold text-blue-600">{s.value}</p>
+                  <p className="text-sm text-muted mt-1">{s.label}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ PRICING ═══ */}
+      <section className="py-24 bg-surface">
+        <div className="max-w-5xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-16">
+              <span className="text-xs font-medium uppercase tracking-widest text-blue-600 mb-3 block">Pricing</span>
+              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">합리적인 요금제</h2>
+              <p className="text-muted text-sm mt-3">사용한 시간만큼만 비용을 지불합니다. 숨겨진 비용이 없습니다.</p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {[
+              { plan: "시간제", price: "1,000", unit: "원/시간~", desc: "30분 단위 과금. 짧은 작업에 최적화.", features: ["30분 단위 과금", "최소 이용 30분", "즉시 반납 가능", "초과 시 자동 연장"], color: "border-t-blue-400", popular: false },
+              { plan: "일일", price: "5,000", unit: "원/8시간~", desc: "하루 종일 사용해도 일일 요금만. 장기 작업에 유리.", features: ["8시간 기본 포함", "초과 시간 50% 할인", "당일 반납", "멀티 장비 할인"], color: "border-t-blue-600", popular: true },
+              { plan: "주간", price: "25,000", unit: "원/주~", desc: "1주일 동안 자유롭게 사용. 프로젝트 단위 작업에 적합.", features: ["7일간 무제한 사용", "일일 대비 30% 할인", "중간 반납 가능", "연장 자동 적용"], color: "border-t-blue-800", popular: false },
+            ].map((p, i) => (
+              <Reveal key={p.plan} delay={i * 120}>
+                <div className={`relative bg-white rounded-2xl border border-gray-100 ${p.color} border-t-4 p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full`}>
+                  {p.popular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase bg-blue-600 text-white px-4 py-1 rounded-full">추천</span>
+                  )}
+                  <h3 className="font-paperlogy text-xl font-bold text-primary mb-1">{p.plan}</h3>
+                  <div className="flex items-baseline gap-1 mb-3">
+                    <span className="font-paperlogy text-3xl font-bold text-blue-600">{p.price}</span>
+                    <span className="text-sm text-muted">{p.unit}</span>
+                  </div>
+                  <p className="text-sm text-muted mb-6 leading-relaxed">{p.desc}</p>
+                  <ul className="space-y-2">
+                    {p.features.map(f => (
+                      <li key={f} className="flex items-center gap-2 text-sm text-primary">
+                        <svg className="w-4 h-4 text-blue-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={300}>
+            <div className="bg-blue-50 rounded-2xl p-6 text-center">
+              <p className="text-sm text-blue-800 font-medium">💡 장비 종류에 따라 요금이 다를 수 있습니다. 정확한 요금은 앱에서 QR 스캔 시 자동으로 표시됩니다.</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ USE CASES ═══ */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-16">
+              <span className="text-xs font-medium uppercase tracking-widest text-blue-600 mb-3 block">Use Cases</span>
+              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">이런 현장에서 사용됩니다</h2>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              { icon: "🏭", title: "물류센터 · 창고", desc: "입출고 작업 시 롤테이너, 핸드카트를 QR로 즉시 대여하여 작업 효율을 극대화합니다. 시즌별 물동량 변동에 유연하게 대응 가능합니다.", tag: "물류" },
+              { icon: "🏪", title: "대형마트 · 유통매장", desc: "매장 입고, 진열, 재고 이동에 필요한 장비를 필요할 때만 대여합니다. 장비 구매·보관 부담 없이 운영하세요.", tag: "유통" },
+              { icon: "📦", title: "택배 허브 · 배송센터", desc: "허브터미널에서 분류·적재 작업에 사용합니다. 피크 시즌에 수량을 늘리고, 비수기에는 줄일 수 있습니다.", tag: "배송" },
+              { icon: "🎪", title: "전시회 · 행사장", desc: "단기 행사에 필요한 운반장비를 일 단위로 대여합니다. 행사 종료 후 반납하면 끝. 보관·폐기 걱정이 없습니다.", tag: "행사" },
+              { icon: "⚙️", title: "제조 공장", desc: "생산 라인 간 부품·완성품 운반에 스테커, 카트를 활용합니다. 공정 변경 시 장비 종류도 유연하게 교체 가능합니다.", tag: "제조" },
+              { icon: "🏗️", title: "건설 현장", desc: "자재 운반, 현장 정리에 계단카트, 핸드트럭을 대여합니다. 현장 종료 후 반납하면 비용이 멈춥니다.", tag: "건설" },
+            ].map((uc, i) => (
+              <Reveal key={uc.title} delay={i * 80}>
+                <div className="group flex gap-5 p-6 bg-surface rounded-2xl border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <div className="text-3xl shrink-0 group-hover:animate-[attentionBounce_0.5s_ease-out]">{uc.icon}</div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="font-paperlogy text-base font-bold text-primary">{uc.title}</h3>
+                      <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{uc.tag}</span>
+                    </div>
+                    <p className="text-sm text-muted leading-relaxed">{uc.desc}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SAFETY & MANAGEMENT ═══ */}
+      <section className="py-24 bg-primary text-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <Reveal>
+              <div>
+                <span className="text-xs font-medium uppercase tracking-widest text-blue-300 mb-3 block">Safety & Management</span>
+                <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white leading-snug mb-6">
+                  안전하고 깨끗한<br />장비만 제공합니다
+                </h2>
+                <p className="text-white/70 text-sm leading-relaxed mb-8">
+                  모든 공유 장비는 아오보 그룹의 전문 관리 체계 아래 운영됩니다.
+                  대여 전 점검, 정기 세척, 파손 즉시 교체까지. 항상 최상의 상태를 유지합니다.
+                </p>
+              </div>
+            </Reveal>
+
+            <div className="space-y-4">
+              {[
+                { icon: "🔍", title: "대여 전 자동 점검", desc: "QR 스캔 시 장비 상태가 자동으로 확인됩니다. 이상이 있는 장비는 대여가 차단되고 즉시 교체됩니다." },
+                { icon: "🧹", title: "정기 세척 · 소독", desc: "모든 장비는 주 1회 전문 세척과 소독을 진행합니다. 위생적인 장비를 사용하세요." },
+                { icon: "🔧", title: "파손 즉시 교체", desc: "이용 중 파손이 발생하면 앱으로 신고하면 됩니다. 추가 비용 없이 즉시 교체합니다." },
+                { icon: "📊", title: "이력 관리", desc: "모든 장비의 대여·반납·점검 이력이 앱에 기록됩니다. 투명한 운영을 보장합니다." },
+              ].map((item, i) => (
+                <Reveal key={item.title} delay={i * 100}>
+                  <div className="group flex items-start gap-4 p-5 bg-white/5 backdrop-blur border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                    <div className="text-2xl shrink-0 group-hover:animate-[attentionBounce_0.5s_ease-out]">{item.icon}</div>
+                    <div>
+                      <h3 className="font-paperlogy text-sm font-bold text-white mb-1">{item.title}</h3>
+                      <p className="text-xs text-white/65 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ BENEFITS ═══ */}
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
@@ -560,6 +705,41 @@ export default function SharingLanding() {
                 </Reveal>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ FAQ ═══ */}
+      <section className="py-24 bg-surface">
+        <div className="max-w-3xl mx-auto px-6">
+          <Reveal>
+            <div className="text-center mb-16">
+              <span className="text-xs font-medium uppercase tracking-widest text-blue-600 mb-3 block">FAQ</span>
+              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">자주 묻는 질문</h2>
+            </div>
+          </Reveal>
+
+          <div className="space-y-3">
+            {[
+              { q: "회원가입은 어떻게 하나요?", a: "에이플로우 앱을 다운로드한 후 휴대폰 번호 인증만으로 30초 만에 가입됩니다. 별도 서류나 보증금이 필요 없습니다." },
+              { q: "결제는 언제 되나요?", a: "반납 시 자동으로 이용 시간에 따른 요금이 계산되어 등록된 결제 수단으로 정산됩니다. 대여 시 선결제가 아닌 후불 방식입니다." },
+              { q: "장비를 빌린 곳이 아닌 다른 스테이션에 반납할 수 있나요?", a: "네, 가능합니다. 전국 어느 스테이션에서든 반납할 수 있습니다. 앱에서 가까운 반납 가능 스테이션을 확인하세요." },
+              { q: "이용 중 장비가 고장나면 어떻게 하나요?", a: "앱 내 '문제 신고' 버튼으로 즉시 신고해 주세요. 추가 비용 없이 대체 장비를 배정하거나, 해당 시간의 요금을 면제합니다." },
+              { q: "법인 계정으로 이용할 수 있나요?", a: "네, 법인 계정 등록이 가능합니다. 월 단위 통합 정산, 직원별 이용 관리, 대량 이용 할인 등 기업 전용 혜택을 제공합니다." },
+              { q: "우리 업장에 스테이션을 설치할 수 있나요?", a: "파트너 프로그램을 통해 가능합니다. 장비와 시스템은 아오보 그룹이 무상 제공하며, 발생하는 이용료의 일부를 파트너 리워드로 지급합니다." },
+            ].map((faq, i) => (
+              <Reveal key={i} delay={i * 60}>
+                <details className="group bg-white rounded-xl border border-gray-100 overflow-hidden hover:border-blue-200 transition-colors">
+                  <summary className="flex items-center justify-between p-5 cursor-pointer list-none">
+                    <span className="font-medium text-primary text-sm pr-4">{faq.q}</span>
+                    <span className="text-blue-500 shrink-0 transition-transform duration-300 group-open:rotate-45 text-lg">+</span>
+                  </summary>
+                  <div className="px-5 pb-5">
+                    <p className="text-sm text-muted leading-relaxed border-t border-gray-100 pt-4">{faq.a}</p>
+                  </div>
+                </details>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
