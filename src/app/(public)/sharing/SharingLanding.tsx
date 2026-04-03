@@ -448,24 +448,38 @@ export default function SharingLanding() {
         </div>
       </section>
 
-      {/* ═══ QR CODE + APP DOWNLOAD ═══ */}
+      {/* ═══ APP COMING SOON ═══ */}
       <section className="py-24 bg-primary text-white">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <Reveal>
-            <span className="text-xs font-medium uppercase tracking-widest text-emerald-400 mb-3 block">Download App</span>
+            <span className="text-xs font-medium uppercase tracking-widest text-blue-300 mb-3 block">Coming Soon</span>
             <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">
-              지금 바로 시작하세요
+              에이플로우 앱, 곧 출시됩니다
             </h2>
             <p className="text-white/65 text-sm max-w-lg mx-auto mb-12">
-              QR 코드를 스캔하여 에이플로우 앱을 다운로드하세요
+              현재 최종 테스트를 진행하고 있습니다. 출시 알림을 받으시려면 문의를 남겨주세요.
             </p>
           </Reveal>
 
           <Reveal delay={200}>
-            <div className="inline-block bg-white rounded-3xl p-8 shadow-2xl">
-              <Image src="/images/app-qr.png" alt="에이플로우 앱 다운로드 QR" width={200} height={200} className="mx-auto" />
-              <p className="text-primary font-paperlogy font-bold text-sm mt-4">에이플로우</p>
-              <p className="text-muted text-xs mt-1">QR 스캔으로 다운로드</p>
+            <div className="inline-block bg-white/5 backdrop-blur border border-white/10 rounded-3xl p-10 shadow-2xl">
+              <div className="w-20 h-20 mx-auto rounded-2xl bg-blue-600/20 flex items-center justify-center mb-5">
+                <span className="text-4xl">📱</span>
+              </div>
+              <p className="text-white font-paperlogy font-bold text-lg">에이플로우</p>
+              <p className="text-white/65 text-sm mt-2 mb-6">QR 기반 물류장비 공유 플랫폼</p>
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600/20 border border-blue-400/20">
+                <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                <span className="text-sm text-blue-300 font-medium">개발 진행 중</span>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={400}>
+            <div className="mt-10">
+              <Link href="/support/contact" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-full px-8 py-4 transition-all text-sm">
+                출시 알림 신청하기
+              </Link>
             </div>
           </Reveal>
         </div>
