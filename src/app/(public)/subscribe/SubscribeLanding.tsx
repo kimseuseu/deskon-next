@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { COMPANY } from "@/lib/constants";
 
 /* ══════════════════════════════════════
@@ -319,47 +320,60 @@ export default function SubscribeLanding() {
                 </RollIn>
               </div>
 
-              <div className="space-y-3">
-                {["철제 롤테이너", "메쉬 롤테이너", "접이식 롤테이너", "대형 롤테이너"].map((name, i) => (
-                  <RollIn key={name} delay={300 + i * 150}>
-                    <div className="bg-gradient-to-r from-blue-50 to-blue-100/30 rounded-2xl p-5 flex items-center gap-4 hover:from-blue-100 hover:to-blue-50 transition-all duration-300 cursor-default group">
-                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">📦</div>
-                      <span className="font-medium text-primary text-sm">{name}</span>
-                      <span className="ml-auto text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+              <RollIn delay={300}>
+                <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100/30 group">
+                  <div className="aspect-[3/4] max-h-[420px] relative">
+                    <Image src="/images/subscribe/rolltainer.webp" alt="롤테이너" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+                    <div className="flex flex-wrap gap-2">
+                      {["철제", "메쉬", "접이식", "대형"].map(t => (
+                        <span key={t} className="text-[11px] font-medium bg-white/20 backdrop-blur text-white px-3 py-1 rounded-full">{t}</span>
+                      ))}
                     </div>
-                  </RollIn>
-                ))}
-              </div>
+                  </div>
+                </div>
+              </RollIn>
             </div>
           </div>
         </div>
 
-        {/* ── 02. 파랫트: 적층 효과 ── */}
+        {/* ── 02. 파랫트: 적층 효과 + 이미지 ── */}
         <div className="bg-surface py-24">
-          <div className="max-w-4xl mx-auto px-6 text-center">
-            <Reveal>
-              <span className="text-[11px] font-medium uppercase tracking-widest text-emerald-500 mb-2 block">02 · Pallet</span><span className="font-paperlogy text-lg font-bold text-primary mb-3 block">파랫트</span>
-              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
-                사용이 멈추면<br /><span className="text-accent">비용도 멈춥니다</span>
-              </h2>
-              <p className="text-muted text-sm mb-12">적재·보관·운송에 필요한 파랫트. 사용하지 않으면 과금도 멈춥니다.</p>
-            </Reveal>
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <StackUp index={0}>
+                <div className="relative rounded-3xl overflow-hidden bg-emerald-50 aspect-[3/4] max-h-[420px]">
+                  <Image src="/images/subscribe/pallet.webp" alt="파랫트" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+                </div>
+              </StackUp>
 
-            {/* Stacked blocks */}
-            <div className="max-w-sm mx-auto space-y-3">
-              {[
-                { label: "기본료", value: "6,000원/월", bg: "bg-emerald-50 border-emerald-100" },
-                { label: "1일 사용료", value: "50원", bg: "bg-emerald-100/50 border-emerald-200/50" },
-                { label: "파손 시", value: "무상 교체", bg: "bg-emerald-100 border-emerald-200" },
-                { label: "반납 시", value: "즉시 과금 중지", bg: "bg-emerald-200/50 border-emerald-300/50" },
-              ].map((item, i) => (
-                <StackUp key={item.label} index={i}>
-                  <div className={`${item.bg} border rounded-2xl p-5 flex justify-between items-center`}>
-                    <span className="text-sm text-muted">{item.label}</span>
-                    <span className="font-paperlogy text-lg font-bold text-primary">{item.value}</span>
-                  </div>
-                </StackUp>
-              ))}
+              <div>
+                <Reveal>
+                  <span className="text-[11px] font-medium uppercase tracking-widest text-emerald-500 mb-2 block">02 · Pallet</span>
+                  <span className="font-paperlogy text-lg font-bold text-primary mb-3 block">파랫트</span>
+                  <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
+                    사용이 멈추면<br /><span className="text-accent">비용도 멈춥니다</span>
+                  </h2>
+                  <p className="text-muted text-sm mb-8">적재·보관·운송에 필요한 파랫트. 사용하지 않으면 과금도 멈춥니다.</p>
+                </Reveal>
+
+                <div className="space-y-3">
+                  {[
+                    { label: "기본료", value: "6,000원/월", bg: "bg-emerald-50 border-emerald-100" },
+                    { label: "1일 사용료", value: "50원", bg: "bg-emerald-100/50 border-emerald-200/50" },
+                    { label: "파손 시", value: "무상 교체", bg: "bg-emerald-100 border-emerald-200" },
+                    { label: "반납 시", value: "즉시 과금 중지", bg: "bg-emerald-200/50 border-emerald-300/50" },
+                  ].map((item, i) => (
+                    <StackUp key={item.label} index={i}>
+                      <div className={`${item.bg} border rounded-2xl p-5 flex justify-between items-center`}>
+                        <span className="text-sm text-muted">{item.label}</span>
+                        <span className="font-paperlogy text-lg font-bold text-primary">{item.value}</span>
+                      </div>
+                    </StackUp>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -376,24 +390,33 @@ export default function SubscribeLanding() {
               </div>
             </Reveal>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { size: "대형", price: "45,000", daily: "100원/일", color: "from-violet-50 to-purple-50" },
-                { size: "중형", price: "35,000", daily: "80원/일", color: "from-purple-50 to-violet-50" },
-                { size: "소형", price: "25,000", daily: "60원/일", color: "from-violet-100/30 to-purple-50" },
-              ].map((item, i) => (
-                <Unfold key={item.size} delay={i * 200}>
-                  <div className={`bg-gradient-to-br ${item.color} rounded-3xl p-8 text-center hover:shadow-lg transition-shadow duration-300`}>
-                    <div className="text-5xl mb-4">📐</div>
-                    <h3 className="font-paperlogy text-xl font-bold text-primary mb-3">{item.size}</h3>
-                    <div className="flex items-baseline gap-1 justify-center">
-                      <span className="font-paperlogy text-3xl font-bold text-primary">{item.price}</span>
-                      <span className="text-sm text-muted">원/월</span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <Unfold delay={0}>
+                <div className="relative rounded-3xl overflow-hidden bg-violet-50 aspect-square max-h-[380px] mx-auto w-full">
+                  <Image src="/images/subscribe/intainer.webp" alt="인테이너" fill className="object-contain p-4 hover:scale-105 transition-transform duration-700" />
+                </div>
+              </Unfold>
+
+              <div className="space-y-4">
+                {[
+                  { size: "대형", price: "45,000", daily: "100원/일", color: "from-violet-50 to-purple-50" },
+                  { size: "중형", price: "35,000", daily: "80원/일", color: "from-purple-50 to-violet-50" },
+                  { size: "소형", price: "25,000", daily: "60원/일", color: "from-violet-100/30 to-purple-50" },
+                ].map((item, i) => (
+                  <Unfold key={item.size} delay={(i + 1) * 200}>
+                    <div className={`bg-gradient-to-r ${item.color} rounded-2xl p-6 flex items-center justify-between hover:shadow-lg transition-shadow duration-300`}>
+                      <div>
+                        <h3 className="font-paperlogy text-lg font-bold text-primary">{item.size}</h3>
+                        <p className="text-xs text-violet-400">{item.daily}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="font-paperlogy text-2xl font-bold text-primary">{item.price}</span>
+                        <span className="text-sm text-muted">원/월</span>
+                      </div>
                     </div>
-                    <p className="text-xs text-violet-400 mt-2">{item.daily}</p>
-                  </div>
-                </Unfold>
-              ))}
+                  </Unfold>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -410,39 +433,54 @@ export default function SubscribeLanding() {
               </div>
             </Reveal>
 
-            <div className="max-w-lg mx-auto">
-              {/* 가격 */}
-              <Reveal delay={200}>
-                <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 mb-6 text-center">
-                  <PriceTagWhite label="기본료" price="3,000" unit="원/월" />
-                  <p className="text-xs text-white/40 mt-2">1일 사용료 <strong className="text-white">100원</strong>이면 충분해</p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+              <Reveal direction="left">
+                <div>
+                  <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 mb-6">
+                    <PriceTagWhite label="기본료" price="3,000" unit="원/월" />
+                    <p className="text-xs text-white/40 mt-2">1일 사용료 <strong className="text-white">100원</strong>이면 충분해</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {["대형 바구니", "중형 바구니", "소형 바구니", "특수 규격"].map((name, i) => (
+                      <DropIn key={name} index={i}>
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:bg-white/10 hover:scale-[1.02] transition-all duration-300 cursor-default">
+                          <p className="text-sm font-medium text-white">{name}</p>
+                        </div>
+                      </DropIn>
+                    ))}
+                  </div>
                 </div>
               </Reveal>
 
-              {/* 바구니에 담기는 아이템들 */}
-              <div className="grid grid-cols-2 gap-3">
-                {["대형 바구니", "중형 바구니", "소형 바구니", "특수 규격"].map((name, i) => (
-                  <DropIn key={name} index={i}>
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center hover:bg-white/10 hover:scale-[1.02] transition-all duration-300 cursor-default">
-                      <div className="text-3xl mb-2">🧺</div>
-                      <p className="text-sm font-medium text-white">{name}</p>
-                    </div>
-                  </DropIn>
-                ))}
-              </div>
+              <DropIn index={0}>
+                <div className="relative rounded-3xl overflow-hidden aspect-[4/3] max-h-[320px]">
+                  <Image src="/images/subscribe/movingbox.webp" alt="이사바구니" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+                </div>
+              </DropIn>
             </div>
           </div>
         </div>
 
         {/* ── 05. 주방집기: Glow 탭 전환 ── */}
         <div className="bg-white py-24">
-          <div className="max-w-4xl mx-auto px-6">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+              {/* Left: image */}
+              <Reveal direction="left" className="lg:col-span-2">
+                <div className="relative rounded-3xl overflow-hidden bg-orange-50 aspect-[3/4] max-h-[420px]">
+                  <Image src="/images/subscribe/kitchen.webp" alt="주방집기" fill className="object-contain p-2 hover:scale-105 transition-transform duration-700" />
+                </div>
+              </Reveal>
+
+              {/* Right: content */}
+              <div className="lg:col-span-3">
             <Reveal>
-              <div className="text-center mb-12">
+              <div className="mb-12">
                 <span className="text-[11px] font-medium uppercase tracking-widest text-orange-500 mb-2 block">05 · Kitchen Equipment</span><span className="font-paperlogy text-lg font-bold text-primary mb-3 block">주방집기</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                   조리가 멈추면, <span className="text-accent">비용도 멈춥니다</span>
                 </h2>
+                <p className="text-muted text-sm">급식·외식 현장에 필요한 업소용 장비를 시간 단위로 구독합니다.</p>
               </div>
             </Reveal>
 
@@ -507,6 +545,8 @@ export default function SubscribeLanding() {
                 </GlowIn>
               </div>
             </Reveal>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -522,9 +562,17 @@ export default function SubscribeLanding() {
               </div>
             </Reveal>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Image */}
               <BlowIn delay={0}>
-                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-500">
+                <div className="relative rounded-3xl overflow-hidden bg-sky-100 aspect-square flex items-center justify-center">
+                  <Image src="/images/subscribe/hvac.webp" alt="이동식에어컨" width={300} height={300} className="object-contain p-4 hover:scale-110 transition-transform duration-700" />
+                </div>
+              </BlowIn>
+
+              {/* 2구 */}
+              <BlowIn delay={200}>
+                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-500 h-full flex flex-col justify-center">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-2xl animate-pulse" style={{ animationDuration: "3s" }}>❄️</div>
                     <div>
@@ -537,8 +585,9 @@ export default function SubscribeLanding() {
                 </div>
               </BlowIn>
 
-              <BlowIn delay={300}>
-                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-500 relative overflow-hidden">
+              {/* 3구 */}
+              <BlowIn delay={400}>
+                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-500 relative overflow-hidden h-full flex flex-col justify-center">
                   <span className="absolute top-4 right-4 text-[10px] font-bold uppercase bg-accent text-white px-2.5 py-0.5 rounded-full">인기</span>
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-2xl animate-pulse" style={{ animationDuration: "2.5s" }}>🌬️</div>
