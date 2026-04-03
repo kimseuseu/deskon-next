@@ -50,8 +50,8 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
         <div className="font-paperlogy text-sm font-bold text-primary">에이플로우</div>
         <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-xs">👤</div>
       </div>
-      <div className="bg-emerald-50 rounded-xl p-4 mb-4">
-        <p className="text-[10px] text-emerald-600 font-medium mb-1">가까운 스테이션</p>
+      <div className="bg-blue-50 rounded-xl p-4 mb-4">
+        <p className="text-[10px] text-blue-600 font-medium mb-1">가까운 스테이션</p>
         <p className="text-xs font-bold text-primary">광명물류센터 A동</p>
         <p className="text-[10px] text-muted">350m · 장비 12대 이용 가능</p>
       </div>
@@ -63,7 +63,7 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
               <p className="text-xs font-bold text-primary">{name}</p>
               <p className="text-[10px] text-muted">시간당 1,000원~</p>
             </div>
-            <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
+            <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
               <span className="text-white text-[10px]">→</span>
             </div>
           </div>
@@ -113,7 +113,7 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
           <span className="font-bold text-primary">광명 A동</span>
         </div>
       </div>
-      <button className="w-full bg-emerald-500 text-white text-sm font-bold py-3 rounded-xl mt-auto">
+      <button className="w-full bg-blue-500 text-white text-sm font-bold py-3 rounded-xl mt-auto">
         대여 시작하기
       </button>
     </div>,
@@ -123,12 +123,12 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
       <div className="text-center mb-4">
         <p className="text-xs text-muted">이용 중</p>
       </div>
-      <div className="bg-emerald-50 rounded-xl p-5 text-center mb-4">
+      <div className="bg-blue-50 rounded-xl p-5 text-center mb-4">
         <div className="text-4xl mb-2">📦</div>
         <p className="font-bold text-primary text-sm">철제 롤테이너</p>
         <div className="mt-3">
           <p className="text-[10px] text-muted">이용 시간</p>
-          <p className="font-paperlogy text-2xl font-bold text-emerald-600">02:34:15</p>
+          <p className="font-paperlogy text-2xl font-bold text-blue-600">02:34:15</p>
         </div>
         <div className="mt-2">
           <p className="text-[10px] text-muted">현재 요금</p>
@@ -213,9 +213,9 @@ export default function SharingLanding() {
     <div className="bg-white">
 
       {/* ═══ HERO ═══ */}
-      <section data-hero-dark className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800" style={{ minHeight: "90vh" }}>
+      <section data-hero-dark className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" style={{ minHeight: "90vh" }}>
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] bg-emerald-400/10 rounded-full blur-[150px]" />
+          <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[150px]" />
           <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] bg-accent/10 rounded-full blur-[120px]" />
         </div>
 
@@ -224,7 +224,7 @@ export default function SharingLanding() {
             {/* Left: text */}
             <div>
               <Reveal>
-                <span className="inline-block px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase bg-emerald-400/10 text-emerald-300 border border-emerald-400/20 mb-8">
+                <span className="inline-block px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase bg-blue-500/10 text-blue-300 border border-blue-400/20 mb-8">
                   QR 기반 장비 공유 플랫폼
                 </span>
               </Reveal>
@@ -232,7 +232,7 @@ export default function SharingLanding() {
               <Reveal delay={150}>
                 <h1 className="font-paperlogy text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
                   스캔 한 번으로<br />
-                  <span className="text-emerald-300">장비를 빌리세요</span>
+                  <span className="text-blue-300">장비를 빌리세요</span>
                 </h1>
               </Reveal>
 
@@ -245,7 +245,7 @@ export default function SharingLanding() {
 
               <Reveal delay={450}>
                 <div className="flex flex-wrap gap-4 mb-12">
-                  <a href="#how-it-works" className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white font-medium rounded-full px-8 py-4 transition-all shadow-lg shadow-emerald-500/25 text-sm">
+                  <a href="#how-it-works" className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-500 text-white font-medium rounded-full px-8 py-4 transition-all shadow-lg shadow-blue-500/25 text-sm">
                     이용 방법 보기 ↓
                   </a>
                   <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-2 border border-white/15 text-white/70 hover:text-white hover:bg-white/5 font-medium rounded-full px-8 py-4 transition-all text-sm">
@@ -263,7 +263,7 @@ export default function SharingLanding() {
                     { val: "전국", label: "스테이션 네트워크" },
                   ].map(s => (
                     <div key={s.label}>
-                      <div className="font-paperlogy text-2xl font-bold text-emerald-300">{s.val}</div>
+                      <div className="font-paperlogy text-2xl font-bold text-blue-300">{s.val}</div>
                       <div className="text-[11px] text-white/30 mt-1">{s.label}</div>
                     </div>
                   ))}
@@ -274,7 +274,7 @@ export default function SharingLanding() {
             {/* Right: Phone mockup */}
             <Reveal delay={400} className="hidden lg:flex justify-center">
               <div className="relative">
-                <div className="absolute -inset-16 bg-emerald-400/5 rounded-full blur-[80px]" />
+                <div className="absolute -inset-16 bg-blue-500/5 rounded-full blur-[80px]" />
                 <PhoneMockup activeScreen={phoneScreen} />
                 {/* Screen indicators */}
                 <div className="flex justify-center gap-2 mt-6">
@@ -284,7 +284,7 @@ export default function SharingLanding() {
                       onClick={() => { setPhoneScreen(i); setAutoPlay(false); }}
                       className={`text-[10px] px-3 py-1 rounded-full transition-all duration-300 ${
                         phoneScreen === i
-                          ? "bg-emerald-400 text-white"
+                          ? "bg-blue-500 text-white"
                           : "bg-white/10 text-white/40 hover:bg-white/20"
                       }`}
                     >
@@ -315,7 +315,7 @@ export default function SharingLanding() {
             {/* Right: scrolling steps */}
             <div className="py-24 space-y-8">
               <Reveal>
-                <span className="text-xs font-medium uppercase tracking-widest text-emerald-600 mb-3 block">How it works</span>
+                <span className="text-xs font-medium uppercase tracking-widest text-blue-600 mb-3 block">How it works</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary mb-4">
                   이렇게 간단합니다
                 </h2>
@@ -324,7 +324,7 @@ export default function SharingLanding() {
 
               {[
                 { num: "01", icon: "📱", title: "에이플로우 앱 설치", desc: "앱스토어 또는 구글플레이에서 '에이플로우'를 검색하여 설치합니다. 휴대폰 번호만으로 30초 만에 가입이 완료됩니다.", color: "bg-blue-50 text-blue-600" },
-                { num: "02", icon: "📷", title: "QR 코드 스캔", desc: "장비에 부착된 QR 코드에 카메라를 맞추면 장비 정보와 요금제가 자동으로 표시됩니다. 시간/일/주 단위를 선택하세요.", color: "bg-emerald-50 text-emerald-600" },
+                { num: "02", icon: "📷", title: "QR 코드 스캔", desc: "장비에 부착된 QR 코드에 카메라를 맞추면 장비 정보와 요금제가 자동으로 표시됩니다. 시간/일/주 단위를 선택하세요.", color: "bg-blue-50 text-blue-600" },
                 { num: "03", icon: "✅", title: "대여 시작", desc: "'대여 시작' 버튼을 누르면 즉시 이용할 수 있습니다. 실시간으로 이용 시간과 현재 요금이 표시됩니다.", color: "bg-amber-50 text-amber-600" },
                 { num: "04", icon: "🔄", title: "반납 완료", desc: "스테이션에 장비를 반납하고 '반납' 버튼을 누르면 자동으로 과금이 종료됩니다. 정산은 자동으로 처리됩니다.", color: "bg-violet-50 text-violet-600" },
               ].map((step, i) => (
@@ -378,7 +378,7 @@ export default function SharingLanding() {
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-xs font-medium uppercase tracking-widest text-emerald-600 mb-3 block">Benefits</span>
+              <span className="text-xs font-medium uppercase tracking-widest text-blue-600 mb-3 block">Benefits</span>
               <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">공유서비스의 장점</h2>
             </div>
           </Reveal>
@@ -402,7 +402,7 @@ export default function SharingLanding() {
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-xs font-medium uppercase tracking-widest text-emerald-600 mb-3 block">Equipment</span>
+              <span className="text-xs font-medium uppercase tracking-widest text-blue-600 mb-3 block">Equipment</span>
               <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">공유 가능 장비</h2>
             </div>
           </Reveal>
@@ -413,14 +413,14 @@ export default function SharingLanding() {
           >
             {equipment.map((e) => (
               <motion.div key={e.href} id={e.href.split("/").pop() || ""} className="scroll-mt-24" variants={scaleIn}>
-                <Link href={e.href} className="group block bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-emerald-200 transition-all duration-300 h-full">
+                <Link href={e.href} className="group block bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-blue-200 transition-all duration-300 h-full">
                   <div className="flex items-start justify-between mb-4">
                     <span className="text-4xl group-hover:animate-[attentionBounce_0.5s_ease-out]">{e.emoji}</span>
-                    <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">{e.price}</span>
+                    <span className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{e.price}</span>
                   </div>
-                  <h3 className="font-paperlogy text-xl font-bold text-primary mb-2 group-hover:text-emerald-600 transition-colors">{e.name}</h3>
+                  <h3 className="font-paperlogy text-xl font-bold text-primary mb-2 group-hover:text-blue-600 transition-colors">{e.name}</h3>
                   <p className="text-sm text-muted mb-4">{e.desc}</p>
-                  <span className="inline-flex items-center text-sm text-emerald-600 font-medium">
+                  <span className="inline-flex items-center text-sm text-blue-600 font-medium">
                     자세히 보기 <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
                   </span>
                 </Link>
@@ -436,16 +436,16 @@ export default function SharingLanding() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <Reveal>
               <div>
-                <span className="text-xs font-medium uppercase tracking-widest text-emerald-600 mb-3 block">Partner Station</span>
+                <span className="text-xs font-medium uppercase tracking-widest text-blue-600 mb-3 block">Partner Station</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-6">
-                  귀사의 공간이<br /><span className="text-emerald-600">수익이 됩니다</span>
+                  귀사의 공간이<br /><span className="text-blue-600">수익이 됩니다</span>
                 </h2>
                 <p className="text-muted text-sm leading-relaxed mb-8">
                   업장에 아오보 그룹 물류장비를 배치하면, 방문 고객이 QR 코드로 대여합니다.
                   발생하는 이용료의 일부가 파트너 리워드로 지급됩니다.
                   초기 비용 없이, 관리 부담 없이 새로운 수익 채널을 만드세요.
                 </p>
-                <Link href="/about/partners" className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
+                <Link href="/about/partners" className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
                   파트너 프로그램 자세히 보기 →
                 </Link>
               </div>
@@ -469,7 +469,7 @@ export default function SharingLanding() {
       </section>
 
       {/* ═══ CTA ═══ */}
-      <section className="py-24 bg-gradient-to-br from-emerald-900 to-emerald-700 text-white">
+      <section className="py-24 bg-gradient-to-br from-blue-900 to-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <Reveal>
             <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">
@@ -478,11 +478,11 @@ export default function SharingLanding() {
             <p className="text-white/50 text-sm mb-4">귀사 시설에 맞는 스테이션 구축부터 운영까지 함께합니다.</p>
 
             <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-3 my-6 group">
-              <span className="ring-pulse font-paperlogy text-3xl font-bold text-white group-hover:text-emerald-300 transition-colors">{COMPANY.phone}</span>
+              <span className="ring-pulse font-paperlogy text-3xl font-bold text-white group-hover:text-blue-300 transition-colors">{COMPANY.phone}</span>
             </a>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-              <Link href="/support/contact" className="inline-flex items-center justify-center px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-medium rounded-full transition-all text-sm">
+              <Link href="/support/contact" className="inline-flex items-center justify-center px-8 py-4 bg-blue-500 hover:bg-blue-500 text-white font-medium rounded-full transition-all text-sm">
                 도입 문의하기
               </Link>
               <a href={COMPANY.kakaoChannel} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-8 py-4 border border-white/15 text-white/70 hover:text-white hover:bg-white/5 font-medium rounded-full transition-all text-sm">
