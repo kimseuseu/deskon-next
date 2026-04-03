@@ -214,7 +214,7 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
 
             <div className="text-center mb-3">
               <p className="text-[9px]" style={{ color: "#94A3B8" }}>이용 시간</p>
-              <p className="text-2xl font-bold tracking-tight" style={{ color: "#0F172A", fontFamily: "monospace" }}>02:34:15</p>
+              <p className="font-paperlogy text-2xl font-bold tracking-tight tabular-nums" style={{ color: "#0F172A" }}>02:34:15</p>
             </div>
 
             <div className="flex justify-between items-center p-3 rounded-xl" style={{ backgroundColor: "#EFF6FF" }}>
