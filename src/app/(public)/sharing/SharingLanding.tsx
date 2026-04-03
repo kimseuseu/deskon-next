@@ -241,11 +241,13 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
     <div className="relative mx-auto" style={{ width: 280, height: 560 }}>
       {/* Phone frame */}
       <div className="absolute inset-0 rounded-[40px] bg-gradient-to-b from-gray-200 to-gray-300 shadow-2xl" />
-      <div className="absolute inset-[3px] rounded-[37px] bg-[#0F172A] overflow-hidden">
+      <div className="absolute inset-[3px] rounded-[37px] overflow-hidden">
+        {/* Full screen background matches first screen */}
+        <div className="absolute inset-0 bg-[#F8FAFC]" />
         {/* Notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-b-2xl z-20" />
         {/* Screen content */}
-        <div className="absolute inset-0 top-0 bottom-0 overflow-hidden pt-6 pb-1">
+        <div className="absolute inset-0 top-6 bottom-1 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeScreen}
