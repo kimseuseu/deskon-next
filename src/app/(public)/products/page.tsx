@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/contexts/CartContext";
@@ -73,6 +73,7 @@ export default function ProductsPage() {
   const { addItem } = useCart();
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
+  const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
 
   // URL의 ?q= 파라미터로 검색어 초기화
   useEffect(() => {
@@ -94,7 +95,7 @@ export default function ProductsPage() {
       .sort((a, b) => a.sortOrder - b.sortOrder);
   }, [activeCategory, search]);
 
-  const handleAddItem = (product: Product) => {
+  const handleAddItem = useCallback((product: Product) => {
     addItem({
       productId: product.id,
       productName: product.name,
@@ -102,7 +103,15 @@ export default function ProductsPage() {
       quantity: 1,
       serviceType: categoryToServiceType[product.category] ?? "rental",
     });
-  };
+    setAddedIds((prev) => new Set(prev).add(product.id));
+    setTimeout(() => {
+      setAddedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(product.id);
+        return next;
+      });
+    }, 1500);
+  }, [addItem]);
 
   return (
     <div className="min-h-screen bg-cream">
@@ -132,7 +141,7 @@ export default function ProductsPage() {
                 <button
                   key={cat.slug}
                   onClick={() => setActiveCategory(cat.slug)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+                  className={`relative px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 ${
                     activeCategory === cat.slug
                       ? "bg-primary text-white shadow-md scale-105"
                       : "bg-surface text-muted hover:bg-gray-200"
@@ -142,6 +151,12 @@ export default function ProductsPage() {
                     <span className="mr-1">{categoryIcon[cat.slug]}</span>
                   )}
                   {cat.label}
+                  {/* Animated underline */}
+                  <span
+                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-accent rounded-full transition-all duration-300 ${
+                      activeCategory === cat.slug ? "w-3/5 opacity-100" : "w-0 opacity-0"
+                    }`}
+                  />
                 </button>
               ))}
             </div>
@@ -233,8 +248,8 @@ export default function ProductsPage() {
             {filtered.map((product, idx) => (
               <div
                 key={product.id}
-                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-accent/20 transition-all duration-300"
-                style={{ animationDelay: `${idx * 50}ms` }}
+                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-accent/20 transition-all duration-300 animate-slide-up opacity-0 [animation-fill-mode:forwards]"
+                style={{ animationDelay: `${idx * 80}ms` }}
               >
                 {/* Product Image */}
                 <Link href={`/products/${product.id}`}>
@@ -297,12 +312,28 @@ export default function ProductsPage() {
                     </span>
                     <button
                       onClick={() => handleAddItem(product)}
-                      className="flex items-center gap-1.5 bg-primary hover:bg-primary/90 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors shadow-sm hover:shadow-md active:scale-95 duration-150"
+                      disabled={addedIds.has(product.id)}
+                      className={`flex items-center gap-1.5 text-white text-sm font-medium px-4 py-2 rounded-full transition-all shadow-sm hover:shadow-md active:scale-95 duration-150 ${
+                        addedIds.has(product.id)
+                          ? "bg-green-500"
+                          : "bg-primary hover:bg-primary/90"
+                      }`}
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                      </svg>
-                      견적에 추가
+                      {addedIds.has(product.id) ? (
+                        <>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                          </svg>
+                          추가됨
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                          </svg>
+                          견적에 추가
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>

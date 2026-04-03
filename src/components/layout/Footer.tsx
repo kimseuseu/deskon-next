@@ -58,14 +58,14 @@ function FooterColumn({
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-white/45 hover:text-accent transition-colors duration-200"
+                className="link-underline text-sm text-white/45 hover:text-accent transition-colors duration-200"
               >
                 {link.label}
               </a>
             ) : (
               <Link
                 href={link.href}
-                className="text-sm text-white/45 hover:text-accent transition-colors duration-200"
+                className="link-underline text-sm text-white/45 hover:text-accent transition-colors duration-200"
               >
                 {link.label}
               </Link>
@@ -84,7 +84,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8">
           {/* Brand Column */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 animate-slide-up" style={{ animationDelay: "0ms", animationFillMode: "both" }}>
             <Link href="/" className="inline-flex items-end gap-2 mb-4">
               <Image
                 src="/images/ex_aovo_symbol.png"
@@ -106,7 +106,7 @@ export default function Footer() {
               href="tel:010-9929-5363"
               className="mt-5 inline-flex items-center gap-3 group"
             >
-              <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center group-hover:bg-accent/30 transition-colors">
+              <div className="ring-pulse w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center group-hover:bg-accent/30 transition-colors">
                 <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                 </svg>
@@ -127,10 +127,18 @@ export default function Footer() {
           </div>
 
           {/* Link Columns */}
-          <FooterColumn title="구독 · 공유" links={subscriptionLinks} />
-          <FooterColumn title="렌탈 · 순환 · 유통" links={serviceLinks} />
-          <FooterColumn title="고객지원" links={supportLinks} />
-          <FooterColumn title="회사소개" links={companyLinks} />
+          <div className="animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
+            <FooterColumn title="구독 · 공유" links={subscriptionLinks} />
+          </div>
+          <div className="animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
+            <FooterColumn title="렌탈 · 순환 · 유통" links={serviceLinks} />
+          </div>
+          <div className="animate-slide-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
+            <FooterColumn title="고객지원" links={supportLinks} />
+          </div>
+          <div className="animate-slide-up" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
+            <FooterColumn title="회사소개" links={companyLinks} />
+          </div>
         </div>
       </div>
 

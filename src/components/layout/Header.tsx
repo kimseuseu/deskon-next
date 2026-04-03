@@ -65,7 +65,7 @@ export default function Header() {
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className={`max-w-7xl mx-auto px-6 flex items-center justify-between transition-all duration-500 ${scrolled ? "h-16" : "h-20"}`}>
           {/* Logo */}
           <Link href="/" className="flex items-end gap-2 shrink-0">
             <Image
@@ -123,8 +123,8 @@ export default function Header() {
                   <div
                     className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${
                       activeDropdown === index
-                        ? "opacity-100 translate-y-0 pointer-events-auto"
-                        : "opacity-0 -translate-y-2 pointer-events-none"
+                        ? "opacity-100 translate-y-0 pointer-events-auto blur-0"
+                        : "opacity-0 -translate-y-2 pointer-events-none blur-[4px]"
                     }`}
                   >
                     <div className="bg-white rounded-xl shadow-xl shadow-black/8 border border-gray-100/80 py-2 min-w-[240px] overflow-hidden">

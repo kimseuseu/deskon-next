@@ -117,7 +117,7 @@ export default function FloatingContact() {
       {/* Main FAB */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-[60px] h-[60px] rounded-full bg-accent text-white shadow-xl shadow-accent/25 hover:shadow-accent/40 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center"
+        className="ring-pulse breathe w-[60px] h-[60px] rounded-full bg-accent text-white shadow-xl shadow-accent/25 hover:shadow-accent/40 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center animate-[attentionBounce_0.6s_ease-out_1s_1]"
         aria-label="문의하기"
       >
         <motion.svg

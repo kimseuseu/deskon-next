@@ -1,10 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import Link from "next/link";
 import { ServiceData } from "@/data/services";
 
+const titleContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const titleWordVariants = {
+  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+
 export default function ServicePageTemplate({ data }: { data: ServiceData }) {
+  const processRef = useRef<HTMLDivElement>(null);
+
   return (
     <div>
       {/* Hero Section */}
@@ -21,9 +36,18 @@ export default function ServicePageTemplate({ data }: { data: ServiceData }) {
             <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium tracking-wider mb-6">
               {data.categoryLabel}
             </span>
-            <h1 className="font-paperlogy font-bold text-4xl md:text-6xl mb-6">
-              {data.title}
-            </h1>
+            <motion.h1
+              className="font-paperlogy font-bold text-4xl md:text-6xl mb-6 flex flex-wrap gap-x-[0.3em]"
+              variants={titleContainerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {data.title.split(" ").map((word, i) => (
+                <motion.span key={i} variants={titleWordVariants} className="inline-block">
+                  {word}
+                </motion.span>
+              ))}
+            </motion.h1>
             <p className="text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
               {data.subtitle}
             </p>
@@ -69,7 +93,7 @@ export default function ServicePageTemplate({ data }: { data: ServiceData }) {
                 transition={{ delay: i * 0.15 }}
                 className="bg-surface rounded-2xl p-8 hover:shadow-lg transition-all duration-500 group"
               >
-                <span className="text-4xl mb-6 block">{feature.icon}</span>
+                <span className="text-4xl mb-6 block group-hover:animate-[attentionBounce_0.5s_ease-out]">{feature.icon}</span>
                 <h3 className="font-paperlogy font-bold text-xl mb-3 group-hover:text-accent transition-colors">
                   {feature.title}
                 </h3>
@@ -96,7 +120,7 @@ export default function ServicePageTemplate({ data }: { data: ServiceData }) {
             </h2>
             <p className="text-muted text-lg">간단한 4단계로 시작하세요</p>
           </motion.div>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div ref={processRef} className="grid md:grid-cols-4 gap-8 relative">
             {data.process.map((step, i) => (
               <motion.div
                 key={i}
@@ -104,13 +128,24 @@ export default function ServicePageTemplate({ data }: { data: ServiceData }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="text-center"
+                className="text-center relative"
               >
-                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6 relative z-10">
                   <span className="font-paperlogy font-bold text-2xl text-accent">
                     {step.step}
                   </span>
                 </div>
+                {/* Connecting line between steps */}
+                {i < data.process.length - 1 && (
+                  <motion.div
+                    className="hidden md:block absolute top-8 left-[calc(50%+2rem)] h-0.5 bg-accent/20 origin-left"
+                    style={{ width: "calc(100% - 4rem)" }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.2 + 0.3, duration: 0.6, ease: "easeOut" }}
+                  />
+                )}
                 <h3 className="font-paperlogy font-bold text-lg mb-2">
                   {step.title}
                 </h3>
@@ -138,9 +173,11 @@ export default function ServicePageTemplate({ data }: { data: ServiceData }) {
             href="tel:010-9929-5363"
             className="inline-flex items-center gap-3 mb-10 group"
           >
+            <span className="ring-pulse rounded-full inline-flex items-center justify-center">
             <svg className="w-6 h-6 text-white/60 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
             </svg>
+            </span>
             <span className="font-paperlogy text-3xl md:text-4xl font-bold text-white group-hover:text-accent-light transition-colors">
               010-9929-5363
             </span>
