@@ -152,18 +152,17 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="text-xs text-white/60 leading-relaxed space-y-0.5">
             <p>
-              <span className="text-white/65 font-medium">mbc</span>
-              &nbsp;&nbsp;|&nbsp;&nbsp;대표: 강귀원&nbsp;&nbsp;|&nbsp;&nbsp;사업자등록번호:
-              108-12-35112
+              <span className="text-white/65 font-medium">주식회사 킴샵</span>
+              &nbsp;&nbsp;|&nbsp;&nbsp;대표: 김영식&nbsp;&nbsp;|&nbsp;&nbsp;사업자등록번호: 302-88-01373
             </p>
             <p>
-              경기도 광명시 금오로 679&nbsp;&nbsp;|&nbsp;&nbsp;
-              <a
-                href="tel:010-9929-5363"
-                className="hover:text-accent transition-colors"
-              >
-                010-9929-5363
-              </a>
+              통신판매업신고번호: 제2019-인천중구-0276호
+            </p>
+            <p>
+              주소: 인천광역시 중구 항동 서해대로 111 킴샵그룹&nbsp;&nbsp;|&nbsp;&nbsp;
+              <a href="tel:010-9929-5363" className="hover:text-accent transition-colors">010-9929-5363</a>
+              &nbsp;&nbsp;|&nbsp;&nbsp;
+              <a href="mailto:mbc8447289@naver.com" className="hover:text-accent transition-colors">mbc8447289@naver.com</a>
             </p>
           </div>
 

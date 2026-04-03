@@ -54,15 +54,16 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "AOVO (아오보)",
-  legalName: "mbc",
-  url: "https://aovo.kr",
+  name: "AOVO Group (아오보 그룹)",
+  legalName: "주식회사 킴샵",
+  url: "https://www.aovo.kr",
   telephone: "010-9929-5363",
+  email: "mbc8447289@naver.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "금오로 679(옥길동)",
-    addressLocality: "광명시",
-    addressRegion: "경기도",
+    streetAddress: "서해대로 111 킴샵그룹",
+    addressLocality: "중구",
+    addressRegion: "인천광역시",
     addressCountry: "KR",
   },
 };
