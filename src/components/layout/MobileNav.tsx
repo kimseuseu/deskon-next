@@ -85,14 +85,14 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
                       <span className="font-paperlogy text-base font-semibold tracking-wide">
                         {item.label}
                       </span>
-                      <span className="text-xs text-white/40 font-medium uppercase tracking-widest">
+                      <span className="text-xs text-white/65 font-medium uppercase tracking-widest">
                         {item.labelEn}
                       </span>
                     </div>
                     <motion.svg
                       animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
-                      className="w-4 h-4 text-white/50"
+                      className="w-4 h-4 text-white/70"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -140,21 +140,21 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
                 <Link
                   href="/support/notice"
                   onClick={onClose}
-                  className="block text-sm text-white/50 hover:text-accent transition-colors"
+                  className="block text-sm text-white/70 hover:text-accent transition-colors"
                 >
                   공지사항
                 </Link>
                 <Link
                   href="/support/faq"
                   onClick={onClose}
-                  className="block text-sm text-white/50 hover:text-accent transition-colors"
+                  className="block text-sm text-white/70 hover:text-accent transition-colors"
                 >
                   FAQ
                 </Link>
                 <Link
                   href="/support/contact"
                   onClick={onClose}
-                  className="block text-sm text-white/50 hover:text-accent transition-colors"
+                  className="block text-sm text-white/70 hover:text-accent transition-colors"
                 >
                   문의하기
                 </Link>
@@ -162,7 +162,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
               {/* Contact CTA */}
               <div className="mt-10 p-4 rounded-xl bg-white/5 border border-white/10">
-                <p className="text-xs text-white/40 mb-2">상담 전화</p>
+                <p className="text-xs text-white/65 mb-2">상담 전화</p>
                 <a
                   href="tel:010-9929-5363"
                   className="text-lg font-paperlogy font-bold text-accent"

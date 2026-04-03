@@ -58,14 +58,14 @@ function FooterColumn({
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link-underline text-sm text-white/45 hover:text-accent transition-colors duration-200"
+                className="link-underline text-sm text-white/65 hover:text-accent transition-colors duration-200"
               >
                 {link.label}
               </a>
             ) : (
               <Link
                 href={link.href}
-                className="link-underline text-sm text-white/45 hover:text-accent transition-colors duration-200"
+                className="link-underline text-sm text-white/65 hover:text-accent transition-colors duration-200"
               >
                 {link.label}
               </Link>
@@ -97,7 +97,7 @@ export default function Footer() {
                 AOVO
               </span>
             </Link>
-            <p className="text-sm text-white/50 leading-relaxed max-w-xs">
+            <p className="text-sm text-white/70 leading-relaxed max-w-xs">
               비즈니스 자산 통합 운영 플랫폼
             </p>
 
@@ -115,11 +115,11 @@ export default function Footer() {
                 <span className="block font-paperlogy text-2xl font-bold text-white group-hover:text-accent transition-colors">
                   010-9929-5363
                 </span>
-                <span className="block text-xs text-white/40 mt-0.5">평일 09:00 - 18:00</span>
+                <span className="block text-xs text-white/65 mt-0.5">평일 09:00 - 18:00</span>
               </div>
             </a>
 
-            <p className="mt-4 text-xs text-white/30 leading-relaxed max-w-xs">
+            <p className="mt-4 text-xs text-white/60 leading-relaxed max-w-xs">
               구독, 공유, 렌탈, 순환, 유통까지
               <br />
               산업 자산의 모든 라이프사이클을 관리합니다.
@@ -150,9 +150,9 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="text-xs text-white/30 leading-relaxed space-y-0.5">
+          <div className="text-xs text-white/60 leading-relaxed space-y-0.5">
             <p>
-              <span className="text-white/45 font-medium">mbc</span>
+              <span className="text-white/65 font-medium">mbc</span>
               &nbsp;&nbsp;|&nbsp;&nbsp;대표: 강귀원&nbsp;&nbsp;|&nbsp;&nbsp;사업자등록번호:
               108-12-35112
             </p>
@@ -167,7 +167,7 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="flex items-center gap-4 text-xs text-white/30">
+          <div className="flex items-center gap-4 text-xs text-white/60">
             <Link
               href="/terms"
               className="hover:text-accent transition-colors duration-200"

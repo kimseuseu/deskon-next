@@ -169,7 +169,7 @@ export default function ChairSubscriptionPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-paperlogy text-lg font-bold text-white mb-1">{chair.name}</h3>
-                        <p className="text-white/40 text-xs mb-2">{chair.spec}</p>
+                        <p className="text-white/65 text-xs mb-2">{chair.spec}</p>
                         <div className="flex items-baseline gap-2">
                           <span className="text-accent font-bold text-base">{chair.price}</span>
                           <span className="text-white/25 text-xs line-through">{chair.purchasePrice}</span>
@@ -188,7 +188,7 @@ export default function ChairSubscriptionPage() {
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white leading-snug mb-6">
                   검증된 프리미엄<br />의자 라인업
                 </h2>
-                <p className="text-white/50 text-base leading-relaxed mb-8">
+                <p className="text-white/70 text-base leading-relaxed mb-8">
                   인체공학 메쉬부터 프리미엄 가죽까지,
                   직원 규모와 예산에 맞는 다양한 모델을 제공합니다.
                   광명 쇼룸에서 직접 체험하고 선택할 수 있습니다.

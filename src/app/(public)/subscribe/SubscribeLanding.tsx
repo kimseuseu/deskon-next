@@ -186,9 +186,9 @@ function PriceTag({ label, price, unit }: { label: string; price: string; unit: 
 function PriceTagWhite({ label, price, unit }: { label: string; price: string; unit: string }) {
   return (
     <div className="flex items-baseline gap-1">
-      <span className="text-xs text-white/40">{label}</span>
+      <span className="text-xs text-white/65">{label}</span>
       <span className="font-paperlogy text-2xl md:text-3xl font-bold text-white">{price}</span>
-      <span className="text-sm text-white/40">{unit}</span>
+      <span className="text-sm text-white/65">{unit}</span>
     </div>
   );
 }
@@ -211,7 +211,7 @@ export default function SubscribeLanding() {
 
         <div className="relative z-10 min-h-[80vh] flex flex-col justify-center max-w-5xl mx-auto px-6 pt-28 pb-16">
           <Reveal>
-            <span className="inline-block px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase bg-white/5 text-white/50 border border-white/10 mb-8 w-fit">
+            <span className="inline-block px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase bg-white/5 text-white/70 border border-white/10 mb-8 w-fit">
               AOVO Group Subscription
             </span>
           </Reveal>
@@ -224,7 +224,7 @@ export default function SubscribeLanding() {
           </Reveal>
 
           <Reveal delay={300}>
-            <p className="text-white/40 text-lg md:text-xl max-w-xl leading-relaxed mb-12">
+            <p className="text-white/65 text-lg md:text-xl max-w-xl leading-relaxed mb-12">
               롤테이너부터 주방집기까지. 구독 중이라도 사용이 멈추면 비용도 멈춥니다.
             </p>
           </Reveal>
@@ -249,7 +249,7 @@ export default function SubscribeLanding() {
               ].map(s => (
                 <div key={s.label}>
                   <div className="font-paperlogy text-2xl font-bold text-white"><CountUp target={s.target} suffix={s.suffix} /></div>
-                  <div className="text-[11px] text-white/30 mt-1 tracking-wider uppercase">{s.label}</div>
+                  <div className="text-[11px] text-white/60 mt-1 tracking-wider uppercase">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -438,7 +438,7 @@ export default function SubscribeLanding() {
                 <div>
                   <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 mb-6">
                     <PriceTagWhite label="기본료" price="3,000" unit="원/월" />
-                    <p className="text-xs text-white/40 mt-2">1일 사용료 <strong className="text-white">100원</strong>이면 충분해</p>
+                    <p className="text-xs text-white/65 mt-2">1일 사용료 <strong className="text-white">100원</strong>이면 충분해</p>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     {["대형 바구니", "중형 바구니", "소형 바구니", "특수 규격"].map((name, i) => (
@@ -622,7 +622,7 @@ export default function SubscribeLanding() {
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white leading-snug mb-4" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.3)" }}>
                   자리가 비면, <span className="text-accent-light">비용도 멈춥니다</span>
                 </h2>
-                <p className="text-white/50 text-sm max-w-lg mx-auto mb-10" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.2)" }}>
+                <p className="text-white/70 text-sm max-w-lg mx-auto mb-10" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.2)" }}>
                   인체공학 프리미엄 사무용 의자를 월 구독으로. 3개월 정기 세척·부품 교체 포함.
                 </p>
 
@@ -636,8 +636,8 @@ export default function SubscribeLanding() {
                   ].map((chair, i) => (
                     <SpinIn key={chair.name} index={i}>
                       <div className="bg-white/[0.08] backdrop-blur-lg border border-white/[0.15] rounded-2xl px-6 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_2px_16px_rgba(0,0,0,0.15)] hover:bg-white/[0.14] hover:border-white/[0.25] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_4px_24px_rgba(0,0,0,0.25)] hover:scale-105 transition-all duration-300 min-w-[120px] cursor-default">
-                        <p className="text-accent font-paperlogy font-bold text-xl">{chair.price}<span className="text-xs font-normal text-white/30">원~</span></p>
-                        <p className="text-[11px] text-white/40 mt-1">{chair.name}</p>
+                        <p className="text-accent font-paperlogy font-bold text-xl">{chair.price}<span className="text-xs font-normal text-white/60">원~</span></p>
+                        <p className="text-[11px] text-white/65 mt-1">{chair.name}</p>
                       </div>
                     </SpinIn>
                   ))}
@@ -691,7 +691,7 @@ export default function SubscribeLanding() {
         <div className="max-w-3xl mx-auto px-6 text-center">
           <Reveal>
             <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white mb-4">맞춤 견적을 받아보세요</h2>
-            <p className="text-white/40 text-sm mb-8">품목과 수량만 알려주시면 24시간 내 견적서를 보내드립니다.</p>
+            <p className="text-white/65 text-sm mb-8">품목과 수량만 알려주시면 24시간 내 견적서를 보내드립니다.</p>
             <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-3 mb-8 group">
               <span className="font-paperlogy text-3xl font-bold text-accent group-hover:text-accent-light transition-colors">{COMPANY.phone}</span>
             </a>

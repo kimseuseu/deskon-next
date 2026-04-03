@@ -163,7 +163,7 @@ export default function RolltainerSubscriptionPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-paperlogy text-lg font-bold text-white mb-1">{rt.name}</h3>
-                        <p className="text-white/40 text-xs mb-2">{rt.spec}</p>
+                        <p className="text-white/65 text-xs mb-2">{rt.spec}</p>
                         <div className="text-accent font-bold text-base">{rt.price}</div>
                       </div>
                     </div>
@@ -178,7 +178,7 @@ export default function RolltainerSubscriptionPage() {
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white leading-snug mb-6">
                   용도별 롤테이너<br />라인업
                 </h2>
-                <p className="text-white/50 text-base leading-relaxed mb-8">
+                <p className="text-white/70 text-base leading-relaxed mb-8">
                   물류센터, 유통매장, 택배 허브, 제조 공장 등
                   현장 환경에 맞는 다양한 규격과 타입을 제공합니다.
                 </p>

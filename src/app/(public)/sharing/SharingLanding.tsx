@@ -333,7 +333,7 @@ export default function SharingLanding() {
               </Reveal>
 
               <Reveal delay={300}>
-                <p className="text-white/50 text-lg max-w-lg leading-relaxed mb-10">
+                <p className="text-white/70 text-lg max-w-lg leading-relaxed mb-10">
                   에이플로우 앱으로 QR 코드를 스캔하면 3초 만에 물류장비를 대여할 수 있습니다.
                   시간 단위 과금으로 쓴 만큼만 비용을 지불하세요.
                 </p>
@@ -360,7 +360,7 @@ export default function SharingLanding() {
                   ].map(s => (
                     <div key={s.label}>
                       <div className="font-paperlogy text-2xl font-bold text-blue-300">{s.val}</div>
-                      <div className="text-[11px] text-white/30 mt-1">{s.label}</div>
+                      <div className="text-[11px] text-white/60 mt-1">{s.label}</div>
                     </div>
                   ))}
                 </div>
@@ -381,7 +381,7 @@ export default function SharingLanding() {
                       className={`text-[10px] px-3 py-1 rounded-full transition-all duration-300 ${
                         phoneScreen === i
                           ? "bg-blue-500 text-white"
-                          : "bg-white/10 text-white/40 hover:bg-white/20"
+                          : "bg-white/10 text-white/65 hover:bg-white/20"
                       }`}
                     >
                       {label}
@@ -454,7 +454,7 @@ export default function SharingLanding() {
             <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">
               지금 바로 시작하세요
             </h2>
-            <p className="text-white/40 text-sm max-w-lg mx-auto mb-12">
+            <p className="text-white/65 text-sm max-w-lg mx-auto mb-12">
               QR 코드를 스캔하여 에이플로우 앱을 다운로드하세요
             </p>
           </Reveal>
@@ -571,7 +571,7 @@ export default function SharingLanding() {
             <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">
               공유서비스 도입을 상담하세요
             </h2>
-            <p className="text-white/50 text-sm mb-4">귀사 시설에 맞는 스테이션 구축부터 운영까지 함께합니다.</p>
+            <p className="text-white/70 text-sm mb-4">귀사 시설에 맞는 스테이션 구축부터 운영까지 함께합니다.</p>
 
             <a href={`tel:${COMPANY.phone}`} className="inline-flex items-center gap-3 my-6 group">
               <span className="ring-pulse font-paperlogy text-3xl font-bold text-white group-hover:text-blue-300 transition-colors">{COMPANY.phone}</span>

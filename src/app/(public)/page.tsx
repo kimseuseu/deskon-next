@@ -241,7 +241,7 @@ function CountUpStat({
           {suffix}
         </span>
       </div>
-      <span className="text-[0.65rem] text-white/45 tracking-[0.08em] uppercase mt-1.5">
+      <span className="text-[0.65rem] text-white/65 tracking-[0.08em] uppercase mt-1.5">
         {label}
       </span>
     </div>
@@ -769,7 +769,7 @@ export default function HomePage() {
                     </h3>
 
                     {/* Short desc (visible in default state, hidden on hover) */}
-                    <p className="text-xs text-white/50 max-w-[160px] leading-relaxed lg:opacity-100 lg:group-hover:opacity-0 transition-opacity duration-300">
+                    <p className="text-xs text-white/70 max-w-[160px] leading-relaxed lg:opacity-100 lg:group-hover:opacity-0 transition-opacity duration-300">
                       {svc.desc}
                     </p>
 
@@ -1086,7 +1086,7 @@ export default function HomePage() {
                   <h4 className="font-paperlogy text-sm font-bold text-white mb-2">
                     {card.title}
                   </h4>
-                  <p className="text-xs text-white/50 leading-relaxed">
+                  <p className="text-xs text-white/70 leading-relaxed">
                     {card.desc}
                   </p>
                 </div>
@@ -1108,7 +1108,7 @@ export default function HomePage() {
                       <h4 className="font-paperlogy text-lg font-bold text-white mb-2">
                         {step.title}
                       </h4>
-                      <p className="text-sm text-white/50">{step.desc}</p>
+                      <p className="text-sm text-white/70">{step.desc}</p>
                     </div>
                     {i < processSteps.length - 1 && (
                       <div className="hidden lg:flex absolute top-1/2 -right-3 -translate-y-1/2 z-10 text-accent/30 text-xl">

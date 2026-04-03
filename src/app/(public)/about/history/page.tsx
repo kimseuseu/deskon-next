@@ -175,7 +175,7 @@ export default function HistoryPage() {
                 <div className="font-paperlogy text-3xl md:text-4xl font-bold text-accent-light">
                   <CountUp target={s.target} suffix={s.suffix} />
                 </div>
-                <div className="text-xs text-white/40 mt-1 uppercase tracking-wider">{s.label}</div>
+                <div className="text-xs text-white/65 mt-1 uppercase tracking-wider">{s.label}</div>
               </div>
             ))}
           </div>
