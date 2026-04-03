@@ -604,46 +604,51 @@ export default function SubscribeLanding() {
           </div>
         </div>
 
-        {/* ── 07. 체어: 영상 배경 + 회전 등장 ── */}
-        <div className="relative py-24 overflow-hidden">
+        {/* ── 07. 체어: 영상 배경 + 글래스모피즘 ── */}
+        <div className="relative py-28 overflow-hidden">
           {/* Video background */}
           <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover">
             <source src="/images/aovo-flexible-backrest.mp4" type="video/mp4" />
           </video>
+          {/* 배경 오버레이: 80% — 영상이 은은하게 비침 */}
           <div className="absolute inset-0 bg-primary/80" />
 
-          <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+          <div className="relative z-10 max-w-5xl mx-auto px-6">
+            {/* 메인 글래스 패널 */}
             <Reveal>
-              <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-2 block">07 · Chair</span>
-              <span className="font-paperlogy text-lg font-bold text-white mb-3 block">사무용 의자</span>
-              <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white leading-snug mb-4">
-                자리가 비면, <span className="text-accent-light">비용도 멈춥니다</span>
-              </h2>
-              <p className="text-white/40 text-sm max-w-lg mx-auto mb-10">
-                인체공학 프리미엄 사무용 의자를 월 구독으로. 3개월 정기 세척·부품 교체 포함.
-              </p>
-            </Reveal>
+              <div className="bg-white/[0.07] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-10 md:p-14 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-1px_0_rgba(255,255,255,0.03),0_8px_40px_rgba(0,0,0,0.25)] text-center">
+                <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-2 block">07 · Chair</span>
+                <span className="font-paperlogy text-lg font-bold text-white/90 mb-3 block" style={{ textShadow: "0 1px 8px rgba(0,0,0,0.3)" }}>사무용 의자</span>
+                <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white leading-snug mb-4" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.3)" }}>
+                  자리가 비면, <span className="text-accent-light">비용도 멈춥니다</span>
+                </h2>
+                <p className="text-white/50 text-sm max-w-lg mx-auto mb-10" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.2)" }}>
+                  인체공학 프리미엄 사무용 의자를 월 구독으로. 3개월 정기 세척·부품 교체 포함.
+                </p>
 
-            <div className="flex justify-center gap-4 flex-wrap mb-12">
-              {[
-                { price: "15,000", name: "JNS-501" },
-                { price: "35,000", name: "JNS-1018" },
-                { price: "45,000", name: "JNS-801L" },
-                { price: "65,000", name: "JNS-901" },
-              ].map((chair, i) => (
-                <SpinIn key={chair.name} index={i}>
-                  <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-6 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_4px_24px_rgba(0,0,0,0.2)] hover:bg-white/15 hover:border-accent/40 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_8px_32px_rgba(0,0,0,0.3)] hover:scale-105 transition-all duration-300 min-w-[120px] cursor-default">
-                    <p className="text-accent font-paperlogy font-bold text-xl">{chair.price}<span className="text-xs font-normal text-white/30">원~</span></p>
-                    <p className="text-[11px] text-white/40 mt-1">{chair.name}</p>
-                  </div>
-                </SpinIn>
-              ))}
-            </div>
+                {/* 가격 카드 — 이중 글래스 (패널 안의 카드) */}
+                <div className="flex justify-center gap-4 flex-wrap mb-10">
+                  {[
+                    { price: "15,000", name: "JNS-501" },
+                    { price: "35,000", name: "JNS-1018" },
+                    { price: "45,000", name: "JNS-801L" },
+                    { price: "65,000", name: "JNS-901" },
+                  ].map((chair, i) => (
+                    <SpinIn key={chair.name} index={i}>
+                      <div className="bg-white/[0.08] backdrop-blur-lg border border-white/[0.15] rounded-2xl px-6 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_2px_16px_rgba(0,0,0,0.15)] hover:bg-white/[0.14] hover:border-white/[0.25] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_4px_24px_rgba(0,0,0,0.25)] hover:scale-105 transition-all duration-300 min-w-[120px] cursor-default">
+                        <p className="text-accent font-paperlogy font-bold text-xl">{chair.price}<span className="text-xs font-normal text-white/30">원~</span></p>
+                        <p className="text-[11px] text-white/40 mt-1">{chair.name}</p>
+                      </div>
+                    </SpinIn>
+                  ))}
+                </div>
 
-            <Reveal delay={500}>
-              <Link href="/subscribe/chair" className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white font-medium rounded-full px-8 py-4 transition-all shadow-lg shadow-accent/20 text-sm">
-                의자 구독 자세히 보기 →
-              </Link>
+                <Reveal delay={500}>
+                  <Link href="/subscribe/chair" className="inline-flex items-center gap-2 bg-accent/90 backdrop-blur-sm hover:bg-accent text-white font-medium rounded-full px-8 py-4 transition-all shadow-[0_4px_20px_rgba(184,151,126,0.3)] hover:shadow-[0_6px_28px_rgba(184,151,126,0.4)] text-sm">
+                    의자 구독 자세히 보기 →
+                  </Link>
+                </Reveal>
+              </div>
             </Reveal>
           </div>
         </div>
