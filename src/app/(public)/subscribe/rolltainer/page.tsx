@@ -77,8 +77,8 @@ export default function RolltainerSubscriptionPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent z-[1]" />
 
         <div className="relative z-10 min-h-[85vh] flex items-center">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
-            <div>
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-16 w-full">
+            <div className="max-w-2xl">
               <Reveal>
                 <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase bg-blue-500/15 text-blue-300 border border-blue-400/20 mb-6">
                   Rolltainer Subscription
@@ -108,12 +108,7 @@ export default function RolltainerSubscriptionPage() {
               </Reveal>
             </div>
 
-            <Reveal delay={400} className="hidden lg:block">
-              <div className="relative">
-                <div className="absolute -inset-8 bg-blue-500/10 rounded-full blur-[80px]" />
-                <Image src="/images/logistics/steel-rolltainer.webp" alt="철제 롤테이너" width={500} height={400} className="relative z-10 w-full h-auto object-contain rounded-2xl shadow-2xl" />
-              </div>
-            </Reveal>
+            {/* 히어로 이미지 제거 — 배경 이미지만 사용 */}
           </div>
         </div>
       </section>
