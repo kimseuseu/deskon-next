@@ -604,11 +604,18 @@ export default function SubscribeLanding() {
           </div>
         </div>
 
-        {/* ── 07. 체어: 회전 등장 ── */}
-        <div className="bg-primary py-24">
-          <div className="max-w-5xl mx-auto px-6 text-center">
+        {/* ── 07. 체어: 영상 배경 + 회전 등장 ── */}
+        <div className="relative py-24 overflow-hidden">
+          {/* Video background */}
+          <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover">
+            <source src="/images/aovo-flexible-backrest.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-primary/80 backdrop-blur-sm" />
+
+          <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
             <Reveal>
-              <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-2 block">07 · Chair</span><span className="font-paperlogy text-lg font-bold text-white mb-3 block">사무용 의자</span>
+              <span className="text-[11px] font-medium uppercase tracking-widest text-accent mb-2 block">07 · Chair</span>
+              <span className="font-paperlogy text-lg font-bold text-white mb-3 block">사무용 의자</span>
               <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-white leading-snug mb-4">
                 자리가 비면, <span className="text-accent-light">비용도 멈춥니다</span>
               </h2>
@@ -625,7 +632,7 @@ export default function SubscribeLanding() {
                 { price: "65,000", name: "JNS-901" },
               ].map((chair, i) => (
                 <SpinIn key={chair.name} index={i}>
-                  <div className="bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-center hover:bg-white/10 hover:border-accent/30 hover:scale-105 transition-all duration-300 min-w-[120px] cursor-default">
+                  <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-6 py-5 text-center hover:bg-white/10 hover:border-accent/30 hover:scale-105 transition-all duration-300 min-w-[120px] cursor-default">
                     <p className="text-accent font-paperlogy font-bold text-xl">{chair.price}<span className="text-xs font-normal text-white/30">원~</span></p>
                     <p className="text-[11px] text-white/40 mt-1">{chair.name}</p>
                   </div>
