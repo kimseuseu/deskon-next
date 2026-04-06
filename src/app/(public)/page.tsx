@@ -90,7 +90,7 @@ const serviceTimeline = [
   {
     slug: "recycle",
     badge: "순환",
-    title: "순환서비스",
+    title: "연대서비스",
     desc: "전문 재정비를 거친 검증된 품질의 장비를 합리적인 가격으로",
     href: "/recycle",
     icon: "♻️",

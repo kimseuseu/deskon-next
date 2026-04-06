@@ -62,7 +62,7 @@ export const navigation: NavItem[] = [
     ],
   },
   {
-    label: "순환서비스",
+    label: "연대서비스",
     labelEn: "Renewal",
     href: "/recycle",
     children: [

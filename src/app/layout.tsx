@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import MetaPixel from "@/components/seo/MetaPixel";
 import NaverAnalytics from "@/components/seo/NaverAnalytics";
+import SplashScreen from "@/components/SplashScreen";
 
 const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans",
@@ -83,6 +84,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col bg-cream text-primary">
+        <SplashScreen />
         <CartProvider>{children}</CartProvider>
         <MetaPixel />
         <NaverAnalytics />

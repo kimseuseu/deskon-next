@@ -38,7 +38,7 @@ export const SERVICE_CATEGORIES = [
   },
   {
     slug: "recycle",
-    nameKo: "순환서비스",
+    nameKo: "연대서비스",
     nameEn: "Renewal",
     color: "from-amber-900 to-amber-600",
   },
