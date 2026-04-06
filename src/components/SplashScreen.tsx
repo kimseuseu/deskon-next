@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 /*
@@ -22,11 +23,24 @@ const galleryImages = [
 
 type Phase = "gallery" | "logo" | "fading" | "done";
 
+/* 전역 플래그: 이 JS 실행 컨텍스트(탭) 안에서 이미 재생했는지 추적.
+   SPA 내비게이션으로 /→다른페이지→/ 돌아올 때 중복 재생 방지.
+   새 탭 / 새로고침 시에는 JS가 새로 로드되므로 false로 초기화됨. */
+let splashPlayed = false;
+
 export default function SplashScreen() {
+  const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("gallery");
 
   useEffect(() => {
-    if (sessionStorage.getItem("splash-shown")) {
+    // 메인 페이지(/)에서만 표시
+    if (pathname !== "/") {
+      setPhase("done");
+      return;
+    }
+
+    // 이미 이 탭에서 재생한 적 있으면 스킵
+    if (splashPlayed) {
       setPhase("done");
       return;
     }
@@ -35,11 +49,11 @@ export default function SplashScreen() {
     const t2 = setTimeout(() => setPhase("fading"), 4000);
     const t3 = setTimeout(() => {
       setPhase("done");
-      sessionStorage.setItem("splash-shown", "1");
+      splashPlayed = true;
     }, 4800);
 
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-  }, []);
+  }, [pathname]);
 
   if (phase === "done") return null;
 
