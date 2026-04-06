@@ -468,14 +468,14 @@ export default function SubscribeLanding() {
               {/* Left: image */}
               <Reveal direction="left" className="lg:col-span-2">
                 <div className="relative rounded-3xl overflow-hidden bg-orange-50 aspect-[3/4] max-h-[420px]">
-                  <Image src="/images/subscribe/kitchen.webp" alt="주방집기" fill className="object-contain p-2 hover:scale-105 transition-transform duration-700" />
+                  <Image src="/images/subscribe/kitchen.png" alt="주방집기" fill className="object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
               </Reveal>
 
               {/* Right: content */}
               <div className="lg:col-span-3">
             <Reveal>
-              <div className="mb-12">
+              <div className="mb-10">
                 <span className="text-[11px] font-medium uppercase tracking-widest text-orange-500 mb-2 block">05 · Kitchen Equipment</span><span className="font-paperlogy text-lg font-bold text-primary mb-3 block">주방집기</span>
                 <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary leading-snug mb-4">
                   조리가 멈추면, <span className="text-accent">비용도 멈춥니다</span>
@@ -485,7 +485,8 @@ export default function SubscribeLanding() {
             </Reveal>
 
             <Reveal delay={200}>
-              <div className="flex gap-2 mb-8 justify-center">
+              {/* Tab buttons — emoji 유지 */}
+              <div className="flex gap-2 mb-6">
                 {["🍳 튀김기", "🥩 철판그릴", "🔥 인덕션"].map((name, i) => (
                   <button key={name} onClick={() => setKitchenTab(i)}
                     className={`px-5 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
@@ -498,51 +499,39 @@ export default function SubscribeLanding() {
                 ))}
               </div>
 
-              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-50 to-amber-50 min-h-[250px]">
-                {/* 튀김기 */}
-                <GlowIn active={kitchenTab === 0}>
-                  <div className={`p-12 text-center ${kitchenTab === 0 ? "" : "absolute inset-0"}`}>
-                    <div className="text-7xl mb-6 drop-shadow-lg">🍳</div>
-                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-4">업소용 튀김기</h3>
-                    <div className="flex items-baseline gap-1 justify-center mb-2">
-                      <span className="text-xs text-muted">기본료</span>
-                      <span className="font-paperlogy text-4xl font-bold text-primary">250,000</span>
-                      <span className="text-sm text-muted">원</span>
+              {/* Detail cards — emoji 제거, 새 디자인 */}
+              <div className="relative overflow-hidden rounded-2xl border border-gray-100 min-h-[200px]">
+                {[
+                  { name: "업소용 튀김기", price: "250,000", unit: "원", usage: "시간당 1,000원", accent: "orange" },
+                  { name: "철판그릴", price: "250,000", unit: "원", usage: "시간당 1,000원", accent: "red" },
+                  { name: "인덕션", price: "80,000", unit: "원", usage: "미사용 시 0원", accent: "violet" },
+                ].map((item, i) => (
+                  <GlowIn key={item.name} active={kitchenTab === i}>
+                    <div className={`p-8 ${kitchenTab === i ? "" : "absolute inset-0"}`}>
+                      <div className="flex items-center justify-between mb-5">
+                        <h3 className="font-paperlogy text-xl font-bold text-primary">{item.name}</h3>
+                        <span className={`text-[10px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full ${
+                          item.accent === "orange" ? "bg-orange-100 text-orange-600"
+                          : item.accent === "red" ? "bg-red-100 text-red-600"
+                          : "bg-violet-100 text-violet-600"
+                        }`}>구독</span>
+                      </div>
+                      <div className="flex items-end gap-1 mb-3">
+                        <span className="text-xs text-muted leading-none pb-0.5">기본료</span>
+                        <span className="font-paperlogy text-4xl font-bold text-primary leading-none">{item.price}</span>
+                        <span className="text-sm text-muted leading-none pb-0.5">{item.unit}</span>
+                      </div>
+                      <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm ${
+                        item.accent === "orange" ? "bg-orange-50 text-orange-700"
+                        : item.accent === "red" ? "bg-red-50 text-red-700"
+                        : "bg-violet-50 text-violet-700"
+                      }`}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                        {item.usage}
+                      </div>
                     </div>
-                    <p className="text-muted text-sm">시간당 <strong className="text-primary">1,000원</strong>이면 조리 끝</p>
-                    <div className="mt-4 w-24 h-1 bg-gradient-to-r from-orange-300 to-amber-300 rounded-full mx-auto" />
-                  </div>
-                </GlowIn>
-
-                {/* 철판그릴 */}
-                <GlowIn active={kitchenTab === 1}>
-                  <div className={`p-12 text-center ${kitchenTab === 1 ? "" : "absolute inset-0"}`}>
-                    <div className="text-7xl mb-6 drop-shadow-lg">🥩</div>
-                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-4">철판그릴</h3>
-                    <div className="flex items-baseline gap-1 justify-center mb-2">
-                      <span className="text-xs text-muted">기본료</span>
-                      <span className="font-paperlogy text-4xl font-bold text-primary">250,000</span>
-                      <span className="text-sm text-muted">원</span>
-                    </div>
-                    <p className="text-muted text-sm">시간당 <strong className="text-primary">1,000원</strong></p>
-                    <div className="mt-4 w-24 h-1 bg-gradient-to-r from-red-300 to-orange-300 rounded-full mx-auto" />
-                  </div>
-                </GlowIn>
-
-                {/* 인덕션 */}
-                <GlowIn active={kitchenTab === 2}>
-                  <div className={`p-12 text-center ${kitchenTab === 2 ? "" : "absolute inset-0"}`}>
-                    <div className="text-7xl mb-6 drop-shadow-lg">🔥</div>
-                    <h3 className="font-paperlogy text-2xl font-bold text-primary mb-4">인덕션</h3>
-                    <div className="flex items-baseline gap-1 justify-center mb-2">
-                      <span className="text-xs text-muted">기본료</span>
-                      <span className="font-paperlogy text-4xl font-bold text-primary">80,000</span>
-                      <span className="text-sm text-muted">원</span>
-                    </div>
-                    <p className="text-muted text-sm">미사용 시 <strong className="text-primary">0원</strong></p>
-                    <div className="mt-4 w-24 h-1 bg-gradient-to-r from-blue-300 to-violet-300 rounded-full mx-auto" />
-                  </div>
-                </GlowIn>
+                  </GlowIn>
+                ))}
               </div>
             </Reveal>
               </div>

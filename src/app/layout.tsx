@@ -3,6 +3,7 @@ import { Noto_Sans_KR, Syne } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import MetaPixel from "@/components/seo/MetaPixel";
+import NaverAnalytics from "@/components/seo/NaverAnalytics";
 
 const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans",
@@ -84,6 +85,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-cream text-primary">
         <CartProvider>{children}</CartProvider>
         <MetaPixel />
+        <NaverAnalytics />
       </body>
     </html>
   );

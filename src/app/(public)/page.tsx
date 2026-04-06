@@ -22,7 +22,7 @@ const heroSlides = [
     poster: "/images/aovo-banner2.webp",
     sub1: "사무 공간을 완성하는",
     sub2: "가구 구독 & 렌탈",
-    line1: "책상이 비면",
+    line1: "사용이 멈추면",
     line2: "비용도 멈춥니다",
   },
   {
@@ -254,6 +254,8 @@ export default function HomePage() {
   const [statsVisible, setStatsVisible] = useState(false);
   const [heroIndex, setHeroIndex] = useState(0);
   const [heroFading, setHeroFading] = useState(false);
+  const [heroPartialFade, setHeroPartialFade] = useState(false);
+  const heroIndexRef = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     company: "",
@@ -378,17 +380,29 @@ export default function HomePage() {
   const heroVideoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const heroTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Keep ref in sync for use in stable callback
+  useEffect(() => { heroIndexRef.current = heroIndex; }, [heroIndex]);
+
   const advanceHeroSlide = useCallback(() => {
-    setHeroFading(true);
+    const currentIdx = heroIndexRef.current;
+    const nextIdx = (currentIdx + 1) % heroSlides.length;
+    const sameBottomLine = heroSlides[currentIdx].line2 === heroSlides[nextIdx].line2;
+
+    if (sameBottomLine) {
+      setHeroPartialFade(true);
+    } else {
+      setHeroFading(true);
+    }
+
     setTimeout(() => {
-      setHeroIndex((prev) => {
-        const next = (prev + 1) % heroSlides.length;
-        // Play next video from start
-        const nextVideo = heroVideoRefs.current[next];
-        if (nextVideo) { nextVideo.currentTime = 0; nextVideo.play().catch(() => {}); }
-        return next;
-      });
-      setHeroFading(false);
+      setHeroIndex(nextIdx);
+      const nextVideo = heroVideoRefs.current[nextIdx];
+      if (nextVideo) { nextVideo.currentTime = 0; nextVideo.play().catch(() => {}); }
+      if (sameBottomLine) {
+        setHeroPartialFade(false);
+      } else {
+        setHeroFading(false);
+      }
     }, 600);
   }, []);
 
@@ -400,7 +414,7 @@ export default function HomePage() {
     currentVideo.addEventListener("ended", onEnded);
 
     // Fallback: if video loops or has no end event, advance after 10s
-    heroTimerRef.current = setTimeout(advanceHeroSlide, 12000);
+    heroTimerRef.current = setTimeout(advanceHeroSlide, 5000);
 
     return () => {
       currentVideo.removeEventListener("ended", onEnded);
@@ -552,16 +566,15 @@ export default function HomePage() {
 
           {/* Center content */}
           <div className="absolute inset-0 z-10 flex items-center justify-center pt-20">
-            <div
-              className="text-center px-4 transition-all duration-[600ms] ease-in-out"
-              style={{
-                opacity: heroFading ? 0 : 1,
-                transform: heroFading ? "translateY(20px)" : "translateY(0)",
-              }}
-            >
+            <div className="text-center px-4">
+              {/* Subtitle – fades on both full & partial transitions */}
               <p
-                className="mb-8 text-[clamp(1rem,2.2vw,1.35rem)] font-normal text-white/70 tracking-[0.02em] leading-relaxed"
-                style={{ textShadow: "0 2px 15px rgba(0,0,0,0.4)" }}
+                className="mb-8 text-[clamp(1rem,2.2vw,1.35rem)] font-normal text-white/70 tracking-[0.02em] leading-relaxed transition-all duration-[600ms] ease-in-out"
+                style={{
+                  textShadow: "0 2px 15px rgba(0,0,0,0.4)",
+                  opacity: (heroFading || heroPartialFade) ? 0 : 1,
+                  transform: (heroFading || heroPartialFade) ? "translateY(12px)" : "translateY(0)",
+                }}
               >
                 <span className="block">{heroSlides[heroIndex].sub1}</span>
                 <span className="block mt-1">{heroSlides[heroIndex].sub2}</span>
@@ -574,12 +587,24 @@ export default function HomePage() {
                   textShadow: "0 4px 30px rgba(0,0,0,0.4), 0 2px 10px rgba(0,0,0,0.3)",
                 }}
               >
-                <span className="block text-white mb-[0.1em] font-light">
+                {/* Line 1 – slides up/down on both full & partial transitions */}
+                <span
+                  className="block text-white mb-[0.1em] font-light transition-all duration-[600ms] ease-in-out"
+                  style={{
+                    opacity: (heroFading || heroPartialFade) ? 0 : 1,
+                    transform: (heroFading || heroPartialFade) ? "translateY(-24px)" : "translateY(0)",
+                  }}
+                >
                   {heroSlides[heroIndex].line1}
                 </span>
+                {/* Line 2 – only fades on full transition, stays still on partial */}
                 <span
-                  className="block font-bold text-accent-light"
-                  style={{ textShadow: "0 4px 30px rgba(184,151,126,0.3), 0 2px 10px rgba(0,0,0,0.3)" }}
+                  className="block font-bold text-accent-light transition-all duration-[600ms] ease-in-out"
+                  style={{
+                    textShadow: "0 4px 30px rgba(184,151,126,0.3), 0 2px 10px rgba(0,0,0,0.3)",
+                    opacity: heroFading ? 0 : 1,
+                    transform: heroFading ? "translateY(20px)" : "translateY(0)",
+                  }}
                 >
                   {heroSlides[heroIndex].line2}
                 </span>
@@ -592,7 +617,14 @@ export default function HomePage() {
             {heroSlides.map((_, i) => (
               <button
                 key={i}
-                onClick={() => { setHeroFading(true); setTimeout(() => { setHeroIndex(i); setHeroFading(false); }, 400); }}
+                onClick={() => {
+                  const sameBottom = heroSlides[heroIndex].line2 === heroSlides[i].line2;
+                  if (sameBottom) { setHeroPartialFade(true); } else { setHeroFading(true); }
+                  setTimeout(() => {
+                    setHeroIndex(i);
+                    if (sameBottom) { setHeroPartialFade(false); } else { setHeroFading(false); }
+                  }, 400);
+                }}
                 className={`h-[3px] rounded-full transition-all duration-500 ${
                   heroIndex === i ? "w-8 bg-accent" : "w-4 bg-white/30 hover:bg-white/50"
                 }`}
