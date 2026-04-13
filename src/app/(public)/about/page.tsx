@@ -99,7 +99,7 @@ export default function AboutPage() {
 
           <Reveal delay={300}>
             <p className="text-white/65 text-lg md:text-xl max-w-2xl leading-relaxed mb-12">
-              비즈니스 장비의 구매부터 운영, 순환까지.
+              비즈니스 장비의 구매부터 운영, 자산연대까지.
               AOVO Group은 기업이 본업에만 집중할 수 있는 환경을 만듭니다.
             </p>
           </Reveal>
@@ -150,7 +150,7 @@ export default function AboutPage() {
                 { icon: "💸", title: "구매의 딜레마", desc: "사무가구, 물류장비를 구매하면 수천만 원의 초기 비용이 발생합니다. 사업이 축소되면 유휴 자산이 되어 공간과 비용을 낭비합니다. 매년 감가상각으로 자산 가치는 떨어지고, 폐기 시 추가 비용까지 발생합니다." },
                 { icon: "🔄", title: "운영의 해답", desc: "필요할 때 배치하고, 필요 없을 때 반납합니다. 초기 비용 없이 월정액으로 시작하고, 인원 변동에 따라 수량을 즉시 조절합니다. 유지보수, 교체, 수거까지 전담팀이 책임집니다." },
                 { icon: "📊", title: "재무적 효과", desc: "장비가 자산이 아닌 비용으로 처리되어 재무제표가 깔끔해집니다. 감가상각 부담이 사라지고, 유휴 장비 보관 비용이 제로가 됩니다. 사용한 만큼만 비용을 지불하는 구조입니다." },
-                { icon: "🌱", title: "지속 가능한 성장", desc: "순환 서비스를 통해 장비의 수명을 연장하고 폐기를 줄입니다. ESG 경영에 기여하면서 동시에 비용을 절감합니다. 기업은 장비 관리가 아닌 본업에 집중할 수 있습니다." },
+                { icon: "🌱", title: "지속 가능한 성장", desc: "자산연대 서비스를 통해 장비의 수명을 연장하고 폐기를 줄입니다. ESG 경영에 기여하면서 동시에 비용을 절감합니다. 기업은 장비 관리가 아닌 본업에 집중할 수 있습니다." },
               ].map((item, i) => (
                 <Reveal key={item.title} delay={i * 100}>
                   <div className="group bg-surface rounded-2xl p-8 border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
@@ -175,7 +175,7 @@ export default function AboutPage() {
               비즈니스 장비의 패러다임을 바꿉니다
             </h2>
             <p className="text-white/65 text-lg max-w-2xl mx-auto leading-relaxed">
-              AOVO Group은 구독 · 공유 · 렌탈 · 순환 · 유통, 다섯 가지 서비스 모델을 통해
+              AOVO Group은 구독 · 공유 · 렌탈 · 자산연대 · 유통, 다섯 가지 서비스 모델을 통해
               기업의 자산 운영 효율을 극대화하고 불필요한 비용을 제거합니다.
             </p>
           </Reveal>
@@ -238,7 +238,7 @@ export default function AboutPage() {
               { icon: "📱", title: "IT 기반 자산 관리", desc: "바코드·QR 기반 실시간 장비 추적. 이용 현황을 앱에서 한눈에 확인합니다." },
               { icon: "💰", title: "비용 구조 혁신", desc: "초기 투자 없이 월정액 운영. 사용하지 않는 기간에는 비용이 발생하지 않습니다." },
               { icon: "🤝", title: "파트너 생태계", desc: "부동산, 인테리어, 이전 업체 등 다양한 파트너와 협력하여 통합 솔루션을 제공합니다." },
-              { icon: "♻️", title: "ESG 경영", desc: "장비 재정비·순환을 통해 폐기를 줄이고, 지속 가능한 산업 생태계를 구축합니다." },
+              { icon: "♻️", title: "ESG 경영", desc: "장비 재정비·자산연대를 통해 폐기를 줄이고, 지속 가능한 산업 생태계를 구축합니다." },
             ].map((item, i) => (
               <Reveal key={item.title} delay={i * 80}>
                 <div className="group bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full">

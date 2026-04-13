@@ -89,7 +89,7 @@ const serviceTimeline = [
   },
   {
     slug: "recycle",
-    badge: "순환",
+    badge: "자산연대",
     title: "자산연대서비스",
     desc: "전문 재정비를 거친 검증된 품질의 장비를 합리적인 가격으로",
     href: "/recycle",
@@ -172,7 +172,7 @@ const processSteps = [
   { step: "01", title: "문의·상담", desc: "전화/카카오톡/웹으로 편하게 문의" },
   { step: "02", title: "계약·배치", desc: "맞춤 견적 후 현장 배송·설치" },
   { step: "03", title: "운영·관리", desc: "전담팀 유지보수 및 정기 점검" },
-  { step: "04", title: "회수·순환", desc: "반납·회수 후 재정비·재배치" },
+  { step: "04", title: "회수·자산연대", desc: "반납·회수 후 재정비·재배치" },
 ];
 
 const serviceFeatureBoxes = [
@@ -713,7 +713,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 {[
                   "필요한 만큼만 빌려 쓰고 반납",
-                  "구독·공유·렌탈·순환·유통 통합",
+                  "구독·공유·렌탈·자산연대·유통 통합",
                   "초기 비용 ZERO, 월정액 운영",
                 ].map((text, i) => (
                   <div

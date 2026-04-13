@@ -8,14 +8,14 @@ export default function RecycleChairPage() {
     <>
       {/* Hero */}
       <section data-hero-dark className="relative min-h-[60vh] flex items-center overflow-hidden pt-20">
-        <Image src="/images/certa.webp" alt="CERTA 순환 서비스" fill className="object-cover" priority />
+        <Image src="/images/certa.webp" alt="CERTA 자산연대 서비스" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-24">
           <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
             CERTA Renewal
           </span>
           <h1 className="font-paperlogy text-4xl md:text-5xl font-bold text-white mb-5 max-w-xl">
-            체어 순환 서비스<br />(세르타)
+            체어 자산연대 서비스<br />(세르타)
           </h1>
           <p className="text-white/70 text-lg max-w-lg mb-10">
             전문 재정비를 거친 검증된 품질의 의자를 합리적 가격으로 다시 만나보세요.
@@ -48,7 +48,7 @@ export default function RecycleChairPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Process</span>
-            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">순환 프로세스</h2>
+            <h2 className="font-paperlogy text-3xl md:text-4xl font-bold text-primary">자산연대 프로세스</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -56,7 +56,7 @@ export default function RecycleChairPage() {
               { step: "01", title: "수거 신청", desc: "사용 완료된 의자의 수거를 신청합니다" },
               { step: "02", title: "방문 수거", desc: "전문팀이 직접 방문하여 의자를 수거합니다" },
               { step: "03", title: "3단계 정비", desc: "분해·세척·소독·부품 교체·품질 검수" },
-              { step: "04", title: "순환 완료", desc: "재정비된 의자를 새 고객에게 배치합니다" },
+              { step: "04", title: "자산연대 완료", desc: "재정비된 의자를 새 고객에게 배치합니다" },
             ].map((s) => (
               <div key={s.step} className="bg-white rounded-2xl p-8 text-center border border-gray-100">
                 <div className="font-paperlogy text-4xl font-bold text-accent/20 mb-3">{s.step}</div>
@@ -72,7 +72,7 @@ export default function RecycleChairPage() {
       <section className="py-24 bg-surface">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="font-paperlogy text-3xl font-bold text-primary">순환 서비스의 가치</h2>
+            <h2 className="font-paperlogy text-3xl font-bold text-primary">자산연대 서비스의 가치</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -95,10 +95,10 @@ export default function RecycleChairPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-accent/90 to-amber-700/90" />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <h2 className="font-paperlogy text-3xl font-bold text-white mb-5">
-            의자 순환 서비스가 궁금하신가요?
+            의자 자산연대 서비스가 궁금하신가요?
           </h2>
           <p className="text-white/80 text-lg mb-10">
-            aovochair.com에서 CERTA 순환 서비스를 자세히 확인하세요.
+            aovochair.com에서 CERTA 자산연대 서비스를 자세히 확인하세요.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

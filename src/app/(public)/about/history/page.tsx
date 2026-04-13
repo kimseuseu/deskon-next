@@ -49,8 +49,8 @@ const milestones = [
   },
   {
     year: "2025",
-    title: "통합 플랫폼 순환",
-    desc: "구독·공유·렌탈·순환·유통 5대 서비스를 하나로 통합한 AOVO 플랫폼으로 새롭게 오픈했습니다.",
+    title: "통합 플랫폼 자산연대",
+    desc: "구독·공유·렌탈·자산연대·유통 5대 서비스를 하나로 통합한 AOVO 플랫폼으로 새롭게 오픈했습니다.",
     image: "/images/aovo-banner1.webp",
     accent: "from-accent to-gold",
   },

@@ -32,7 +32,7 @@ const serviceTypes = [
   { value: "subscribe", label: "구독" },
   { value: "sharing", label: "공유" },
   { value: "rental", label: "렌탈" },
-  { value: "recycle", label: "순환" },
+  { value: "recycle", label: "자산연대" },
   { value: "buyback", label: "유통" },
 ] as const;
 
