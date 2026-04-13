@@ -28,7 +28,7 @@ const milestones = [
   },
   {
     year: "2020",
-    title: "연대서비스 시작",
+    title: "자산연대서비스 시작",
     desc: "전문 재정비를 거친 검증된 품질의 장비를 합리적 가격으로 재공급하는 모델을 구축하고 ESG 경영을 본격화했습니다.",
     image: "/images/certa.webp",
     accent: "from-teal-600 to-teal-400",
@@ -165,14 +165,14 @@ export default function HistoryPage() {
           </p>
 
           {/* Stats */}
-          <div className="flex gap-12 md:gap-20 mt-16">
+          <div className="flex gap-6 md:gap-20 mt-16">
             {[
               { target: 10, suffix: "년+", label: "업력" },
               { target: 2500, suffix: "+", label: "거래 기업" },
               { target: 50000, suffix: "+", label: "운영 장비" },
             ].map((s) => (
               <div key={s.label} className="text-center">
-                <div className="font-paperlogy text-3xl md:text-4xl font-bold text-accent-light">
+                <div className="font-paperlogy text-2xl md:text-4xl font-bold text-accent-light">
                   <CountUp target={s.target} suffix={s.suffix} />
                 </div>
                 <div className="text-xs text-white/65 mt-1 uppercase tracking-wider">{s.label}</div>

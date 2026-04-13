@@ -2,6 +2,7 @@ export interface NavItem {
   label: string;
   labelEn: string;
   href: string;
+  desc?: string;
   children?: NavItem[];
 }
 
@@ -10,6 +11,7 @@ export const navigation: NavItem[] = [
     label: "회사소개",
     labelEn: "About",
     href: "/about",
+    desc: "AOVO 그룹의 비전과 서비스를 소개합니다",
     children: [
       { label: "개요", labelEn: "Overview", href: "/about" },
       { label: "회사 연혁", labelEn: "History", href: "/about/history" },
@@ -22,6 +24,7 @@ export const navigation: NavItem[] = [
     label: "구독서비스",
     labelEn: "Subscription",
     href: "/subscribe",
+    desc: "쓴 만큼만 비용, 멈추면 0원. 월정액 장비 구독",
     children: [
       { label: "체어", labelEn: "Chair", href: "/subscribe/chair" },
       { label: "롤테이너", labelEn: "Roll Tainer", href: "/subscribe/rolltainer" },
@@ -36,6 +39,7 @@ export const navigation: NavItem[] = [
     label: "공유서비스",
     labelEn: "Sharing",
     href: "/sharing",
+    desc: "가까운 거점에서 필요할 때 빌려 쓰는 장비 공유",
     children: [
       { label: "롤테이너", labelEn: "Roll Tainer", href: "/sharing#rolltainer" },
       { label: "카트", labelEn: "Cart", href: "/sharing#cart" },
@@ -49,6 +53,7 @@ export const navigation: NavItem[] = [
     label: "렌탈서비스",
     labelEn: "Rental",
     href: "/rental",
+    desc: "사무가구부터 IT기기까지, 중장기 렌탈 솔루션",
     children: [
       { label: "사무가구/기기", labelEn: "Office Furniture", href: "/rental#furniture" },
       { label: "주방집기", labelEn: "Kitchen", href: "/rental#kitchen" },
@@ -62,9 +67,10 @@ export const navigation: NavItem[] = [
     ],
   },
   {
-    label: "연대서비스",
+    label: "자산연대서비스",
     labelEn: "Renewal",
     href: "/recycle",
+    desc: "전문 재정비를 거친 검증 장비를 합리적 가격으로",
     children: [
       { label: "체어(세르타)", labelEn: "Chair (Serta)", href: "/recycle#chair" },
       { label: "물류장비", labelEn: "Logistics", href: "/recycle#logistics" },
@@ -80,6 +86,7 @@ export const navigation: NavItem[] = [
     label: "유통서비스",
     labelEn: "Buyback",
     href: "/buyback",
+    desc: "보유 장비의 합리적 유통과 자산 정리 지원",
     children: [
       { label: "사무가구", labelEn: "Office Furniture", href: "/buyback#furniture" },
       { label: "물류장비", labelEn: "Logistics", href: "/buyback#logistics" },

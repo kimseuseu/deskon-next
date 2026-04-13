@@ -241,7 +241,7 @@ export default function SubscribeLanding() {
           </Reveal>
 
           <Reveal delay={600}>
-            <div className="flex gap-12 mt-20 pt-8 border-t border-white/5">
+            <div className="flex gap-6 md:gap-12 mt-20 pt-8 border-t border-white/5">
               {[
                 { target: 2500, suffix: "+", label: "구독 기업" },
                 { target: 50000, suffix: "+", label: "운영 장비" },

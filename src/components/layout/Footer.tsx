@@ -13,8 +13,8 @@ const subscriptionLinks = [
 const serviceLinks = [
   { label: "사무가구 렌탈", href: "/rental/furniture" },
   { label: "IT기기 렌탈", href: "/rental/it" },
-  { label: "물류장비 순환", href: "/recycle/logistics" },
-  { label: "사무가구 순환", href: "/recycle/furniture" },
+  { label: "물류장비 자산연대", href: "/recycle/logistics" },
+  { label: "사무가구 자산연대", href: "/recycle/furniture" },
   { label: "사무가구 유통", href: "/buyback/furniture" },
   { label: "물류장비 유통", href: "/buyback/logistics" },
 ];
@@ -120,7 +120,7 @@ export default function Footer() {
             </a>
 
             <p className="mt-4 text-xs text-white/60 leading-relaxed max-w-xs">
-              구독, 공유, 렌탈, 순환, 유통까지
+              구독, 공유, 렌탈, 자산연대, 유통까지
               <br />
               산업 자산의 모든 라이프사이클을 관리합니다.
             </p>
@@ -131,7 +131,7 @@ export default function Footer() {
             <FooterColumn title="구독 · 공유" links={subscriptionLinks} />
           </div>
           <div className="animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
-            <FooterColumn title="렌탈 · 순환 · 유통" links={serviceLinks} />
+            <FooterColumn title="렌탈 · 자산연대 · 유통" links={serviceLinks} />
           </div>
           <div className="animate-slide-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
             <FooterColumn title="고객지원" links={supportLinks} />

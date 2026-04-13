@@ -122,6 +122,7 @@
 html {
   word-break: keep-all;
   overflow-wrap: break-word;
+  overflow-x: hidden;
 }
 
 :root {

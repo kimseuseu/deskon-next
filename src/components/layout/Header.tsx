@@ -102,7 +102,7 @@ export default function Header() {
               >
                 <Link
                   href={item.href}
-                  className={`relative px-4 py-2.5 font-paperlogy text-[15px] font-medium tracking-wide transition-colors duration-200 ${
+                  className={`relative px-3 py-2.5 font-paperlogy text-[14px] font-medium tracking-wide transition-colors duration-200 ${
                     activeDropdown === index
                       ? "text-accent"
                       : scrolled
@@ -127,11 +127,16 @@ export default function Header() {
                         : "opacity-0 -translate-y-2 pointer-events-none blur-[4px]"
                     }`}
                   >
-                    <div className="bg-white rounded-xl shadow-xl shadow-black/8 border border-gray-100/80 py-2 min-w-[240px] overflow-hidden">
-                      <div className="px-4 py-2 border-b border-gray-50">
+                    <div className="bg-white rounded-xl shadow-xl shadow-black/8 border border-gray-100/80 py-2 min-w-[260px] overflow-hidden">
+                      <div className="px-4 pt-3 pb-2.5 border-b border-gray-50">
                         <span className="text-[11px] font-medium uppercase tracking-widest text-accent/70">
                           {item.labelEn}
                         </span>
+                        {item.desc && (
+                          <p className="text-[11px] text-gray-500 font-normal leading-relaxed mt-1.5 tracking-[-0.01em]">
+                            {item.desc}
+                          </p>
+                        )}
                       </div>
                       {item.children.map((child) => (
                         <Link

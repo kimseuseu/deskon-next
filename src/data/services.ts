@@ -1090,10 +1090,10 @@ export const services: ServiceData[] = [
       "AOVO 산업용제습기 렌탈 - 공장, 창고의 습도를 하루 최대 150L 제습으로 관리하세요. 실시간 모니터링 포함.",
   },
 
-  // === RECYCLE (8) — 연대서비스 ===
+  // === RECYCLE (8) — 자산연대서비스 ===
   {
     category: "recycle",
-    categoryLabel: "연대서비스",
+    categoryLabel: "자산연대서비스",
     slug: "logistics",
     title: "물류장비 순환",
     subtitle:
@@ -1146,7 +1146,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "recycle",
-    categoryLabel: "연대서비스",
+    categoryLabel: "자산연대서비스",
     slug: "chair",
     title: "체어 순환 (세르타)",
     subtitle:
@@ -1199,7 +1199,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "recycle",
-    categoryLabel: "연대서비스",
+    categoryLabel: "자산연대서비스",
     slug: "furniture",
     title: "사무가구/기기 순환",
     subtitle:
@@ -1252,7 +1252,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "recycle",
-    categoryLabel: "연대서비스",
+    categoryLabel: "자산연대서비스",
     slug: "kitchen",
     title: "주방집기 순환",
     subtitle:
@@ -1305,7 +1305,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "recycle",
-    categoryLabel: "연대서비스",
+    categoryLabel: "자산연대서비스",
     slug: "aircon",
     title: "이동식에어컨 순환",
     subtitle:
@@ -1358,7 +1358,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "recycle",
-    categoryLabel: "연대서비스",
+    categoryLabel: "자산연대서비스",
     slug: "seasonal",
     title: "계절상품 순환",
     subtitle:
@@ -1411,7 +1411,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "recycle",
-    categoryLabel: "연대서비스",
+    categoryLabel: "자산연대서비스",
     slug: "dehumidifier",
     title: "산업용제습기 순환",
     subtitle:
@@ -1464,7 +1464,7 @@ export const services: ServiceData[] = [
   },
   {
     category: "recycle",
-    categoryLabel: "연대서비스",
+    categoryLabel: "자산연대서비스",
     slug: "special",
     title: "특수집기 순환",
     subtitle:

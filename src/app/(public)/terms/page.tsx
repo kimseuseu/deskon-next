@@ -75,7 +75,7 @@ export default function TermsPage() {
               공유서비스: 카트, 스태커 등 물류장비의 공유 이용 서비스
             </li>
             <li>렌탈서비스: 사무가구, IT장비 등의 중장기 렌탈</li>
-            <li>연대서비스: 전문 재정비를 거친 검증된 품질의 장비 재공급</li>
+            <li>자산연대서비스: 전문 재정비를 거친 검증된 품질의 장비 재공급</li>
             <li>유통서비스: 기업 보유 장비의 합리적 유통 및 자산 정리 지원</li>
           </ol>
           <p className="text-muted leading-relaxed mb-4">

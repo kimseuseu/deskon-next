@@ -125,7 +125,7 @@ export default function RecycleLanding() {
           </motion.p>
           <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
             <Link href="/support/contact" className="px-8 py-4 bg-green-500 text-white rounded-full font-semibold hover:bg-green-400 transition-all">
-              연대서비스 문의
+              자산연대서비스 문의
             </Link>
             <a href={COMPANY.kakaoChannel} target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white/10 backdrop-blur text-white rounded-full font-semibold hover:bg-white/20 transition-all">
               카카오톡 상담
@@ -222,11 +222,11 @@ export default function RecycleLanding() {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-green-800 to-green-600 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">연대서비스를 시작하세요</h2>
-          <p className="text-lg opacity-90 mb-8">검증된 품질, 합리적 가격. AOVO 연대서비스가 함께합니다.</p>
+          <h2 className="font-paperlogy text-3xl md:text-4xl font-bold mb-4">자산연대서비스를 시작하세요</h2>
+          <p className="text-lg opacity-90 mb-8">검증된 품질, 합리적 가격. AOVO 자산연대서비스가 함께합니다.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/support/contact" className="px-8 py-4 bg-white text-green-700 rounded-full font-bold hover:bg-gray-100 transition-colors">
-              연대서비스 문의
+              자산연대서비스 문의
             </Link>
             <a href={`tel:${COMPANY.phone}`} className="px-8 py-4 bg-white/20 backdrop-blur text-white rounded-full font-bold hover:bg-white/30 transition-colors">
               📞 {COMPANY.phone}

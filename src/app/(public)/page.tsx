@@ -22,7 +22,7 @@ const heroSlides = [
     poster: "/images/aovo-banner2.webp",
     sub1: "사무 공간을 완성하는",
     sub2: "가구 구독 & 렌탈",
-    line1: "사용이 멈추면",
+    line1: "이직, 감원 시",
     line2: "비용도 멈춥니다",
   },
   {
@@ -30,8 +30,8 @@ const heroSlides = [
     poster: "/images/aovo-banner3.webp",
     sub1: "물류 현장의 필수 장비",
     sub2: "롤테이너 구독 & 공유",
-    line1: "필요한 만큼,",
-    line2: "쓰고 반납하세요",
+    line1: "굴러가지 않으면",
+    line2: "비용도 멈춥니다",
   },
 ];
 
@@ -90,7 +90,7 @@ const serviceTimeline = [
   {
     slug: "recycle",
     badge: "순환",
-    title: "연대서비스",
+    title: "자산연대서비스",
     desc: "전문 재정비를 거친 검증된 품질의 장비를 합리적인 가격으로",
     href: "/recycle",
     icon: "♻️",
