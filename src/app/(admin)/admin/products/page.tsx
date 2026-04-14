@@ -14,9 +14,7 @@ export default function ProductsPage() {
 
   const fetchProducts = async () => {
     try {
-      const token = localStorage.getItem("deskon_admin_token");
-      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await fetch("/api/products", { headers });
+      const res = await fetch("/api/products?includeInactive=true");
       const data = await res.json();
       const list = Array.isArray(data) ? data : data.data || [];
       setProducts(list);
@@ -37,17 +35,15 @@ export default function ProductsPage() {
     return matchCategory && matchSearch;
   });
 
-  const toggleStatus = async (id: number) => {
+  const toggleStatus = async (id: string) => {
     const product = products.find((p) => p.id === id);
     if (!product) return;
 
     try {
-      const token = localStorage.getItem("deskon_admin_token");
       const res = await fetch(`/api/products/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ isActive: !product.isActive }),
       });
@@ -62,14 +58,12 @@ export default function ProductsPage() {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
 
     try {
-      const token = localStorage.getItem("deskon_admin_token");
       const res = await fetch(`/api/products/${id}`, {
         method: "DELETE",
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
 
       if (res.ok) {

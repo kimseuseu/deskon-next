@@ -1,14 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getAdminSession } from "@/lib/admin-session";
+import { mapInquiry } from "@/lib/deskon-data";
 import { createAdminClient } from "@/lib/supabase-admin";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, company, phone, email, inquiry_type, service_category, message } = body;
+    const {
+      name,
+      company,
+      phone,
+      email,
+      inquiry_type,
+      service_category,
+      message,
+    } = body;
 
     if (!name || !phone || !inquiry_type || !message) {
       return NextResponse.json(
-        { error: "필수 항목을 입력해주세요." },
+        { error: "필수 항목을 입력해 주세요." },
         { status: 400 }
       );
     }
@@ -25,23 +35,35 @@ export async function POST(req: NextRequest) {
         service_category: service_category || null,
         message,
       })
-      .select()
+      .select("*")
       .single();
 
     if (error) {
       console.error("Insert inquiry error:", error);
-      return NextResponse.json({ error: "문의 등록에 실패했습니다." }, { status: 500 });
+      return NextResponse.json(
+        { error: "문의 등록에 실패했습니다." },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ data }, { status: 201 });
+    return NextResponse.json({ data: mapInquiry(data) }, { status: 201 });
   } catch (err) {
     console.error("Inquiry POST error:", err);
-    return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
+    return NextResponse.json(
+      { error: "서버 오류가 발생했습니다." },
+      { status: 500 }
+    );
   }
 }
 
 export async function GET() {
   try {
+    const session = await getAdminSession();
+
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("deskon_inquiries")
@@ -50,12 +72,18 @@ export async function GET() {
 
     if (error) {
       console.error("Fetch inquiries error:", error);
-      return NextResponse.json({ error: "문의 목록 조회에 실패했습니다." }, { status: 500 });
+      return NextResponse.json(
+        { error: "문의 목록 조회에 실패했습니다." },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ data });
+    return NextResponse.json({ data: (data ?? []).map(mapInquiry) });
   } catch (err) {
     console.error("Inquiry GET error:", err);
-    return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
+    return NextResponse.json(
+      { error: "서버 오류가 발생했습니다." },
+      { status: 500 }
+    );
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 /*
@@ -27,7 +27,6 @@ export default function SplashScreen() {
 
   useEffect(() => {
     if (skip) {
-      setDone(true);
       return;
     }
 
@@ -45,7 +44,7 @@ export default function SplashScreen() {
     return () => timers.forEach(clearTimeout);
   }, [skip]);
 
-  if (done) return null;
+  if (skip || done) return null;
 
   const ease = "cubic-bezier(0.16, 1, 0.3, 1)";
   const fadeOut = phase >= 4;

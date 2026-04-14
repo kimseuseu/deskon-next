@@ -7,7 +7,7 @@ export default function BannersPage() {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     imageUrl: "",
     title: "",
@@ -24,9 +24,7 @@ export default function BannersPage() {
 
   const fetchBanners = async () => {
     try {
-      const token = localStorage.getItem("deskon_admin_token");
-      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await fetch("/api/banners", { headers });
+      const res = await fetch("/api/banners?includeInactive=true");
       const data = await res.json();
       const list = Array.isArray(data) ? data : data.data || [];
       setBanners(list);
@@ -80,10 +78,8 @@ export default function BannersPage() {
     setSubmitting(true);
 
     try {
-      const token = localStorage.getItem("deskon_admin_token");
       const headers: HeadersInit = {
         "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       };
 
       let res: Response;
@@ -114,17 +110,15 @@ export default function BannersPage() {
     }
   };
 
-  const toggleActive = async (id: number) => {
+  const toggleActive = async (id: string) => {
     const banner = banners.find((b) => b.id === id);
     if (!banner) return;
 
     try {
-      const token = localStorage.getItem("deskon_admin_token");
       const res = await fetch(`/api/banners/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ isActive: !banner.isActive }),
       });
@@ -139,14 +133,12 @@ export default function BannersPage() {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm("이 배너를 삭제하시겠습니까?")) return;
 
     try {
-      const token = localStorage.getItem("deskon_admin_token");
       const res = await fetch(`/api/banners/${id}`, {
         method: "DELETE",
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
 
       if (res.ok) {

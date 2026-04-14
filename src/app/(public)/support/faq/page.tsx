@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 interface FAQ {
   id: string;
@@ -11,7 +11,6 @@ interface FAQ {
 
 function FAQItem({ faq, index }: { faq: FAQ; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   return (
     <div
@@ -43,10 +42,9 @@ function FAQItem({ faq, index }: { faq: FAQ; index: number }) {
         </svg>
       </button>
       <div
-        ref={contentRef}
         className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{
-          maxHeight: isOpen ? contentRef.current?.scrollHeight ? `${contentRef.current.scrollHeight}px` : "500px" : "0px",
+          maxHeight: isOpen ? "500px" : "0px",
           opacity: isOpen ? 1 : 0,
         }}
       >

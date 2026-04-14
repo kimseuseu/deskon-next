@@ -1,5 +1,5 @@
 export interface Product {
-  id: number;
+  id: string;
   category: string;
   subcategory?: string;
   name: string;
@@ -24,7 +24,7 @@ export interface Product {
 }
 
 export interface Category {
-  id: number;
+  id: string;
   slug: string;
   parentSlug?: string;
   nameKo: string;
@@ -36,14 +36,14 @@ export interface Category {
 }
 
 export interface Inquiry {
-  id: number;
+  id: string;
   name: string;
   company?: string;
   phone?: string;
   email?: string;
   inquiryType?: string;
   serviceCategory?: string;
-  productId?: number;
+  productId?: string;
   message?: string;
   status: "new" | "in-progress" | "resolved";
   adminNote?: string;
@@ -52,7 +52,7 @@ export interface Inquiry {
 }
 
 export interface Banner {
-  id: number;
+  id: string;
   imageUrl: string;
   title?: string;
   titleEn?: string;
@@ -79,12 +79,13 @@ export interface QuoteRequest {
   adminNote?: string;
   totalItems: number;
   createdAt: string;
+  items?: QuoteRequestItem[];
 }
 
 export interface QuoteRequestItem {
   id: string;
   quoteRequestId: string;
-  productId?: number;
+  productId?: string;
   productName: string;
   quantity: number;
   serviceType: string;

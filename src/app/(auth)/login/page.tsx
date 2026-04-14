@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -9,6 +9,22 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void (async () => {
+      const res = await fetch("/api/admin/session", { cache: "no-store" });
+
+      if (!cancelled && res.ok) {
+        router.replace("/admin");
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +46,6 @@ export default function LoginPage() {
         return;
       }
 
-      localStorage.setItem("deskon_admin_token", data.token);
       router.push("/admin");
     } catch {
       setError("서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.");

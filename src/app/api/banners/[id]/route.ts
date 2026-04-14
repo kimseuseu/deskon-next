@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/admin-session";
+import { mapBanner, serializeBannerPatch } from "@/lib/deskon-data";
 import { createAdminClient } from "@/lib/supabase-admin";
 
 export async function PUT(
@@ -18,21 +19,27 @@ export async function PUT(
     const supabase = createAdminClient();
 
     const { data, error } = await supabase
-      .from("deskon_faqs")
-      .update(body)
+      .from("deskon_banners")
+      .update(serializeBannerPatch(body))
       .eq("id", id)
-      .select()
+      .select("*")
       .single();
 
     if (error) {
-      console.error("Update FAQ error:", error);
-      return NextResponse.json({ error: "FAQ 수정에 실패했습니다." }, { status: 500 });
+      console.error("Update banner error:", error);
+      return NextResponse.json(
+        { error: "배너 수정에 실패했습니다." },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ data });
+    return NextResponse.json({ data: mapBanner(data) });
   } catch (err) {
-    console.error("FAQ PUT error:", err);
-    return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
+    console.error("Banner PUT error:", err);
+    return NextResponse.json(
+      { error: "서버 오류가 발생했습니다." },
+      { status: 500 }
+    );
   }
 }
 
@@ -51,18 +58,24 @@ export async function DELETE(
     const supabase = createAdminClient();
 
     const { error } = await supabase
-      .from("deskon_faqs")
+      .from("deskon_banners")
       .delete()
       .eq("id", id);
 
     if (error) {
-      console.error("Delete FAQ error:", error);
-      return NextResponse.json({ error: "FAQ 삭제에 실패했습니다." }, { status: 500 });
+      console.error("Delete banner error:", error);
+      return NextResponse.json(
+        { error: "배너 삭제에 실패했습니다." },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ message: "삭제되었습니다." });
+    return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("FAQ DELETE error:", err);
-    return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
+    console.error("Banner DELETE error:", err);
+    return NextResponse.json(
+      { error: "서버 오류가 발생했습니다." },
+      { status: 500 }
+    );
   }
 }

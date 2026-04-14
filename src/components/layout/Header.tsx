@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
-import { navigation, NavItem } from "@/data/navigation";
+import { navigation } from "@/data/navigation";
 import MobileNav from "./MobileNav";
 
 export default function Header() {

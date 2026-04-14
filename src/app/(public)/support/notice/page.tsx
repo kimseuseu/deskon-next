@@ -13,6 +13,7 @@ interface Notice {
 export default function NoticePage() {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
+  const [renderedAt] = useState(() => Date.now());
 
   useEffect(() => {
     fetch("/api/notices")
@@ -28,7 +29,7 @@ export default function NoticePage() {
 
   // Consider a notice "new" if created within the last 14 days
   const isNew = (dateStr: string) => {
-    const diff = Date.now() - new Date(dateStr).getTime();
+    const diff = renderedAt - new Date(dateStr).getTime();
     return diff < 14 * 24 * 60 * 60 * 1000;
   };
 

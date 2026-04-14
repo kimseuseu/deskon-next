@@ -87,12 +87,10 @@ export default function ProductNewPage() {
     };
 
     try {
-      const token = localStorage.getItem("deskon_admin_token");
       const res = await fetch("/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify(data),
       });

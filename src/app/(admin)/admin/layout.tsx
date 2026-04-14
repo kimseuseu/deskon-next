@@ -56,20 +56,45 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("deskon_admin_token");
-    if (!token) {
-      router.push("/login");
-    } else {
-      setMounted(true);
-    }
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        const res = await fetch("/api/admin/session", { cache: "no-store" });
+
+        if (cancelled) {
+          return;
+        }
+
+        if (!res.ok) {
+          router.replace("/login");
+          return;
+        }
+
+        setIsAuthenticated(true);
+      } catch {
+        if (!cancelled) {
+          router.replace("/login");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsChecking(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("deskon_admin_token");
-    router.push("/login");
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.replace("/login");
   };
 
   const isActive = (href: string) => {
@@ -77,7 +102,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return pathname.startsWith(href);
   };
 
-  if (!mounted) {
+  if (isChecking || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-surface flex items-center justify-center">
         <div className="animate-spin h-8 w-8 border-4 border-accent border-t-transparent rounded-full" />

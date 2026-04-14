@@ -3,14 +3,14 @@
 import {
   createContext,
   useContext,
-  useState,
   useEffect,
-  ReactNode,
+  useState,
+  type ReactNode,
 } from "react";
 
 export interface CartItem {
   id: string;
-  productId: number;
+  productId: string;
   productName: string;
   productImage: string | null;
   quantity: number;
@@ -31,56 +31,63 @@ interface CartContextType {
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
-
 const CART_KEY = "aovo_cart";
 
+function readInitialCart() {
+  if (typeof window === "undefined") {
+    return [] as CartItem[];
+  }
+
+  try {
+    const saved = window.localStorage.getItem(CART_KEY);
+    return saved ? (JSON.parse(saved) as CartItem[]) : [];
+  } catch {
+    return [];
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(readInitialCart);
   const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem(CART_KEY);
-    if (saved) {
-      try {
-        setItems(JSON.parse(saved));
-      } catch {}
-    }
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem(CART_KEY, JSON.stringify(items));
-    }
-  }, [items, mounted]);
+    window.localStorage.setItem(CART_KEY, JSON.stringify(items));
+  }, [items]);
 
   const addItem = (item: Omit<CartItem, "id">) => {
-    const existing = items.find(
-      (i) =>
-        i.productId === item.productId && i.serviceType === item.serviceType
-    );
-    if (existing) {
-      setItems(
-        items.map((i) =>
-          i.id === existing.id
-            ? { ...i, quantity: i.quantity + item.quantity }
-            : i
-        )
+    setItems((current) => {
+      const existing = current.find(
+        (entry) =>
+          entry.productId === item.productId &&
+          entry.serviceType === item.serviceType
       );
-    } else {
-      setItems([...items, { ...item, id: crypto.randomUUID() }]);
-    }
+
+      if (existing) {
+        return current.map((entry) =>
+          entry.id === existing.id
+            ? { ...entry, quantity: entry.quantity + item.quantity }
+            : entry
+        );
+      }
+
+      return [...current, { ...item, id: crypto.randomUUID() }];
+    });
     setIsOpen(true);
   };
 
   const removeItem = (id: string) => {
-    setItems(items.filter((i) => i.id !== id));
+    setItems((current) => current.filter((item) => item.id !== id));
   };
 
   const updateQuantity = (id: string, quantity: number) => {
-    if (quantity <= 0) return removeItem(id);
-    setItems(items.map((i) => (i.id === id ? { ...i, quantity } : i)));
+    if (quantity <= 0) {
+      removeItem(id);
+      return;
+    }
+
+    setItems((current) =>
+      current.map((item) => (item.id === id ? { ...item, quantity } : item))
+    );
   };
 
   const clearCart = () => {
@@ -95,7 +102,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         removeItem,
         updateQuantity,
         clearCart,
-        totalItems: items.reduce((sum, i) => sum + i.quantity, 0),
+        totalItems: items.reduce((sum, item) => sum + item.quantity, 0),
         isOpen,
         setIsOpen,
       }}
@@ -107,6 +114,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export function useCart() {
   const context = useContext(CartContext);
-  if (!context) throw new Error("useCart must be used within CartProvider");
+
+  if (!context) {
+    throw new Error("useCart must be used within CartProvider");
+  }
+
   return context;
 }

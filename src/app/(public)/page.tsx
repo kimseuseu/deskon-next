@@ -206,19 +206,6 @@ function useCountUp(target: number, duration = 2000, start = false) {
   return value;
 }
 
-function AnimatedChar({ char, delay }: { char: string; delay: number }) {
-  return (
-    <span
-      className="inline-block opacity-0"
-      style={{
-        animation: `heroCharIn 0.6s cubic-bezier(0.16,1,0.3,1) ${delay}s forwards`,
-      }}
-    >
-      {char === " " ? "\u00A0" : char}
-    </span>
-  );
-}
-
 function CountUpStat({
   target,
   suffix,
@@ -272,7 +259,6 @@ export default function HomePage() {
   // Fullpage scroll – wheel/touch snap to sections
   const [currentSection, setCurrentSection] = useState(0);
   const isScrolling = useRef(false);
-  const touchStartY = useRef(0);
 
   useEffect(() => {
     // Disable fullpage scroll on mobile (< 1024px)

@@ -34,16 +34,13 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("deskon_admin_token");
-    const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
-
     const fetchData = async () => {
       try {
         const [productsRes, inquiriesRes, quotesRes, bannersRes] = await Promise.all([
-          fetch("/api/products", { headers }).then((r) => r.json()).catch(() => []),
-          fetch("/api/inquiries", { headers }).then((r) => r.json()).catch(() => []),
-          fetch("/api/quotes", { headers }).then((r) => r.json()).catch(() => []),
-          fetch("/api/banners", { headers }).then((r) => r.json()).catch(() => []),
+          fetch("/api/products?includeInactive=true").then((r) => r.json()).catch(() => []),
+          fetch("/api/inquiries").then((r) => r.json()).catch(() => []),
+          fetch("/api/quotes").then((r) => r.json()).catch(() => []),
+          fetch("/api/banners?includeInactive=true").then((r) => r.json()).catch(() => []),
         ]);
 
         const productsList = Array.isArray(productsRes) ? productsRes : productsRes.data || [];

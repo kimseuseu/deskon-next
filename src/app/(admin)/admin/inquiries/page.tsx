@@ -29,16 +29,14 @@ function formatDate(iso: string) {
 
 export default function InquiriesPage() {
   const [activeTab, setActiveTab] = useState<string>("all");
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
-  const [adminNotes, setAdminNotes] = useState<Record<number, string>>({});
+  const [adminNotes, setAdminNotes] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   const fetchInquiries = async () => {
     try {
-      const token = localStorage.getItem("deskon_admin_token");
-      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await fetch("/api/inquiries", { headers });
+      const res = await fetch("/api/inquiries");
       const data = await res.json();
       const list = Array.isArray(data) ? data : data.data || [];
       setInquiries(list);
@@ -58,19 +56,17 @@ export default function InquiriesPage() {
       ? inquiries
       : inquiries.filter((inq) => inq.status === activeTab);
 
-  const toggleExpand = (id: number) => {
+  const toggleExpand = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
   };
 
-  const updateStatus = async (id: number, status: Inquiry["status"]) => {
+  const updateStatus = async (id: string, status: Inquiry["status"]) => {
     try {
-      const token = localStorage.getItem("deskon_admin_token");
       const note = adminNotes[id] ?? inquiries.find((i) => i.id === id)?.adminNote;
       const res = await fetch(`/api/inquiries/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ status, adminNote: note }),
       });

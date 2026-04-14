@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getAdminSession } from "@/lib/admin-session";
 import { createAdminClient } from "@/lib/supabase-admin";
 
 export async function GET() {
@@ -12,35 +13,53 @@ export async function GET() {
 
     if (error) {
       console.error("Fetch notices error:", error);
-      return NextResponse.json({ error: "공지사항 조회에 실패했습니다." }, { status: 500 });
+      return NextResponse.json(
+        { error: "공지사항 조회에 실패했습니다." },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ data });
   } catch (err) {
     console.error("Notices GET error:", err);
-    return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
+    return NextResponse.json(
+      { error: "서버 오류가 발생했습니다." },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getAdminSession();
+
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await req.json();
     const supabase = createAdminClient();
 
     const { data, error } = await supabase
       .from("deskon_notices")
       .insert(body)
-      .select()
+      .select("*")
       .single();
 
     if (error) {
       console.error("Insert notice error:", error);
-      return NextResponse.json({ error: "공지사항 등록에 실패했습니다." }, { status: 500 });
+      return NextResponse.json(
+        { error: "공지사항 등록에 실패했습니다." },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ data }, { status: 201 });
   } catch (err) {
     console.error("Notice POST error:", err);
-    return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
+    return NextResponse.json(
+      { error: "서버 오류가 발생했습니다." },
+      { status: 500 }
+    );
   }
 }

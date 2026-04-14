@@ -2,15 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { COMPANY } from "@/lib/constants";
 
 /* ── Animations ── */
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-};
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.1 } } };
 const scaleIn = {
   hidden: { opacity: 0, scale: 0.9 },

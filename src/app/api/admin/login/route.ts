@@ -1,4 +1,9 @@
+import { compare, hash } from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  createAdminSessionToken,
+  setAdminSessionCookie,
+} from "@/lib/admin-session";
 import { createAdminClient } from "@/lib/supabase-admin";
 
 export async function POST(req: NextRequest) {
@@ -7,7 +12,7 @@ export async function POST(req: NextRequest) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { error: "이메일과 비밀번호를 입력해주세요." },
+        { error: "이메일과 비밀번호를 입력해 주세요." },
         { status: 400 }
       );
     }
@@ -15,7 +20,7 @@ export async function POST(req: NextRequest) {
     const supabase = createAdminClient();
     const { data: admin, error } = await supabase
       .from("deskon_admins")
-      .select("*")
+      .select("email, name, password_hash")
       .eq("email", email)
       .single();
 
@@ -26,25 +31,43 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Plain text password comparison (no bcrypt in edge runtime)
-    if (admin.password_hash !== password) {
+    const isLegacyPlainText = !admin.password_hash.startsWith("$2");
+    const isMatch = isLegacyPlainText
+      ? admin.password_hash === password
+      : await compare(password, admin.password_hash);
+
+    if (!isMatch) {
       return NextResponse.json(
         { error: "이메일 또는 비밀번호가 올바르지 않습니다." },
         { status: 401 }
       );
     }
 
-    // Simple base64 token with expiry (24 hours)
-    const exp = Date.now() + 24 * 60 * 60 * 1000;
-    const payload = { email: admin.email, name: admin.name, exp };
-    const token = Buffer.from(JSON.stringify(payload)).toString("base64");
-
-    return NextResponse.json({
-      token,
+    const response = NextResponse.json({
       admin: { email: admin.email, name: admin.name },
     });
+
+    if (isLegacyPlainText) {
+      await supabase
+        .from("deskon_admins")
+        .update({ password_hash: await hash(password, 10) })
+        .eq("email", admin.email);
+    }
+
+    setAdminSessionCookie(
+      response,
+      createAdminSessionToken({
+        email: admin.email,
+        name: admin.name,
+      })
+    );
+
+    return response;
   } catch (err) {
     console.error("Admin login error:", err);
-    return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
+    return NextResponse.json(
+      { error: "서버 오류가 발생했습니다." },
+      { status: 500 }
+    );
   }
 }

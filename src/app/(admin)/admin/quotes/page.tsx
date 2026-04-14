@@ -43,9 +43,7 @@ export default function QuotesPage() {
   useEffect(() => {
     const fetchQuotes = async () => {
       try {
-        const token = localStorage.getItem("deskon_admin_token");
-        const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
-        const res = await fetch("/api/quotes", { headers });
+        const res = await fetch("/api/quotes");
         const data = await res.json();
 
         if (Array.isArray(data)) {
@@ -70,9 +68,7 @@ export default function QuotesPage() {
     if (quoteItems[quoteId]) return;
 
     try {
-      const token = localStorage.getItem("deskon_admin_token");
-      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await fetch(`/api/quotes/${quoteId}/items`, { headers });
+      const res = await fetch(`/api/quotes/${quoteId}/items`);
       if (res.ok) {
         const data = await res.json();
         const items = Array.isArray(data) ? data : data.data || [];
