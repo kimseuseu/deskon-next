@@ -43,6 +43,9 @@ export const metadata: Metadata = {
     "아오보",
   ],
   authors: [{ name: "AOVO Group" }],
+  verification: {
+    google: "NiGOhBH2a5FS8UyOpRiL5rEzug_ammIvkwgmlDxwmg8",
+  },
   openGraph: {
     type: "website",
     locale: "ko_KR",
