@@ -203,7 +203,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Quick actions */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Link
           href="/admin/products/new"
           className="flex items-center gap-3 bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-accent/30 hover:shadow-md transition-all group"
@@ -248,6 +248,23 @@ export default function AdminDashboardPage() {
             <p className="text-xs text-muted">메인 배너를 관리합니다</p>
           </div>
         </Link>
+
+        <a
+          href="http://w.aovo.kr"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-blue-300 hover:shadow-md transition-all group"
+        >
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+            <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-medium text-primary text-sm">후이즈메일</p>
+            <p className="text-xs text-muted">웹메일 바로가기</p>
+          </div>
+        </a>
       </div>
     </div>
   );
