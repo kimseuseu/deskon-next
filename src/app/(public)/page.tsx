@@ -6,6 +6,14 @@ import Image from "next/image";
 import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
 /* Fullpage scroll utility */
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "아오보",
+  alternateName: ["AOVO", "AOVO Group", "아오보 그룹"],
+  url: "https://www.aovo.kr/",
+};
+
 /* ── Data ── */
 
 const heroSlides = [
@@ -431,6 +439,10 @@ export default function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
       {/* ── Global keyframes & animate styles ── */}
       <style jsx global>{`
         @keyframes heroCharIn {

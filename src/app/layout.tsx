@@ -21,9 +21,11 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.aovo.kr"),
+  applicationName: "아오보",
   title: {
-    default: "AOVO | 비즈니스 자산 통합 운영 플랫폼",
-    template: "%s | AOVO Group",
+    default: "아오보 | 비즈니스 자산 통합 운영 플랫폼",
+    template: "%s | 아오보",
   },
   description:
     "구독 · 공유 · 렌탈 · 자산연대 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
@@ -32,6 +34,9 @@ export const metadata: Metadata = {
     apple: "/images/ex_aovo_symbol.png",
   },
   keywords: [
+    "아오보",
+    "AOVO",
+    "아오보 그룹",
     "비즈니스 장비",
     "구독",
     "렌탈",
@@ -39,29 +44,30 @@ export const metadata: Metadata = {
     "자산연대",
     "유통",
     "물류장비",
-    "AOVO",
-    "아오보",
   ],
-  authors: [{ name: "AOVO Group" }],
+  authors: [{ name: "아오보" }],
   verification: {
     google: "NiGOhBH2a5FS8UyOpRiL5rEzug_ammIvkwgmlDxwmg8",
   },
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "AOVO Group",
-    title: "AOVO | 비즈니스 자산 통합 운영 플랫폼",
+    url: "https://www.aovo.kr/",
+    siteName: "아오보",
+    title: "아오보 | 비즈니스 자산 통합 운영 플랫폼",
     description:
       "구독 · 공유 · 렌탈 · 자산연대 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법",
   },
 };
 
-const jsonLd = {
+const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "AOVO Group (아오보 그룹)",
+  name: "아오보",
+  alternateName: ["AOVO", "AOVO Group", "아오보 그룹"],
   legalName: "주식회사 킴샵",
-  url: "https://www.aovo.kr",
+  url: "https://www.aovo.kr/",
+  logo: "https://www.aovo.kr/images/ex_aovo_symbol.png",
   telephone: "010-9929-5363",
   email: "mbc8447289@naver.com",
   address: {
@@ -83,7 +89,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </head>
       <body className="min-h-screen flex flex-col bg-cream text-primary">
