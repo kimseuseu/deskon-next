@@ -468,7 +468,7 @@ export default function SubscribeLanding() {
               {/* Left: image */}
               <Reveal direction="left" className="lg:col-span-2">
                 <div className="relative rounded-3xl overflow-hidden bg-orange-50 aspect-[3/4] max-h-[420px]">
-                  <Image src="/images/subscribe/kitchen.png" alt="주방집기" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+                  <Image src="/images/subscribe/kitchen.webp" alt="주방집기" fill className="object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
               </Reveal>
 
