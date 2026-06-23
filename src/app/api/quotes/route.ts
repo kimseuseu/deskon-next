@@ -1,10 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/admin-session";
 import { mapQuote } from "@/lib/deskon-data";
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
 import { createAdminClient } from "@/lib/supabase-admin";
 
 export async function POST(req: NextRequest) {
   try {
+    const limit = rateLimit(`quotes:${getClientIp(req)}`, 5, 60_000);
+    if (!limit.ok) {
+      return NextResponse.json(
+        { error: "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요." },
+        { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } }
+      );
+    }
+
     const body = await req.json();
     const {
       company,

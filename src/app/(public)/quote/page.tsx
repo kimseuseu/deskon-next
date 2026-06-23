@@ -179,7 +179,7 @@ export default function QuotePage() {
                   required
                   value={form.companyName}
                   onChange={(e) => update("companyName", e.target.value)}
-                  placeholder="(주) 데스콘"
+                  placeholder="(주) 아오보"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-primary placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent transition text-sm"
                 />
               </div>

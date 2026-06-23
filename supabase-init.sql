@@ -115,14 +115,14 @@ CREATE POLICY "deskon_banners_public_read" ON deskon_banners FOR SELECT USING (i
 CREATE POLICY "deskon_inquiries_public_insert" ON deskon_inquiries FOR INSERT WITH CHECK (true);
 CREATE POLICY "deskon_quotes_public_insert" ON deskon_quotes FOR INSERT WITH CHECK (true);
 
--- Service role has full access (via API routes with service_role key)
-CREATE POLICY "deskon_products_service" ON deskon_products FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "deskon_inquiries_service" ON deskon_inquiries FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "deskon_quotes_service" ON deskon_quotes FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "deskon_notices_service" ON deskon_notices FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "deskon_faqs_service" ON deskon_faqs FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "deskon_banners_service" ON deskon_banners FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "deskon_admins_service" ON deskon_admins FOR ALL USING (true) WITH CHECK (true);
+-- NOTE: The API routes use the Supabase service_role key, which BYPASSES RLS
+-- entirely. Do NOT add blanket "FOR ALL USING (true)" policies — without a
+-- "TO service_role" clause they apply to the PUBLIC role (anon included) and
+-- would expose every table (including admin password hashes) through the public
+-- anon key. The policies above are the only ones anon/authenticated should get.
+--
+-- deskon_admins intentionally has NO policy: it is reachable only via the
+-- service_role key (RLS bypass) from server-side API routes.
 
 -- ============================================
 -- Seed Data

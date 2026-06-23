@@ -57,6 +57,21 @@ export const metadata: Metadata = {
     title: "아오보 | 비즈니스 자산 통합 운영 플랫폼",
     description:
       "구독 · 공유 · 렌탈 · 자산연대 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "아오보 | 비즈니스 자산 통합 운영 플랫폼",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "아오보 | 비즈니스 자산 통합 운영 플랫폼",
+    description:
+      "구독 · 공유 · 렌탈 · 자산연대 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법",
+    images: ["/images/og-image.png"],
   },
 };
 

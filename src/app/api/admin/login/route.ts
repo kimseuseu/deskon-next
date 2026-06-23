@@ -4,10 +4,19 @@ import {
   createAdminSessionToken,
   setAdminSessionCookie,
 } from "@/lib/admin-session";
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
 import { createAdminClient } from "@/lib/supabase-admin";
 
 export async function POST(req: NextRequest) {
   try {
+    const limit = rateLimit(`admin-login:${getClientIp(req)}`, 10, 5 * 60_000);
+    if (!limit.ok) {
+      return NextResponse.json(
+        { error: "로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요." },
+        { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } }
+      );
+    }
+
     const { email, password } = await req.json();
 
     if (!email || !password) {
