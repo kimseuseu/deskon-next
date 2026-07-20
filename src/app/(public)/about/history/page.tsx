@@ -154,11 +154,10 @@ export default function HistoryPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/60 to-primary/90 z-[1]" />
 
         <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-36 pb-20 min-h-[70vh]">
-          <span className="inline-block px-5 py-2 rounded-full text-xs font-medium tracking-widest uppercase bg-accent/15 text-accent-light border border-accent/20 mb-8">
-            Since 2015
-          </span>
-          <h1 className="font-paperlogy text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-            걸어온 길,<br />만들어갈 미래
+          <p className="eyebrow justify-center text-white/70 mb-8">Since 2015</p>
+          <h1 className="font-paperlogy text-5xl md:text-7xl font-extralight tracking-[-0.02em] text-white mb-6 leading-[1.15]">
+            걸어온 길,<br />
+            <span className="font-serif italic text-gold">만들어갈 미래</span>
           </h1>
           <p className="text-white/60 text-lg md:text-xl max-w-xl">
             비즈니스 장비 운영의 새로운 기준을 세워가는 AOVO의 여정

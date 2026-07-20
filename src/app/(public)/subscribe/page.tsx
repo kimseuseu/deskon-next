@@ -1,17 +1,21 @@
-import { Metadata } from "next";
-import SubscribeLanding from "./SubscribeLanding";
+import type { Metadata } from "next";
+import DivisionPage from "@/components/division/DivisionPage";
+import { getDivision } from "@/data/divisions";
+
+const division = getDivision("subscribe")!;
 
 export const metadata: Metadata = {
-  title: "구독서비스 | AOVO Group",
+  title: "구독서비스",
   description:
-    "월 구독으로 사무용 의자, 롤테이너, 파렛트, 인테이너, 이사바구니, 주방집기, 냉난방기를 필요한 만큼 사용하세요. 미사용 시 반납하면 비용이 멈춥니다.",
+    "쓸 때만 비용, 멈추면 0원. 사무용 체어부터 롤테이너, 파랫트, 주방집기, 냉난방기까지 — 정기 점검이 포함된 종량형 장비 구독. AOVO 그룹 구독서비스.",
   openGraph: {
-    title: "구독서비스 — 쓴 만큼만, 필요한 만큼만 | AOVO Group",
+    title: "구독서비스 — 쓸 때만 비용, 멈추면 0원 | 아오보",
     description:
-      "장비를 사지 않고 구독하세요. 필요할 때 배치, 불필요할 때 반납. 유지보수 포함, 자산 부담 제로.",
+      "매달 정액으로 장비를 운영하고, 사용이 멈추면 비용도 멈춥니다. 초기 비용 ZERO, 3개월 주기 정기 점검 포함.",
+    images: [{ url: division.heroImage }],
   },
 };
 
 export default function Page() {
-  return <SubscribeLanding />;
+  return <DivisionPage division={division} />;
 }

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { COMPANY } from "@/lib/constants";
+import PageHero from "@/components/ui/PageHero";
 
 /* ------------------------------------------------------------------ */
 /*  IntersectionObserver-based fade-in                                 */
@@ -49,42 +50,6 @@ function Reveal({
   );
 }
 
-function RevealScale({
-  children,
-  className = "",
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("opacity-100", "scale-100");
-          el.classList.remove("opacity-0", "scale-90");
-          obs.unobserve(el);
-        }
-      },
-      { threshold: 0.15 },
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      className={`opacity-0 scale-90 transition-all duration-700 ease-out ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </div>
-  );
-}
 
 function RevealBlurIn({
   children,
@@ -380,57 +345,11 @@ export default function PartnersPage() {
   return (
     <>
       {/* ========== HERO ========== */}
-      <section data-hero-dark className="relative pt-36 md:pt-44 pb-20 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
-        {/* glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent/8 rounded-full blur-[120px]" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <Reveal>
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
-              Partnership Program
-            </span>
-          </Reveal>
-
-          <Reveal delay={100}>
-            <h1 className="font-paperlogy text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5">
-              파트너와 함께 성장합니다
-            </h1>
-          </Reveal>
-
-          <Reveal delay={200}>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
-              소개만으로 수익을, 공간만으로 수익을. 아오보 그룹의 두 가지 파트너 프로그램을 만나보세요.
-            </p>
-          </Reveal>
-
-          {/* Stat cards */}
-          <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            <RevealScale delay={300}>
-              <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[200px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-                <p className="font-paperlogy text-3xl font-bold text-accent">협의</p>
-                <p className="text-gray-400 text-sm mt-1">사무가구 파트너 리워드</p>
-              </div>
-            </RevealScale>
-            <RevealScale delay={450}>
-              <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-8 py-6 text-center min-w-[200px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-                <p className="font-paperlogy text-3xl font-bold text-accent">QR</p>
-                <p className="text-gray-400 text-sm mt-1">물류장비 공유 수익</p>
-              </div>
-            </RevealScale>
-          </div>
-
-          <Reveal delay={400}>
-            <div className="mt-10">
-              <Link
-                href="/support/contact"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-accent text-white font-bold hover:bg-accent-light transition-colors shadow-lg text-base"
-              >
-                파트너 신청하기
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Partnership Program"
+        title={<>파트너와 함께<br />성장합니다</>}
+        description="소개만으로 수익을, 공간만으로 수익을. 아오보 그룹의 두 가지 파트너 프로그램을 만나보세요."
+      />
 
       {/* ========== PROGRAM A: 사무가구 파트너 리워드 ========== */}
       <section className="relative bg-surface">

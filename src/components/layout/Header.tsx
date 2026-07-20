@@ -3,41 +3,61 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useCart } from "@/contexts/CartContext";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { navigation } from "@/data/navigation";
+import { divisions } from "@/data/divisions";
 import MobileNav from "./MobileNav";
 
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 export default function Header() {
-  const router = useRouter();
-  const { totalItems, setIsOpen } = useCart();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [activeMenu, setActiveMenu] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [prevPathname, setPrevPathname] = useState(pathname);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Any open panel/overlay closes when the route changes (adjust-during-render)
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setActiveMenu(null);
+    setMobileOpen(false);
+  }
+
   useEffect(() => {
-    // Check if current page has a dark hero (homepage, service pages, etc.)
-    const checkScroll = () => {
+    // Transparent header while a dark hero ([data-hero-dark]) fills the top.
+    // Re-runs per route (soft navigation fires no scroll event), rAF-throttled.
+    let ticking = false;
+    const update = () => {
+      ticking = false;
       const heroEl = document.querySelector("[data-hero-dark]");
-      if (heroEl) {
-        // Transparent header when inside the dark hero area
-        const heroBottom = heroEl.getBoundingClientRect().bottom;
-        setScrolled(heroBottom <= 80); // 80 = header height
-      } else {
-        // No dark hero: always scrolled (white bg)
-        setScrolled(true);
+      setScrolled(heroEl ? heroEl.getBoundingClientRect().bottom <= 80 : true);
+    };
+    const onScrollOrResize = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
       }
     };
-    checkScroll();
-    window.addEventListener("scroll", checkScroll, { passive: true });
-    return () => window.removeEventListener("scroll", checkScroll);
+    onScrollOrResize();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveMenu(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Lock body scroll when mobile nav is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => {
@@ -45,236 +65,203 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
-  const handleMouseEnter = (index: number) => {
+  const openMenu = (index: number) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setActiveDropdown(index);
+    setActiveMenu(index);
+  };
+  const closeMenu = () => {
+    timeoutRef.current = setTimeout(() => setActiveMenu(null), 120);
   };
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setActiveDropdown(null), 150);
-  };
+  const solid = scrolled || activeMenu !== null;
 
   return (
     <>
       <header
+        onMouseLeave={closeMenu}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) setActiveMenu(null);
+        }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           mobileOpen ? "opacity-0 pointer-events-none" : ""
         } ${
-          scrolled
-            ? "bg-white/95 backdrop-blur-xl shadow-lg shadow-black/5"
-            : "bg-transparent"
+          solid
+            ? "bg-paper/92 backdrop-blur-xl border-b border-line"
+            : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className={`max-w-7xl mx-auto px-6 flex items-center justify-between transition-all duration-500 ${scrolled ? "h-16" : "h-20"}`}>
-          {/* Logo */}
-          <Link href="/" className="flex items-end gap-2 shrink-0">
+        <div
+          className={`mx-auto flex max-w-[1440px] items-center justify-between px-6 transition-all duration-500 lg:px-10 ${
+            scrolled ? "h-16" : "h-20"
+          }`}
+        >
+          {/* Logo: symbol + wordmark + Group — cap heights optically matched.
+             Symbol glyph fills its box; wordmark caps = 75% of box; Instrument
+             Serif caps = 73% of font-size — sizes chosen so all three render at
+             the same visible cap height. */}
+          <Link href="/" aria-label="AOVO 홈" className="relative z-10 flex shrink-0 items-center gap-2.5">
             <Image
-              src="/images/ex_aovo_symbol.png"
-              alt="AOVO"
-              width={32}
-              height={40}
-              className={`h-10 w-auto object-contain transition-all duration-500 ${
-                scrolled ? "" : "brightness-0 invert"
-              }`}
+              src="/images/aovo_symbol.svg"
+              alt=""
+              aria-hidden
+              width={435}
+              height={540}
+              loading="eager"
+              className={`w-auto transition-all duration-500 ${scrolled ? "h-[21px]" : "h-6"}`}
             />
-            <span className="flex items-baseline gap-0 -mb-[2px]">
-              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-3xl font-semibold tracking-tight leading-none transition-colors duration-500 ${
-                scrolled ? "text-primary" : "text-white"
-              }`}>
-                AOVO
-              </span>
-              <span style={{ fontFamily: "var(--font-syne), sans-serif" }} className={`text-xl font-light tracking-normal leading-none ml-1.5 transition-colors duration-500 ${
-                scrolled ? "text-primary/70" : "text-white/70"
-              }`}>
-                group
-              </span>
+            <Image
+              src={solid ? "/images/aovo_wordmark.svg" : "/images/aovo_wordmark_white.svg"}
+              alt="AOVO"
+              width={119}
+              height={42}
+              loading="eager"
+              className={`w-auto transition-all duration-500 ${scrolled ? "h-[26px]" : "h-[30px]"}`}
+            />
+            <span
+              className={`hidden font-serif italic leading-none tracking-wide sm:block transition-all duration-500 ${
+                scrolled ? "text-[26px]" : "text-[30px]"
+              } ${solid ? "text-muted" : "text-white/60"}`}
+            >
+              Group
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-9 lg:flex" aria-label="주 메뉴">
             {navigation.map((item, index) => (
               <div
                 key={item.href}
+                onMouseEnter={() => openMenu(index)}
+                onFocus={() => openMenu(index)}
                 className="relative"
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={handleMouseLeave}
               >
                 <Link
                   href={item.href}
-                  className={`relative px-3 py-2.5 font-paperlogy text-[14px] font-medium tracking-wide transition-colors duration-200 ${
-                    activeDropdown === index
-                      ? "text-accent"
-                      : scrolled
-                        ? "text-primary/80 hover:text-primary"
-                        : "text-white/80 hover:text-white"
+                  aria-haspopup="true"
+                  aria-expanded={activeMenu === index}
+                  className={`nav-underline font-paperlogy text-[14px] font-medium tracking-[0.02em] transition-colors duration-300 ${
+                    solid ? "text-primary/85 hover:text-primary" : "text-white/85 hover:text-white"
                   }`}
+                  data-active={activeMenu === index}
                 >
                   {item.label}
-                  <span
-                    className={`absolute bottom-0 left-4 right-4 h-0.5 bg-accent transition-transform duration-300 origin-left ${
-                      activeDropdown === index ? "scale-x-100" : "scale-x-0"
-                    }`}
-                  />
                 </Link>
-
-                {/* Dropdown */}
-                {item.children && (
-                  <div
-                    className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${
-                      activeDropdown === index
-                        ? "opacity-100 translate-y-0 pointer-events-auto blur-0"
-                        : "opacity-0 -translate-y-2 pointer-events-none blur-[4px]"
-                    }`}
-                  >
-                    <div className="bg-white rounded-xl shadow-xl shadow-black/8 border border-gray-100/80 py-2 min-w-[260px] overflow-hidden">
-                      <div className="px-4 pt-3 pb-2.5 border-b border-gray-50">
-                        <span className="text-[11px] font-medium uppercase tracking-widest text-accent/70">
-                          {item.labelEn}
-                        </span>
-                        {item.desc && (
-                          <p className="text-[11px] text-gray-500 font-normal leading-relaxed mt-1.5 tracking-[-0.01em]">
-                            {item.desc}
-                          </p>
-                        )}
-                      </div>
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary hover:bg-surface transition-colors duration-150 group"
-                        >
-                          <span className="w-1 h-1 rounded-full bg-accent/40 group-hover:bg-accent group-hover:scale-125 transition-all duration-150" />
-                          <span className="font-medium whitespace-nowrap">{child.label}</span>
-                          <span className="ml-auto text-[11px] text-gray-400 group-hover:text-accent/60 transition-colors whitespace-nowrap">
-                            {child.labelEn}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             ))}
           </nav>
 
-          {/* Right Side */}
-          <div className="flex items-center gap-2">
-            {/* Search */}
-            <div className="relative flex items-center">
-              <div
-                className={`flex items-center overflow-hidden transition-all duration-300 ${
-                  searchOpen ? "w-56 opacity-100" : "w-0 opacity-0"
-                }`}
-              >
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (searchQuery.trim()) {
-                      router.push(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
-                      setSearchOpen(false);
-                      setSearchQuery("");
-                    }
-                  }}
-                >
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="상품 검색..."
-                    className="w-full h-9 pl-3 pr-2 text-sm bg-surface border border-gray-200 rounded-full outline-none focus:border-accent transition-colors"
-                    onBlur={() => {
-                      if (!searchQuery) setTimeout(() => setSearchOpen(false), 150);
-                    }}
-                  />
-                </form>
-              </div>
-              <button
-                onClick={() => {
-                  if (searchOpen && searchQuery.trim()) {
-                    router.push(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
-                    setSearchOpen(false);
-                    setSearchQuery("");
-                  } else {
-                    setSearchOpen(!searchOpen);
-                    setTimeout(() => searchInputRef.current?.focus(), 100);
-                  }
-                }}
-                className={`p-2.5 rounded-full transition-colors duration-200 group ${scrolled ? "hover:bg-surface" : "hover:bg-white/10"}`}
-                aria-label="검색"
-              >
-                <svg
-                  className={`w-5 h-5 transition-colors duration-500 ${scrolled ? "text-primary/70 group-hover:text-primary" : "text-white/80 group-hover:text-white"}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.8}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Cart Button */}
-            <button
-              onClick={() => setIsOpen(true)}
-              className={`relative p-2.5 rounded-full transition-colors duration-200 group ${scrolled ? "hover:bg-surface" : "hover:bg-white/10"}`}
-              aria-label="장바구니"
+          {/* Right: CTA + hamburger */}
+          <div className="flex items-center gap-5">
+            <Link
+              href="/support/contact"
+              className={`group hidden items-center gap-2.5 border px-5 py-2.5 font-paperlogy text-[12px] font-semibold tracking-[0.14em] uppercase transition-all duration-400 lg:inline-flex ${
+                solid
+                  ? "border-primary/25 text-primary hover:bg-primary hover:text-cream hover:border-primary"
+                  : "border-white/35 text-white hover:bg-white hover:text-primary hover:border-white"
+              }`}
             >
-              <svg
-                className={`w-5 h-5 transition-colors duration-500 ${scrolled ? "text-primary/70 group-hover:text-primary" : "text-white/80 group-hover:text-white"}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.8}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                />
-              </svg>
-              {totalItems > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-accent text-white text-[10px] font-bold leading-none px-1">
-                  {totalItems}
-                </span>
-              )}
-            </button>
+              상담 문의
+              <span aria-hidden className="text-[13px] leading-none transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+            </Link>
 
-            {/* Mobile Hamburger */}
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className={`lg:hidden p-2.5 rounded-full transition-colors duration-200 ${scrolled ? "hover:bg-surface" : "hover:bg-white/10"}`}
-              aria-label="메뉴"
+              onClick={() => setMobileOpen(true)}
+              className="group flex h-10 w-10 items-center justify-center lg:hidden"
+              aria-label="메뉴 열기"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
             >
-              <div className="w-5 h-4 flex flex-col justify-between">
-                <span
-                  className={`block h-[1.5px] rounded-full transition-all duration-300 origin-center ${
-                    scrolled ? "bg-primary" : "bg-white"
-                  } ${mobileOpen ? "rotate-45 translate-y-[5px]" : ""}`}
-                />
-                <span
-                  className={`block h-[1.5px] rounded-full transition-all duration-300 ${
-                    scrolled ? "bg-primary" : "bg-white"
-                  } ${mobileOpen ? "opacity-0 scale-x-0" : ""}`}
-                />
-                <span
-                  className={`block h-[1.5px] rounded-full transition-all duration-300 origin-center ${
-                    scrolled ? "bg-primary" : "bg-white"
-                  } ${mobileOpen ? "-rotate-45 -translate-y-[5px]" : ""}`}
-                />
+              <div className="flex w-6 flex-col gap-[7px]">
+                <span className={`block h-px w-full transition-colors duration-300 ${solid ? "bg-primary" : "bg-white"}`} />
+                <span className={`block h-px w-2/3 self-end transition-all duration-300 group-hover:w-full ${solid ? "bg-primary" : "bg-white"}`} />
               </div>
             </button>
           </div>
         </div>
+
+        {/* Mega / dropdown panel */}
+        <AnimatePresence>
+          {activeMenu !== null && navigation[activeMenu].children && (
+            <motion.div
+              key={activeMenu}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              onMouseEnter={() => openMenu(activeMenu)}
+              onMouseLeave={closeMenu}
+              className="absolute inset-x-0 top-full hidden border-b border-line bg-paper/97 backdrop-blur-xl lg:block"
+            >
+              {navigation[activeMenu].labelEn === "Divisions" ? (
+                /* ── Divisions mega panel ── */
+                <div className="mx-auto max-w-[1440px] px-10 py-10">
+                  <div className="mb-8 flex items-end justify-between">
+                    <p className="eyebrow text-muted">Our Divisions</p>
+                    <p className="font-serif text-[15px] italic text-muted">
+                      Five ways to run your assets.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-5 divide-x divide-line border-t border-line">
+                    {divisions.map((d) => (
+                      <Link
+                        key={d.slug}
+                        href={d.href}
+                        onClick={() => setActiveMenu(null)}
+                        className="group flex flex-col gap-10 px-6 pt-6 pb-7 transition-colors duration-300 hover:bg-surface"
+                      >
+                        <span className="font-serif text-sm italic text-accent-deep">{d.no}</span>
+                        <span>
+                          <span className="block font-paperlogy text-lg font-semibold text-primary">
+                            {d.nameKo}
+                            <span aria-hidden className="ml-2 inline-block translate-x-0 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
+                              →
+                            </span>
+                          </span>
+                          <span className="mt-1 block text-[11px] font-medium uppercase tracking-[0.18em] text-muted">
+                            {d.nameEn}
+                          </span>
+                          <span className="mt-3 block text-[13px] leading-relaxed text-muted">
+                            {d.tagline}
+                          </span>
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                /* ── Simple panel ── */
+                <div className="mx-auto flex max-w-[1440px] items-start gap-20 px-10 py-10">
+                  <div className="w-64 shrink-0">
+                    <p className="eyebrow text-muted">{navigation[activeMenu].labelEn}</p>
+                    <p className="mt-4 text-sm leading-relaxed text-muted">
+                      {navigation[activeMenu].desc}
+                    </p>
+                  </div>
+                  <ul className="grid flex-1 grid-cols-3 gap-x-10 border-l border-line pl-14">
+                    {navigation[activeMenu].children!.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          onClick={() => setActiveMenu(null)}
+                          className="group flex items-baseline justify-between gap-4 border-b border-line py-4"
+                        >
+                          <span className="font-paperlogy text-[15px] font-medium text-primary/85 transition-colors duration-300 group-hover:text-primary">
+                            {child.label}
+                          </span>
+                          <span className="text-[11px] uppercase tracking-[0.14em] text-muted transition-colors duration-300 group-hover:text-accent-deep">
+                            {child.labelEn}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
-      {/* Mobile Navigation */}
       <MobileNav isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
     </>
   );

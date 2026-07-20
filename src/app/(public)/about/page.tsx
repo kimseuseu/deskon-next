@@ -81,15 +81,13 @@ export default function AboutPage() {
 
         <div className="relative z-10 min-h-[85vh] flex flex-col justify-center items-center text-center px-6 pt-24 pb-16">
           <Reveal>
-            <span className="inline-block px-5 py-2 rounded-full text-[11px] font-medium tracking-widest uppercase bg-white/10 text-white/70 border border-white/15 mb-8">
-              About AOVO Group
-            </span>
+            <p className="eyebrow justify-center text-white/70 mb-8">About AOVO Group</p>
           </Reveal>
 
           <Reveal delay={150}>
-            <h1 className="font-paperlogy text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+            <h1 className="font-paperlogy text-4xl md:text-6xl lg:text-7xl font-extralight tracking-[-0.02em] text-white leading-[1.15] mb-6">
               기업의 성장에<br />
-              <span className="text-accent-light">집중할 수 있도록</span>
+              <span className="font-serif italic text-gold">집중할 수 있도록</span>
             </h1>
           </Reveal>
 
@@ -101,8 +99,8 @@ export default function AboutPage() {
           </Reveal>
 
           <Reveal delay={450}>
-            <a href="#story" className="inline-flex items-center gap-2 border border-white/20 text-white/80 hover:text-white hover:bg-white/5 font-medium rounded-full px-8 py-4 transition-all text-sm">
-              우리의 이야기 ↓
+            <a href="#story" className="inline-flex items-center gap-3 border border-white/35 px-8 py-3.5 font-paperlogy text-[13px] font-semibold tracking-[0.12em] text-white/90 transition-all duration-400 hover:border-white hover:bg-white hover:text-primary">
+              우리의 이야기 <span aria-hidden>↓</span>
             </a>
           </Reveal>
         </div>

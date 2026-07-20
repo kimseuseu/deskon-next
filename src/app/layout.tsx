@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Noto_Sans_KR, Syne } from "next/font/google";
+import { Noto_Sans_KR, Syne, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "@/contexts/CartContext";
 import MetaPixel from "@/components/seo/MetaPixel";
 import NaverAnalytics from "@/components/seo/NaverAnalytics";
 import SplashScreen from "@/components/SplashScreen";
@@ -9,14 +8,23 @@ import SplashScreen from "@/components/SplashScreen";
 const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700", "900"],
+  weight: ["300", "400", "500", "700"],
   display: "swap",
 });
 
+// Only /about/ci still renders Syne (brand-typeface specimen)
 const syne = Syne({
   variable: "--font-syne",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument",
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
   display: "swap",
 });
 
@@ -29,10 +37,7 @@ export const metadata: Metadata = {
   },
   description:
     "구독 · 공유 · 렌탈 · 자산연대 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
-  icons: {
-    icon: "/images/ex_aovo_symbol.png",
-    apple: "/images/ex_aovo_symbol.png",
-  },
+  // favicon/apple icon은 src/app/icon.png, apple-icon.png 파일 컨벤션으로 자동 연결
   keywords: [
     "아오보",
     "AOVO",
@@ -82,7 +87,7 @@ const organizationJsonLd = {
   alternateName: ["AOVO", "AOVO Group", "아오보 그룹"],
   legalName: "주식회사 킴샵",
   url: "https://www.aovo.kr/",
-  logo: "https://www.aovo.kr/images/ex_aovo_symbol.png",
+  logo: "https://www.aovo.kr/images/aovo_symbol.png",
   telephone: "010-9929-5363",
   email: "mbc8447289@naver.com",
   address: {
@@ -100,7 +105,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={`${notoSansKR.variable} ${syne.variable} antialiased`}>
+    <html lang="ko" className={`${notoSansKR.variable} ${syne.variable} ${instrumentSerif.variable} antialiased`}>
       <head>
         <script
           type="application/ld+json"
@@ -109,7 +114,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-cream text-primary">
         <SplashScreen />
-        <CartProvider>{children}</CartProvider>
+        {children}
         <MetaPixel />
         <NaverAnalytics />
       </body>

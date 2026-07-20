@@ -1,9 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { navigation } from "@/data/navigation";
+import Image from "next/image";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { divisions } from "@/data/divisions";
+import { brands } from "@/data/brands";
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const secondaryLinks = [
+  { label: "그룹소개", labelEn: "About", href: "/about" },
+  { label: "회사 연혁", labelEn: "History", href: "/about/history" },
+  { label: "오시는 길", labelEn: "Location", href: "/about/location" },
+  { label: "공지사항", labelEn: "Notice", href: "/support/notice" },
+  { label: "FAQ", labelEn: "FAQ", href: "/support/faq" },
+  { label: "문의하기", labelEn: "Contact", href: "/support/contact" },
+];
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -11,167 +24,162 @@ interface MobileNavProps {
 }
 
 export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const reduce = useReducedMotion();
+  const closeRef = useRef<HTMLButtonElement>(null);
 
-  const toggleAccordion = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
+  useEffect(() => {
+    if (!isOpen) return;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-40 lg:hidden"
+          id="mobile-nav"
+          role="dialog"
+          aria-modal="true"
+          aria-label="메뉴"
+          initial={reduce ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)" }}
+          animate={reduce ? { opacity: 1 } : { clipPath: "inset(0 0 0% 0)" }}
+          exit={reduce ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)" }}
+          transition={{ duration: 0.65, ease: EASE }}
+          className="fixed inset-0 z-[60] flex flex-col bg-ink text-cream lg:hidden"
         >
-          {/* Backdrop */}
+          {/* Top bar */}
+          <div className="flex h-20 shrink-0 items-center justify-between px-6">
+            <Link href="/" onClick={onClose} aria-label="AOVO 홈">
+              <Image
+                src="/images/aovo_wordmark_white.svg"
+                alt="AOVO"
+                width={119}
+                height={42}
+                className="h-5 w-auto"
+              />
+            </Link>
+            <button
+              ref={closeRef}
+              onClick={onClose}
+              className="flex h-10 w-10 items-center justify-center"
+              aria-label="메뉴 닫기"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.2}>
+                <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Divisions */}
+          <div className="flex-1 overflow-y-auto px-6 pt-4 pb-10" data-lenis-prevent>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35, duration: 0.6 }}
+              className="eyebrow text-white/55"
+            >
+              Our Divisions
+            </motion.p>
+
+            <nav className="mt-5" aria-label="사업분야">
+              {divisions.map((d, i) => (
+                <div key={d.slug} className="overflow-hidden border-b border-white/10">
+                  <motion.div
+                    initial={{ y: "105%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.22 + i * 0.07, ease: EASE }}
+                  >
+                    <Link
+                      href={d.href}
+                      onClick={onClose}
+                      className="group flex items-baseline gap-4 py-5"
+                    >
+                      <span className="font-serif text-sm italic text-gold">{d.no}</span>
+                      <span className="font-paperlogy text-[30px] font-light leading-none tracking-[-0.01em] text-cream transition-colors group-hover:text-gold">
+                        {d.nameKo}
+                      </span>
+                      <span className="ml-auto text-[11px] uppercase tracking-[0.18em] text-white/55">
+                        {d.nameEn}
+                      </span>
+                    </Link>
+                  </motion.div>
+                </div>
+              ))}
+            </nav>
+
+            {/* Brands */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55, duration: 0.6, ease: EASE }}
+            >
+              <p className="eyebrow mt-10 text-white/55">Group Brands</p>
+              <nav className="mt-4 grid grid-cols-2 gap-x-6" aria-label="브랜드">
+                {brands.map((b) => (
+                  <Link
+                    key={b.slug}
+                    href={b.href}
+                    onClick={onClose}
+                    className="group flex items-baseline gap-2 border-b border-white/10 py-3.5"
+                  >
+                    <span className="font-paperlogy text-[17px] font-semibold tracking-[0.03em] text-cream transition-colors group-hover:text-gold">
+                      {b.name}
+                    </span>
+                    <span className="text-[11px] text-white/55">{b.nameKo}</span>
+                  </Link>
+                ))}
+              </nav>
+            </motion.div>
+
+            {/* Secondary links */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6, ease: EASE }}
+              className="mt-10 grid grid-cols-2 gap-x-6 gap-y-4"
+            >
+              {secondaryLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={onClose}
+                  className="text-[14px] text-white/70 transition-colors hover:text-cream"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Bottom contact */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-            onClick={onClose}
-          />
-
-          {/* Panel */}
-          <motion.nav
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="absolute top-0 right-0 w-full max-w-sm h-full bg-primary text-white overflow-y-auto"
+            transition={{ delay: 0.7, duration: 0.6 }}
+            className="shrink-0 border-t border-white/10 px-6 py-6"
           >
-            {/* Close area / top spacing */}
-            <div className="h-20 flex items-center px-6">
-              <span className="font-paperlogy text-lg font-bold tracking-tight text-accent">
-                AOVO
-              </span>
-              <button
-                onClick={onClose}
-                className="ml-auto p-2 rounded-full hover:bg-white/10 transition-colors"
-                aria-label="닫기"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            <div className="px-6 pb-10">
-              {navigation.map((item, index) => (
-                <div
-                  key={item.href}
-                  className="border-b border-white/10 last:border-b-0"
-                >
-                  {/* Parent Item */}
-                  <button
-                    onClick={() => toggleAccordion(index)}
-                    className="w-full flex items-center justify-between py-4 group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="font-paperlogy text-base font-semibold tracking-wide">
-                        {item.label}
-                      </span>
-                      <span className="text-xs text-white/65 font-medium uppercase tracking-widest">
-                        {item.labelEn}
-                      </span>
-                    </div>
-                    <motion.svg
-                      animate={{ rotate: expandedIndex === index ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="w-4 h-4 text-white/70"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </motion.svg>
-                  </button>
-
-                  {/* Children */}
-                  <AnimatePresence initial={false}>
-                    {expandedIndex === index && item.children && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="overflow-hidden"
-                      >
-                        <div className="pb-3 pl-4 space-y-0.5">
-                          {item.children.map((child) => (
-                            <Link
-                              key={child.href}
-                              href={child.href}
-                              onClick={onClose}
-                              className="flex items-center gap-2.5 py-2 text-sm text-white/60 hover:text-accent transition-colors duration-150"
-                            >
-                              <span className="w-1 h-1 rounded-full bg-accent/50" />
-                              {child.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
-
-              {/* Extra Links */}
-              <div className="mt-8 space-y-3">
-                <Link
-                  href="/support/notice"
-                  onClick={onClose}
-                  className="block text-sm text-white/70 hover:text-accent transition-colors"
-                >
-                  공지사항
-                </Link>
-                <Link
-                  href="/support/faq"
-                  onClick={onClose}
-                  className="block text-sm text-white/70 hover:text-accent transition-colors"
-                >
-                  FAQ
-                </Link>
-                <Link
-                  href="/support/contact"
-                  onClick={onClose}
-                  className="block text-sm text-white/70 hover:text-accent transition-colors"
-                >
-                  문의하기
-                </Link>
-              </div>
-
-              {/* Contact CTA */}
-              <div className="mt-10 p-4 rounded-xl bg-white/5 border border-white/10">
-                <p className="text-xs text-white/65 mb-2">상담 전화</p>
-                <a
-                  href="tel:010-9929-5363"
-                  className="text-lg font-paperlogy font-bold text-accent"
-                >
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-white/55">Contact</p>
+                <a href="tel:010-9929-5363" className="mt-1.5 block font-paperlogy text-xl font-semibold text-cream">
                   010-9929-5363
                 </a>
+                <p className="mt-0.5 text-xs text-white/55">평일 09:00 – 18:00</p>
               </div>
+              <a
+                href="http://pf.kakao.com/_qxkxnRX"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-white/40 px-4 py-2.5 text-[12px] font-medium tracking-[0.1em] text-cream transition-colors hover:border-gold hover:text-gold"
+              >
+                카카오 채널 ↗
+              </a>
             </div>
-          </motion.nav>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

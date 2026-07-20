@@ -1,14 +1,6 @@
-import { Metadata } from "next";
-import ServicePageTemplate from "@/components/service/ServicePageTemplate";
-import { getServiceData } from "@/data/services";
+import { redirect } from "next/navigation";
 
-const data = getServiceData("sharing", "cart")!;
-
-export const metadata: Metadata = {
-  title: data.title,
-  description: data.metaDescription,
-};
-
+// 구 서비스 상세 페이지 — 그룹 포털 전환으로 상위 소개 페이지로 이동
 export default function Page() {
-  return <ServicePageTemplate data={data} />;
+  redirect("/sharing");
 }

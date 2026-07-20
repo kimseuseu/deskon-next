@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import { COMPANY } from "@/lib/constants";
+import PageHero from "@/components/ui/PageHero";
 
 export const metadata: Metadata = {
-  title: "이용약관 | AOVO Group",
+  title: "이용약관",
   description:
     "AOVO Group 비즈니스 장비 구독·렌탈·공유 서비스 이용약관입니다.",
 };
@@ -11,20 +12,11 @@ export default function TermsPage() {
   return (
     <>
       {/* Hero */}
-      <section data-hero-dark className="relative bg-gradient-to-br from-primary via-gray-900 to-primary pt-32 pb-20">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
-            Terms of Service
-          </span>
-          <h1 className="font-paperlogy text-4xl md:text-5xl font-bold text-white mb-4">
-            이용약관
-          </h1>
-          <p className="text-gray-400 leading-relaxed">
-            {COMPANY.legalName} (이하 &ldquo;회사&rdquo;)가 제공하는 AOVO
-            서비스의 이용조건 및 절차에 관한 사항을 규정합니다.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Terms of Service"
+        title="이용약관"
+        description={`${COMPANY.legalName} (이하 "회사")가 제공하는 AOVO 서비스의 이용조건 및 절차에 관한 사항을 규정합니다.`}
+      />
 
       {/* Content */}
       <section className="py-24 bg-cream">

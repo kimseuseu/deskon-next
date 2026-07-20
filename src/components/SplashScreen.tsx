@@ -2,21 +2,22 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 /*
-  ── Minimal Splash ──
-  Clean, typographic, smooth.
+  ── Splash ──
+  Wordmark rises from a mask, divisions whisper underneath, curtain lifts.
 
-  Phase 1 (0.0s) : background ready
-  Phase 2 (0.3s) : "AOVO GROUP" fades in large
-  Phase 3 (1.2s) : service keywords slide up
-  Phase 4 (3.6s) : everything fades out
-  Phase 5 (4.4s) : unmount
+  0.00s : ink canvas
+  0.15s : gold wordmark rises
+  0.90s : division keywords fade in
+  2.00s : whole screen slides up and out
+  2.65s : unmount
 */
 
 let splashPlayed = false;
 
-const SERVICES = ["구독", "공유", "렌탈", "자산연대", "유통"] as const;
+const DIVISIONS = ["구독", "공유", "렌탈", "자산연대", "유통"] as const;
 
 export default function SplashScreen() {
   const pathname = usePathname();
@@ -26,19 +27,24 @@ export default function SplashScreen() {
   const skip = pathname !== "/" || splashPlayed;
 
   useEffect(() => {
-    if (skip) {
-      return;
+    if (skip) return;
+
+    // Once per browser session — repeat visits go straight to the hero
+    if (sessionStorage.getItem("aovo-splash-played")) {
+      splashPlayed = true;
+      const raf = requestAnimationFrame(() => setDone(true));
+      return () => cancelAnimationFrame(raf);
     }
 
     const timers = [
-      setTimeout(() => setPhase(1), 50),
-      setTimeout(() => setPhase(2), 300),
-      setTimeout(() => setPhase(3), 1200),
-      setTimeout(() => setPhase(4), 3600),
+      setTimeout(() => setPhase(1), 150),
+      setTimeout(() => setPhase(2), 900),
+      setTimeout(() => setPhase(3), 2000),
       setTimeout(() => {
         setDone(true);
         splashPlayed = true;
-      }, 4400),
+        sessionStorage.setItem("aovo-splash-played", "1");
+      }, 2650),
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -47,55 +53,51 @@ export default function SplashScreen() {
   if (skip || done) return null;
 
   const ease = "cubic-bezier(0.16, 1, 0.3, 1)";
-  const fadeOut = phase >= 4;
+  const exit = phase >= 3;
 
   return (
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center"
       style={{
-        background: "#08080c",
-        opacity: fadeOut ? 0 : 1,
-        transition: `opacity 0.8s ${ease}`,
-        pointerEvents: fadeOut ? "none" : "auto",
+        background: "#0e0e11",
+        transform: exit ? "translateY(-100%)" : "translateY(0)",
+        transition: `transform 0.7s ${ease}`,
+        pointerEvents: exit ? "none" : "auto",
       }}
+      aria-hidden
     >
-      <div className="relative z-10 flex flex-col items-center px-6">
-        {/* ── AOVO GROUP ── */}
-        <h1
-          className="font-paperlogy select-none"
-          style={{
-            fontSize: "clamp(2.8rem, 8vw, 5.5rem)",
-            lineHeight: 1,
-            opacity: phase >= 2 ? 1 : 0,
-            transform: phase >= 2 ? "translateY(0)" : "translateY(24px)",
-            filter: phase >= 2 ? "blur(0)" : "blur(8px)",
-            transition: `opacity 1s ${ease}, transform 1s ${ease}, filter 1s ${ease}`,
-          }}
-        >
-          <span className="font-bold tracking-[-0.03em] text-white">
-            AOVO
-          </span>
-          <span className="font-light tracking-[0.04em] text-white/30 ml-[0.15em]">
-            GROUP
-          </span>
-        </h1>
+      <div className="flex flex-col items-center px-6">
+        {/* Wordmark rising from a mask */}
+        <div className="overflow-hidden py-1">
+          <div
+            style={{
+              transform: phase >= 1 ? "translateY(0)" : "translateY(110%)",
+              transition: `transform 1s ${ease}`,
+            }}
+          >
+            <Image
+              src="/images/aovo_wordmark_gold.svg"
+              alt="AOVO"
+              width={595}
+              height={212}
+              loading="eager"
+              className="h-auto w-[min(52vw,300px)]"
+            />
+          </div>
+        </div>
 
-        {/* ── Services ── */}
+        {/* Divisions */}
         <div
-          className="flex items-center gap-3 md:gap-5 mt-8 md:mt-10"
+          className="mt-7 flex items-center gap-3 md:gap-5"
           style={{
-            opacity: phase >= 3 ? 1 : 0,
-            transform: phase >= 3 ? "translateY(0)" : "translateY(16px)",
-            filter: phase >= 3 ? "blur(0)" : "blur(4px)",
-            transition: `opacity 0.8s ${ease}, transform 0.8s ${ease}, filter 0.8s ${ease}`,
+            opacity: phase >= 2 ? 1 : 0,
+            transition: `opacity 0.8s ${ease}`,
           }}
         >
-          {SERVICES.map((label, i) => (
+          {DIVISIONS.map((label, i) => (
             <span key={label} className="flex items-center gap-3 md:gap-5">
-              {i > 0 && (
-                <span className="block w-px h-3 bg-white/10" />
-              )}
-              <span className="text-white/50 text-sm md:text-base font-paperlogy font-medium tracking-[-0.02em]">
+              {i > 0 && <span className="block h-3 w-px bg-white/15" />}
+              <span className="font-paperlogy text-[13px] font-medium tracking-[0.02em] text-white/45 md:text-sm">
                 {label}
               </span>
             </span>

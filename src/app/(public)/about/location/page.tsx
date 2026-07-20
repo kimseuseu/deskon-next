@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { COMPANY } from "@/lib/constants";
+import PageHero from "@/components/ui/PageHero";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -11,11 +12,6 @@ const fadeInUp = {
 const fadeInScale = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: "easeOut" as const } },
-};
-
-const staggerContainer = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const staggerContainerSlow = {
@@ -145,25 +141,11 @@ export default function LocationPage() {
   return (
     <>
       {/* Hero */}
-      <section data-hero-dark className="relative pt-32 pb-20 bg-gradient-to-br from-primary via-gray-900 to-primary overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent/8 rounded-full blur-[100px]" />
-        <motion.div
-          className="relative z-10 max-w-3xl mx-auto px-6 text-center"
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-        >
-          <motion.span variants={fadeInUp} className="inline-block px-4 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase bg-accent/15 text-accent-light border border-accent/20 mb-6">
-            Location
-          </motion.span>
-          <motion.h1 variants={fadeInUp} className="font-paperlogy text-4xl md:text-5xl font-bold text-white mb-4">
-            오시는 길
-          </motion.h1>
-          <motion.p variants={fadeInUp} className="text-gray-400 text-lg">
-            AOVO 본사를 방문해 주세요
-          </motion.p>
-        </motion.div>
-      </section>
+      <PageHero
+        eyebrow="Location"
+        title="오시는 길"
+        description="인천 중구 서해대로 111, AOVO 본사를 방문해 주세요."
+      />
 
       {/* Map + Info */}
       <section className="py-24 bg-cream">
