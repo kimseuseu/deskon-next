@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/admin-session";
 import { mapInquiry } from "@/lib/deskon-data";
+import { notifyNewInquiry } from "@/lib/kakao";
 import { getClientIp, rateLimit } from "@/lib/rate-limit";
 import { createAdminClient } from "@/lib/supabase-admin";
 
@@ -54,6 +55,16 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
+
+    // 관리자 카카오톡으로 알림 — 실패해도 문의 접수에는 영향 없음
+    await notifyNewInquiry({
+      name,
+      company,
+      phone,
+      inquiry_type,
+      service_category,
+      message,
+    });
 
     return NextResponse.json({ data: mapInquiry(data) }, { status: 201 });
   } catch (err) {

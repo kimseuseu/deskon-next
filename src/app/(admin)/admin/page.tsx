@@ -265,6 +265,21 @@ export default function AdminDashboardPage() {
             <p className="text-xs text-muted">웹메일 바로가기</p>
           </div>
         </a>
+
+        <a
+          href="/api/kakao/authorize"
+          className="flex items-center gap-3 bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-yellow-300 hover:shadow-md transition-all group"
+        >
+          <div className="w-10 h-10 rounded-xl bg-yellow-400/20 flex items-center justify-center group-hover:bg-yellow-400/30 transition-colors">
+            <svg className="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 3C6.477 3 2 6.463 2 10.691c0 2.72 1.794 5.108 4.504 6.46-.147.538-.951 3.467-.982 3.69 0 0-.02.166.087.23.107.064.233.015.233.015.307-.043 3.559-2.328 4.117-2.723.664.098 1.348.149 2.041.149 5.523 0 10-3.463 10-7.691S17.523 3 12 3z" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-medium text-primary text-sm">카카오 알림 연동</p>
+            <p className="text-xs text-muted">새 문의를 카톡으로 받기</p>
+          </div>
+        </a>
       </div>
     </div>
   );
