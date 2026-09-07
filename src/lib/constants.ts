@@ -8,7 +8,7 @@ export const COMPANY = {
   phone: "010-9929-5363",
   fax: "02-844-3361",
   email: "mbc8447289@naver.com",
-  address: "인천광역시 중구 항동 서해대로 111 킴샵그룹",
+  address: "인천광역시 제물포구 항동 서해대로 111 킴샵그룹",
   kakaoChannel: "http://pf.kakao.com/_qxkxnRX",
   metaPixelId: "1364619415439477",
   cloudinary: {

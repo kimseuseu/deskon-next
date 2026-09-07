@@ -93,7 +93,7 @@ const organizationJsonLd = {
   address: {
     "@type": "PostalAddress",
     streetAddress: "서해대로 111 킴샵그룹",
-    addressLocality: "중구",
+    addressLocality: "제물포구",
     addressRegion: "인천광역시",
     addressCountry: "KR",
   },

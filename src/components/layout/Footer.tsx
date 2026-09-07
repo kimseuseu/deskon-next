@@ -160,7 +160,7 @@ export default function Footer() {
               </p>
               <p>통신판매업신고번호: 제2019-인천중구-0276호</p>
               <p>
-                인천광역시 중구 항동 서해대로 111 킴샵그룹
+                인천광역시 제물포구 항동 서해대로 111 킴샵그룹
                 <span className="mx-2 text-white/15">|</span>
                 <a href="tel:010-9929-5363" className="transition-colors hover:text-gold">010-9929-5363</a>
                 <span className="mx-2 text-white/15">|</span>

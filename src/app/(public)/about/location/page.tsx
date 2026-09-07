@@ -131,7 +131,7 @@ const directions = [
     ),
     lines: [
       "서해안고속도로 광명IC → 금오로 방면 우회전 → 약 10분 소요",
-      "내비게이션에 \"인천광역시 중구 항동 서해대로 111 킴샵그룹\" 입력",
+      "내비게이션에 \"인천광역시 제물포구 항동 서해대로 111 킴샵그룹\" 입력",
       "건물 내 주차장 이용 가능",
     ],
   },
@@ -144,7 +144,7 @@ export default function LocationPage() {
       <PageHero
         eyebrow="Location"
         title="오시는 길"
-        description="인천 중구 서해대로 111, AOVO 본사를 방문해 주세요."
+        description="인천 제물포구 서해대로 111, AOVO 본사를 방문해 주세요."
       />
 
       {/* Map + Info */}
@@ -167,7 +167,7 @@ export default function LocationPage() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="AOVO Group 본사 위치 - 인천광역시 중구 항동 서해대로 111 킴샵그룹"
+                title="AOVO Group 본사 위치 - 인천광역시 제물포구 항동 서해대로 111 킴샵그룹"
               />
             </motion.div>
 
