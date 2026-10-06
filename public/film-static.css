@@ -1,0 +1,17 @@
+/* 필름의 정지 화면. 스크립트가 없는 환경이 씁니다(app/layout.tsx의 noscript).
+   장면은 고정을 풀고 제 높이로 돌아가며, 모든 글은 처음부터 서 있습니다. */
+.scene { height: auto !important; }
+.stage, .pan-stage { position: relative !important; height: auto !important; overflow: visible !important; }
+.cue, .cue-in, .cue-out, .cue-through,
+.film-hero-frame, .film-hero-photo, .reel-list, .reel-item, .reel-desc, .pan-track, .closing-panel {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.film-only { display: none !important; }
+.film-hero .stage { min-height: 100svh; }
+.reel-view { height: auto !important; -webkit-mask-image: none !important; mask-image: none !important; }
+.reel-list { position: static !important; margin-top: 0 !important; }
+.reel-item { height: auto !important; padding-block: 1.5rem; border-top: 1px solid #e2dfd6; }
+.pipe-line { transform: scaleX(1) !important; }
+.ring-arc { stroke-dashoffset: 0 !important; }
+.ring-center { display: none !important; }

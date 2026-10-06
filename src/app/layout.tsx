@@ -107,6 +107,11 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${notoSansKR.variable} ${syne.variable} ${instrumentSerif.variable} antialiased`}>
       <head>
+        {/* 스크롤 필름(/gas, /water)의 정지 화면 — 스크립트가 없을 때만 */}
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-css-tags -- noscript 전용 정지 화면 */}
+          <link rel="stylesheet" href="/film-static.css" />
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}

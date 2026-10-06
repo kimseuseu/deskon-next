@@ -18,6 +18,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "/recycle", priority: 0.9, changeFrequency: "weekly" },
     { url: "/buyback", priority: 0.9, changeFrequency: "weekly" },
 
+    // Landing (설비공사 필름)
+    { url: "/gas", priority: 0.8, changeFrequency: "monthly" },
+    { url: "/water", priority: 0.8, changeFrequency: "monthly" },
+
     // Brands
     { url: "/iden", priority: 0.7, changeFrequency: "monthly" },
     { url: "/vetix", priority: 0.7, changeFrequency: "monthly" },
