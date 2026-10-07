@@ -26,7 +26,14 @@ export function WaterPage() {
       <LineupPan
         work={water}
         label="Water Service"
-        images={{ "1톤 물탱크": { src: "/images/facility/water-tank.webp", alt: "행사장 천막 옆에 세운 1톤 물탱크와 급수 호스" } }}
+        images={{
+          "1톤 물탱크": { src: "/images/facility/water-tank.webp", alt: "행사장 천막 옆에 세운 1톤 물탱크와 급수 호스" },
+          "1톤 5통 운용": { src: "/images/facility/water-five-tanks.webp", alt: "행사장 천막 옆에 나란히 배치하고 급수 호스로 연결한 파란 물탱크 다섯 통" },
+          "부스 사용량 계산": { src: "/images/facility/water-meter.webp", alt: "급수 호스에 연결된 수도계량기로 부스 사용량을 점검하는 작업자" },
+          "싱크대 설치": { src: "/images/facility/water-sink.webp", alt: "행사장 천막에 급수 호스와 배수 호스를 연결한 스테인리스 싱크대" },
+          "오 · 폐수 처리": { src: "/images/facility/water-wastewater.webp", alt: "배수 호스를 밀폐 연결한 행사장 오폐수 회수 탱크" },
+          "음식물 처리": { src: "/images/facility/water-food-waste.webp", alt: "행사장 뒤편 전용 수거통에 음식물 찌꺼기를 모으는 작업자" },
+        }}
       />
       <PipeFilm
         title={water.install.title}

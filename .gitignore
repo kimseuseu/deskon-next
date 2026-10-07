@@ -50,3 +50,6 @@ next-env.d.ts
 
 # claude code worktrees
 .claude/worktrees/
+
+# Codex imagegen 미리보기 스크린샷 (산출물 아님)
+/output/

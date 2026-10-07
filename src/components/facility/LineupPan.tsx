@@ -57,7 +57,7 @@ export function LineupPan({
                     />
                     <div
                       aria-hidden
-                      className="absolute inset-0 -z-10 bg-gradient-to-t from-paper via-paper/70 to-paper/10"
+                      className="absolute inset-0 -z-10 bg-gradient-to-t from-paper from-5% via-paper/85 via-25% to-transparent to-60%"
                     />
                   </>
                 )}

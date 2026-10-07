@@ -24,7 +24,14 @@ export function GasPage() {
       <LineupPan
         work={gas}
         label="Gas Equipment"
-        images={{ 간택기: { src: "/images/subscribe/kitchen.webp", alt: "4구 업소용 가스 화구" } }}
+        images={{
+          간택기: { src: "/images/subscribe/kitchen.webp", alt: "4구 업소용 가스 화구" },
+          낮은렌지: { src: "/images/facility/gas-low-range.webp", alt: "짧은 다리와 대형 화구를 갖춘 스테인리스 낮은렌지" },
+          탕렌지: { src: "/images/facility/gas-soup-range.webp", alt: "대형 스테인리스 국통을 올린 업소용 탕렌지" },
+          중화버너: { src: "/images/facility/gas-wok-burner.webp", alt: "둥근 웍과 단일 화구를 갖춘 업소용 중화버너" },
+          회전국솥: { src: "/images/facility/gas-tilting-kettle.webp", alt: "뚜껑을 열고 측면 회전 손잡이가 보이는 스테인리스 회전국솥" },
+          인덕션렌지: { src: "/images/facility/gas-induction-range.webp", alt: "검은 유리 상판과 스테인리스 본체의 탁상용 인덕션렌지" },
+        }}
       />
       <PipeFilm
         title={gas.install.title}
