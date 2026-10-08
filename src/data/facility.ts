@@ -12,6 +12,14 @@ export interface FacilityLineupItem {
   name: string;
   /** 규격·용량·역할 등 짧은 보조 정보 */
   specs: string[];
+  /** 카드에 한 줄로 서는 쓰임새 */
+  tagline?: string;
+  /** 상세 섹션의 설명 */
+  description?: string;
+  /** 어떤 현장에 두는지 */
+  uses?: string;
+  /** 규격 숫자가 뜻하는 것 */
+  specNote?: string;
 }
 
 export interface FacilityWork {
@@ -29,7 +37,7 @@ export interface FacilityWork {
   caption: string;
   trust: FacilityPoint[];
   reasons: FacilityPoint[];
-  lineup: { title: string; lead: string; items: FacilityLineupItem[] };
+  lineup: { title: string; lead: string; items: FacilityLineupItem[]; note?: string };
   install: { title: string; lead: string; items: string[] };
   cta: { title: string; lead: string; promises: FacilityPoint[]; slogan: string };
   image: string;
@@ -44,7 +52,7 @@ export const gas: FacilityWork = {
   nameEn: "Gas Works",
   motto: "안전한 가스, 든든한 오늘",
   categories: ["업소용 가스기기", "행사장 가스설비", "배관공사", "안전검사 대행"],
-  summary: "기기 판매부터 설치, 배관, 안전필증까지 한 번에",
+  summary: "기기 임대부터 설치, 배관, 안전필증까지 한 번에",
   caption: "안전한 사업의 시작, 아오보가 함께합니다.",
   trust: [
     { title: "신뢰할 수 있는 전문 시공", description: "" },
@@ -52,21 +60,70 @@ export const gas: FacilityWork = {
     { title: "다양한 현장 경험의 맞춤 솔루션", description: "" },
   ],
   reasons: [
-    { title: "업소용 가스기기 전문", description: "다양한 업소용 가스기기를 전문적으로 취급합니다." },
+    { title: "업소용 가스기기 임대 설치", description: "간택기부터 회전국솥까지 사지 않고 행사 기간에 맞춰 임대하고, 설치와 철거까지 맡깁니다." },
     { title: "실내 · 야외 설치 가능", description: "식당, 급식소, 행사장 등 어떤 환경에서도 설치 가능합니다." },
     { title: "배관공사 및 부속 설치", description: "안전하고 정밀한 배관공사와 각종 부속 설치를 제공합니다." },
     { title: "안전검사 · 필증 대행", description: "가스 안전검사 및 안전필증 대행까지 신속하게 처리합니다." },
   ],
   lineup: {
     title: "제품 라인업",
-    lead: "다양한 업소용 가스기기로 성공적인 비즈니스를 함께합니다.",
+    lead: "업소용 가스기기를 행사 기간에 맞춰 임대하고 설치합니다. 메뉴와 부스 규모에 맞는 기기를 함께 고릅니다.",
+    note: "모든 기기는 임대 설치 기준입니다. 운송과 설치, 배관 연결, 사용 전 안전점검, 행사 종료 후 철거와 회수까지 아오보가 맡습니다.",
     items: [
-      { name: "간택기", specs: ["600", "900", "1200", "1500", "1800"] },
-      { name: "낮은렌지", specs: ["600", "1200"] },
-      { name: "탕렌지", specs: ["800"] },
-      { name: "중화버너", specs: ["1구 버너", "1500"] },
-      { name: "회전국솥", specs: ["150인분", "350인분", "500인분"] },
-      { name: "인덕션렌지", specs: ["탁상용", "낮은렌지"] },
+      {
+        name: "간택기",
+        specs: ["600", "900", "1200", "1500", "1800"],
+        tagline: "행사장 임시주방의 기본 화구",
+        description:
+          "업소용 테이블형 가스레인지입니다. 폭이 넓어질수록 화구 수가 늘어나므로, 메뉴 수와 동시에 올릴 조리 수에 맞춰 폭을 고릅니다. 배관과 중간밸브, 조절기까지 함께 설치합니다.",
+        uses: "행사장 부스 주방 · 급식소 · 식당 임시 주방",
+        specNote: "숫자는 가로 폭(mm)",
+      },
+      {
+        name: "낮은렌지",
+        specs: ["600", "1200"],
+        tagline: "큰 솥을 올리는 무릎 높이 화구",
+        description:
+          "대형 솥과 들통을 올려도 안정적인 낮은 높이의 대화력 렌지입니다. 600은 1구, 1200은 2구가 기본 구성이며 국과 탕, 삶기처럼 양이 많은 조리에 씁니다.",
+        uses: "대량 조리 부스 · 급식 · 국물 메뉴",
+        specNote: "숫자는 가로 폭(mm)",
+      },
+      {
+        name: "탕렌지",
+        specs: ["800"],
+        tagline: "국통 전용 고화력 화구",
+        description:
+          "800 폭의 단일 화구에 대형 국통을 올려 많은 양을 한 번에 끓이는 탕 전용 렌지입니다. 국물 메뉴를 쉬지 않고 내야 하는 부스에 맞습니다.",
+        uses: "국밥 · 탕 · 어묵 부스 · 대량 급식",
+        specNote: "숫자는 가로 폭(mm)",
+      },
+      {
+        name: "중화버너",
+        specs: ["1구 버너", "1500"],
+        tagline: "볶음 메뉴를 위한 고화력 버너",
+        description:
+          "웍을 쓰는 볶음과 튀김에 필요한 강한 화력을 냅니다. 화구 하나만 두는 1구 단독형과, 1500 폭 작업대에 화구를 올린 일체형 중에서 고릅니다.",
+        uses: "볶음 · 철판 · 중식 메뉴 부스",
+        specNote: "1500은 작업대 가로 폭(mm)",
+      },
+      {
+        name: "회전국솥",
+        specs: ["150인분", "350인분", "500인분"],
+        tagline: "수백 인분을 한 번에 끓이는 회전식 솥",
+        description:
+          "솥 몸체를 기울여 국물을 따라내는 회전식 대형 국솥입니다. 한 번에 끓이는 인분 수로 용량을 고르며, 급식소와 대형 행사의 배식에 씁니다.",
+        uses: "급식소 · 대형 행사 배식 · 단체 식사",
+        specNote: "숫자는 1회 조리 인분",
+      },
+      {
+        name: "인덕션렌지",
+        specs: ["탁상용", "낮은렌지"],
+        tagline: "가스 없이 쓰는 전기 화구",
+        description:
+          "가스 사용이 제한된 실내 행사장과 전시장에 두는 전기 인덕션입니다. 탁상에 올리는 형과 큰 솥용 낮은렌지형이 있고, 가스기기와 같은 동선에 배치해 드립니다.",
+        uses: "실내 전시장 · 가스 반입 제한 현장 · 시연 부스",
+        specNote: "형태로 고릅니다",
+      },
     ],
   },
   install: {

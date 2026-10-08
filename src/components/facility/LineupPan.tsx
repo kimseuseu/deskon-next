@@ -72,6 +72,11 @@ export function LineupPan({
                   <h3 className="font-paperlogy text-[clamp(1.5rem,2.2vw,2rem)] font-medium tracking-[-0.01em]">
                     {item.name}
                   </h3>
+                  {item.tagline && (
+                    <p className={`mt-1.5 text-[13px] leading-snug ${ink ? "text-white/65" : "text-muted"}`}>
+                      {item.tagline}
+                    </p>
+                  )}
                   <ul className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
                     {item.specs.map((s, j) => (
                       <li key={s} className="flex items-center gap-3">
