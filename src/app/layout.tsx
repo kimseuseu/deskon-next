@@ -28,6 +28,12 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
+/* 서치콘솔 소유확인 토큰. 콘솔에서 'HTML 태그' 방식을 고르면 나오는
+   content="..." 안의 값만 넣습니다. 비어 있으면 메타태그를 출력하지 않습니다.
+   구글: search.google.com/search-console → 설정 → 소유권 확인 → HTML 태그
+   네이버: searchadvisor.naver.com → 사이트 등록 → HTML 태그 */
+const NAVER_SITE_VERIFICATION = "";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.aovo.kr"),
   applicationName: "아오보",
@@ -53,6 +59,9 @@ export const metadata: Metadata = {
   authors: [{ name: "아오보" }],
   verification: {
     google: "NiGOhBH2a5FS8UyOpRiL5rEzug_ammIvkwgmlDxwmg8",
+    ...(NAVER_SITE_VERIFICATION
+      ? { other: { "naver-site-verification": NAVER_SITE_VERIFICATION } }
+      : {}),
   },
   openGraph: {
     type: "website",
