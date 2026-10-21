@@ -33,12 +33,12 @@ export default function Footer() {
               비즈니스 장비의 패러다임을 바꿉니다.
             </p>
 
-            <a href="tel:010-9929-5363" className="group mt-10 inline-block">
+            <a href="tel:010-8473-1666" className="group mt-10 inline-block">
               <span className="block text-[11px] uppercase tracking-[0.2em] text-white/55">
                 Contact
               </span>
               <span className="mt-1 block font-paperlogy text-3xl font-semibold text-cream transition-colors duration-300 group-hover:text-gold">
-                010-9929-5363
+                010-8473-1666
               </span>
               <span className="mt-1 block text-xs text-white/60">평일 09:00 – 18:00</span>
             </a>
@@ -162,7 +162,7 @@ export default function Footer() {
               <p>
                 인천광역시 제물포구 항동 서해대로 111 킴샵그룹
                 <span className="mx-2 text-white/15">|</span>
-                <a href="tel:010-9929-5363" className="transition-colors hover:text-gold">010-9929-5363</a>
+                <a href="tel:010-8473-1666" className="transition-colors hover:text-gold">010-8473-1666</a>
                 <span className="mx-2 text-white/15">|</span>
                 <a href="mailto:mbc8447289@naver.com" className="transition-colors hover:text-gold">mbc8447289@naver.com</a>
               </p>

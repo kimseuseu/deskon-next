@@ -5,7 +5,7 @@ export const COMPANY = {
   ceo: "김영식",
   bizNumber: "302-88-01373",
   salesReportNumber: "제2019-인천중구-0276호",
-  phone: "010-9929-5363",
+  phone: "010-8473-1666",
   fax: "02-844-3361",
   email: "mbc8447289@naver.com",
   address: "인천광역시 제물포구 항동 서해대로 111 킴샵그룹",

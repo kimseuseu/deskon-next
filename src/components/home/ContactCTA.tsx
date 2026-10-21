@@ -51,10 +51,10 @@ export default function ContactCTA() {
 
         <Reveal delay={0.5}>
           <a
-            href="tel:010-9929-5363"
+            href="tel:010-8473-1666"
             className="mt-12 inline-block font-paperlogy text-lg font-medium text-muted transition-colors duration-300 hover:text-primary"
           >
-            010-9929-5363 <span className="ml-2 text-xs text-muted/70">평일 09:00 – 18:00</span>
+            010-8473-1666 <span className="ml-2 text-xs text-muted/70">평일 09:00 – 18:00</span>
           </a>
         </Reveal>
       </div>

@@ -16,7 +16,7 @@ const actions = [
   {
     label: "전화 상담",
     labelEn: "Call",
-    href: "tel:010-9929-5363",
+    href: "tel:010-8473-1666",
     external: false,
   },
   {
