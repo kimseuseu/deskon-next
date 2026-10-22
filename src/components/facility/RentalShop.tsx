@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
@@ -20,11 +20,15 @@ import { COMPANY } from "@/lib/constants";
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 type Filter = "all" | CategoryId;
 type Sort = "default" | "name" | "maker";
+/** 한 쪽에 보이는 기기 수. 넓은 화면 4열 기준 세 줄. */
+const PER_PAGE = 12;
 
 export function RentalShop() {
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<Sort>("default");
   const [open, setOpen] = useState<RentalProduct | null>(null);
+  const [page, setPage] = useState(1);
+  const gridRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
 
   const list = useMemo(() => {
@@ -33,6 +37,26 @@ export function RentalShop() {
     if (sort === "maker") return [...base].sort((a, b) => a.maker.localeCompare(b.maker, "ko"));
     return base;
   }, [filter, sort]);
+
+  const pages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+  const current = Math.min(page, pages);
+  const shown = list.slice((current - 1) * PER_PAGE, current * PER_PAGE);
+  const first = list.length === 0 ? 0 : (current - 1) * PER_PAGE + 1;
+  const last = Math.min(current * PER_PAGE, list.length);
+
+  /* 필터나 정렬이 바뀌면 첫 쪽으로. 쪽을 넘기면 목록 머리로 올라갑니다. */
+  const pick = (f: Filter) => {
+    setFilter(f);
+    setPage(1);
+  };
+  const order = (o: Sort) => {
+    setSort(o);
+    setPage(1);
+  };
+  const go = (n: number) => {
+    setPage(n);
+    gridRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  };
 
   const phone = gas.phone ?? COMPANY.phone;
 
@@ -51,7 +75,7 @@ export function RentalShop() {
                       type="button"
                       role="tab"
                       aria-selected={active}
-                      onClick={() => setFilter(t.id)}
+                      onClick={() => pick(t.id)}
                       className={`relative inline-flex items-center gap-2 rounded-full border px-4 py-2 font-paperlogy text-[13px] font-medium transition-colors duration-200 ${
                         active ? "border-ink text-cream" : "border-line bg-white text-primary hover:border-primary/40"
                       }`}
@@ -76,7 +100,7 @@ export function RentalShop() {
             정렬
             <select
               value={sort}
-              onChange={(e) => setSort(e.target.value as Sort)}
+              onChange={(e) => order(e.target.value as Sort)}
               className="rounded-md border border-line bg-white px-3 py-2 font-paperlogy text-[13px] text-primary outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <option value="default">기본 순</option>
@@ -88,16 +112,21 @@ export function RentalShop() {
       </div>
 
       <section className="bg-surface/50" aria-label="임대 기기 목록">
-        <div className="mx-auto max-w-[1440px] px-6 py-10 lg:px-10 lg:py-14">
+        <div ref={gridRef} className="mx-auto max-w-[1440px] scroll-mt-[calc(var(--bar)+4rem)] px-6 py-10 lg:px-10 lg:py-14">
           <p className="mb-5 text-[13px] text-muted">
             <span className="font-paperlogy font-semibold text-primary">{list.length}</span>개 기기
+            {pages > 1 && (
+              <span className="ml-2 text-muted/80">
+                {first}-{last} 표시
+              </span>
+            )}
             <span className="mx-2 text-line">|</span>
             모든 기기는 운송 · 설치 · 안전점검 · 철거가 포함된 임대 기준입니다
           </p>
 
           <motion.ul layout className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" role="list">
             <AnimatePresence mode="popLayout" initial={false}>
-              {list.map((p) => (
+              {shown.map((p) => (
                 <motion.li
                   key={p.id}
                   layout
@@ -111,11 +140,40 @@ export function RentalShop() {
               ))}
             </AnimatePresence>
           </motion.ul>
+
+          {pages > 1 && <Pagination current={current} pages={pages} onGo={go} />}
         </div>
       </section>
 
       <QuickView p={open} phone={phone} onClose={() => setOpen(null)} />
     </>
+  );
+}
+
+/** 쪽 번호. 이전 · 번호들 · 다음. 지금 쪽은 먹색으로 찍힙니다. */
+function Pagination({ current, pages, onGo }: { current: number; pages: number; onGo: (n: number) => void }) {
+  const btn =
+    "inline-flex h-10 min-w-10 items-center justify-center rounded-md border px-3 font-paperlogy text-[13px] font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-35";
+  return (
+    <nav className="mt-10 flex items-center justify-center gap-1.5" aria-label="쪽 이동">
+      <button type="button" onClick={() => onGo(current - 1)} disabled={current === 1} className={`${btn} border-line bg-white text-primary hover:border-primary/40`} aria-label="이전 쪽">
+        ←
+      </button>
+      {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
+        <button
+          key={n}
+          type="button"
+          onClick={() => onGo(n)}
+          aria-current={n === current ? "page" : undefined}
+          className={`${btn} ${n === current ? "border-ink bg-ink text-cream" : "border-line bg-white text-primary hover:border-primary/40"}`}
+        >
+          {n}
+        </button>
+      ))}
+      <button type="button" onClick={() => onGo(current + 1)} disabled={current === pages} className={`${btn} border-line bg-white text-primary hover:border-primary/40`} aria-label="다음 쪽">
+        →
+      </button>
+    </nav>
   );
 }
 
