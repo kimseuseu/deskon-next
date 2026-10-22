@@ -75,7 +75,7 @@ export function FilmHero({ work, priority = true }: { work: FacilityWork; priori
                 href="/support/contact"
                 className="group inline-flex items-center justify-center gap-3 border border-white/35 px-8 py-4 font-paperlogy text-[13px] font-semibold tracking-[0.12em] text-cream transition-colors duration-400 hover:border-cream"
               >
-                설치 문의하기
+                {work.inquiryLabel ?? "설치 문의하기"}
                 <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
             </div>

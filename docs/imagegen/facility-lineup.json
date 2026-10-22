@@ -42,6 +42,12 @@
     {
       "file": "public/images/facility/water-food-waste.webp",
       "prompt": "Use case: photorealistic-natural. Asset type: portrait 4:5 service card image for a Korean outdoor event water and drainage installation website. Realistic documentary commercial photography at the clean service area behind white outdoor catering event tents, natural overcast daylight, restrained blue, stainless steel and warm neutral palette. Main subject in central upper two thirds, keep lower quarter visually quiet for website copy. Equipment must look functional with coherent connections. No text, labels, logos, watermark, collage, graphic overlay, dramatic effects. Primary request: food waste collection at an outdoor event, two sturdy muted olive-green dedicated wheeled collection bins behind a catering tent, one closed and one with lid briefly raised by a worker wearing dark navy work clothes and disposable gloves. Worker carries a small stainless food-scrap container positioned above open bin, a modest amount of ordinary vegetable scraps visible in container. Focus on organized hygienic bins and gloved hands, face out of frame, bins centered in upper two thirds. No overflowing rubbish, no litter, no branding, no gross close-ups."
+    },
+    {
+      "file": "public/images/facility/gas-rental-hero.webp",
+      "date": "2026-10-21",
+      "purpose": "/gas 임대 전환 히어로(3:2, 1536x1024)",
+      "prompt": "Use case: editorial hero photograph for a Korean commercial gas equipment RENTAL company website. Photorealistic, landscape 3:2, natural daylight. Scene: a temporary outdoor festival kitchen under a white event tent; a neat lineup of brushed stainless steel Korean commercial gas cooking equipment arranged in a row on a flat ground sheet: a wide multi-burner table gas range (간택기) with many small ring burners, a low knee-height single-burner stockpot range, a large tilting rotary soup kettle, and a stainless griddle. In the mid-ground one technician seen from BEHIND wearing a navy work uniform and a white safety helmet is kneeling and connecting a yellow gas hose with a regulator to the equipment. Shallow depth of field toward the back, warm off-white and stainless tones, calm and clean composition, generous empty space in the lower third for text overlay. Strictly no text, no letters, no logos, no labels, no signage, no faces, no flames, no food, no people other than the one technician from behind."
     }
   ]
 }

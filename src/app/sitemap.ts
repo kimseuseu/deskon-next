@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Landing (설비공사 필름)
     { url: "/gas", priority: 0.8, changeFrequency: "monthly" },
+    { url: "/gas/rental", priority: 0.8, changeFrequency: "monthly" },
     { url: "/water", priority: 0.8, changeFrequency: "monthly" },
 
     // Brands
