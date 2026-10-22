@@ -25,9 +25,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Brands
     { url: "/iden", priority: 0.7, changeFrequency: "monthly" },
-    { url: "/vetix", priority: 0.7, changeFrequency: "monthly" },
-    { url: "/indrix", priority: 0.7, changeFrequency: "monthly" },
     { url: "/dkorea", priority: 0.7, changeFrequency: "monthly" },
+    { url: "/dcall", priority: 0.7, changeFrequency: "monthly" },
+    { url: "/coverix", priority: 0.7, changeFrequency: "monthly" },
+    { url: "/topworks", priority: 0.7, changeFrequency: "monthly" },
+    { url: "/gratop", priority: 0.7, changeFrequency: "monthly" },
 
     // About
     { url: "/about", priority: 0.8, changeFrequency: "monthly" },

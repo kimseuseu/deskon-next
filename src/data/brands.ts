@@ -14,7 +14,7 @@ export interface BrandValue {
 export interface Brand {
   /** Index number rendered on the site, e.g. "01" */
   no: string;
-  slug: "iden" | "vetix" | "indrix" | "dkorea";
+  slug: "iden" | "dkorea" | "dcall" | "coverix" | "topworks" | "gratop";
   /** Internal intro page route */
   href: string;
   /** 상호(브랜드명) — 로마자 표기 그대로 사용 */
@@ -69,62 +69,6 @@ export const brands: Brand[] = [
   },
   {
     no: "02",
-    slug: "vetix",
-    href: "/vetix",
-    name: "VETIX",
-    nameKo: "베틱스",
-    domain: "전기시설 · 데이터센터 · UPS/산업용 배터리",
-    domainEn: "Power & Data Center",
-    tagline: "멈추지 않는 전원의 조건.",
-    description:
-      "데이터센터와 전기시설의 심장, UPS와 산업용 배터리를 다룹니다. 중고 매입과 검증 판매, 정밀 성능테스트, 그리고 구독형 전원 운영까지 — 전원이 멈추지 않도록 VETIX가 지킵니다.",
-    specialties: [
-      { name: "중고 매입", nameEn: "Buyback", detail: "UPS·산업용 배터리를 전문 감정 후 매입" },
-      { name: "검증 판매", nameEn: "Sales", detail: "성능테스트를 통과한 장비만 판매" },
-      { name: "성능테스트", nameEn: "Testing", detail: "용량·방전 정밀 진단으로 수명을 검증" },
-      { name: "구독서비스", nameEn: "Subscription", detail: "전원 설비를 월정액으로 운영" },
-    ],
-    values: [
-      { title: "정밀 성능테스트", description: "용량과 방전 특성을 계측 장비로 진단해 데이터로 증명합니다." },
-      { title: "안전한 중고 거래", description: "산업용 배터리의 상태를 투명하게 공개하고 합리적인 가격을 제시합니다." },
-      { title: "무정전을 위한 운영", description: "교체 주기 관리와 정기 점검으로 다운타임을 예방합니다." },
-    ],
-    services: ["subscribe", "recycle", "buyback"],
-    heroImage: null,
-    imageAlt: "데이터센터 전원 설비",
-    logo: null,
-    siteUrl: null,
-  },
-  {
-    no: "03",
-    slug: "indrix",
-    href: "/indrix",
-    name: "INDRIX",
-    nameKo: "인드릭스",
-    domain: "공장 · 설비 · 생산기술",
-    domainEn: "Industrial Facilities",
-    tagline: "생산 라인의 컨디션.",
-    description:
-      "공장과 생산 현장의 핵심 설비를 공급하고 운영합니다. 칠러와 냉각탑, 집진기, 산업용 공기청정기까지 — 생산기술의 눈으로 설비를 고르고, 현장에 맞게 운영하는 INDRIX입니다.",
-    specialties: [
-      { name: "칠러", nameEn: "Chiller", detail: "공정 냉각의 기준, 현장 맞춤 용량 설계" },
-      { name: "냉각탑", nameEn: "Cooling Tower", detail: "설치부터 유지보수까지 원스톱" },
-      { name: "집진기", nameEn: "Dust Collector", detail: "작업 환경 기준을 맞추는 분진 관리" },
-      { name: "산업용 공기청정기", nameEn: "Air Purifier", detail: "생산 현장의 공기질 운영" },
-    ],
-    values: [
-      { title: "설비 진단과 제안", description: "생산기술 관점에서 현장을 진단하고 최적 용량을 제안합니다." },
-      { title: "신속한 설치", description: "가동 중단을 최소화하는 일정으로 설치와 교체를 진행합니다." },
-      { title: "라인 맞춤 운영", description: "공정 특성에 맞춘 유지보수 주기로 설비 수명을 관리합니다." },
-    ],
-    services: ["subscribe", "rental"],
-    heroImage: null,
-    imageAlt: "산업 설비 현장",
-    logo: null,
-    siteUrl: null,
-  },
-  {
-    no: "04",
     slug: "dkorea",
     href: "/dkorea",
     name: "DKOREA",
@@ -152,6 +96,121 @@ export const brands: Brand[] = [
     imageAlt: "물류창고의 롤테이너",
     logo: "/images/dkorea/dkorea-logo.png",
     siteUrl: "https://dkorea.co.kr",
+  },
+  {
+    no: "03",
+    slug: "dcall",
+    href: "/dcall",
+    name: "달려콜",
+    nameKo: "Dallyeocall",
+    domain: "긴급 현장 인력 · 시간 단위 투입",
+    domainEn: "On-demand Field Crew",
+    tagline: "전국 30분 이내 도착.",
+    description:
+      "사람 하나가 비어서 일이 멈춘 그날 거는 전화입니다. 상하차와 행사 설치, 이사 정리부터 전기 · 배관 기술자까지 작업에 맞는 사람을 시간 단위로 보내고, 요청한 시간과 인원만 정산합니다. 물류센터, 행사장, 사무실, 집까지 창구는 하나입니다.",
+    specialties: [
+      { name: "이동 · 설치", nameEn: "Move & Set", detail: "가구 · 가전 옮기기, 설치 보조" },
+      { name: "상하차", nameEn: "Loading", detail: "물품 싣고 내리기, 창고 정리" },
+      { name: "정리 · 반출", nameEn: "Clear-out", detail: "폐기물 정리, 사무실 이사 정리" },
+      { name: "행사 설치 · 철거", nameEn: "Event Crew", detail: "부스 설치, 의자 · 테이블 배치" },
+      { name: "기술자", nameEn: "Licensed", detail: "전기, 배관 · 수도, 설비 수리, 목공, 미장 · 도배" },
+    ],
+    values: [
+      { title: "펑크 난 자리를 그날 메웁니다", description: "결원 연락을 받은 날 사람이 갑니다. 내일 아침이 아니라 오늘 그 현장으로." },
+      { title: "고정 인건비가 사라집니다", description: "채용도, 대기 시간도 계산하지 않습니다. 요청한 시간과 인원만 정산합니다." },
+      { title: "중간에 사람이 바뀌지 않습니다", description: "세 시간이 필요하면 그 세 시간을 통째로 비울 수 있는 사람만 보냅니다." },
+    ],
+    services: ["sharing", "rental"],
+    heroImage: "/images/brands/dcall-hero.webp",
+    imageAlt: "행사장에서 전화로 인력을 부르는 담당자",
+    logo: "/images/brands/dcall-logo.webp",
+    siteUrl: "https://www.timecall.kr",
+  },
+  {
+    no: "04",
+    slug: "coverix",
+    href: "/coverix",
+    name: "COVERIX",
+    nameKo: "커버릭스",
+    domain: "이동식 장비 맞춤 커버 · 점검 · 자산관리 구독",
+    domainEn: "Equipment Covers & Asset Care",
+    tagline: "덮고, 살피고, 오래 씁니다.",
+    description:
+      "롤테이너를 비롯한 이동식 장비의 맞춤 커버를 만들고, 전국을 순회하며 무료 점검과 용접 · 바퀴 수리를 합니다. 그 둘을 월 단위로 묶은 자산관리 구독까지, 장비가 오래 일하게 하는 일을 COVERIX가 맡습니다.",
+    specialties: [
+      { name: "롤테이너 맞춤 커버", nameEn: "Custom Cover", detail: "표준 규격에 맞춰 재단, 로고 인쇄" },
+      { name: "정기 점검 · 수리", nameEn: "Inspection", detail: "전국 순회 점검, 용접부 · 바퀴 · 잠금장치 수리" },
+      { name: "자산관리 구독", nameEn: "Subscription", detail: "점검 · 수리 · 커버 교체를 월 단위로" },
+      { name: "업종별 사양", nameEn: "Industry Spec", detail: "병원 · 공항 · 출장뷔페 · 호텔 세탁물 · 식품공장" },
+    ],
+    values: [
+      { title: "현장 사양대로 재단", description: "병원, 공항, 식품처럼 현장이 요구하는 원단과 마감으로 만듭니다." },
+      { title: "그 자리에서 수리", description: "점검하러 간 자리에서 용접부와 바퀴, 잠금장치를 바로 손봅니다." },
+      { title: "상태가 리포트로 남습니다", description: "어느 장비가 어떤 상태인지 관리 리포트로 남겨 교체 시기를 놓치지 않습니다." },
+    ],
+    services: ["subscribe", "sharing"],
+    heroImage: "/images/brands/coverix-hero.webp",
+    imageAlt: "커버를 씌운 롤테이너가 줄지어 선 물류창고",
+    logo: "/images/brands/coverix-logo.webp",
+    siteUrl: "https://www.coverix.kr",
+  },
+  {
+    no: "05",
+    slug: "topworks",
+    href: "/topworks",
+    name: "TOPWORKS",
+    nameKo: "탑웍스",
+    domain: "마차 · 포장마차 · 업소용 특수집기 주문제작",
+    domainEn: "Custom Fabrication",
+    tagline: "상상이 현실이 되는 곳.",
+    description:
+      "시중에 없는 상업용 · 전시 · 행사용 특수집기를 주문제작합니다. 이동식 마차와 포장마차, 깡통테이블, 통닭기계, 업소용 스테인리스 집기까지 자체 공장에서 만들어 설치하고, 필요할 때만 쓰실 거면 단기임대로 드립니다.",
+    specialties: [
+      { name: "마차 · 포장마차", nameEn: "Food Cart", detail: "바퀴, 차양, 조명, 동선을 자리에 맞춰" },
+      { name: "깡통테이블", nameEn: "Drum Table", detail: "지름 · 높이 · 상판 재질을 좌석에 맞춰" },
+      { name: "통닭기계", nameEn: "Roaster", detail: "회전기, 튀김기, 배기까지 한 세트" },
+      { name: "업소용 맞춤 집기", nameEn: "Stainless Custom", detail: "작업대, 진열대, 카운터, 선반" },
+      { name: "단기임대", nameEn: "Rental", detail: "행사 · 팝업처럼 기간이 정해진 일" },
+    ],
+    values: [
+      { title: "최소 수량 1대", description: "공장이 안 받아 주는 수량도 받습니다. 시험 제작도 됩니다." },
+      { title: "로고 인쇄 무료, 전국 설치", description: "브랜드 로고와 맞춤 디자인을 넣고, 전국 어디든 설치까지 끝냅니다." },
+      { title: "설치 뒤에도 손봅니다", description: "쓰시는 동안 고장이 나거나 바꾸고 싶은 곳이 생기면 고치는 것까지 저희 일입니다." },
+    ],
+    services: ["rental", "buyback"],
+    heroImage: "/images/brands/topworks-hero.webp",
+    imageAlt: "주황 천막을 올린 이동식 포장마차",
+    logo: "/images/brands/topworks-mark.svg",
+    siteUrl: "https://topworks.kr",
+  },
+  {
+    no: "06",
+    slug: "gratop",
+    href: "/gratop",
+    name: "GRATOP",
+    nameKo: "그라탑",
+    domain: "바닥보양재 · 매트 도매 · 소매 · 임대 · 주문제작",
+    domainEn: "Floor Protection & Mats",
+    tagline: "밟히는 바닥은 전부 덮습니다.",
+    description:
+      "행사장, 공사장, 전시장. 사람과 장비가 지나는 바닥을 자재로 지킵니다. 바닥보양재, 고무롤매트, 인조잔디, 야자매트를 필요한 면적만큼 주문제작하고, 소매로 팔고, 기간만큼 임대합니다.",
+    specialties: [
+      { name: "바닥보양재", nameEn: "Ground Mat", detail: "트랙 · 잔디 · 흙바닥 위로 차량과 사람이 지나는 동안" },
+      { name: "고무롤매트", nameEn: "Rubber Roll", detail: "장비 동선, 미끄럼 방지, 충격 흡수" },
+      { name: "인조잔디", nameEn: "Turf", detail: "행사장과 전시장 바닥 연출" },
+      { name: "야자매트", nameEn: "Coir Mat", detail: "야외 동선과 공사장 출입구" },
+      { name: "임대 · 주문제작", nameEn: "Rental & Custom", detail: "날짜와 면적만 알려주시면 깔고 걷습니다" },
+    ],
+    values: [
+      { title: "며칠만 쓰는 바닥은 빌립니다", description: "행사장과 전시장은 사지 않아도 됩니다. 가져다 깔고, 끝나면 걷어 갑니다." },
+      { title: "치수에 맞춰 만듭니다", description: "폭과 길이, 두께, 색을 현장에 맞춰 만들고 로고 인쇄도 됩니다." },
+      { title: "깔고 걷는 것까지", description: "배송, 시공, 사용, 회수. 현장의 바닥은 처음부터 끝까지 저희가 맡습니다." },
+    ],
+    services: ["rental", "buyback"],
+    heroImage: "/images/brands/gratop-hero.webp",
+    imageAlt: "바닥보양재를 깐 야외 행사장",
+    logo: null,
+    siteUrl: "https://gratop.kr",
   },
 ];
 

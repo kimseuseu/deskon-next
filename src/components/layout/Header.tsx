@@ -95,11 +95,14 @@ export default function Header() {
             scrolled ? "h-16" : "h-20"
           }`}
         >
-          {/* Logo: symbol + wordmark + Group — cap heights optically matched.
-             Symbol glyph fills its box; wordmark caps = 75% of box; Instrument
-             Serif caps = 73% of font-size — sizes chosen so all three render at
-             the same visible cap height. */}
-          <Link href="/" aria-label="AOVO 홈" className="relative z-10 flex shrink-0 items-center gap-2.5">
+          {/* Logo lockup: symbol · wordmark · Group, centred on one line.
+             The wordmark's capitals sit in the middle of its SVG box
+             (cap top 12%, baseline 86%), so centring the boxes centres the
+             caps. The symbol is a quarter taller than the caps and straddles
+             them evenly; Group is a secondary italic at about three quarters
+             of the cap height, nudged up a hair so its x-height, not its
+             descender, reads as centred. Nothing rises or drops in a stair. */}
+          <Link href="/" aria-label="AOVO 홈" className="relative z-10 flex shrink-0 items-center">
             <Image
               src="/images/aovo_symbol.svg"
               alt=""
@@ -107,7 +110,7 @@ export default function Header() {
               width={435}
               height={540}
               loading="eager"
-              className={`w-auto transition-all duration-500 ${scrolled ? "h-[21px]" : "h-6"}`}
+              className={`w-auto transition-all duration-500 ${scrolled ? "h-9" : "h-10"}`}
             />
             <Image
               src={solid ? "/images/aovo_wordmark.svg" : "/images/aovo_wordmark_white.svg"}
@@ -115,12 +118,12 @@ export default function Header() {
               width={119}
               height={42}
               loading="eager"
-              className={`w-auto transition-all duration-500 ${scrolled ? "h-[26px]" : "h-[30px]"}`}
+              className={`ml-1.5 w-auto transition-all duration-500 ${scrolled ? "h-[31px]" : "h-9"}`}
             />
             <span
-              className={`hidden font-serif italic leading-none tracking-wide sm:block transition-all duration-500 ${
-                scrolled ? "text-[26px]" : "text-[30px]"
-              } ${solid ? "text-muted" : "text-white/60"}`}
+              className={`ml-1.5 hidden -translate-y-[0.08em] font-serif italic leading-none sm:block transition-all duration-500 ${
+                scrolled ? "text-[23px]" : "text-[26px]"
+              } ${solid ? "text-muted" : "text-cream/70"}`}
             >
               Group
             </span>

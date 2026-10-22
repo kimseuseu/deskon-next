@@ -17,18 +17,18 @@ export default function Brands() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="max-w-xs pb-2 text-sm leading-relaxed text-muted">
-              사무실부터 데이터센터, 공장, 물류센터까지 —
-              네 개의 브랜드가 각자의 현장을 책임집니다.
+              사무실부터 물류센터, 행사장, 공사장까지.
+              여섯 개의 브랜드가 각자의 현장을 책임집니다.
             </p>
           </Reveal>
         </div>
 
-        <Stagger className="grid grid-cols-1 border-t border-line sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-line" gap={0.1}>
+        <Stagger className="grid grid-cols-1 border-t border-line sm:grid-cols-2 lg:grid-cols-3" gap={0.1}>
           {brands.map((b) => (
-            <StaggerItem key={b.slug} direction="none" className="h-full">
+            <StaggerItem key={b.slug} direction="none" className="h-full border-line lg:border-l lg:[&:nth-child(3n+1)]:border-l-0">
               <Link
                 href={b.href}
-                className="group flex h-full min-h-[280px] flex-col justify-between border-b border-line px-1 py-8 transition-colors duration-400 hover:bg-surface/70 sm:border-b-0 lg:px-7"
+                className="group flex h-full min-h-[280px] flex-col justify-between border-b border-line px-1 py-8 transition-colors duration-400 hover:bg-surface/70 lg:px-7"
               >
                 <div>
                   <span className="font-serif text-sm italic text-accent-deep">{b.no}</span>

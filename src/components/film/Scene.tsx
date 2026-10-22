@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { motion, useScroll } from "framer-motion";
 
@@ -22,6 +22,11 @@ type Props = {
   className?: string;
   id?: string;
   mode?: keyof typeof OFFSET;
+  /**
+   * 좁은 화면(lg 미만)에서 쓰는 방식. 고정 장면은 내용이 한 화면에 안 들어가는
+   * 전화기에서 고정을 풀고, 대신 들어오는 동안 재생합니다.
+   */
+  mobileMode?: keyof typeof OFFSET;
   style?: CSSProperties;
   "aria-label"?: string;
 };
@@ -34,11 +39,21 @@ type Props = {
  * 스크롤 자체는 Lenis가 이미 부드럽게 보간하므로 여기서 스프링을 한 번 더
  * 두지 않습니다. 장면 안쪽은 서버 컴포넌트로 남습니다.
  */
-export function Scene({ children, className = "", mode = "pin", style, ...rest }: Props) {
+export function Scene({ children, className = "", mode = "pin", mobileMode, style, ...rest }: Props) {
   const ref = useRef<HTMLElement>(null);
+  const [small, setSmall] = useState(false);
+  useEffect(() => {
+    if (!mobileMode) return;
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const sync = () => setSmall(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, [mobileMode]);
+  const active = mobileMode && small ? mobileMode : mode;
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: [...OFFSET[mode]],
+    offset: [...OFFSET[active]],
   });
 
   return (

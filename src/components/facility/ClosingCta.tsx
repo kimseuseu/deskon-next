@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Scene } from "@/components/film/Scene";
 import type { FacilityWork } from "@/data/facility";
+import { COMPANY } from "@/lib/constants";
 
 /**
  * 맺음. 어두운 판 한 장이 아래에서 다가와 자리를 잡습니다.
@@ -24,11 +25,11 @@ export function ClosingCta({ work, sibling }: { work: FacilityWork; sibling: Fac
 
               <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a
-                  href="tel:010-8473-1666"
+                  href={`tel:${work.phone ?? COMPANY.phone}`}
                   className="inline-flex items-center justify-center gap-3 bg-gold px-9 py-4 font-paperlogy text-[13px] font-bold tracking-[0.12em] text-ink transition-colors duration-400 hover:bg-cream"
                 >
-                  전화 상담
-                  <span className="font-serif text-sm italic tracking-normal">010-8473-1666</span>
+                  {work.callLabel ?? "전화 상담"}
+                  <span className="font-serif text-sm italic tracking-normal">{work.phone ?? COMPANY.phone}</span>
                 </a>
                 <Link
                   href="/support/contact"

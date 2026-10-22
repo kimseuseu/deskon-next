@@ -122,12 +122,19 @@ export interface RentalProduct {
   sourceUrl: string;
   /** /gas 광고 장면에 올라가는 대표 기기 */
   featured?: boolean;
+  /**
+   * 묶음마다 뜻이 다른 큰 라벨. 묶음별 장면이 이걸로 기기를 세웁니다.
+   *   range    화구 수 (6구, 12구)      kettle  한 번에 끓이는 인분
+   *   griddle  맞는 메뉴 (부침 · 철판)   snack   나가는 철
+   */
+  facet?: string;
 }
 
 export const products: RentalProduct[] = [
   // ── 간택기 · 렌지 ──
   {
     id: "sj-gantaek-1500",
+    facet: "12구",
     category: "range",
     name: "간택기 1500 (올)",
     maker: "아오보",
@@ -141,6 +148,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-gantaek-900",
+    facet: "6구",
     category: "range",
     name: "간택기 900 (올)",
     maker: "아오보",
@@ -153,6 +161,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-gantaek-1800",
+    facet: "양열 1800",
     category: "range",
     name: "1800 양열 간텍기렌지 (제작품)",
     maker: "아오보",
@@ -166,6 +175,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-low-600",
+    facet: "낮은 1구",
     category: "range",
     name: "낮은렌지 1구 600",
     maker: "아오보",
@@ -179,6 +189,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-low-1200",
+    facet: "낮은 2구",
     category: "range",
     name: "2구 낮은렌지 1200",
     maker: "아오보",
@@ -192,6 +203,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-high-4-1200",
+    facet: "4구",
     category: "range",
     name: "높은렌지 4구 1200",
     maker: "아오보",
@@ -204,6 +216,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-rinnai-rsb907s",
+    facet: "탁상 7구",
     category: "range",
     name: "린나이 고화력 탁상형 7구 가스렌지",
     maker: "린나이",
@@ -217,6 +230,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-tang-3",
+    facet: "탕 3열",
     category: "range",
     name: "3열 탕렌지",
     maker: "아오보",
@@ -230,6 +244,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-sigma-wok",
+    facet: "중화 1~2구",
     category: "range",
     name: "시그마 스마트 중화렌지",
     maker: "시그마",
@@ -246,6 +261,7 @@ export const products: RentalProduct[] = [
   // ── 회전국솥 · 취반기 ──
   {
     id: "sj-kettle-rskn201t",
+    facet: "200인분",
     category: "kettle",
     name: "린나이 회전국솥 통스텐 200인용",
     maker: "린나이",
@@ -260,6 +276,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-kettle-rskn501t",
+    facet: "500인분",
     category: "kettle",
     name: "린나이 회전국솥 통스텐 500인용",
     maker: "린나이",
@@ -273,6 +290,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-kettle-gas",
+    facet: "200 · 300 · 500인분",
     category: "kettle",
     name: "가스 회전식 국솥",
     maker: "아오보",
@@ -286,6 +304,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-rice-rra151a",
+    facet: "밥 150인분",
     category: "kettle",
     name: "린나이 가스취반기 150인용",
     maker: "린나이",
@@ -300,6 +319,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-rice-rr55g",
+    facet: "밥 55인분",
     category: "kettle",
     name: "린나이 가스밥솥 55인용",
     maker: "린나이",
@@ -315,6 +335,7 @@ export const products: RentalProduct[] = [
   // ── 그리들 · 구이 · 튀김 ──
   {
     id: "sj-griddle-900",
+    facet: "부침 · 철판",
     category: "griddle",
     name: "그리들 부침전판 900",
     maker: "아오보",
@@ -328,6 +349,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-griddle-gas",
+    facet: "부침 · 철판",
     category: "griddle",
     name: "가스그리들 1500",
     maker: "아오보",
@@ -341,6 +363,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-rinnai-rsb450h",
+    facet: "부침 · 철판",
     category: "griddle",
     name: "린나이 가스 부침기 테이블용",
     maker: "린나이",
@@ -354,6 +377,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-griller-900",
+    facet: "스테이크 · 생선",
     category: "griddle",
     name: "스테이크그릴러 900",
     maker: "아오보",
@@ -366,6 +390,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "sj-rinnai-r92wsv",
+    facet: "생선구이",
     category: "griddle",
     name: "린나이 하화식 가스 그릴",
     maker: "린나이",
@@ -379,6 +404,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-bbq-range",
+    facet: "바베큐 · 삼겹살",
     category: "griddle",
     name: "가스 숯불 바베큐 렌지",
     maker: "아오보",
@@ -393,6 +419,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-fryer-rfam20g",
+    facet: "치킨 · 핫도그",
     category: "griddle",
     name: "린나이 프리미엄 가스튀김기 22L",
     maker: "린나이",
@@ -407,6 +434,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "jb-fryer-22x2",
+    facet: "치킨 · 감자",
     category: "griddle",
     name: "상업용 가스튀김기 2구 22L × 2",
     maker: "그랜드우성",
@@ -422,6 +450,7 @@ export const products: RentalProduct[] = [
   // ── 행사 간식 기기 ──
   {
     id: "fm-tteok",
+    facet: "사계절",
     category: "snack",
     name: "가스식 떡볶이판",
     maker: "아오보",
@@ -435,6 +464,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "fm-hotteok",
+    facet: "가을 · 겨울",
     category: "snack",
     name: "가스식 호떡 · 토스트 · 전판",
     maker: "아오보",
@@ -447,6 +477,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "fm-skewer",
+    facet: "사계절",
     category: "snack",
     name: "가스식 꼬치구이기",
     maker: "아오보",
@@ -460,6 +491,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "fm-steamer",
+    facet: "겨울",
     category: "snack",
     name: "가스식 찜솥",
     maker: "아오보",
@@ -472,6 +504,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "fm-sweetpotato",
+    facet: "겨울",
     category: "snack",
     name: "가스식 군고구마 구이기 5구",
     maker: "아오보",
@@ -485,6 +518,7 @@ export const products: RentalProduct[] = [
   },
   {
     id: "fm-chestnut",
+    facet: "겨울",
     category: "snack",
     name: "가스식 군밤 기계",
     maker: "아오보",
@@ -501,6 +535,32 @@ export const productsByCategory = (id: CategoryId) => products.filter((p) => p.c
 
 export const featuredByCategory = (id: CategoryId) =>
   products.filter((p) => p.category === id && p.featured);
+
+export const productById = (id: string) => products.find((p) => p.id === id)!;
+
+/** 간택기 폭 사다리. 폭이 넓어질수록 화구가 늘어납니다. 화구 수는 상세 페이지에 적힌 값만. */
+export const rangeWidths = [
+  { width: 900, burners: "6구" },
+  { width: 1200 },
+  { width: 1500, burners: "12구" },
+  { width: 1800, burners: "15구" },
+];
+
+/** 국솥 · 취반기를 인분 순으로. 숫자는 묶음 장면의 큰 눈금이 됩니다. */
+export const kettleLadder = [
+  { id: "jb-rice-rr55g", servings: 55, label: "밥" },
+  { id: "sj-rice-rra151a", servings: 150, label: "밥" },
+  { id: "sj-kettle-rskn201t", servings: 200, label: "국" },
+  { id: "sj-kettle-rskn501t", servings: 500, label: "국" },
+];
+
+/** 메뉴에서 기기로. 그리들 · 구이 · 튀김 묶음은 메뉴 이름이 입구입니다. */
+export const menuPairs = [
+  { menu: "부침 · 철판", id: "sj-griddle-900" },
+  { menu: "스테이크 · 생선", id: "sj-griller-900" },
+  { menu: "바베큐 · 삼겹살", id: "jb-bbq-range" },
+  { menu: "치킨 · 핫도그", id: "jb-fryer-rfam20g" },
+];
 
 /** 임대에 포함되는 것. 카탈로그 페이지와 광고 장면이 같은 문장을 씁니다. */
 export const rentalTerms = {

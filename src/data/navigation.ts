@@ -26,7 +26,7 @@ export const navigation: NavItem[] = [
     label: "브랜드",
     labelEn: "Brands",
     href: "/#brands",
-    desc: "사무실부터 데이터센터, 공장, 물류센터까지 — 현장마다 전문 브랜드가 있습니다",
+    desc: "사무실부터 물류센터, 행사장, 공사장까지 현장마다 전문 브랜드가 있습니다",
     children: brands.map((b) => ({
       label: b.name,
       labelEn: b.nameKo,

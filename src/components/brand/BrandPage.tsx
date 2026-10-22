@@ -33,9 +33,12 @@ function BrandMark({ brand, className }: { brand: Brand; className?: string }) {
 
 export default function BrandPage({
   brand,
+  hero,
   children,
 }: {
   brand: Brand;
+  /** 브랜드 사이트의 얼굴을 옮긴 첫 화면. 주면 공용 인트로(제목 · 카드 · 큰 사진)를 대신합니다. */
+  hero?: ReactNode;
   /** 브랜드별 쇼케이스 — Values와 Specialties 사이에 렌더링 */
   children?: ReactNode;
 }) {
@@ -46,6 +49,8 @@ export default function BrandPage({
 
   return (
     <>
+      {hero ?? (
+        <>
       {/* ── Intro ── */}
       <section className="bg-paper pt-36 lg:pt-44">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
@@ -154,6 +159,8 @@ export default function BrandPage({
           </Reveal>
         )}
       </section>
+        </>
+      )}
 
       {/* ── Values ── */}
       <section className="bg-paper">

@@ -33,6 +33,10 @@ export interface FacilityWork {
   motto: string;
   /** 문의 버튼 문구. 비우면 «설치 문의하기» */
   inquiryLabel?: string;
+  /** 이 랜딩의 상담 전화. 비우면 사이트 대표번호 */
+  phone?: string;
+  /** 전화 버튼 문구. 비우면 «전화 상담» */
+  callLabel?: string;
   categories: string[];
   summary: string;
   /** 사진 위 손글씨 카피 */
@@ -54,6 +58,8 @@ export const gas: FacilityWork = {
   nameEn: "Gas Rental",
   motto: "사지 말고, 행사 기간만큼 빌리세요",
   inquiryLabel: "임대 문의하기",
+  phone: "010-2810-8249",
+  callLabel: "신속 상담",
   categories: ["간택기 · 렌지", "회전국솥 · 취반기", "그리들 · 튀김기", "행사 간식 기기"],
   summary: "운송 · 설치 · 가스 연결 · 철거까지 한 번에",
   caption: "안전한 사업의 시작, 아오보가 함께합니다.",
