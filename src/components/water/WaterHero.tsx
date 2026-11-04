@@ -28,32 +28,32 @@ export function WaterHero() {
     <Scene className="tw-hero">
       <div className="stage bg-white">
         <div
-          className="cue-out absolute inset-x-0 top-[calc(var(--bar)+4svh)] px-6 text-center lg:top-[calc(var(--bar)+6svh)]"
+          className="cue-out absolute inset-x-0 top-[calc(var(--bar)+2.5svh)] px-5 text-center lg:top-[calc(var(--bar)+6svh)]"
           style={span(0.04, 0.3)}
         >
           <h1
-            className="rise mx-auto max-w-4xl text-[clamp(2.2rem,6vw,4.6rem)] font-bold leading-[1.18] tracking-[-0.035em] text-tx text-balance"
+            className="rise mx-auto max-w-4xl text-[clamp(1.9rem,6vw,4.6rem)] font-bold leading-[1.18] tracking-[-0.035em] text-tx text-balance"
             style={step(0)}
           >
             {waterHero.title[0]} {waterHero.title[1]}
           </h1>
           <p
-            className="rise mx-auto mt-5 max-w-2xl whitespace-pre-line text-[clamp(1rem,1.5vw,1.25rem)] font-medium leading-[1.65] text-tx-2"
+            className="rise mx-auto mt-3 max-w-2xl whitespace-pre-line text-[clamp(0.9rem,1.5vw,1.25rem)] font-medium leading-[1.6] text-tx-2 lg:mt-5"
             style={step(1)}
           >
             {waterHero.lead}
           </p>
-          <div className="rise mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row" style={step(2)}>
+          <div className="rise mt-5 flex flex-row items-center justify-center gap-2.5 sm:gap-3 lg:mt-7" style={step(2)}>
             <a
               href={`tel:${phone}`}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-tb px-7 py-3.5 text-[16px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98] sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-tb px-5 py-3 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98] sm:px-7 sm:py-3.5 sm:text-[16px]"
             >
               {water.callLabel ?? "전화 상담"}
-              <span className="font-medium text-white/85">{phone}</span>
+              <span className="hidden font-medium text-white/85 sm:inline">{phone}</span>
             </a>
             <Link
               href="/support/contact"
-              className="inline-flex w-full items-center justify-center rounded-full bg-tg px-7 py-3.5 text-[16px] font-semibold text-tx transition-colors duration-200 hover:bg-tg-2 active:scale-[0.98] sm:w-auto"
+              className="inline-flex items-center justify-center rounded-full bg-tg px-5 py-3 text-[15px] font-semibold text-tx transition-colors duration-200 hover:bg-tg-2 active:scale-[0.98] sm:px-7 sm:py-3.5 sm:text-[16px]"
             >
               {water.inquiryLabel ?? "설치 문의하기"}
             </Link>
@@ -62,7 +62,7 @@ export function WaterHero() {
 
         {/* 영상 액자. 처음엔 제목 밑의 둥근 카드, 스크롤하면 자라 화면을 채웁니다. */}
         <div
-          className="tw-hero-card cue absolute isolate overflow-hidden bg-tg [--hero-bottom:3svh] [--hero-side:1.25rem] [--hero-top:54svh] lg:[--hero-side:max(2.5rem,calc((100vw-1200px)/2))] lg:[--hero-top:46svh]"
+          className="tw-hero-card cue absolute isolate overflow-hidden bg-tg [--hero-bottom:3svh] [--hero-side:1.25rem] [--hero-top:max(50svh,24rem)] sm:[--hero-top:50svh] lg:[--hero-side:max(2.5rem,calc((100vw-1200px)/2))] lg:[--hero-top:46svh]"
         >
           <HeroVideo src={waterHero.video} poster={waterHero.poster.src} className="h-full w-full object-cover" />
           <div aria-hidden className="tw-hero-dim cue film-only absolute inset-0 bg-tk" />
