@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { navigation } from "@/data/navigation";
+import { featured, navigation } from "@/data/navigation";
 import { divisions } from "@/data/divisions";
 import MobileNav from "./MobileNav";
 
@@ -14,6 +14,10 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  // 페이지 전체가 어두우면([data-page-dark]) 고정 헤더도 어두운 유리로 남습니다.
+  const [darkPage, setDarkPage] = useState(false);
+  // 흰 바탕 페이지([data-page-white])에서는 종이색 대신 흰 유리로 섭니다.
+  const [whitePage, setWhitePage] = useState(false);
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
@@ -34,6 +38,8 @@ export default function Header() {
       ticking = false;
       const heroEl = document.querySelector("[data-hero-dark]");
       setScrolled(heroEl ? heroEl.getBoundingClientRect().bottom <= 80 : true);
+      setDarkPage(!!document.querySelector("[data-page-dark]"));
+      setWhitePage(!!document.querySelector("[data-page-white]"));
     };
     const onScrollOrResize = () => {
       if (!ticking) {
@@ -74,6 +80,8 @@ export default function Header() {
   };
 
   const solid = scrolled || activeMenu !== null;
+  /* 글자색 기준. 어두운 페이지에서는 바가 서도 글자가 흰색으로 남습니다. */
+  const light = solid && !(darkPage && activeMenu === null);
 
   return (
     <>
@@ -86,7 +94,11 @@ export default function Header() {
           mobileOpen ? "opacity-0 pointer-events-none" : ""
         } ${
           solid
-            ? "bg-paper/92 backdrop-blur-xl border-b border-line"
+            ? light
+              ? whitePage
+                ? "bg-white/90 backdrop-blur-xl border-b border-[#e5e8eb]"
+                : "bg-paper/92 backdrop-blur-xl border-b border-line"
+              : "bg-ink/80 backdrop-blur-xl border-b border-white/10"
             : "bg-transparent border-b border-transparent"
         }`}
       >
@@ -113,7 +125,7 @@ export default function Header() {
               className={`w-auto transition-all duration-500 ${scrolled ? "h-9" : "h-10"}`}
             />
             <Image
-              src={solid ? "/images/aovo_wordmark.svg" : "/images/aovo_wordmark_white.svg"}
+              src={light ? "/images/aovo_wordmark.svg" : "/images/aovo_wordmark_white.svg"}
               alt="AOVO"
               width={119}
               height={42}
@@ -123,14 +135,14 @@ export default function Header() {
             <span
               className={`ml-1.5 hidden -translate-y-[0.08em] font-serif italic leading-none sm:block transition-all duration-500 ${
                 scrolled ? "text-[23px]" : "text-[26px]"
-              } ${solid ? "text-muted" : "text-cream/70"}`}
+              } ${light ? "text-muted" : "text-cream/70"}`}
             >
               Group
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-9 lg:flex" aria-label="주 메뉴">
+          <nav className="hidden items-center gap-7 lg:flex xl:gap-9" aria-label="주 메뉴">
             {navigation.map((item, index) => (
               <div
                 key={item.href}
@@ -143,7 +155,7 @@ export default function Header() {
                   aria-haspopup="true"
                   aria-expanded={activeMenu === index}
                   className={`nav-underline font-paperlogy text-[14px] font-medium tracking-[0.02em] transition-colors duration-300 ${
-                    solid ? "text-primary/85 hover:text-primary" : "text-white/85 hover:text-white"
+                    light ? "text-primary/85 hover:text-primary" : "text-white/85 hover:text-white"
                   }`}
                   data-active={activeMenu === index}
                 >
@@ -151,6 +163,35 @@ export default function Header() {
                 </Link>
               </div>
             ))}
+
+            {/* 강조 메뉴: 설비 랜딩 둘. 가는 세로선으로 떼어 두고 금색 표식을 답니다.
+                펼침 패널이 없으므로 손을 올리면 열려 있던 패널을 닫습니다. */}
+            <span aria-hidden className={`mx-1 h-4 w-px ${light ? "bg-line" : "bg-white/20"}`} />
+            {featured.map((item) => {
+              const current = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onMouseEnter={() => setActiveMenu(null)}
+                  onFocus={() => setActiveMenu(null)}
+                  aria-current={current ? "page" : undefined}
+                  className={`group inline-flex items-center gap-2 font-paperlogy text-[14px] font-semibold tracking-[0.02em] transition-colors duration-300 ${
+                    light
+                      ? "text-accent-deep hover:text-primary"
+                      : "text-gold hover:text-cream"
+                  }`}
+                >
+                  <span
+                    aria-hidden
+                    className={`block h-1.5 w-1.5 rotate-45 transition-transform duration-300 group-hover:scale-125 ${
+                      current ? "bg-current" : light ? "bg-gold" : "bg-gold"
+                    }`}
+                  />
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right: CTA + hamburger */}
@@ -158,7 +199,7 @@ export default function Header() {
             <Link
               href="/support/contact"
               className={`group hidden items-center gap-2.5 border px-5 py-2.5 font-paperlogy text-[12px] font-semibold tracking-[0.14em] uppercase transition-all duration-400 lg:inline-flex ${
-                solid
+                light
                   ? "border-primary/25 text-primary hover:bg-primary hover:text-cream hover:border-primary"
                   : "border-white/35 text-white hover:bg-white hover:text-primary hover:border-white"
               }`}
@@ -175,8 +216,8 @@ export default function Header() {
               aria-controls="mobile-nav"
             >
               <div className="flex w-6 flex-col gap-[7px]">
-                <span className={`block h-px w-full transition-colors duration-300 ${solid ? "bg-primary" : "bg-white"}`} />
-                <span className={`block h-px w-2/3 self-end transition-all duration-300 group-hover:w-full ${solid ? "bg-primary" : "bg-white"}`} />
+                <span className={`block h-px w-full transition-colors duration-300 ${light ? "bg-primary" : "bg-white"}`} />
+                <span className={`block h-px w-2/3 self-end transition-all duration-300 group-hover:w-full ${light ? "bg-primary" : "bg-white"}`} />
               </div>
             </button>
           </div>

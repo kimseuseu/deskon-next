@@ -4,12 +4,22 @@
 .stage, .pan-stage, .film-stage { position: relative !important; height: auto !important; overflow: visible !important; }
 .cue, .cue-in, .cue-out, .cue-through,
 .film-hero-frame, .film-hero-photo, .reel-list, .reel-item, .reel-desc, .pan-track, .closing-panel,
-.ladder-bar, .ladder-hero, .scale-rule, .scale-num, .menu-word, .menu-dev, .menu-photo, .menu-line, .train-car {
+.ladder-bar, .ladder-hero, .scale-rule, .scale-num, .menu-word, .menu-dev, .menu-photo, .menu-line, .train-car,
+.scrub-shrink, .fly, .shelf-track, .ty-char {
   opacity: 1 !important;
   transform: none !important;
 }
 .film-only { display: none !important; }
 .film-hero .stage { min-height: 100svh; }
+.tw-hero, .scrub, .pill-scene { height: auto !important; }
+.tw-hero-card { position: relative !important; inset: auto !important; }
+.tw-hero-dim, .pill-word { display: none !important; }
+.scrub-stage { position: relative !important; height: auto !important; min-height: 100svh; }
+.pill-dark { clip-path: none !important; }
+.ty-char::after { display: none; }
+.shelf { height: auto !important; }
+.shelf-stage { position: relative !important; height: auto !important; }
+.wf-stack-card { position: relative !important; height: auto !important; }
 .reel-view { height: auto !important; -webkit-mask-image: none !important; mask-image: none !important; }
 .reel-list { position: static !important; margin-top: 0 !important; }
 .reel-item { height: auto !important; padding-block: 1.5rem; border-top: 1px solid #e2dfd6; }

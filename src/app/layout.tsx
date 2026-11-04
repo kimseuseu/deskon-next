@@ -4,6 +4,7 @@ import "./globals.css";
 import MetaPixel from "@/components/seo/MetaPixel";
 import NaverAnalytics from "@/components/seo/NaverAnalytics";
 import SplashScreen from "@/components/SplashScreen";
+import { Analytics } from "@vercel/analytics/next";
 
 const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans",
@@ -131,6 +132,7 @@ export default function RootLayout({
         {children}
         <MetaPixel />
         <NaverAnalytics />
+        <Analytics />
       </body>
     </html>
   );

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { divisions } from "@/data/divisions";
 import { brands } from "@/data/brands";
+import { featured } from "@/data/navigation";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -74,13 +75,43 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
             </button>
           </div>
 
-          {/* Divisions */}
           <div className="flex-1 overflow-y-auto px-6 pt-4 pb-10" data-lenis-prevent>
+            {/* 강조 메뉴: 설비 랜딩 둘이 맨 위에 섭니다. 금색 테두리 상자 안에 두어
+                그 밑의 사업분야 목록과 다르게 읽힙니다. */}
+            <motion.nav
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18, duration: 0.6, ease: EASE }}
+              aria-label="설비 서비스"
+              className="border border-gold/45"
+            >
+              {featured.map((item, i) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  className={`group flex items-center gap-4 px-5 py-4 ${i > 0 ? "border-t border-gold/25" : ""}`}
+                >
+                  <span aria-hidden className="block h-2 w-2 shrink-0 rotate-45 bg-gold" />
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-baseline justify-between gap-4">
+                      <span className="font-paperlogy text-[22px] font-medium leading-none tracking-[-0.01em] text-gold transition-colors group-hover:text-cream">
+                        {item.label}
+                      </span>
+                      <span className="shrink-0 text-[11px] uppercase tracking-[0.18em] text-gold/70">{item.labelEn}</span>
+                    </span>
+                    <span className="mt-2 block text-[12.5px] leading-snug text-white/60">{item.desc}</span>
+                  </span>
+                </Link>
+              ))}
+            </motion.nav>
+
+            {/* Divisions */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.35, duration: 0.6 }}
-              className="eyebrow text-white/55"
+              className="eyebrow mt-10 text-white/55"
             >
               Our Divisions
             </motion.p>

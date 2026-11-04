@@ -16,6 +16,22 @@
   --color-surface-dark: #16161b;
   --color-line: #e2dfd6;
   --color-line-dark: rgba(255, 255, 255, 0.14);
+  /* 급배수 스토리(/water)의 액센트. 현장 사진의 물탱크와 호스에서 가져온 파랑. */
+  --color-flow: #5f8cf0;
+  --color-flow-lit: #a9c2ff;
+  --color-flow-deep: #2b4fb3;
+  /* 급배수 스토리(/water)의 토스풍 팔레트. 글자 셋, 파랑 둘, 회색 둘, 어둠 둘. */
+  --color-tx: #191f28;
+  --color-tx-2: #4e5968;
+  --color-tx-3: #8b95a1;
+  --color-tb: #3182f6;
+  --color-tb-deep: #1b64da;
+  --color-tb-soft: #e8f3ff;
+  --color-tg: #f2f4f6;
+  --color-tg-2: #e5e8eb;
+  --color-tk: #17171c;
+  --color-tk-2: #22252d;
+  --font-pretendard: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 
   --font-paperlogy: "Paperlogy", sans-serif;
   --font-sans: var(--font-noto-sans), "Noto Sans KR", sans-serif;
@@ -626,6 +642,168 @@ input:focus, textarea:focus, select:focus {
   will-change: transform;
 }
 
+/* ── 급배수 스토리 (/water) ──
+   토스 메인의 문법입니다. 흰 바탕에 굵은 글, 큰 둥근 모서리, 알약 버튼.
+   장면은 화면에 붙고(.scrub-stage) 스크롤이 캔버스의 프레임을 넘깁니다
+   (components/water/FrameScrub.tsx). 글은 --p로 제 구간에 들어왔다 나갑니다. */
+.tw {
+  font-family: var(--font-pretendard);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 첫 장면: 제목이 떠나고 영상 액자가 화면을 채운 뒤 논지가 선다. */
+.tw-hero {
+  height: 220svh;
+}
+.tw-hero-card {
+  --from: 0.08;
+  --to: 0.5;
+  /* 액자가 자라며 화면을 채운다: 바깥 여백과 모서리가 0으로 간다. */
+  inset: calc(var(--hero-top) * (1 - var(--e))) calc(var(--hero-side) * (1 - var(--e))) calc(var(--hero-bottom) * (1 - var(--e)));
+  border-radius: calc(32px * (1 - var(--e)));
+  will-change: inset;
+}
+.tw-hero-dim {
+  --from: 0.5;
+  --to: 0.72;
+  opacity: calc(0.55 * var(--e));
+}
+
+/* 스크롤 유도: 화살표 동그라미가 숨 쉬듯 내려갔다 올라옵니다. 1.8초에 한 번. */
+@keyframes cueDip {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 4px, 0); }
+}
+.tw-cue-arrow {
+  animation: cueDip 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tw-cue-arrow { animation: none; }
+}
+
+/* 스크럽 장면: 프레임 수와 무관하게 화면 몇 장 분량으로 넘길지(--n)만 정합니다. */
+.scrub {
+  height: calc(var(--n, 5) * 100svh);
+}
+.scrub-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+}
+/* 끝에서 액자가 한 뼘 물러나 둥근 카드가 된다. */
+.scrub-shrink {
+  --from: 0.82;
+  --to: 1;
+  transform: scale(calc(1 - 0.08 * var(--e)));
+  border-radius: calc(40px * var(--e));
+  transform-origin: center 45%;
+  will-change: transform;
+}
+
+/* 알약: 두 낱말 사이의 검은 알약이 자라 화면을 덮고 어두운 장면이 시작된다. */
+.pill-scene {
+  height: 260svh;
+}
+.pill-dark {
+  --from: 0.18;
+  --to: 0.72;
+  clip-path: inset(
+    calc((50% - 44px) * (1 - var(--e))) calc((50% - 14px) * (1 - var(--e))) round calc(28px + 12px * var(--e))
+  );
+  will-change: clip-path;
+}
+.pill-word {
+  /* 알약과 같은 구간. 알약의 반폭이 14px에서 50vw로 자라는 만큼 밀려납니다. */
+  --from: 0.18;
+  --to: 0.72;
+  transform: translate3d(calc(var(--dir, -1) * (50vw - 14px) * var(--e)), 0, 0);
+  will-change: transform;
+}
+.pill-word-r {
+  --dir: 1;
+}
+/* 가운데 제목이 문장 첫머리 자리로 날아가 작아집니다. 차이(--dx, --dy, --ds)는
+   components/water/FlyTitle.tsx가 잽니다. */
+.fly {
+  transform: translate3d(calc(var(--dx, 0px) * (1 - var(--e))), calc(var(--dy, 0px) * (1 - var(--e))), 0)
+    scale(calc(var(--ds, 1) + (1 - var(--ds, 1)) * var(--e)));
+  will-change: transform;
+}
+
+/* 타자기 제목. 진행도에 글자 수를 곱한 값이 번호를 지나면 또렷해지고,
+   지금 치는 글자 뒤에 파란 캐럿이 섭니다. 안 친 글자는 흐리게 남습니다. */
+.ty-char {
+  position: relative;
+  opacity: clamp(0.14, calc(var(--e) * var(--n) - var(--i)), 1);
+}
+.ty-char::after {
+  content: "";
+  position: absolute;
+  top: 0.08em;
+  right: -0.1em;
+  width: 0.07em;
+  height: 0.92em;
+  background: var(--color-tb);
+  border-radius: 1px;
+  opacity: clamp(0, calc(1 - abs(var(--e) * var(--n) - var(--i) - 0.5) * 2), 1);
+}
+.ty {
+  --t: clamp(0, calc((var(--p, 1) - var(--from, 0)) / (var(--to, 1) - var(--from, 0))), 1);
+  --e: var(--t);
+}
+
+/* 격자 바탕. 토스의 흐린 세로·가로 선. */
+.tw-grid {
+  background-image:
+    linear-gradient(90deg, rgba(25, 31, 40, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(25, 31, 40, 0.06) 1px, transparent 1px);
+  background-size: 33.333% 100%, 100% 33.333%;
+  background-position: 0 0, 0 0;
+}
+
+/* 현장 기록 선반. 넓은 화면에서 붙고, 카드 줄이 왼쪽으로 지나갑니다. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .shelf {
+    height: 320svh;
+  }
+  .shelf-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+  .shelf-track {
+    --edge: 1.5rem;
+    transform: translate3d(calc(var(--e) * (100vw - 100% - 2 * var(--edge))), 0, 0);
+    will-change: transform;
+  }
+}
+@media (max-width: 1023px) {
+  .shelf-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 1rem;
+  }
+  .shelf-track::-webkit-scrollbar { display: none; }
+  .shelf-card { scroll-snap-align: start; }
+}
+
+/* 현장 기록: 둥근 카드가 같은 자리에 붙고, 밑의 여백(--dwell)만큼 혼자 서 있다가
+   다음 카드에 덮입니다. 비율은 components/water/ProjectStack.tsx의 DWELL과 같습니다. */
+.wf-stack {
+  --dwell: 55svh;
+}
+.wf-stack-card {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: var(--dwell);
+}
+.wf-stack-card:last-child {
+  margin-bottom: 0;
+}
 
 /* ── 임대 묶음 장면 넷 (/gas RentalShowcase) ──
    묶음마다 기기를 고르는 기준이 다르고, 움직임도 그 기준을 연기합니다.
@@ -736,4 +914,27 @@ input:focus, textarea:focus, select:focus {
   .pipe-line { transform: scaleX(1) !important; }
   .ring-arc { stroke-dashoffset: 0 !important; }
   .ring-center { display: none !important; }
+  .tw-hero { height: auto !important; }
+  .tw-hero-card { position: relative !important; inset: auto !important; border-radius: 32px !important; }
+  .tw-hero-dim, .pill-word { display: none !important; }
+  .scrub { height: auto !important; }
+  .scrub-stage { position: relative !important; height: auto !important; min-height: 100svh; }
+  .scrub-shrink { transform: none !important; border-radius: 0 !important; }
+  .pill-scene { height: auto !important; }
+  .pill-dark { clip-path: none !important; }
+  .fly, .shelf-track { transform: none !important; }
+  .ty-char { opacity: 1 !important; }
+  .ty-char::after { display: none; }
+  .shelf { height: auto !important; }
+  .shelf-stage { position: relative !important; height: auto !important; }
+  .wf-stack-card { position: relative !important; height: auto !important; margin-bottom: 0 !important; }
+  .wf-stack-card > article { height: auto !important; min-height: 70svh; }
 }
+
+
+
+
+
+
+
+

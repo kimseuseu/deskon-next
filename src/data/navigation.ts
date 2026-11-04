@@ -9,6 +9,16 @@ export interface NavItem {
   children?: NavItem[];
 }
 
+/**
+ * 강조 메뉴. 설비 랜딩 둘(급배수, 가스기기)은 사업분야 밑에 접어 두지 않고
+ * 헤더에 바로 세웁니다. 다른 메뉴와 다르게 금색 표식을 달고, 펼침 패널이 없습니다.
+ * 전화기의 햄버거 메뉴에서도 맨 위에 섭니다.
+ */
+export const featured: (NavItem & { desc: string })[] = [
+  { label: "급배수", labelEn: "Water Works", href: "/water", desc: "행사장 급수 · 배수 · 오폐수 처리대행" },
+  { label: "가스기기", labelEn: "Gas Rental", href: "/gas", desc: "간택기 · 회전국솥 · 그리들 행사 임대" },
+];
+
 export const navigation: NavItem[] = [
   {
     label: "사업분야",

@@ -1,0 +1,36 @@
+"use client";
+
+import { span } from "@/components/film/cue";
+
+/**
+ * 첫 화면의 스크롤 유도. 영상 액자 아래쪽 가운데에 선 흰 알약입니다.
+ *
+ * 화살표가 숨 쉬듯 내려갔다 올라오고(globals.css의 cueDip), 스크롤이 시작되면
+ * 알약은 곧 사라집니다(0.00 → 0.10). 누르면 논지가 서는 자리까지 내려갑니다.
+ * 움직임을 줄인 환경에서는 화살표가 멈춰 있습니다.
+ */
+export function ScrollCue({ label = "아래로 내려 보세요" }: { label?: string }) {
+  const go = () => {
+    const hero = document.querySelector<HTMLElement>(".tw-hero");
+    if (!hero) return;
+    const top = hero.getBoundingClientRect().top + window.scrollY;
+    /* 장면 진행도 0.78 지점: 액자가 화면을 다 채우고 논지가 선 다음입니다. */
+    const target = top + (hero.offsetHeight - window.innerHeight) * 0.78;
+    window.scrollTo({ top: target, behavior: "smooth" });
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={go}
+      aria-label="다음 장면으로 내려가기"
+      className="cue-out absolute bottom-5 left-1/2 inline-flex -translate-x-1/2 items-center gap-2.5 rounded-full bg-white/90 py-2.5 pr-4 pl-5 text-[14px] font-semibold text-tx shadow-[0_8px_24px_rgba(25,31,40,0.18)] backdrop-blur-md transition-transform duration-200 hover:bg-white active:scale-[0.97] lg:bottom-7 lg:text-[15px]"
+      style={span(0, 0.1)}
+    >
+      {label}
+      <span aria-hidden className="tw-cue-arrow grid h-6 w-6 place-items-center rounded-full bg-tb">
+        <span className="mb-[3px] block h-[7px] w-[7px] rotate-45 border-r-2 border-b-2 border-white" />
+      </span>
+    </button>
+  );
+}

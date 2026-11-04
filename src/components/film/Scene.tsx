@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
-import { motion, useScroll } from "framer-motion";
+import { motion, motionValue, useScroll } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 
 /**
  * 장면이 진행도를 재는 두 가지 방식.
@@ -16,6 +17,14 @@ const OFFSET = {
   pin: ["start start", "end end"],
   enter: ["start end", "start start"],
 } as const;
+
+/* 장면 안의 클라이언트 요소가 같은 진행도를 읽는 통로. CSS로는 안 되는
+   일(캔버스에 프레임 그리기)에만 씁니다. 장면 밖에서는 늘 0입니다. */
+const SceneProgress = createContext<MotionValue<number>>(motionValue(0));
+
+export function useSceneProgress() {
+  return useContext(SceneProgress);
+}
 
 type Props = {
   children: ReactNode;
@@ -63,7 +72,7 @@ export function Scene({ children, className = "", mode = "pin", mobileMode, styl
       style={{ ...style, "--p": scrollYProgress } as never}
       {...rest}
     >
-      {children}
+      <SceneProgress.Provider value={scrollYProgress}>{children}</SceneProgress.Provider>
     </motion.section>
   );
 }
