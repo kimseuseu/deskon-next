@@ -66,8 +66,10 @@ export function TankJourney() {
   ];
 
   return (
-    <section className="bg-white text-tx" aria-label="물탱크 여정">
-      <div className="mx-auto grid max-w-[1300px] grid-cols-1 px-6 lg:grid-cols-12 lg:gap-x-12">
+    <section className="relative bg-white text-tx" aria-label="물탱크 여정">
+      {/* 앞 장면의 격자가 여기까지 이어지다가 흰 바탕으로 풀립니다. */}
+      <div aria-hidden className="tw-grid-fade pointer-events-none absolute inset-x-0 top-0 h-[52svh]" />
+      <div className="relative mx-auto grid max-w-[1300px] grid-cols-1 px-6 lg:grid-cols-12 lg:gap-x-12">
         {/* 액자. 넓은 화면에서만 붙습니다. */}
         <div className="hidden lg:col-span-6 lg:block">
           <div className="sticky top-0 flex h-[100svh] items-center">
