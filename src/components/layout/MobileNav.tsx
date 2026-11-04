@@ -196,8 +196,8 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.18em] text-white/55">Contact</p>
-                <a href="tel:010-8473-1666" className="mt-1.5 block font-paperlogy text-xl font-semibold text-cream">
-                  010-8473-1666
+                <a href="tel:02-2683-4459" className="mt-1.5 block font-paperlogy text-xl font-semibold text-cream">
+                  02-2683-4459
                 </a>
                 <p className="mt-0.5 text-xs text-white/55">평일 09:00 – 18:00</p>
               </div>

@@ -31,7 +31,7 @@ export function TankJourney() {
     {
       key: "rental",
       label: waterCompare.left.title,
-      title: "탱크를 놓고 가는 일.",
+      title: "물탱크를 놓고 가는 일.",
       lead: "물탱크 렌탈은 탱크를 내려놓으면 끝납니다.",
       rows: waterCompare.left.rows,
       muted: true,

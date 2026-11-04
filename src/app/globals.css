@@ -702,28 +702,43 @@ input:focus, textarea:focus, select:focus {
   will-change: transform;
 }
 
-/* 알약: 두 낱말 사이의 검은 알약이 자라 화면을 덮고 어두운 장면이 시작된다. */
+/* 알약: 두 문장 사이에 검은 알약이 생겨나 문장을 벌리고(앞 30%), 이어서 자라
+   화면을 덮으며 어두운 장면이 시작된다(뒤 70%). */
 .pill-scene {
   height: 260svh;
+}
+.pill-dark,
+.pill-word {
+  --e1: clamp(0, calc(var(--e) / 0.3), 1);
+  --e2: clamp(0, calc((var(--e) - 0.3) / 0.7), 1);
 }
 .pill-dark {
   --from: 0.18;
   --to: 0.72;
   clip-path: inset(
-    calc((50% - 44px) * (1 - var(--e))) calc((50% - 14px) * (1 - var(--e))) round calc(28px + 12px * var(--e))
+    calc((50% - 44px * var(--e1)) * (1 - var(--e2))) calc((50% - 14px * var(--e1)) * (1 - var(--e2))) round
+      calc(28px + 12px * var(--e2))
   );
   will-change: clip-path;
 }
 .pill-word {
-  /* 알약과 같은 구간. 알약의 반폭이 14px에서 50vw로 자라는 만큼 밀려납니다. */
   --from: 0.18;
   --to: 0.72;
-  transform: translate3d(calc(var(--dir, -1) * (50vw - 14px) * var(--e)), 0, 0);
+  /* 알약이 없을 땐 가운데 칸(28px)과 간격(--pg)만큼 서로 다가서 한 문장처럼 붙어 있고,
+     알약이 생기는 만큼 벌어진 뒤, 알약의 반폭이 50vw로 자라는 만큼 밀려난다. */
+  transform: translate3d(
+    calc(
+      var(--dir, -1) * -1 * (14px + var(--pg, 1rem) - 0.3em) * (1 - var(--e1)) + var(--dir, -1) * (50vw - 14px) * var(--e2)
+    ),
+    0,
+    0
+  );
   will-change: transform;
 }
 .pill-word-r {
   --dir: 1;
 }
+
 /* 가운데 제목이 문장 첫머리 자리로 날아가 작아집니다. 차이(--dx, --dy, --ds)는
    components/water/FlyTitle.tsx가 잽니다. */
 .fly {
@@ -939,6 +954,7 @@ input:focus, textarea:focus, select:focus {
   .wf-stack-card { position: relative !important; height: auto !important; margin-bottom: 0 !important; }
   .wf-stack-card > article { height: auto !important; min-height: 70svh; }
 }
+
 
 
 

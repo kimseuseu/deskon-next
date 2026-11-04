@@ -291,7 +291,7 @@ export const waterProjects: { label: string; title: string[]; lead: string; item
 
 /** 렌탈과 시공의 차이. 왼쪽은 흐리게, 오른쪽은 또렷하게. */
 export const waterCompare = {
-  title: ["탱크를 놓고 가는 일과,", "물이 돌게 하는 일."],
+  title: ["물탱크를 놓고 가는 일과,", "물이 돌게 하는 일."],
   lead: "물탱크 렌탈은 탱크를 내려놓으면 끝납니다.\n그런데 탱크만으로는 싱크대에서 한 방울도 나오지 않습니다.",
   left: {
     title: "물탱크 렌탈",
@@ -408,7 +408,7 @@ export const waterScrubs = {
 
 /** 알약 전환. 두 낱말 사이의 검은 알약이 자라 어두운 장면이 됩니다. */
 export const waterPill = {
-  left: "탱크를 놓는 일",
+  left: "물탱크를 놓는 일",
   right: "물이 돌게 하는 일",
   title: "물이 가는 길",
   lead: "탱크를 내려놓는 것과 물이 흐르게 하는 것은 다릅니다.\n그 차이가 어디에 있는지 보여드립니다.",

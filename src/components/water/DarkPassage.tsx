@@ -8,12 +8,14 @@ import { FrameScrub } from "./FrameScrub";
 /**
  * 어두운 통로. 알약 전환과 «물이 가는 길» 영상이 한 장면입니다.
  *
- * 두 낱말 사이의 검은 알약이 자라 화면을 덮고, 장면은 그 자리에 멈춰 있습니다.
+ * 두 문장이 한 줄로 붙어 있다가 사이에 검은 알약이 생겨나며 벌어지고, 알약이
+ * 자라 화면을 덮습니다. 장면은 그 자리에 멈춰 있습니다.
  * 어둠 위에 제목과 설명이 섰다가, 설명이 사라지며 영상이 그 자리에서 떠오르고,
  * 제목은 오른쪽 자막 자리로 날아가 작아집니다. 그 뒤에 «은 보이지 않아야
  * 합니다.»가 붙고, 스크롤이 프레임을 넘기며 자막 둘이 더 지나갑니다.
  *
- *   0.00 → 0.18  알약이 자란다. 낱말은 밀려 나간다.
+ *   0.02 → 0.07  알약이 생겨나며 두 문장이 벌어진다.
+ *   0.07 → 0.20  알약이 자라 화면을 덮는다. 문장은 밀려 나간다.
  *   0.17 → 0.23  제목과 설명이 선다.
  *   0.28 → 0.34  설명이 사라진다.
  *   0.30 → 0.40  영상이 떠오른다. 제목이 자막 자리로 날아간다(0.32 → 0.42).
@@ -30,18 +32,18 @@ export function DarkPassage() {
     <Scene className="scrub bg-white" style={{ "--n": 7.5 } as CSSProperties} aria-label={waterPill.title}>
       <div className="scrub-stage bg-white text-tx">
         {/* 두 낱말. 알약이 자라는 만큼 밀려 나갑니다. */}
-        <div className="absolute inset-0 grid grid-cols-[1fr_28px_1fr] items-center gap-x-4 sm:gap-x-6">
-          <span className="pill-word cue justify-self-end text-right text-[clamp(1.2rem,4.2vw,3.4rem)] font-bold tracking-[-0.03em] whitespace-nowrap" style={span(0.02, 0.18)}>
+        <div className="absolute inset-0 grid grid-cols-[1fr_28px_1fr] items-center gap-x-4 [--pg:1rem] sm:gap-x-6 sm:[--pg:1.5rem]">
+          <span className="pill-word cue justify-self-end text-right text-[clamp(1.2rem,4.2vw,3.4rem)] font-bold tracking-[-0.03em] whitespace-nowrap" style={span(0.02, 0.2)}>
             {waterPill.left}
           </span>
           <span aria-hidden />
-          <span className="pill-word pill-word-r cue justify-self-start text-left text-[clamp(1.2rem,4.2vw,3.4rem)] font-bold tracking-[-0.03em] whitespace-nowrap" style={span(0.02, 0.18)}>
+          <span className="pill-word pill-word-r cue justify-self-start text-left text-[clamp(1.2rem,4.2vw,3.4rem)] font-bold tracking-[-0.03em] whitespace-nowrap" style={span(0.02, 0.2)}>
             {waterPill.right}
           </span>
         </div>
 
         {/* 어두운 겹. 알약으로 잘려 있다가 화면을 덮습니다. */}
-        <div className="pill-dark cue absolute inset-0 overflow-hidden bg-tk text-white" style={span(0.02, 0.18)}>
+        <div className="pill-dark cue absolute inset-0 overflow-hidden bg-tk text-white" style={span(0.02, 0.2)}>
           {/* 영상. 어둠 위에서 떠오르고, 0.36부터 프레임이 넘어갑니다. */}
           <div className="cue-in absolute inset-0" style={{ ...span(0.3, 0.4), "--dy": "0px" } as CSSProperties}>
             <FrameScrub base={`/seq/${seq}`} count={count} from={0.36} to={1} />

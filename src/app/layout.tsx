@@ -98,7 +98,7 @@ const organizationJsonLd = {
   legalName: "주식회사 킴샵",
   url: "https://www.aovo.kr/",
   logo: "https://www.aovo.kr/images/aovo_symbol.png",
-  telephone: "010-8473-1666",
+  telephone: "02-2683-4459",
   email: "mbc8447289@naver.com",
   address: {
     "@type": "PostalAddress",
