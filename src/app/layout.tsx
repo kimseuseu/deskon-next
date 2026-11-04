@@ -5,7 +5,6 @@ import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 import MetaPixel from "@/components/seo/MetaPixel";
 import NaverAnalytics from "@/components/seo/NaverAnalytics";
-import SplashScreen from "@/components/SplashScreen";
 import { Analytics } from "@vercel/analytics/next";
 
 // Only /about/ci still renders Syne (brand-typeface specimen)
@@ -124,7 +123,6 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col bg-white text-tx">
-        <SplashScreen />
         {children}
         <MetaPixel />
         <NaverAnalytics />
