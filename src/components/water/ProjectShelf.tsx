@@ -15,14 +15,17 @@ import { Typewriter } from "./Typewriter";
  *   0.30 → 0.40  설명이 올라온다. 카드 줄은 0.34를 넘는 순간 제 시간에 차례로 올라온다.
  *   0.46 → 1.00  카드 줄이 왼쪽으로 지나간다.
  *
+ * 무대 위쪽은 헤더 높이만큼 비워 제목이 헤더 뒤로 들어가지 않게 합니다.
+ * 카드 줄은 아래가 조금 잘려도 됩니다.
+ *
  * 전화기에서는 붙지 않습니다. 카드는 손가락으로 넘깁니다.
  */
 export function ProjectShelf() {
   const items = waterProjects.items;
   return (
     <Scene className="shelf bg-white" mobileMode="enter" aria-label="현장 기록">
-      <div className="shelf-stage tw-grid relative flex flex-col justify-center overflow-hidden bg-white text-tx">
-        <div className="relative mx-auto w-full max-w-[1200px] px-6 pt-24 lg:pt-0">
+      <div className="shelf-stage tw-grid relative flex flex-col justify-start overflow-hidden bg-white pt-24 text-tx lg:pt-[calc(var(--bar)+3.5rem)]">
+        <div className="relative mx-auto w-full max-w-[1200px] px-6">
           <h2 className="text-center text-[clamp(2rem,4.6vw,3.8rem)] font-bold leading-[1.2] tracking-[-0.035em]">
             <Typewriter lines={waterProjects.title} from={0.06} to={0.3} />
           </h2>
