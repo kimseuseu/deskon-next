@@ -48,7 +48,7 @@ export const waterStats: { title: string; lead: string; items: Stat[] } = {
   lead: "아래 기록은 전부 아오보 기사들이 작업 중에 찍은 것입니다.\n연출 사진은 없습니다.",
   items: [
     { value: 2019, label: "첫 현장 기록", note: "천막 옆 물탱크 한 통에서 시작했습니다", plain: true },
-    { value: 9, unit: "곳", label: "행사 현장", note: "축제, 요리대회, 골프 투어, 크리스마스 마켓" },
+    { value: 10, unit: "곳", label: "사진이 남은 행사 현장", note: "축제, 요리대회, 골프 대회, 크리스마스 마켓" },
     { value: 5, unit: "통", label: "1톤 물탱크 동시 운용", note: "대량 급수 현장에 다섯 통까지 묶어 씁니다" },
     { value: 4, unit: "분야", label: "처리 범위", note: "급수 · 배수 · 오폐수 · 음식물" },
   ],
@@ -166,8 +166,8 @@ export interface Project {
 /** 현장 기록. 최근 현장이 먼저 옵니다. */
 export const waterProjects: { label: string; title: string[]; lead: string; items: Project[] } = {
   label: "Field records",
-  title: ["아홉 현장,", "아홉 번의 물."],
-  lead: "같은 장비라도 현장마다 물이 오는 길이 다릅니다.\n어디서 끌어와 어디로 보냈는지만 적었습니다.",
+  title: ["현장마다,", "물길이 달랐습니다."],
+  lead: "같은 장비라도 현장마다 물이 오는 길이 다릅니다.\n사진이 남은 현장만 모아 어디서 끌어와 어디로 보냈는지 적었습니다.",
   items: [
     {
       slug: "seoul-bbq-2026",
@@ -284,6 +284,19 @@ export const waterProjects: { label: string; title: string[]; lead: string; item
       details: [
         img("ottogi-path", "숲길을 따라 깐 급수 호스", "portrait"),
         img("ottogi-insulation", "보온재로 감싼 배관", "portrait"),
+      ],
+    },
+    {
+      slug: "genesis-golf-2022",
+      year: "2022",
+      name: "잭니클라우스 제네시스 골프대회",
+      place: "인천 송도",
+      scope: ["물탱크 급수", "푸드존 싱크대", "스테인리스 작업대", "배수 연결"],
+      note: "푸드존 천막마다 스테인리스 작업대와 싱크대를 앉히고, 천막 안쪽 파란 물탱크에서 물을 끌어왔습니다.\n녹색 인조잔디 위라 호스는 천막 뒤로만 돌렸습니다.",
+      cover: img("golf-cover", "잭니클라우스 골프장 푸드존의 검은 천막과 스테인리스 작업대"),
+      details: [
+        img("golf-tanks", "천막 안 파란 물탱크 세 통과 싱크대, 냉장고"),
+        img("golf-sink", "인조잔디 위 수전이 달린 스테인리스 싱크대", "portrait"),
       ],
     },
   ],

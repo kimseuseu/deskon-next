@@ -21,7 +21,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
  * 올라오고, 다시 기준점 위로 올라가면 더 빠르게 내려가며 사라집니다.
  * 옆으로 미는 동작만 스크롤이 맡습니다(globals.css의 .shelf-track).
  */
-export function ShelfCards({ items, at = 0.34, panFrom = 0.46 }: { items: Project[]; at?: number; panFrom?: number }) {
+export function ShelfCards({ items, at = 0.34, panFrom = 0.42, panTo = 0.88 }: { items: Project[]; at?: number; panFrom?: number; panTo?: number }) {
   const progress = useSceneProgress();
   const reduce = useReducedMotion();
   const [shown, setShown] = useState(false);
@@ -40,7 +40,8 @@ export function ShelfCards({ items, at = 0.34, panFrom = 0.46 }: { items: Projec
 
   return (
     <>
-    <ul className="shelf-track cue flex gap-5 px-6 lg:gap-7" style={span(panFrom, 1)} aria-label="현장 목록">
+    {/* 넓은 화면에서는 줄의 폭이 카드 합과 같아야(w-max) 끝까지 밀 거리가 바로 잡힙니다. */}
+    <ul className="shelf-track cue flex gap-5 px-6 lg:w-max lg:gap-7" style={span(panFrom, panTo)} aria-label="현장 목록">
       {items.map((p, i) => (
         <motion.li
           key={p.slug}
