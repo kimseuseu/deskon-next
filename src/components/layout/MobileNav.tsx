@@ -2,21 +2,22 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { divisions } from "@/data/divisions";
 import { brands } from "@/data/brands";
 import { featured } from "@/data/navigation";
+import { COMPANY } from "@/lib/constants";
+import Logo from "@/components/ui/Logo";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const secondaryLinks = [
-  { label: "그룹소개", labelEn: "About", href: "/about" },
-  { label: "회사 연혁", labelEn: "History", href: "/about/history" },
-  { label: "오시는 길", labelEn: "Location", href: "/about/location" },
-  { label: "공지사항", labelEn: "Notice", href: "/support/notice" },
-  { label: "FAQ", labelEn: "FAQ", href: "/support/faq" },
-  { label: "문의하기", labelEn: "Contact", href: "/support/contact" },
+  { label: "그룹소개", href: "/about" },
+  { label: "회사 연혁", href: "/about/history" },
+  { label: "오시는 길", href: "/about/location" },
+  { label: "공지사항", href: "/support/notice" },
+  { label: "FAQ", href: "/support/faq" },
+  { label: "문의하기", href: "/support/contact" },
 ];
 
 interface MobileNavProps {
@@ -24,6 +25,7 @@ interface MobileNavProps {
   onClose: () => void;
 }
 
+/** 전화기 메뉴. 흰 화면이 위에서 내려오고, 강조 메뉴 둘이 파란 카드로 맨 위에 섭니다. */
 export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const reduce = useReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -49,165 +51,133 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
           initial={reduce ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)" }}
           animate={reduce ? { opacity: 1 } : { clipPath: "inset(0 0 0% 0)" }}
           exit={reduce ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)" }}
-          transition={{ duration: 0.65, ease: EASE }}
-          className="fixed inset-0 z-[60] flex flex-col bg-ink text-cream lg:hidden"
+          transition={{ duration: 0.45, ease: EASE }}
+          className="fixed inset-0 z-[60] flex flex-col bg-white text-tx lg:hidden"
         >
           {/* Top bar */}
-          <div className="flex h-20 shrink-0 items-center justify-between px-6">
-            <Link href="/" onClick={onClose} aria-label="AOVO 홈">
-              <Image
-                src="/images/aovo_wordmark_white.svg"
-                alt="AOVO"
-                width={119}
-                height={42}
-                className="h-5 w-auto"
-              />
-            </Link>
+          <div className="flex h-[72px] shrink-0 items-center justify-between px-6">
+            <Logo size="md" onClick={onClose} />
             <button
               ref={closeRef}
               onClick={onClose}
-              className="flex h-10 w-10 items-center justify-center"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-tg text-tx"
               aria-label="메뉴 닫기"
             >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.2}>
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                 <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-6 pt-4 pb-10" data-lenis-prevent>
-            {/* 강조 메뉴: 설비 랜딩 둘이 맨 위에 섭니다. 금색 테두리 상자 안에 두어
-                그 밑의 사업분야 목록과 다르게 읽힙니다. */}
+          <div className="flex-1 overflow-y-auto px-6 pt-3 pb-10" data-lenis-prevent>
+            {/* 강조 메뉴: 설비 랜딩 둘 */}
             <motion.nav
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.18, duration: 0.6, ease: EASE }}
+              transition={{ delay: 0.12, duration: 0.4, ease: EASE }}
               aria-label="설비 서비스"
-              className="border border-gold/45"
+              className="grid grid-cols-2 gap-3"
             >
-              {featured.map((item, i) => (
+              {featured.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={onClose}
-                  className={`group flex items-center gap-4 px-5 py-4 ${i > 0 ? "border-t border-gold/25" : ""}`}
+                  className="group flex flex-col gap-5 rounded-[20px] bg-tb-soft p-5 transition-colors active:bg-tb/15"
                 >
-                  <span aria-hidden className="block h-2 w-2 shrink-0 rotate-45 bg-gold" />
-                  <span className="min-w-0 flex-1">
-                    <span className="flex items-baseline justify-between gap-4">
-                      <span className="font-paperlogy text-[22px] font-medium leading-none tracking-[-0.01em] text-gold transition-colors group-hover:text-cream">
-                        {item.label}
-                      </span>
-                      <span className="shrink-0 text-[11px] uppercase tracking-[0.18em] text-gold/70">{item.labelEn}</span>
-                    </span>
-                    <span className="mt-2 block text-[12.5px] leading-snug text-white/60">{item.desc}</span>
-                  </span>
+                  <span className="text-[20px] font-bold leading-none tracking-[-0.02em] text-tb">{item.label}</span>
+                  <span className="text-[13px] font-medium leading-snug text-tx-2">{item.desc}</span>
                 </Link>
               ))}
             </motion.nav>
 
-            {/* Divisions */}
+            {/* 사업분야 */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.35, duration: 0.6 }}
-              className="eyebrow mt-10 text-white/55"
+              transition={{ delay: 0.22, duration: 0.4 }}
+              className="mt-9 text-[13px] font-semibold text-tx-3"
             >
-              Our Divisions
+              사업분야
             </motion.p>
-
-            <nav className="mt-5" aria-label="사업분야">
+            <nav className="mt-2" aria-label="사업분야">
               {divisions.map((d, i) => (
-                <div key={d.slug} className="overflow-hidden border-b border-white/10">
+                <div key={d.slug} className="overflow-hidden">
                   <motion.div
                     initial={{ y: "105%" }}
                     animate={{ y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.22 + i * 0.07, ease: EASE }}
+                    transition={{ duration: 0.5, delay: 0.16 + i * 0.05, ease: EASE }}
                   >
-                    <Link
-                      href={d.href}
-                      onClick={onClose}
-                      className="group flex items-baseline gap-4 py-5"
-                    >
-                      <span className="font-serif text-sm italic text-gold">{d.no}</span>
-                      <span className="font-paperlogy text-[30px] font-light leading-none tracking-[-0.01em] text-cream transition-colors group-hover:text-gold">
-                        {d.nameKo}
+                    <Link href={d.href} onClick={onClose} className="group flex items-baseline justify-between gap-4 border-b border-tg-2 py-3.5">
+                      <span className="flex items-baseline gap-3">
+                        <span className="font-serif text-[15px] italic text-tb">{d.no}</span>
+                        <span className="font-paperlogy text-[28px] font-semibold leading-none tracking-[-0.03em] text-tx">{d.nameKo}</span>
                       </span>
-                      <span className="ml-auto text-[11px] uppercase tracking-[0.18em] text-white/55">
-                        {d.nameEn}
-                      </span>
+                      <span className="text-[13px] font-medium text-tx-3">{d.tagline}</span>
                     </Link>
                   </motion.div>
                 </div>
               ))}
             </nav>
 
-            {/* Brands */}
+            {/* 브랜드 */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.55, duration: 0.6, ease: EASE }}
+              transition={{ delay: 0.4, duration: 0.4, ease: EASE }}
             >
-              <p className="eyebrow mt-10 text-white/55">Group Brands</p>
-              <nav className="mt-4 grid grid-cols-2 gap-x-6" aria-label="브랜드">
+              <p className="mt-9 text-[13px] font-semibold text-tx-3">브랜드</p>
+              <nav className="mt-3 grid grid-cols-2 gap-2" aria-label="브랜드">
                 {brands.map((b) => (
                   <Link
                     key={b.slug}
                     href={b.href}
                     onClick={onClose}
-                    className="group flex items-baseline gap-2 border-b border-white/10 py-3.5"
+                    className="flex items-baseline gap-2 rounded-2xl bg-tg px-4 py-3 transition-colors active:bg-tg-2"
                   >
-                    <span className="font-paperlogy text-[17px] font-semibold tracking-[0.03em] text-cream transition-colors group-hover:text-gold">
-                      {b.name}
-                    </span>
-                    <span className="text-[11px] text-white/55">{b.nameKo}</span>
+                    <span className="text-[15px] font-bold text-tx">{b.name}</span>
+                    <span className="text-[12px] font-medium text-tx-3">{b.nameKo}</span>
                   </Link>
                 ))}
               </nav>
             </motion.div>
 
-            {/* Secondary links */}
+            {/* 그 밖의 링크 */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6, ease: EASE }}
-              className="mt-10 grid grid-cols-2 gap-x-6 gap-y-4"
+              transition={{ delay: 0.46, duration: 0.4, ease: EASE }}
+              className="mt-9 grid grid-cols-2 gap-x-6 gap-y-3.5"
             >
               {secondaryLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={onClose}
-                  className="text-[14px] text-white/70 transition-colors hover:text-cream"
-                >
+                <Link key={link.href} href={link.href} onClick={onClose} className="text-[15px] font-semibold text-tx-2 transition-colors hover:text-tx">
                   {link.label}
                 </Link>
               ))}
             </motion.div>
           </div>
 
-          {/* Bottom contact */}
+          {/* 연락 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-            className="shrink-0 border-t border-white/10 px-6 py-6"
+            transition={{ delay: 0.5, duration: 0.4 }}
+            className="shrink-0 border-t border-tg-2 px-6 py-5"
           >
-            <div className="flex items-end justify-between gap-4">
+            <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-white/55">Contact</p>
-                <a href="tel:02-2683-4459" className="mt-1.5 block font-paperlogy text-xl font-semibold text-cream">
-                  02-2683-4459
+                <a href={`tel:${COMPANY.phone}`} className="block text-[20px] font-bold tracking-[-0.02em] text-tx">
+                  {COMPANY.phone}
                 </a>
-                <p className="mt-0.5 text-xs text-white/55">평일 09:00 – 18:00</p>
+                <p className="mt-0.5 text-[12px] font-medium text-tx-3">평일 09:00 - 18:00</p>
               </div>
               <a
-                href="http://pf.kakao.com/_qxkxnRX"
+                href={COMPANY.kakaoChannel}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-white/40 px-4 py-2.5 text-[12px] font-medium tracking-[0.1em] text-cream transition-colors hover:border-gold hover:text-gold"
+                className="inline-flex items-center rounded-full bg-tb px-5 py-3 text-[14px] font-semibold text-white transition-colors hover:bg-tb-deep"
               >
-                카카오 채널 ↗
+                카카오 채널
               </a>
             </div>
           </motion.div>

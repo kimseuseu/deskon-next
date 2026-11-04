@@ -11,8 +11,8 @@ import { COMPANY } from "@/lib/constants";
 /**
  * 가스기기 임대 상품 진열. 쇼핑몰의 문법입니다.
  *
- *   위에 필터 칩과 정렬이 붙은 도구 줄이 서고, 그 아래 흰 카드가 격자로
- *   늘어섭니다. 카드마다 사진, 배지, 브랜드, 이름, 규격 한 줄, 버튼 두 개.
+ *   위에 필터 칩과 정렬이 붙은 도구 줄이 서고, 그 아래 둥근 흰 카드가 격자로
+ *   늘어섭니다. 카드마다 사진, 배지, 브랜드, 이름, 규격 한 줄, 알약 버튼 두 개.
  *   카드를 누르면 빠른 보기 창이 열려 규격 전체와 문의 버튼을 보여 줍니다.
  *   가격 자리는 비워 두지 않고 «임대가 문의»로 채웁니다. 모든 기기가 임대
  *   설치 기준이고 견적은 기간 · 수량 · 현장으로 정해지기 때문입니다.
@@ -63,8 +63,8 @@ export function RentalShop() {
   return (
     <>
       {/* 도구 줄: 필터 칩 + 정렬. 헤더 밑에 붙어 따라옵니다. */}
-      <div className="sticky top-[var(--bar)] z-30 border-b border-line bg-paper/95 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-6 py-3 lg:px-10">
+      <div className="sticky top-[var(--bar)] z-30 bg-white/95 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-[1400px] items-center gap-4 px-6 py-3">
           <LayoutGroup id="rental-filter">
             <ul className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label="기기 묶음">
               {[{ id: "all" as Filter, title: "전체", n: products.length }, ...categories.map((c) => ({ id: c.id as Filter, title: c.title, n: products.filter((p) => p.category === c.id).length }))].map((t) => {
@@ -76,32 +76,32 @@ export function RentalShop() {
                       role="tab"
                       aria-selected={active}
                       onClick={() => pick(t.id)}
-                      className={`relative inline-flex items-center gap-2 rounded-full border px-4 py-2 font-paperlogy text-[13px] font-medium transition-colors duration-200 ${
-                        active ? "border-ink text-cream" : "border-line bg-white text-primary hover:border-primary/40"
+                      className={`relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[14px] font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tb focus-visible:ring-offset-2 ${
+                        active ? "text-white" : "bg-tg text-tx hover:bg-tg-2"
                       }`}
                     >
                       {active && (
                         <motion.span
                           layoutId="chip"
                           aria-hidden
-                          className="absolute inset-0 -z-10 rounded-full bg-ink"
+                          className="absolute inset-0 -z-10 rounded-full bg-tb"
                           transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 34 }}
                         />
                       )}
                       {t.title}
-                      <span className={`text-[11px] ${active ? "text-gold" : "text-muted"}`}>{t.n}</span>
+                      <span className={`text-[12px] font-semibold ${active ? "text-white/70" : "text-tx-3"}`}>{t.n}</span>
                     </button>
                   </li>
                 );
               })}
             </ul>
           </LayoutGroup>
-          <label className="ml-auto hidden shrink-0 items-center gap-2 text-[12px] text-muted sm:flex">
+          <label className="ml-auto hidden shrink-0 items-center gap-2 text-[13px] font-medium text-tx-3 sm:flex">
             정렬
             <select
               value={sort}
               onChange={(e) => order(e.target.value as Sort)}
-              className="rounded-md border border-line bg-white px-3 py-2 font-paperlogy text-[13px] text-primary outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="rounded-full bg-tg px-4 py-2 text-[14px] font-semibold text-tx outline-none transition-colors duration-200 hover:bg-tg-2 focus-visible:ring-2 focus-visible:ring-tb"
             >
               <option value="default">기본 순</option>
               <option value="name">이름 순</option>
@@ -111,18 +111,15 @@ export function RentalShop() {
         </div>
       </div>
 
-      <section className="bg-surface/50" aria-label="임대 기기 목록">
-        <div ref={gridRef} className="mx-auto max-w-[1440px] scroll-mt-[calc(var(--bar)+4rem)] px-6 py-10 lg:px-10 lg:py-14">
-          <p className="mb-5 text-[13px] text-muted">
-            <span className="font-paperlogy font-semibold text-primary">{list.length}</span>개 기기
-            {pages > 1 && (
-              <span className="ml-2 text-muted/80">
-                {first}-{last} 표시
-              </span>
-            )}
-            <span className="mx-2 text-line">|</span>
-            모든 기기는 운송 · 설치 · 안전점검 · 철거가 포함된 임대 기준입니다
-          </p>
+      <section className="bg-tg text-tx" aria-label="임대 기기 목록">
+        <div ref={gridRef} className="mx-auto max-w-[1400px] scroll-mt-[calc(var(--bar)+4rem)] px-6 py-10 lg:py-14">
+          <div className="mb-6 flex flex-col gap-1 text-[14px] font-medium text-tx-3 sm:flex-row sm:items-baseline sm:justify-between">
+            <p>
+              <span className="text-[16px] font-bold text-tx">{list.length}</span>개 기기
+              {pages > 1 && <span className="ml-2">{first}-{last} 표시</span>}
+            </p>
+            <p>모든 기기는 운송 · 설치 · 안전점검 · 철거가 포함된 임대 기준입니다</p>
+          </div>
 
           <motion.ul layout className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" role="list">
             <AnimatePresence mode="popLayout" initial={false}>
@@ -150,13 +147,13 @@ export function RentalShop() {
   );
 }
 
-/** 쪽 번호. 이전 · 번호들 · 다음. 지금 쪽은 먹색으로 찍힙니다. */
+/** 쪽 번호. 이전 · 번호들 · 다음. 지금 쪽은 파랑으로 찍힙니다. */
 function Pagination({ current, pages, onGo }: { current: number; pages: number; onGo: (n: number) => void }) {
   const btn =
-    "inline-flex h-10 min-w-10 items-center justify-center rounded-md border px-3 font-paperlogy text-[13px] font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-35";
+    "inline-flex h-10 min-w-10 items-center justify-center rounded-full px-3 text-[14px] font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-35";
   return (
     <nav className="mt-10 flex items-center justify-center gap-1.5" aria-label="쪽 이동">
-      <button type="button" onClick={() => onGo(current - 1)} disabled={current === 1} className={`${btn} border-line bg-white text-primary hover:border-primary/40`} aria-label="이전 쪽">
+      <button type="button" onClick={() => onGo(current - 1)} disabled={current === 1} className={`${btn} bg-white text-tx hover:bg-tg-2`} aria-label="이전 쪽">
         ←
       </button>
       {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
@@ -165,12 +162,12 @@ function Pagination({ current, pages, onGo }: { current: number; pages: number; 
           type="button"
           onClick={() => onGo(n)}
           aria-current={n === current ? "page" : undefined}
-          className={`${btn} ${n === current ? "border-ink bg-ink text-cream" : "border-line bg-white text-primary hover:border-primary/40"}`}
+          className={`${btn} ${n === current ? "bg-tb text-white" : "bg-white text-tx hover:bg-tg-2"}`}
         >
           {n}
         </button>
       ))}
-      <button type="button" onClick={() => onGo(current + 1)} disabled={current === pages} className={`${btn} border-line bg-white text-primary hover:border-primary/40`} aria-label="다음 쪽">
+      <button type="button" onClick={() => onGo(current + 1)} disabled={current === pages} className={`${btn} bg-white text-tx hover:bg-tg-2`} aria-label="다음 쪽">
         →
       </button>
     </nav>
@@ -182,7 +179,7 @@ function ProductCard({ p, onOpen, phone }: { p: RentalProduct; onOpen: () => voi
   return (
     <article
       id={p.id}
-      className="group flex h-full scroll-mt-[calc(var(--bar)+4.5rem)] flex-col overflow-hidden rounded-lg border border-line bg-white transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:hover:-translate-y-1 hover:shadow-[0_14px_32px_rgba(14,14,17,0.08)]"
+      className="group flex h-full scroll-mt-[calc(var(--bar)+4.5rem)] flex-col overflow-hidden rounded-[24px] bg-white transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_12px_40px_rgba(25,31,40,0.08)] motion-safe:hover:-translate-y-1"
     >
       <button type="button" onClick={onOpen} className="relative block aspect-square w-full overflow-hidden bg-white text-left" aria-label={`${p.name} 빠른 보기`}>
         <Image
@@ -193,37 +190,35 @@ function ProductCard({ p, onOpen, phone }: { p: RentalProduct; onOpen: () => voi
           className="object-contain p-5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.05]"
         />
         <span className="absolute left-3 top-3 flex gap-1.5">
-          <span className="rounded-sm bg-ink px-2 py-1 font-paperlogy text-[10px] font-bold tracking-[0.08em] text-cream">임대</span>
-          {p.featured && <span className="rounded-sm bg-gold px-2 py-1 font-paperlogy text-[10px] font-bold tracking-[0.08em] text-ink">대표</span>}
+          <span className="rounded-full bg-tb-soft px-2.5 py-1 text-[11px] font-semibold text-tb">임대</span>
+          {p.featured && <span className="rounded-full bg-tb px-2.5 py-1 text-[11px] font-semibold text-white">대표</span>}
         </span>
       </button>
-      <div className="flex flex-1 flex-col border-t border-line p-3 sm:p-4">
-        <p className="text-[11px] text-muted">
-          {p.maker}
-          <span className="mx-1.5 text-line">|</span>
-          {cat.title}
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <p className="text-[12px] font-medium text-tx-3">
+          {p.maker} · {cat.title}
         </p>
-        <h3 className="mt-1.5 font-paperlogy text-[15px] font-semibold leading-snug text-primary">
-          <button type="button" onClick={onOpen} className="text-left hover:underline hover:decoration-gold hover:underline-offset-4">
+        <h3 className="mt-1.5 text-[16px] font-bold leading-snug">
+          <button type="button" onClick={onOpen} className="text-left transition-colors duration-200 hover:text-tb">
             {p.name}
           </button>
         </h3>
-        <p className="mt-1 line-clamp-1 text-[12px] text-muted">{p.specs.slice(0, 2).join(" · ")}</p>
-        <div className="mt-3 flex items-baseline justify-between">
-          <span className="font-paperlogy text-[15px] font-bold text-primary">임대가 문의</span>
-          {p.facet && <span className="font-serif text-sm italic text-accent-deep">{p.facet}</span>}
+        <p className="mt-1 line-clamp-1 text-[13px] font-medium text-tx-2">{p.specs.slice(0, 2).join(" · ")}</p>
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <span className="text-[15px] font-bold">임대가 문의</span>
+          {p.facet && <span className="rounded-full bg-tg px-2.5 py-1 text-[12px] font-semibold text-tb">{p.facet}</span>}
         </div>
         <div className="mt-auto grid grid-cols-[1fr_auto] gap-2 pt-4">
           <Link
             href="/support/contact"
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-ink px-2.5 py-2.5 font-paperlogy text-[12px] font-bold tracking-[0.04em] text-cream transition-colors duration-200 hover:bg-gold hover:text-ink sm:px-3"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-tb px-3 py-2.5 text-[13px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98] sm:px-4"
           >
             임대 문의
           </Link>
           <a
             href={`tel:${phone}`}
             aria-label={`${gas.callLabel ?? "전화 상담"} ${phone}`}
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-line px-2.5 py-2.5 font-paperlogy text-[12px] font-semibold text-primary transition-colors duration-200 hover:border-primary sm:px-3"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-tg px-3 py-2.5 text-[13px] font-semibold text-tx transition-colors duration-200 hover:bg-tg-2 active:scale-[0.98] sm:px-4"
           >
             전화
           </a>
@@ -251,7 +246,7 @@ function QuickView({ p, phone, onClose }: { p: RentalProduct | null; phone: stri
     <AnimatePresence>
       {p && (
         <motion.div
-          className="fixed inset-0 z-[70] flex items-end justify-center bg-ink/55 p-0 sm:items-center sm:p-6"
+          className="fixed inset-0 z-[70] flex items-end justify-center bg-tk/55 p-0 sm:items-center sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.15 } }}
@@ -267,54 +262,64 @@ function QuickView({ p, phone, onClose }: { p: RentalProduct | null; phone: stri
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.15 } }}
             transition={{ duration: 0.25, ease: EASE }}
-            className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-t-xl bg-white sm:grid-cols-2 sm:rounded-xl"
+            className="grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-t-[28px] bg-white text-tx sm:grid-cols-2 sm:rounded-[28px]"
           >
             <div className="relative aspect-square bg-white">
               <Image src={p.image} alt={p.imageAlt} fill sizes="(min-width: 640px) 40vw, 100vw" className="object-contain p-8" />
             </div>
-            <div className="flex flex-col p-6 sm:border-l sm:border-line sm:p-8">
+            <div className="flex flex-col p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
-                <p className="text-[12px] text-muted">
+                <p className="text-[13px] font-medium text-tx-3">
                   {p.maker}
-                  {p.model && (
-                    <>
-                      <span className="mx-1.5 text-line">|</span>
-                      <span className="font-serif italic text-accent-deep">{p.model}</span>
-                    </>
-                  )}
+                  {p.model && <span className="ml-1.5">· {p.model}</span>}
                 </p>
-                <button type="button" onClick={onClose} aria-label="닫기" className="-mr-2 -mt-2 flex h-9 w-9 items-center justify-center rounded-full text-xl text-muted transition-colors hover:bg-surface hover:text-primary">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label="닫기"
+                  className="-mr-2 -mt-2 flex h-9 w-9 items-center justify-center rounded-full bg-tg text-xl text-tx-2 transition-colors duration-200 hover:bg-tg-2 hover:text-tx"
+                >
                   ×
                 </button>
               </div>
-              <h2 id="qv-title" className="mt-2 font-paperlogy text-2xl font-semibold leading-snug text-primary">
+              <h2 id="qv-title" className="mt-2 text-[24px] font-bold leading-snug tracking-[-0.03em]">
                 {p.name}
               </h2>
-              <p className="mt-2 text-[14px] text-primary/80">{p.tagline}</p>
+              <p className="mt-2 text-[15px] font-medium text-tx-2">{p.tagline}</p>
 
-              <dl className="mt-6 divide-y divide-line border-y border-line">
-                {p.specs.map((s, i) => (
-                  <div key={s} className="grid grid-cols-[5rem_1fr] gap-3 py-2.5 text-[13px]">
-                    <dt className="text-muted">{i === 0 ? "규격" : ""}</dt>
-                    <dd className="text-primary">{s}</dd>
-                  </div>
-                ))}
-              </dl>
+              <div className="mt-6 rounded-[20px] bg-tg p-4">
+                <p className="text-[12px] font-semibold text-tx-3">규격</p>
+                <ul className="mt-2 space-y-1.5">
+                  {p.specs.map((s) => (
+                    <li key={s} className="text-[14px] font-medium text-tx">
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-              <div className="mt-5 flex items-baseline justify-between">
-                <span className="font-paperlogy text-lg font-bold text-primary">임대가 문의</span>
-                <span className="text-[12px] text-muted">기간 · 수량 · 지역 기준 당일 안내</span>
+              <div className="mt-5 flex items-baseline justify-between gap-3">
+                <span className="text-[18px] font-bold">임대가 문의</span>
+                <span className="text-[13px] font-medium text-tx-3">기간 · 수량 · 지역 기준 당일 안내</span>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2">
-                <Link href="/support/contact" className="inline-flex items-center justify-center rounded-md bg-ink px-4 py-3 font-paperlogy text-[13px] font-bold tracking-[0.06em] text-cream transition-colors duration-200 hover:bg-gold hover:text-ink">
+                <Link
+                  href="/support/contact"
+                  className="inline-flex items-center justify-center rounded-full bg-tb px-4 py-3.5 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98]"
+                >
                   임대 문의하기
                 </Link>
-                <a href={`tel:${phone}`} className="inline-flex items-center justify-center gap-2 rounded-md border border-line px-4 py-3 font-paperlogy text-[13px] font-semibold text-primary transition-colors duration-200 hover:border-primary">
+                <a
+                  href={`tel:${phone}`}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-tg px-4 py-3.5 text-[15px] font-semibold text-tx transition-colors duration-200 hover:bg-tg-2 active:scale-[0.98]"
+                >
                   {gas.callLabel ?? "전화 상담"}
-                  <span className="font-serif text-xs italic">{phone}</span>
+                  <span className="text-[13px] font-medium text-tx-2">{phone}</span>
                 </a>
               </div>
-              <p className="mt-4 text-[12px] leading-relaxed text-muted">운송 · 설치 · 가스 연결 · 사용 전 안전점검 · 철거까지 임대에 포함됩니다. 현장이 LNG인지 LPG인지에 맞춰 세팅해 보냅니다.</p>
+              <p className="mt-4 whitespace-pre-line text-[13px] font-medium leading-relaxed text-tx-3">
+                {"운송 · 설치 · 가스 연결 · 사용 전 안전점검 · 철거까지 임대에 포함됩니다.\n현장이 LNG인지 LPG인지에 맞춰 세팅해 보냅니다."}
+              </p>
             </div>
           </motion.div>
         </motion.div>

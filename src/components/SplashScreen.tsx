@@ -2,17 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+import { LogoMark } from "@/components/ui/Logo";
 
 /*
   ── Splash ──
-  Wordmark rises from a mask, divisions whisper underneath, curtain lifts.
+  흰 화면. 워드마크가 올라오고, 다섯 분야가 그 밑에 서고, 화면이 위로 걷힙니다.
 
-  0.00s : ink canvas
-  0.15s : gold wordmark rises
-  0.90s : division keywords fade in
-  2.00s : whole screen slides up and out
-  2.65s : unmount
+  0.00s : 흰 바탕
+  0.15s : 워드마크
+  0.80s : 분야 이름
+  1.80s : 화면이 위로 걷힌다
+  2.35s : 사라진다
 */
 
 let splashPlayed = false;
@@ -29,7 +29,6 @@ export default function SplashScreen() {
   useEffect(() => {
     if (skip) return;
 
-    // Once per browser session — repeat visits go straight to the hero
     if (sessionStorage.getItem("aovo-splash-played")) {
       splashPlayed = true;
       const raf = requestAnimationFrame(() => setDone(true));
@@ -38,13 +37,13 @@ export default function SplashScreen() {
 
     const timers = [
       setTimeout(() => setPhase(1), 150),
-      setTimeout(() => setPhase(2), 900),
-      setTimeout(() => setPhase(3), 2000),
+      setTimeout(() => setPhase(2), 800),
+      setTimeout(() => setPhase(3), 1800),
       setTimeout(() => {
         setDone(true);
         splashPlayed = true;
         sessionStorage.setItem("aovo-splash-played", "1");
-      }, 2650),
+      }, 2350),
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -57,49 +56,38 @@ export default function SplashScreen() {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-white"
       style={{
-        background: "#0e0e11",
         transform: exit ? "translateY(-100%)" : "translateY(0)",
-        transition: `transform 0.7s ${ease}`,
+        transition: `transform 0.55s ${ease}`,
         pointerEvents: exit ? "none" : "auto",
       }}
       aria-hidden
     >
       <div className="flex flex-col items-center px-6">
-        {/* Wordmark rising from a mask */}
         <div className="overflow-hidden py-1">
           <div
             style={{
               transform: phase >= 1 ? "translateY(0)" : "translateY(110%)",
-              transition: `transform 1s ${ease}`,
+              transition: `transform 0.8s ${ease}`,
             }}
           >
-            <Image
-              src="/images/aovo_wordmark_gold.svg"
-              alt="AOVO"
-              width={595}
-              height={212}
-              loading="eager"
-              className="h-auto w-[min(52vw,300px)]"
-            />
+            <LogoMark size="lg" />
           </div>
         </div>
 
-        {/* Divisions */}
         <div
-          className="mt-7 flex items-center gap-3 md:gap-5"
+          className="mt-6 flex items-center gap-4 md:gap-6"
           style={{
             opacity: phase >= 2 ? 1 : 0,
-            transition: `opacity 0.8s ${ease}`,
+            transform: phase >= 2 ? "translateY(0)" : "translateY(6px)",
+            transition: `opacity 0.6s ${ease}, transform 0.6s ${ease}`,
           }}
         >
           {DIVISIONS.map((label, i) => (
-            <span key={label} className="flex items-center gap-3 md:gap-5">
-              {i > 0 && <span className="block h-3 w-px bg-white/15" />}
-              <span className="font-paperlogy text-[13px] font-medium tracking-[0.02em] text-white/45 md:text-sm">
-                {label}
-              </span>
+            <span key={label} className="flex items-center gap-4 md:gap-6">
+              {i > 0 && <span className="block h-3 w-px bg-tg-2" />}
+              <span className="font-paperlogy text-[14px] font-medium tracking-[0.02em] text-tx-3 md:text-[15px]">{label}</span>
             </span>
           ))}
         </div>

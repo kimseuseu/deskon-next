@@ -1,6 +1,3 @@
-/* 이 페이지만 Pretendard를 씁니다. 토스 메인의 서체 느낌을 따르기 위해서이고,
-   조각 서체(unicode-range)라 화면에 선 글자가 든 조각만 받아 옵니다. */
-import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import { waterScrubs } from "@/data/water-story";
 import { WaterHero } from "./WaterHero";
 import { ScrubScene } from "./ScrubScene";

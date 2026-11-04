@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import PageHero from "@/components/ui/PageHero";
 
 interface FAQ {
@@ -10,47 +12,41 @@ interface FAQ {
   sort_order: number;
 }
 
-function FAQItem({ faq, index }: { faq: FAQ; index: number }) {
+function FAQItem({ faq }: { faq: FAQ }) {
   const [isOpen, setIsOpen] = useState(false);
+  const panelId = `faq-panel-${faq.id}`;
 
   return (
-    <div
-      className="border-b border-gray-100 last:border-0 animate-slide-up"
-      style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
-    >
+    <div className="rounded-[24px] bg-tg transition-colors duration-200 hover:bg-tg-2/70">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-start justify-between gap-4 px-6 py-5 text-left hover:bg-surface/50 transition-colors"
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        className="flex w-full items-start justify-between gap-4 rounded-[24px] px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-tb lg:px-7"
       >
-        <div className="flex items-start gap-4">
-          <span className="font-paperlogy text-lg font-bold text-accent/40 shrink-0">
-            Q{index + 1}
-          </span>
-          <span className="text-sm font-medium text-primary leading-relaxed">
-            {faq.question}
-          </span>
-        </div>
-        <svg
-          className={`w-5 h-5 text-muted shrink-0 mt-0.5 transition-transform duration-300 ${
+        <span className="text-[16px] font-semibold leading-relaxed text-tx lg:text-[17px]">{faq.question}</span>
+        <span
+          aria-hidden
+          className={`mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-tb transition-transform duration-300 ${
             isOpen ? "rotate-45" : ""
           }`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+        </span>
       </button>
       <div
+        id={panelId}
         className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{
           maxHeight: isOpen ? "500px" : "0px",
           opacity: isOpen ? 1 : 0,
         }}
       >
-        <div className="px-6 pb-5 pl-16">
-          <p className="text-sm text-muted leading-relaxed">{faq.answer}</p>
+        <div className="px-6 pb-6 lg:px-7">
+          <p className="text-[15px] font-medium leading-[1.75] text-tx-2">{faq.answer}</p>
         </div>
       </div>
     </div>
@@ -83,30 +79,33 @@ export default function FAQPage() {
       />
 
       {/* FAQ List */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-3xl mx-auto px-6">
+      <section className="bg-white text-tx">
+        <div className="mx-auto max-w-3xl px-6 py-24 lg:py-36">
           {loading ? (
-            <div className="text-center py-20 text-muted">불러오는 중...</div>
+            <p className="py-20 text-center text-[15px] font-medium text-tx-3">불러오는 중...</p>
           ) : faqs.length === 0 ? (
-            <div className="text-center py-20 text-muted animate-fade-in">등록된 FAQ가 없습니다.</div>
+            <p className="rounded-[24px] bg-tg py-20 text-center text-[15px] font-medium text-tx-3">등록된 FAQ가 없습니다.</p>
           ) : (
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-              {faqs.map((faq, i) => (
-                <FAQItem key={faq.id} faq={faq} index={i} />
+            <Stagger className="space-y-3" gap={0.06} amount={0.05}>
+              {faqs.map((faq) => (
+                <StaggerItem key={faq.id}>
+                  <FAQItem faq={faq} />
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           )}
 
           {/* Extra CTA */}
-          <div className="text-center mt-12 animate-slide-up" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
-            <p className="text-muted mb-4">원하는 답변을 찾지 못하셨나요?</p>
-            <a
+          <Reveal className="mt-16 text-center">
+            <p className="text-[17px] font-medium text-tx-2">원하는 답변을 찾지 못하셨나요?</p>
+            <Link
               href="/support/contact"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-accent text-white font-medium hover:bg-accent-light hover:-translate-y-1 transition-all duration-300"
+              className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-tb px-7 py-3.5 text-[16px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98]"
             >
               직접 문의하기
-            </a>
-          </div>
+              <span aria-hidden>→</span>
+            </Link>
+          </Reveal>
         </div>
       </section>
     </>

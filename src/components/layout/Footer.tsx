@@ -1,7 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { divisions } from "@/data/divisions";
 import { brands } from "@/data/brands";
+import { featured } from "@/data/navigation";
+import { COMPANY } from "@/lib/constants";
+import Logo from "@/components/ui/Logo";
 
 const aboutLinks = [
   { label: "개요", href: "/about" },
@@ -15,166 +17,141 @@ const supportLinks = [
   { label: "공지사항", href: "/support/notice" },
   { label: "FAQ", href: "/support/faq" },
   { label: "문의하기", href: "/support/contact" },
-  { label: "카카오 채널", href: "http://pf.kakao.com/_qxkxnRX", external: true },
+  { label: "카카오 채널", href: COMPANY.kakaoChannel, external: true },
 ];
 
+function Column({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="text-[14px] font-semibold text-white">{title}</h3>
+      <ul className="mt-4 space-y-2.5">{children}</ul>
+    </div>
+  );
+}
+
+const linkClass = "text-[14px] font-medium text-white/65 transition-colors duration-200 hover:text-white";
+
+/**
+ * 바닥. 옛 사이트처럼 어둡게 끝나고 큰 워드마크가 깔리되, 금색 자리는 파랑이 잇고
+ * 글은 토스의 간격으로 섭니다.
+ */
 export default function Footer() {
   return (
-    <footer className="bg-ink text-cream">
-      {/* Upper */}
-      <div className="mx-auto max-w-[1440px] px-6 pt-20 pb-14 lg:px-10">
+    <footer className="bg-tk text-white">
+      <div className="mx-auto max-w-[1440px] px-6 pt-20 pb-10 lg:px-10 lg:pt-24">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-8">
-          {/* Brand */}
           <div className="lg:col-span-5">
-            <p className="font-serif text-lg italic text-gold">From ownership to operation</p>
-            <p className="mt-4 max-w-sm font-paperlogy text-[26px] font-light leading-[1.35] tracking-[-0.01em]">
-              소유에서 운영으로,
+            <Logo tone="light" size="lg" group />
+            <p className="mt-6 font-serif text-lg italic text-tb-soft">From ownership to operation</p>
+            <p className="mt-3 max-w-sm font-paperlogy text-[24px] font-medium leading-[1.4] tracking-[-0.02em]">
+              소유에서 운영으로.
               <br />
-              비즈니스 장비의 패러다임을 바꿉니다.
+              비즈니스 장비의 기준을 바꿉니다.
             </p>
-
-            <a href="tel:02-2683-4459" className="group mt-10 inline-block">
-              <span className="block text-[11px] uppercase tracking-[0.2em] text-white/55">
-                Contact
+            <a href={`tel:${COMPANY.phone}`} className="group mt-10 inline-block">
+              <span className="block text-[13px] font-medium text-white/50">대표 번호</span>
+              <span className="mt-1 block text-[28px] font-bold tracking-[-0.02em] text-white transition-colors duration-200 group-hover:text-tb-soft">
+                {COMPANY.phone}
               </span>
-              <span className="mt-1 block font-paperlogy text-3xl font-semibold text-cream transition-colors duration-300 group-hover:text-gold">
-                02-2683-4459
-              </span>
-              <span className="mt-1 block text-xs text-white/60">평일 09:00 – 18:00</span>
+              <span className="mt-0.5 block text-[13px] font-medium text-white/50">평일 09:00 - 18:00</span>
             </a>
           </div>
 
-          {/* Link columns */}
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:col-span-7 lg:border-l lg:border-white/10 lg:pl-14">
-            <div>
-              <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/55">
-                Divisions
-              </h3>
-              <ul className="mt-5 space-y-3">
-                {divisions.map((d) => (
-                  <li key={d.slug}>
-                    <Link
-                      href={d.href}
-                      className="group inline-flex items-baseline gap-2.5 text-sm text-white/70 transition-colors duration-200 hover:text-cream"
-                    >
-                      <span className="font-serif text-[11px] italic text-gold/70 transition-colors group-hover:text-gold">
-                        {d.no}
-                      </span>
-                      {d.nameFull}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/55">
-                Brands
-              </h3>
-              <ul className="mt-5 space-y-3">
-                {brands.map((b) => (
-                  <li key={b.slug}>
-                    <Link
-                      href={b.href}
-                      className="group inline-flex items-baseline gap-2 text-sm text-white/70 transition-colors duration-200 hover:text-cream"
-                    >
-                      {b.name}
-                      <span className="text-[11px] text-white/40 transition-colors group-hover:text-white/60">
-                        {b.nameKo}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/55">
-                About
-              </h3>
-              <ul className="mt-5 space-y-3">
-                {aboutLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-white/70 transition-colors duration-200 hover:text-cream"
-                    >
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:col-span-7 lg:border-l lg:border-white/10 lg:pl-14">
+            <Column title="사업분야">
+              {divisions.map((d) => (
+                <li key={d.slug}>
+                  <Link href={d.href} className={`${linkClass} inline-flex items-baseline gap-2.5`}>
+                    <span className="font-serif text-[12px] italic text-tb-soft/70">{d.no}</span>
+                    {d.nameFull}
+                  </Link>
+                </li>
+              ))}
+              {featured.map((f) => (
+                <li key={f.href}>
+                  <Link href={f.href} className="text-[14px] font-semibold text-tb-soft transition-colors duration-200 hover:text-white">
+                    {f.label}
+                  </Link>
+                </li>
+              ))}
+            </Column>
+            <Column title="브랜드">
+              {brands.map((b) => (
+                <li key={b.slug}>
+                  <Link href={b.href} className={`${linkClass} inline-flex items-baseline gap-1.5`}>
+                    {b.name}
+                    <span className="text-[12px] text-white/40">{b.nameKo}</span>
+                  </Link>
+                </li>
+              ))}
+            </Column>
+            <Column title="그룹소개">
+              {aboutLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className={linkClass}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </Column>
+            <Column title="고객지원">
+              {supportLinks.map((link) => (
+                <li key={link.href}>
+                  {link.external ? (
+                    <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link href={link.href} className={linkClass}>
                       {link.label}
                     </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-white/55">
-                Support
-              </h3>
-              <ul className="mt-5 space-y-3">
-                {supportLinks.map((link) => (
-                  <li key={link.href}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-white/70 transition-colors duration-200 hover:text-cream"
-                      >
-                        {link.label} ↗
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-sm text-white/70 transition-colors duration-200 hover:text-cream"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                  )}
+                </li>
+              ))}
+            </Column>
           </div>
         </div>
       </div>
 
-      {/* Oversized wordmark */}
-      <div className="mx-auto max-w-[1440px] overflow-hidden px-6 lg:px-10">
-        <Image
-          src="/images/aovo_wordmark_gold.svg"
-          alt=""
-          aria-hidden
-          width={595}
-          height={212}
-          className="w-full translate-y-[12%] opacity-[0.16]"
-          sizes="100vw"
-        />
+      {/* 큰 워드마크. 옛 바닥의 금색 워드마크 자리를 파랑이 잇습니다. */}
+      <div className="mx-auto max-w-[1440px] overflow-hidden px-6 lg:px-10" aria-hidden>
+        <p className="translate-y-[18%] font-paperlogy text-[clamp(5rem,21vw,19rem)] font-bold leading-none tracking-[-0.05em] text-tb/[0.18]">
+          AOVO
+        </p>
       </div>
 
-      {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-[1440px] px-6 py-7 lg:px-10">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div className="space-y-1 text-xs leading-relaxed text-white/60">
+            <div className="space-y-1 text-[12px] font-medium leading-relaxed text-white/50">
               <p>
-                <span className="font-medium text-white/75">주식회사 킴샵</span>
-                <span className="mx-2 text-white/15">|</span>대표: 김영식
-                <span className="mx-2 text-white/15">|</span>사업자등록번호: 302-88-01373
+                <span className="font-semibold text-white/75">{COMPANY.legalName}</span>
+                <span className="mx-2 text-white/15">|</span>대표 {COMPANY.ceo}
+                <span className="mx-2 text-white/15">|</span>사업자등록번호 {COMPANY.bizNumber}
               </p>
-              <p>통신판매업신고번호: 제2019-인천중구-0276호</p>
+              <p>통신판매업신고번호 {COMPANY.salesReportNumber}</p>
               <p>
-                인천광역시 제물포구 항동 서해대로 111 킴샵그룹
+                {COMPANY.address}
                 <span className="mx-2 text-white/15">|</span>
-                <a href="tel:02-2683-4459" className="transition-colors hover:text-gold">02-2683-4459</a>
+                <a href={`tel:${COMPANY.phone}`} className="transition-colors hover:text-white">
+                  {COMPANY.phone}
+                </a>
                 <span className="mx-2 text-white/15">|</span>
-                <a href="mailto:mbc8447289@naver.com" className="transition-colors hover:text-gold">mbc8447289@naver.com</a>
+                <a href={`mailto:${COMPANY.email}`} className="transition-colors hover:text-white">
+                  {COMPANY.email}
+                </a>
               </p>
             </div>
-            <div className="flex items-center gap-5 text-xs text-white/65">
-              <Link href="/terms" className="transition-colors hover:text-cream">이용약관</Link>
-              <Link href="/privacy" className="transition-colors hover:text-cream">개인정보처리방침</Link>
+            <div className="flex items-center gap-5 text-[13px] font-semibold text-white/70">
+              <Link href="/terms" className="transition-colors hover:text-white">
+                이용약관
+              </Link>
+              <Link href="/privacy" className="transition-colors hover:text-white">
+                개인정보처리방침
+              </Link>
             </div>
           </div>
-          <p className="mt-5 text-[11px] text-white/45">
-            © {new Date().getFullYear()} AOVO Group. All rights reserved.
-          </p>
+          <p className="mt-5 text-[12px] font-medium text-white/40">© {new Date().getFullYear()} AOVO Group. All rights reserved.</p>
         </div>
       </div>
     </footer>

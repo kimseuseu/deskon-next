@@ -2,20 +2,18 @@
 
 import { useEffect, useRef } from "react";
 import { useInView } from "framer-motion";
-import Reveal from "@/components/motion/Reveal";
+import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
 
 const FILMS = [
   {
     src: "/images/aovo-mechanism-3d.mp4",
-    no: "01",
     title: "메커니즘",
-    caption: "체중과 자세에 반응하는 틸팅 메커니즘 — 부품 하나까지 검증합니다.",
+    caption: "체중과 자세에 반응하는 틸팅 메커니즘. 부품 하나까지 검증합니다.",
   },
   {
     src: "/images/aovo-flexible-backrest.mp4",
-    no: "02",
     title: "플렉시블 등받이",
-    caption: "허리의 움직임을 따라오는 등판 설계 — 오래 앉는 시간이 달라집니다.",
+    caption: "허리의 움직임을 따라오는 등판 설계. 오래 앉는 시간이 달라집니다.",
   },
 ] as const;
 
@@ -32,8 +30,8 @@ function CraftFilm({ film }: { film: (typeof FILMS)[number] }) {
   }, [inView]);
 
   return (
-    <figure>
-      <div className="overflow-hidden border border-white/10">
+    <figure className="rounded-[28px] bg-white p-3 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+      <div className="overflow-hidden rounded-[20px] bg-tg">
         <video
           ref={ref}
           muted
@@ -45,46 +43,39 @@ function CraftFilm({ film }: { film: (typeof FILMS)[number] }) {
           <source src={film.src} type="video/mp4" />
         </video>
       </div>
-      <figcaption className="mt-5 flex items-baseline gap-4">
-        <span className="font-serif text-sm italic text-gold">{film.no}</span>
-        <span>
-          <span className="block font-paperlogy text-lg font-medium text-cream">{film.title}</span>
-          <span className="mt-1 block text-[13px] leading-relaxed text-white/60">
-            {film.caption}
-          </span>
+      <figcaption className="px-3 pb-3 pt-5">
+        <span className="block text-[18px] font-bold tracking-[-0.02em] text-tx">{film.title}</span>
+        <span className="mt-1 block whitespace-pre-line text-[14px] font-medium leading-relaxed text-tx-2">
+          {film.caption.replace(/\.\s+/g, ".\n")}
         </span>
       </figcaption>
     </figure>
   );
 }
 
-/** IDEN 전용 쇼케이스 — 사무용 체어 제품 필름 2종 */
+/** IDEN 전용 쇼케이스. 사무용 체어 제품 필름 2종 */
 export default function IdenCraft() {
   return (
-    <section className="bg-ink text-cream">
-      <div className="mx-auto max-w-[1440px] px-6 py-24 lg:px-10 lg:py-32">
-        <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-          <Reveal>
-            <p className="eyebrow text-white/55">Product Craft</p>
-            <h2 className="mt-5 font-paperlogy text-[clamp(1.9rem,4vw,3.2rem)] font-light leading-[1.2] tracking-[-0.02em]">
-              디테일이 <span className="font-serif italic text-gold">운영 품질</span>을 만듭니다
-            </h2>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="max-w-xs pb-1 text-sm leading-relaxed text-white/60">
-              IDEN이 공급하는 체어의 구조를 그대로 보여드립니다.
-              보이지 않는 부분까지 검증된 장비만 현장에 갑니다.
-            </p>
-          </Reveal>
-        </div>
+    <section className="bg-tg text-tx">
+      <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+        <Reveal className="text-center">
+          <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em] text-balance">
+            디테일이{" "}
+            <span className="mx-0.5 inline-block rounded-full bg-white px-[0.55em] py-[0.08em] text-[0.82em] font-bold text-tb">운영 품질</span>
+            을 만듭니다
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2">
+            {"IDEN이 공급하는 체어의 구조를 그대로 보여드립니다.\n보이지 않는 부분까지 검증된 장비만 현장에 갑니다."}
+          </p>
+        </Reveal>
 
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-10">
-          {FILMS.map((film, i) => (
-            <Reveal key={film.src} delay={i * 0.12}>
+        <Stagger className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:mt-16" gap={0.12}>
+          {FILMS.map((film) => (
+            <StaggerItem key={film.src}>
               <CraftFilm film={film} />
-            </Reveal>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

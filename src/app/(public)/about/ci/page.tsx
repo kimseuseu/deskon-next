@@ -1,33 +1,6 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
+import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import PageHero from "@/components/ui/PageHero";
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
-};
-
-const fadeInBlur = {
-  hidden: { opacity: 0, filter: "blur(8px)" },
-  visible: { opacity: 1, filter: "blur(0px)", transition: { duration: 0.7, ease: "easeOut" as const } },
-};
-
-const slideInLeft = {
-  hidden: { opacity: 0, x: -40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-};
-
-const staggerContainerSlow = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-};
 
 const brandColors = [
   { name: "Primary", hex: "#0a0a0f", desc: "브랜드의 신뢰감과 전문성을 상징합니다.", textLight: true },
@@ -43,6 +16,11 @@ const brandValues = [
   { title: "혁신", desc: "소유에서 운영으로, 패러다임 전환" },
 ];
 
+const SECTION_TITLE = "text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em] text-balance";
+const CAPTION = "mt-5 text-[13px] font-semibold";
+const SPECIMEN_CARD = "rounded-[24px] bg-tg p-7 lg:p-8";
+const SPECIMEN_LABEL = "inline-flex rounded-full bg-tb-soft px-3 py-1 text-[13px] font-semibold text-tb";
+
 export default function CIPage() {
   return (
     <>
@@ -53,301 +31,153 @@ export default function CIPage() {
         description="AOVO 브랜드의 시각적 아이덴티티를 소개합니다."
       />
 
-      {/* Symbol Mark — scale-in with stagger */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-          >
-            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Symbol Mark</span>
-            <h2 className="font-paperlogy text-3xl font-bold text-primary">심볼 마크</h2>
-          </motion.div>
+      {/* Symbol Mark */}
+      <section className="bg-white text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className={SECTION_TITLE}>심볼 마크</h2>
+          </Reveal>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto justify-items-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainerSlow}
-          >
-            <motion.div variants={scaleIn} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <Image
-                src="/images/ex_aovo_symbol.png"
-                alt="AOVO 심볼 마크"
-                width={120}
-                height={120}
-                className="mb-4"
-              />
-              <p className="text-sm text-muted">Symbol Mark</p>
-            </motion.div>
-            <motion.div variants={scaleIn} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <Image
-                src="/images/ex_aovo_symbol.png"
-                alt="AOVO 심볼 마크 화이트"
-                width={120}
-                height={120}
-                className="mb-4 brightness-0 invert"
-              />
-              <p className="text-sm text-gray-500">Symbol Mark (Dark BG)</p>
-            </motion.div>
-          </motion.div>
+          <Stagger className="mx-auto mt-12 grid max-w-3xl gap-4 md:grid-cols-2 lg:mt-16" gap={0.1}>
+            <StaggerItem className="flex min-h-[260px] flex-col items-center justify-center rounded-[28px] bg-tg p-10">
+              <Image src="/images/ex_aovo_symbol.png" alt="AOVO 심볼 마크" width={120} height={120} />
+              <p className={`${CAPTION} text-tx-3`}>Symbol Mark</p>
+            </StaggerItem>
+            <StaggerItem className="flex min-h-[260px] flex-col items-center justify-center rounded-[28px] bg-tk p-10">
+              <Image src="/images/ex_aovo_symbol.png" alt="AOVO 심볼 마크 화이트" width={120} height={120} className="brightness-0 invert" />
+              <p className={`${CAPTION} text-white/60`}>Symbol Mark (Dark BG)</p>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
-      {/* Logo — scale-in with stagger */}
-      <section className="py-24 bg-surface">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-          >
-            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Logo</span>
-            <h2 className="font-paperlogy text-3xl font-bold text-primary">로고</h2>
-          </motion.div>
+      {/* Logo */}
+      <section className="bg-tg text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className={SECTION_TITLE}>로고</h2>
+          </Reveal>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainerSlow}
-          >
-            {/* Color Logo */}
-            <motion.div variants={scaleIn} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <Image
-                src="/images/aovologo.png"
-                alt="AOVO 로고 컬러"
-                width={240}
-                height={80}
-                className="object-contain mb-4"
-              />
-              <p className="text-sm text-muted">Color Logo</p>
-            </motion.div>
-            {/* Black Logo on Light */}
-            <motion.div variants={scaleIn} className="bg-cream rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <Image
-                src="/images/aovologo_black.png"
-                alt="AOVO 로고 블랙"
-                width={240}
-                height={80}
-                className="object-contain mb-4"
-              />
-              <p className="text-sm text-muted">Black Logo (Light BG)</p>
-            </motion.div>
-            {/* White Logo on Dark */}
-            <motion.div variants={scaleIn} className="bg-primary rounded-2xl p-12 flex flex-col items-center justify-center min-h-[250px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <Image
-                src="/images/aovologo_white.png"
-                alt="AOVO 로고 화이트"
-                width={240}
-                height={80}
-                className="object-contain mb-4"
-              />
-              <p className="text-sm text-gray-500">White Logo (Dark BG)</p>
-            </motion.div>
-          </motion.div>
+          <Stagger className="mt-12 grid gap-4 md:grid-cols-3 lg:mt-16" gap={0.1}>
+            <StaggerItem className="flex min-h-[250px] flex-col items-center justify-center rounded-[28px] bg-white p-10 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+              <Image src="/images/aovologo.png" alt="AOVO 로고 컬러" width={240} height={80} className="object-contain" />
+              <p className={`${CAPTION} text-tx-3`}>Color Logo</p>
+            </StaggerItem>
+            <StaggerItem className="flex min-h-[250px] flex-col items-center justify-center rounded-[28px] bg-white p-10 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+              <Image src="/images/aovologo_black.png" alt="AOVO 로고 블랙" width={240} height={80} className="object-contain" />
+              <p className={`${CAPTION} text-tx-3`}>Black Logo (Light BG)</p>
+            </StaggerItem>
+            <StaggerItem className="flex min-h-[250px] flex-col items-center justify-center rounded-[28px] bg-tk p-10">
+              <Image src="/images/aovologo_white.png" alt="AOVO 로고 화이트" width={240} height={80} className="object-contain" />
+              <p className={`${CAPTION} text-white/60`}>White Logo (Dark BG)</p>
+            </StaggerItem>
+          </Stagger>
 
           {/* Text Logos */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainerSlow}
-          >
-            <motion.div variants={scaleIn} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[200px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <Image
-                src="/images/aovo_text.png"
-                alt="AOVO 텍스트 로고"
-                width={200}
-                height={60}
-                className="object-contain mb-4"
-              />
-              <p className="text-sm text-muted">Text Logo</p>
-            </motion.div>
-            <motion.div variants={scaleIn} className="bg-white rounded-2xl p-12 flex flex-col items-center justify-center border border-gray-100 min-h-[200px] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <Image
-                src="/images/aovo_text_thin.png"
-                alt="AOVO 텍스트 로고 (Thin)"
-                width={200}
-                height={60}
-                className="object-contain mb-4"
-              />
-              <p className="text-sm text-muted">Text Logo (Thin)</p>
-            </motion.div>
-          </motion.div>
+          <Stagger className="mt-4 grid gap-4 md:grid-cols-2" gap={0.1}>
+            <StaggerItem className="flex min-h-[200px] flex-col items-center justify-center rounded-[28px] bg-white p-10 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+              <Image src="/images/aovo_text.png" alt="AOVO 텍스트 로고" width={200} height={60} className="object-contain" />
+              <p className={`${CAPTION} text-tx-3`}>Text Logo</p>
+            </StaggerItem>
+            <StaggerItem className="flex min-h-[200px] flex-col items-center justify-center rounded-[28px] bg-white p-10 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+              <Image src="/images/aovo_text_thin.png" alt="AOVO 텍스트 로고 (Thin)" width={200} height={60} className="object-contain" />
+              <p className={`${CAPTION} text-tx-3`}>Text Logo (Thin)</p>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
-      {/* CI Examples — hover zoom on images */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-          >
-            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">CI Application</span>
-            <h2 className="font-paperlogy text-3xl font-bold text-primary">CI 활용 예시</h2>
-          </motion.div>
+      {/* CI Examples */}
+      <section className="bg-white text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className={SECTION_TITLE}>CI 활용 예시</h2>
+          </Reveal>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainerSlow}
-          >
+          <Stagger className="mt-12 grid gap-4 md:grid-cols-3 lg:mt-16" gap={0.1}>
             {[1, 2, 3].map((n) => (
-              <motion.div key={n} variants={scaleIn} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg group">
-                <Image
-                  src={`/images/ci${n}.png`}
-                  alt={`AOVO CI 활용 예시 ${n}`}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </motion.div>
+              <StaggerItem key={n}>
+                <figure className="img-zoom relative aspect-[4/3] overflow-hidden rounded-[28px] bg-tg">
+                  <Image src={`/images/ci${n}.png`} alt={`AOVO CI 활용 예시 ${n}`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                </figure>
+              </StaggerItem>
             ))}
-          </motion.div>
+          </Stagger>
         </div>
       </section>
 
-      {/* Brand Colors — fill animation on swatches */}
-      <section className="py-24 bg-surface">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-          >
-            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Colors</span>
-            <h2 className="font-paperlogy text-3xl font-bold text-primary">브랜드 컬러</h2>
-          </motion.div>
+      {/* Brand Colors */}
+      <section className="bg-tg text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className={SECTION_TITLE}>브랜드 컬러</h2>
+          </Reveal>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainerSlow}
-          >
+          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4" gap={0.1}>
             {brandColors.map((color) => (
-              <motion.div
-                key={color.name}
-                variants={fadeInUp}
-                className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="h-32 relative overflow-hidden">
-                  {/* Fill animation: color expands from left */}
-                  <motion.div
-                    className="absolute inset-0 flex items-end p-4"
-                    style={{ backgroundColor: color.hex }}
-                    initial={{ clipPath: "inset(0 100% 0 0)" }}
-                    whileInView={{ clipPath: "inset(0 0% 0 0)" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                  >
-                    <span className={`text-sm font-mono font-medium ${color.textLight ? "text-white/80" : "text-gray-500"}`}>
-                      {color.hex}
-                    </span>
-                  </motion.div>
+              <StaggerItem key={color.name} className="overflow-hidden rounded-[28px] bg-white shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+                <div className="flex h-32 items-end p-5" style={{ backgroundColor: color.hex }}>
+                  <span className={`text-[13px] font-semibold ${color.textLight ? "text-white/80" : "text-tx-3"}`}>{color.hex}</span>
                 </div>
-                <div className="p-5">
-                  <h3 className="font-paperlogy font-bold text-primary mb-1">{color.name}</h3>
-                  <p className="text-sm text-muted">{color.desc}</p>
+                <div className="p-6">
+                  <h3 className="text-[18px] font-bold">{color.name}</h3>
+                  <p className="mt-1.5 text-[14px] font-medium leading-relaxed text-tx-2">{color.desc}</p>
                 </div>
-              </motion.div>
+              </StaggerItem>
             ))}
-          </motion.div>
+          </Stagger>
         </div>
       </section>
 
-      {/* Typography — fade-in with blur effect */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-          >
-            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Typography</span>
-            <h2 className="font-paperlogy text-3xl font-bold text-primary">타이포그래피</h2>
-          </motion.div>
+      {/* Typography */}
+      <section className="bg-white text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className={SECTION_TITLE}>타이포그래피</h2>
+          </Reveal>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainerSlow}
-          >
-            <motion.div variants={fadeInBlur} className="bg-white rounded-2xl p-8 border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Logo Typeface</span>
-              <h3 style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-5xl font-bold text-primary mb-4">Syne</h3>
-              <p style={{ fontFamily: "var(--font-syne), sans-serif" }} className="text-xl text-muted mb-2 tracking-wider">AOVO</p>
-              <p className="text-sm text-muted">텍스트 로고에 사용되는 메인 서체입니다.</p>
-            </motion.div>
-            <motion.div variants={fadeInBlur} className="bg-white rounded-2xl p-8 border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Primary Display</span>
-              <h3 className="font-paperlogy text-5xl font-bold text-primary mb-4">Paperlogy</h3>
-              <p className="font-paperlogy text-xl text-muted mb-2">비즈니스 자산 통합 운영 플랫폼</p>
-              <p className="text-sm text-muted">헤드라인, 타이틀, 강조 텍스트에 사용됩니다.</p>
-            </motion.div>
-            <motion.div variants={fadeInBlur} className="bg-white rounded-2xl p-8 border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <span className="text-xs font-medium uppercase tracking-widest text-accent mb-4 block">Body Text</span>
-              <h3 className="font-sans text-5xl font-bold text-primary mb-4">Noto Sans KR</h3>
-              <p className="font-sans text-xl text-muted mb-2">본문 텍스트와 UI 요소에 활용됩니다.</p>
-              <p className="text-sm text-muted">가독성을 최우선으로 선택된 서체입니다.</p>
-            </motion.div>
-          </motion.div>
+          <Stagger className="mt-12 grid gap-4 md:grid-cols-3 lg:mt-16" gap={0.1}>
+            <StaggerItem className={SPECIMEN_CARD}>
+              <span className={SPECIMEN_LABEL}>Logo Typeface</span>
+              <h3 style={{ fontFamily: "var(--font-syne), sans-serif" }} className="mt-5 text-[48px] font-bold leading-none text-tx">
+                Syne
+              </h3>
+              <p style={{ fontFamily: "var(--font-syne), sans-serif" }} className="mt-3 text-[20px] font-semibold tracking-wider text-tx-2">
+                AOVO
+              </p>
+              <p className="mt-4 text-[14px] font-medium leading-relaxed text-tx-2">텍스트 로고에 사용되는 메인 서체입니다.</p>
+            </StaggerItem>
+            <StaggerItem className={SPECIMEN_CARD}>
+              <span className={SPECIMEN_LABEL}>Primary Display</span>
+              <h3 className="mt-5 text-[48px] font-bold leading-none tracking-[-0.03em] text-tx">Paperlogy</h3>
+              <p className="mt-3 text-[20px] font-semibold tracking-[-0.02em] text-tx-2">비즈니스 자산 통합 운영 플랫폼</p>
+              <p className="mt-4 text-[14px] font-medium leading-relaxed text-tx-2">헤드라인, 타이틀, 강조 텍스트에 사용됩니다.</p>
+            </StaggerItem>
+            <StaggerItem className={SPECIMEN_CARD}>
+              <span className={SPECIMEN_LABEL}>Body Text</span>
+              <h3 className="mt-5 text-[48px] font-bold leading-none tracking-[-0.03em] text-tx">Noto Sans KR</h3>
+              <p className="mt-3 text-[20px] font-semibold tracking-[-0.02em] text-tx-2">본문 텍스트와 UI 요소에 활용됩니다.</p>
+              <p className="mt-4 text-[14px] font-medium leading-relaxed text-tx-2">가독성을 최우선으로 선택된 서체입니다.</p>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
-      {/* Brand Values — stagger reveal from left */}
-      <section className="py-24 bg-surface">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-          >
-            <span className="text-xs font-medium uppercase tracking-widest text-accent mb-3 block">Values</span>
-            <h2 className="font-paperlogy text-3xl font-bold text-primary">브랜드 가치</h2>
-          </motion.div>
+      {/* Brand Values */}
+      <section className="bg-tg text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className={SECTION_TITLE}>브랜드 가치</h2>
+          </Reveal>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainerSlow}
-          >
+          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4" gap={0.1}>
             {brandValues.map((val) => (
-              <motion.div
-                key={val.title}
-                variants={slideInLeft}
-                className="bg-white rounded-2xl p-8 text-center border border-gray-100 hover:border-accent/30 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-              >
-                <h3 className="font-paperlogy text-xl font-bold text-accent mb-3">{val.title}</h3>
-                <p className="text-sm text-muted leading-relaxed">{val.desc}</p>
-              </motion.div>
+              <StaggerItem key={val.title} className="rounded-[28px] bg-white p-7 text-center shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+                <h3 className="text-[22px] font-bold tracking-[-0.02em] text-tb">{val.title}</h3>
+                <p className="mt-2 text-[14px] font-medium leading-relaxed text-tx-2">{val.desc}</p>
+              </StaggerItem>
             ))}
-          </motion.div>
+          </Stagger>
         </div>
       </section>
     </>

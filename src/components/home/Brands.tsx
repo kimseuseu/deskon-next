@@ -1,58 +1,85 @@
 "use client";
 
 import Link from "next/link";
-import { brands } from "@/data/brands";
-import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
+import Image from "next/image";
+import { brands, type Brand } from "@/data/brands";
+import { motion, useReducedMotion } from "framer-motion";
+import Reveal from "@/components/motion/Reveal";
 
-export default function Brands() {
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+function Mark({ brand }: { brand: Brand }) {
+  if (brand.logo) {
+    return (
+      <span className="inline-flex h-14 items-center rounded-2xl bg-white px-5">
+        <Image src={brand.logo} alt={`${brand.name} ${brand.nameKo}`} width={299} height={100} className="h-7 w-auto" />
+      </span>
+    );
+  }
   return (
-    <section id="brands" className="border-t border-line bg-paper scroll-mt-20">
-      <div className="mx-auto max-w-[1440px] px-6 py-24 lg:px-10 lg:py-36">
-        <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
+    <span className="inline-flex h-14 items-center rounded-2xl bg-white px-5 text-[22px] font-bold tracking-[0.02em] text-tx">
+      {brand.name}
+    </span>
+  );
+}
+
+/** 여섯 브랜드. 카드가 작은 데서 커지며 차례로 섭니다. */
+export default function Brands() {
+  const reduce = useReducedMotion();
+  return (
+    <section id="brands" className="scroll-mt-16 bg-white text-tx">
+      <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-tg-2 pb-8">
           <Reveal>
-            <p className="eyebrow text-muted">Group Brands</p>
-            <h2 className="mt-5 font-paperlogy text-[clamp(2.2rem,5vw,4.4rem)] font-light leading-[1.1] tracking-[-0.02em] text-primary">
-              현장마다, 전문 브랜드
-            </h2>
+            <p className="eyebrow">Group Brands</p>
+            <h2 className="mt-5 text-[clamp(2rem,4.4vw,3.6rem)] leading-[1.15] text-balance">현장마다, 전문 브랜드</h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="max-w-xs pb-2 text-sm leading-relaxed text-muted">
-              사무실부터 물류센터, 행사장, 공사장까지.
-              여섯 개의 브랜드가 각자의 현장을 책임집니다.
+            <p className="max-w-xs whitespace-pre-line pb-1 text-[15px] font-medium leading-[1.7] text-tx-2">
+              {"사무실부터 물류센터, 행사장, 공사장까지.\n여섯 개의 브랜드가 각자의 현장을 책임집니다."}
             </p>
           </Reveal>
         </div>
 
-        <Stagger className="grid grid-cols-1 border-t border-line sm:grid-cols-2 lg:grid-cols-3" gap={0.1}>
-          {brands.map((b) => (
-            <StaggerItem key={b.slug} direction="none" className="h-full border-line lg:border-l lg:[&:nth-child(3n+1)]:border-l-0">
+        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+          {brands.map((b, i) => (
+            <motion.div
+              key={b.slug}
+              className="h-full"
+              initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: (i % 3) * 0.08 + Math.floor(i / 3) * 0.1, ease: EASE }}
+            >
               <Link
                 href={b.href}
-                className="group flex h-full min-h-[280px] flex-col justify-between border-b border-line px-1 py-8 transition-colors duration-400 hover:bg-surface/70 lg:px-7"
+                className="group flex h-full flex-col rounded-[28px] bg-tg p-6 transition-colors duration-300 hover:bg-tg-2 lg:p-7"
               >
-                <div>
-                  <span className="font-serif text-sm italic text-accent-deep">{b.no}</span>
-                  <p className="mt-6 font-paperlogy text-[28px] font-semibold tracking-[0.03em] text-primary">
-                    {b.name}
-                  </p>
-                  <p className="mt-1 font-serif text-base italic text-muted">{b.nameKo}</p>
+                <div className="flex items-start justify-between gap-4">
+                  <Mark brand={b} />
+                  <span className="font-serif text-[15px] italic text-tb">{b.no}</span>
                 </div>
-                <div>
-                  <p className="text-[13px] font-medium leading-relaxed text-primary/75">
-                    {b.domain}
-                  </p>
-                  <p className="mt-2 text-[12px] leading-relaxed text-muted">
-                    {b.specialties.slice(0, 3).map((s) => s.name).join(" · ")}
-                  </p>
-                  <span className="mt-5 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-muted transition-colors duration-300 group-hover:text-accent-deep">
-                    View
-                    <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                <p className="mt-7 font-paperlogy text-[19px] font-semibold leading-snug tracking-[-0.02em]">{b.domain}</p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {b.specialties.slice(0, 3).map((s) => (
+                    <span key={s.name} className="rounded-full bg-white px-3 py-1 text-[13px] font-semibold text-tx-2">
+                      {s.name}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-auto flex items-center justify-between pt-8">
+                  <span className="text-[14px] font-semibold text-tx-3">{b.nameKo}</span>
+                  <span
+                    aria-hidden
+                    className="grid h-9 w-9 place-items-center rounded-full bg-white text-tb transition-colors duration-200 group-hover:bg-tb group-hover:text-white"
+                  >
+                    →
                   </span>
                 </div>
               </Link>
-            </StaggerItem>
+            </motion.div>
           ))}
-        </Stagger>
+        </div>
       </div>
     </section>
   );

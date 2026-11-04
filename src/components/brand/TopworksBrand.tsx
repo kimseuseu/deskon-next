@@ -8,71 +8,69 @@ import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import Parallax from "@/components/motion/Parallax";
 
 /**
- * 탑웍스. 사이트는 하늘색 판 위에 거대한 글자 두 줄, 그 가운데 한 글자만
- * 주홍, 오른쪽에 주황 천막 포장마차 사진 기둥, 품목이 흐르는 띠, 그리고
- * 장비에 리벳으로 박은 명판 같은 거래 조건표입니다. 공장의 문법입니다.
+ * 탑웍스. 흰 바탕에 굵은 글자 두 줄, 그 가운데 한 글자만 파랑, 오른쪽에
+ * 주황 천막 포장마차 사진 한 장, 품목이 흐르는 알약 띠, 그리고 거래 조건
+ * 카드 여섯입니다. 사진의 주황은 그대로 두고 나머지 색은 모두 공통 토큰입니다.
  */
-const SKY = "#d8e5ed";
-const ORANGE = "#e64a12";
-const VOID = "#121316";
 const step = (i: number): CSSProperties => ({ animationDelay: `${0.08 + i * 0.1}s` });
+
+/** 리드 문단은 문장 하나가 한 줄입니다. 카피는 그대로, 줄만 나눕니다. */
+const lines = (s: string) => s.replace(/\.\s+/g, ".\n");
 
 export function TopworksHero({ brand }: { brand: Brand }) {
   return (
-    <section className="relative overflow-hidden pt-28 lg:pt-32" style={{ backgroundColor: SKY }}>
-      <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-        <p
-          className="rise flex items-center gap-4 text-[12px] font-bold tracking-[0.22em] text-[#4b4f55]"
-          style={{ ...step(0), fontFamily: "var(--font-syne), sans-serif" }}
-        >
-          <Image src={brand.logo!} alt="" aria-hidden width={40} height={40} className="h-8 w-8" />
-          TOPWORKS
+    <section className="relative overflow-hidden bg-white pt-28 text-tx lg:pt-32">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <p className="rise" style={step(0)}>
+          <span className="inline-flex items-center gap-2 rounded-full bg-tg px-3 py-1.5 text-[13px] font-semibold text-tx">
+            <Image src={brand.logo!} alt="" aria-hidden width={40} height={40} className="h-5 w-5" />
+            TOPWORKS
+          </span>
         </p>
 
-        <div className="relative mt-8 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-6">
-          <div className="relative z-10 lg:col-span-8">
+        <div className="mt-8 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-7">
             {/* 첫 화면은 스크롤 없이 완성되어야 하므로 보이면 재생하는 방식이 아니라
                 페이지가 열릴 때 한 줄씩 올라오는 방식입니다(FilmHero와 같은 .rise). */}
-            <h1 className="font-paperlogy text-[clamp(3.4rem,11vw,10.5rem)] font-black leading-[0.98] tracking-[-0.05em] text-[#101113]">
+            <h1 className="text-[clamp(2.6rem,7vw,6rem)] font-bold leading-[1.08] tracking-[-0.04em] text-tx">
               <span className="rise block" style={step(1)}>
                 우리는
               </span>
               <span className="rise block" style={step(2)}>
-                <span style={{ color: ORANGE }}>다</span> 만듭니다
+                <span className="text-tb">다</span> 만듭니다
               </span>
             </h1>
-            <p className="rise mt-8 max-w-xl text-[15px] leading-[1.9] text-[#1d1f23] md:text-base" style={step(3)}>
-              {brand.description}
+            <p className="rise mt-7 max-w-xl whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2" style={step(3)}>
+              {lines(brand.description)}
             </p>
             <div className="rise mt-9 flex flex-wrap gap-3" style={step(4)}>
               <a
                 href={brand.siteUrl!}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 px-8 py-4 font-paperlogy text-[13px] font-bold tracking-[0.1em] text-white transition-transform duration-200 ease-out hover:-translate-y-0.5"
-                style={{ backgroundColor: "#cc3d0c" }}
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-tb px-7 py-3.5 text-[16px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98]"
               >
                 topworks.kr에서 견적 문의
-                <span aria-hidden className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+                <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
               </a>
               <Link
                 href="/support/contact"
-                className="inline-flex items-center border border-[#101113]/30 px-8 py-4 font-paperlogy text-[13px] font-semibold tracking-[0.1em] text-[#101113] transition-colors duration-300 hover:border-[#101113]"
+                className="inline-flex items-center justify-center rounded-full bg-tg px-7 py-3.5 text-[16px] font-semibold text-tx transition-colors duration-200 hover:bg-tg-2 active:scale-[0.98]"
               >
                 상담 문의
               </Link>
             </div>
           </div>
 
-          {/* 사진 기둥. 넓은 화면에서 둘째 줄 글자가 이 위로 넘어갑니다. */}
-          <div className="rise lg:col-span-4 lg:-ml-24" style={step(2)}>
-            <Parallax strength={6} className="aspect-[2/3] w-full">
+          {/* 사진 한 장. 둥근 액자 안에서 천천히 흐릅니다. */}
+          <div className="rise lg:col-span-5" style={step(2)}>
+            <Parallax strength={6} className="aspect-[4/5] w-full rounded-[32px] bg-tg">
               <Image
                 src="/images/brands/topworks/pocha-portrait.webp"
                 alt="주황 천막을 올린 이동식 포장마차"
                 fill
                 priority
-                sizes="(min-width: 1024px) 34vw, 100vw"
+                sizes="(min-width: 1024px) 40vw, 100vw"
                 className="object-cover"
               />
             </Parallax>
@@ -91,14 +89,16 @@ const items = ["포장마차", "꽃마차", "통닭기계", "특수주방집기"
 function Ticker() {
   const row = [...items, ...items];
   return (
-    <div className="ticker mt-14 overflow-hidden border-y border-[#101113]/20 py-4" aria-label="취급 품목">
-      <div className="ticker-track flex w-max items-center">
-        {row.map((t, i) => (
-          <span key={i} className="flex items-center gap-6 pr-6 font-paperlogy text-[15px] font-semibold tracking-[-0.01em] text-[#101113]" aria-hidden={i >= items.length}>
-            {t}
-            <span aria-hidden className="block h-1.5 w-1.5 rotate-45" style={{ backgroundColor: ORANGE }} />
-          </span>
-        ))}
+    <div className="mx-auto mt-14 max-w-[1200px] px-6 pb-20 lg:pb-28">
+      <div className="ticker overflow-hidden rounded-full bg-tg py-4" aria-label="취급 품목">
+        <div className="ticker-track flex w-max items-center">
+          {row.map((t, i) => (
+            <span key={i} className="flex items-center gap-6 pr-6 text-[15px] font-semibold tracking-[-0.01em] text-tx" aria-hidden={i >= items.length}>
+              {t}
+              <span aria-hidden className="block h-1.5 w-1.5 rounded-full bg-tb" />
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -119,54 +119,39 @@ const photos = [
   { src: "/images/brands/topworks/counter-bright.webp", alt: "스테인리스 카운터", label: "업소용 맞춤 집기", span: "lg:col-span-3" },
 ];
 
-/** 거래 조건 명판과 현장 사진. */
+/** 거래 조건 카드 여섯과 현장 사진 셋. */
 export function TopworksPlate() {
   return (
     <>
-      <section className="bg-[#101113] text-white">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-12 px-6 py-24 lg:grid-cols-12 lg:gap-10 lg:px-10 lg:py-32">
-          <div className="lg:col-span-4">
-            <Reveal>
-              <p className="text-[12px] font-bold tracking-[0.22em]" style={{ color: ORANGE, fontFamily: "var(--font-syne), sans-serif" }}>
-                PLATE
-              </p>
-              <h2 className="mt-4 font-paperlogy text-[clamp(1.8rem,3.6vw,3rem)] font-bold leading-[1.15] tracking-[-0.03em]">
-                거래 조건
-              </h2>
-              <p className="mt-4 max-w-sm text-[15px] leading-[1.9] text-white/65">공장이 안 받아 주는 수량, 여기서 받습니다.</p>
-            </Reveal>
-          </div>
-          <Reveal delay={0.1} className="lg:col-span-8">
-            {/* 명판. 네 귀퉁이의 리벳이 이 블록을 장비에 붙입니다. */}
-            <div className="relative border border-white/20 p-7 lg:p-10" style={{ backgroundColor: VOID }}>
-              {["left-3 top-3", "right-3 top-3", "left-3 bottom-3", "right-3 bottom-3"].map((pos) => (
-                <span key={pos} aria-hidden className={`absolute h-2 w-2 rounded-full bg-white/40 shadow-[inset_0_1px_1px_rgba(0,0,0,0.6)] ${pos}`} />
-              ))}
-              <Stagger className="divide-y divide-white/12" gap={0.08}>
-                {plate.map((r) => (
-                  <StaggerItem key={r.k} direction="none" className="grid grid-cols-[1fr_auto] items-baseline gap-4 py-4 sm:grid-cols-[9rem_1fr_1fr]">
-                    <span className="text-[13px] font-medium tracking-[0.04em] text-white/55">{r.k}</span>
-                    <span className="font-paperlogy text-xl font-bold tracking-[-0.02em] sm:text-2xl" style={{ color: ORANGE }}>
-                      {r.v}
-                    </span>
-                    <span className="col-span-2 text-[13px] leading-relaxed text-white/60 sm:col-span-1">{r.note}</span>
-                  </StaggerItem>
-                ))}
-              </Stagger>
-            </div>
+      <section className="bg-tg text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em] text-balance">
+              거래 조건
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-[17px] font-medium leading-[1.7] text-tx-2">공장이 안 받아 주는 수량, 여기서 받습니다.</p>
           </Reveal>
+          <Stagger className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3" gap={0.08}>
+            {plate.map((r) => (
+              <StaggerItem key={r.k} className="rounded-[28px] bg-white p-7 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+                <p className="text-[13px] font-semibold text-tx-3">{r.k}</p>
+                <p className="mt-2 text-[clamp(1.5rem,2.4vw,2rem)] font-bold leading-tight tracking-[-0.03em] text-tb">{r.v}</p>
+                <p className="mt-3 text-[14px] font-medium leading-relaxed text-tx-2">{r.note}</p>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 
-      <section style={{ backgroundColor: SKY }}>
-        <div className="mx-auto max-w-[1440px] px-6 py-20 lg:px-10 lg:py-28">
+      <section className="bg-white text-tx">
+        <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-36">
           <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-12" gap={0.1}>
             {photos.map((p) => (
               <StaggerItem key={p.src} className={`group sm:col-span-1 ${p.span}`}>
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#c2d5e1]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] bg-tg">
                   <Image src={p.src} alt={p.alt} fill sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]" />
                 </div>
-                <p className="mt-3 font-paperlogy text-[15px] font-bold tracking-[-0.02em] text-[#101113]">{p.label}</p>
+                <p className="mt-4 text-[18px] font-bold tracking-[-0.02em]">{p.label}</p>
               </StaggerItem>
             ))}
           </Stagger>

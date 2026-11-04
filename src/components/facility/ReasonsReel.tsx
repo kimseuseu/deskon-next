@@ -49,14 +49,14 @@ export function ReasonsReel({ work }: { work: FacilityWork }) {
         } as never
       }
     >
-      <div className="stage bg-paper pt-[var(--bar)]">
-        <div className="mx-auto grid h-full max-w-[1440px] grid-rows-[auto_1fr] gap-x-16 px-6 lg:grid-cols-[0.8fr_1.2fr] lg:grid-rows-1 lg:px-10">
-          <div className="pt-8 lg:self-center lg:pt-0">
-            <p className="font-serif text-base italic text-accent-deep">{work.nameFull}</p>
-            <h2 className="mt-4 font-paperlogy text-[clamp(2rem,4.4vw,3.6rem)] font-light leading-[1.15] tracking-[-0.02em] text-primary">
+      <div className="stage bg-tg pt-[var(--bar)] text-tx">
+        <div className="mx-auto grid h-full max-w-[1400px] grid-rows-[auto_1fr] gap-x-16 px-6 lg:grid-cols-[0.8fr_1.2fr] lg:grid-rows-1">
+          <div className="pt-10 lg:self-center lg:pt-0">
+            <p className="inline-flex rounded-full bg-tb-soft px-3 py-1 text-[13px] font-semibold text-tb">{work.nameFull}</p>
+            <h2 className="mt-5 text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em]">
               아오보가
               <br />
-              특별한 이유<span className="text-gold">.</span>
+              특별한 이유
             </h2>
           </div>
 
@@ -64,13 +64,10 @@ export function ReasonsReel({ work }: { work: FacilityWork }) {
             <ul className="reel-list">
               {work.reasons.map((r, i) => (
                 <li key={r.title} className="reel-item" style={{ "--i": i } as CSSProperties}>
-                  <div className="flex items-center gap-4">
-                    <span aria-hidden className="block h-1.5 w-1.5 shrink-0 rotate-45 bg-gold" />
-                    <h3 className="font-paperlogy text-[clamp(1.5rem,3vw,2.6rem)] font-light leading-[1.2] tracking-[-0.02em] text-primary">
-                      {r.title}
-                    </h3>
-                  </div>
-                  <p className="reel-desc mt-3 max-w-md pl-[1.375rem] text-[15px] leading-[1.85] text-muted md:text-base">
+                  <h3 className="text-[clamp(1.5rem,2.8vw,2.4rem)] font-bold leading-[1.25] tracking-[-0.03em]">
+                    {r.title}
+                  </h3>
+                  <p className="reel-desc mt-3 max-w-md text-[16px] font-medium leading-[1.7] text-tx-2 md:text-[17px]">
                     {r.description}
                   </p>
                 </li>

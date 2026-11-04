@@ -8,6 +8,10 @@ export const metadata: Metadata = {
     "AOVO Group 비즈니스 장비 구독·렌탈·공유 서비스 이용약관입니다.",
 };
 
+const H2 = "mt-14 mb-4 text-[22px] font-bold leading-[1.3] tracking-[-0.02em] text-tx first:mt-0";
+const P = "mb-4 text-[15px] leading-[1.8] text-tx-2";
+const OL = "mb-4 list-decimal space-y-2 pl-5 text-[15px] leading-[1.8] text-tx-2";
+
 export default function TermsPage() {
   return (
     <>
@@ -19,13 +23,11 @@ export default function TermsPage() {
       />
 
       {/* Content */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 animate-fade-in">
+      <section className="bg-white text-tx">
+        <article className="mx-auto max-w-3xl px-6 py-24 lg:py-32">
           {/* 제1조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 first:mt-0 animate-slide-up" style={{ animationDelay: "0ms", animationFillMode: "both" }}>
-            제1조 (목적)
-          </h2>
-          <p className="text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제1조 (목적)</h2>
+          <p className={P}>
             본 약관은 {COMPANY.legalName}(대표 {COMPANY.ceo}, 이하
             &ldquo;회사&rdquo;)가 운영하는 AOVO 서비스(이하
             &ldquo;서비스&rdquo;)의 이용과 관련하여 회사와 이용자 간의 권리,
@@ -33,10 +35,8 @@ export default function TermsPage() {
           </p>
 
           {/* 제2조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "50ms", animationFillMode: "both" }}>
-            제2조 (용어의 정의)
-          </h2>
-          <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제2조 (용어의 정의)</h2>
+          <ol className={OL}>
             <li>
               &ldquo;서비스&rdquo;란 회사가 제공하는 비즈니스 장비 구독, 렌탈, 공유,
               순환(재정비), 유통 등 일체의 B2B 서비스를 말합니다.
@@ -52,14 +52,12 @@ export default function TermsPage() {
           </ol>
 
           {/* 제3조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "100ms", animationFillMode: "both" }}>
-            제3조 (서비스 이용)
-          </h2>
-          <p className="text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제3조 (서비스 이용)</h2>
+          <p className={P}>
             회사는 다음 각 호의 서비스를 제공하며, 서비스의 구체적인 내용은
             개별 계약에 따라 정합니다.
           </p>
-          <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
+          <ol className={OL}>
             <li>
               구독서비스: 산업용 장비·비품을 월 단위 정기 구독 형태로 제공
             </li>
@@ -70,17 +68,15 @@ export default function TermsPage() {
             <li>자산연대서비스: 전문 재정비를 거친 검증된 품질의 장비 재공급</li>
             <li>유통서비스: 기업 보유 장비의 합리적 유통 및 자산 정리 지원</li>
           </ol>
-          <p className="text-muted leading-relaxed mb-4">
+          <p className={P}>
             서비스 이용시간은 원칙적으로 연중무휴 24시간으로 하며, 회사의
             업무상 또는 기술상 이유로 서비스가 일시 중단될 수 있습니다. 이 경우
             회사는 사전에 공지합니다.
           </p>
 
           {/* 제4조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
-            제4조 (계약의 성립 및 해지)
-          </h2>
-          <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제4조 (계약의 성립 및 해지)</h2>
+          <ol className={OL}>
             <li>
               이용계약은 이용자가 견적 요청 또는 서비스 신청 후, 회사가
               이를 승낙함으로써 성립합니다.
@@ -88,7 +84,7 @@ export default function TermsPage() {
             <li>
               회사는 다음 각 호에 해당하는 경우 이용 신청을 거절하거나
               사후에 계약을 해지할 수 있습니다.
-              <ol className="list-decimal list-inside ml-6 mt-2 space-y-1">
+              <ol className="mt-2 ml-5 list-decimal space-y-1">
                 <li>허위 정보를 기재한 경우</li>
                 <li>서비스 이용 요금을 납부하지 않은 경우</li>
                 <li>타인의 명의를 도용한 경우</li>
@@ -107,10 +103,8 @@ export default function TermsPage() {
           </ol>
 
           {/* 제5조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "200ms", animationFillMode: "both" }}>
-            제5조 (요금 및 결제)
-          </h2>
-          <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제5조 (요금 및 결제)</h2>
+          <ol className={OL}>
             <li>
               서비스 이용 요금은 개별 계약 또는 회사가 별도로 고지하는
               요금표에 따릅니다.
@@ -130,10 +124,8 @@ export default function TermsPage() {
           </ol>
 
           {/* 제6조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "250ms", animationFillMode: "both" }}>
-            제6조 (장비 관리)
-          </h2>
-          <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제6조 (장비 관리)</h2>
+          <ol className={OL}>
             <li>
               회사가 제공하는 장비의 소유권은 회사에 있으며, 이용자는 선량한
               관리자의 주의의무로 장비를 관리하여야 합니다.
@@ -152,10 +144,8 @@ export default function TermsPage() {
           </ol>
 
           {/* 제7조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
-            제7조 (손해배상)
-          </h2>
-          <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제7조 (손해배상)</h2>
+          <ol className={OL}>
             <li>
               회사 또는 이용자가 본 약관의 의무를 위반하여 상대방에게 손해를
               끼친 경우, 해당 당사자는 상대방의 손해를 배상할 책임이 있습니다.
@@ -171,10 +161,8 @@ export default function TermsPage() {
           </ol>
 
           {/* 제8조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "350ms", animationFillMode: "both" }}>
-            제8조 (면책조항)
-          </h2>
-          <ol className="list-decimal list-inside space-y-2 text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제8조 (면책조항)</h2>
+          <ol className={OL}>
             <li>
               회사는 천재지변, 전시, 사변 등 불가항력으로 서비스를 제공할 수
               없는 경우 책임이 면제됩니다.
@@ -195,28 +183,22 @@ export default function TermsPage() {
           </ol>
 
           {/* 제9조 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "400ms", animationFillMode: "both" }}>
-            제9조 (분쟁 해결)
-          </h2>
-          <p className="text-muted leading-relaxed mb-4">
+          <h2 className={H2}>제9조 (분쟁 해결)</h2>
+          <p className={P}>
             본 약관과 관련한 분쟁은 대한민국 법률을 준거법으로 하며, 회사의
             본점 소재지를 관할하는 법원을 제1심 관할법원으로 합니다.
           </p>
 
           {/* 부칙 */}
-          <h2 className="font-paperlogy text-2xl font-bold text-primary mb-6 mt-12 animate-slide-up" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
-            부칙
-          </h2>
-          <p className="text-muted leading-relaxed mb-4">
+          <h2 className={H2}>부칙</h2>
+          <p className={P}>
             본 약관은 2024년 1월 1일부터 시행합니다.
           </p>
 
           {/* 연락처 */}
-          <div className="mt-16 p-6 bg-surface rounded-2xl border border-border">
-            <h3 className="font-paperlogy text-lg font-bold text-primary mb-4">
-              문의처
-            </h3>
-            <ul className="space-y-1 text-muted text-sm">
+          <div className="mt-16 rounded-[24px] bg-tg p-7">
+            <h3 className="text-[18px] font-bold text-tx">문의처</h3>
+            <ul className="mt-4 space-y-1.5 text-[15px] leading-[1.8] text-tx-2">
               <li>상호: {COMPANY.legalName}</li>
               <li>대표: {COMPANY.ceo}</li>
               <li>주소: {COMPANY.address}</li>
@@ -224,7 +206,7 @@ export default function TermsPage() {
               <li>이메일: {COMPANY.email}</li>
             </ul>
           </div>
-        </div>
+        </article>
       </section>
     </>
   );

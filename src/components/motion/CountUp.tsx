@@ -8,10 +8,13 @@ export default function CountUp({
   value,
   duration = 1.8,
   className,
+  active,
 }: {
   value: number;
   duration?: number;
   className?: string;
+  /** 주면 화면 진입 대신 이 값이 true가 될 때 셉니다(고정 장면 안에서 쓸 때). */
+  active?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   // Vertical-only margin: a horizontal inset would swallow narrow spans
@@ -19,9 +22,10 @@ export default function CountUp({
   const inView = useInView(ref, { once: true, margin: "-60px 0px -60px 0px" });
   const reduce = useReducedMotion();
   const [display, setDisplay] = useState(0);
+  const go = active === undefined ? inView : active;
 
   useEffect(() => {
-    if (!inView) return;
+    if (!go) return;
     let raf = 0;
     if (reduce) {
       raf = requestAnimationFrame(() => setDisplay(value));
@@ -36,7 +40,7 @@ export default function CountUp({
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, value, duration, reduce]);
+  }, [go, value, duration, reduce]);
 
   return (
     <span ref={ref} className={className}>

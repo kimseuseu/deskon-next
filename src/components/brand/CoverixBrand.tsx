@@ -8,11 +8,14 @@ import type { Brand } from "@/data/brands";
 import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
 
 /**
- * 커버릭스. 사이트에 색이 없습니다. 안개 같은 회색, 먹색 글자, 그리고
- * 남색 커버를 씌운 롤테이너 사진 한 장. 첫 화면은 워드마크 하나로 끝나고,
- * 스크롤하면 워드마크는 뒤처지고 제품은 앞질러 갑니다. 그 두 속도를
- * 그대로 옮깁니다.
+ * 커버릭스. 흰 바탕, 굵은 워드마크 하나, 그리고 남색 커버를 씌운
+ * 롤테이너 사진 한 장. 스크롤하면 워드마크는 뒤처지고 제품은 앞질러 갑니다.
+ * 그 두 속도는 그대로 두고, 글자와 모양만 토스 문법으로 바꿨습니다.
  */
+
+/** 리드 문단은 문장 하나가 한 줄입니다. 카피는 그대로, 줄만 나눕니다. */
+const lines = (s: string) => s.replace(/\.\s+/g, ".\n");
+
 export function CoverixHero({ brand }: { brand: Brand }) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
@@ -21,37 +24,37 @@ export function CoverixHero({ brand }: { brand: Brand }) {
   const productY = useTransform(scrollYProgress, [0, 1], ["0vh", reduce ? "0vh" : "-9vh"]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-[#f6f6f5] pt-28 lg:pt-32">
-      <div className="relative mx-auto max-w-[1440px] px-6 lg:px-10">
+    <section ref={ref} className="relative overflow-hidden bg-white pt-28 text-tx lg:pt-32">
+      <div className="relative mx-auto max-w-[1200px] px-6">
         <motion.p
           aria-hidden
           style={{ y: wordY }}
-          className="rise select-none text-center font-paperlogy text-[clamp(4.2rem,17vw,16rem)] font-extralight leading-[0.95] tracking-[-0.04em] text-[#1a1a1a]"
+          className="rise select-none text-center text-[clamp(3.4rem,13vw,11.5rem)] font-bold leading-[0.95] tracking-[-0.05em] text-tx"
         >
           COVERIX
         </motion.p>
-        <motion.div style={{ y: productY }} className="rise relative z-10 -mt-[10vw] flex justify-center" >
+        <motion.div style={{ y: productY }} className="rise relative z-10 -mt-[7vw] flex justify-center">
           <Image
             src="/images/brands/coverix/product.webp"
             alt="남색 맞춤 커버를 씌운 롤테이너"
             width={1400}
             height={2104}
             priority
-            sizes="(min-width: 1024px) 34vw, 70vw"
-            className="h-auto w-[min(70vw,30rem)]"
+            sizes="(min-width: 1024px) 28vw, 56vw"
+            className="h-auto w-[min(56vw,23rem)]"
           />
         </motion.div>
       </div>
 
-      <div className="relative z-20 -mt-6 bg-[#f6f6f5]">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-6 pb-20 pt-8 lg:grid-cols-12 lg:px-10 lg:pb-28">
+      <div className="relative z-20 -mt-4 bg-white">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-8 px-6 pb-20 pt-6 lg:grid-cols-12 lg:gap-10 lg:pb-28">
           <div className="lg:col-span-7">
             <Reveal>
-              <h1 className="font-paperlogy text-[clamp(1.6rem,3vw,2.4rem)] font-medium leading-[1.25] tracking-[-0.02em] text-[#1a1a1a]">
+              <h1 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em] text-balance text-tx">
                 {brand.domain}
               </h1>
-              <p className="mt-3 font-paperlogy text-xl font-light text-[#52524c]">{brand.tagline}</p>
-              <p className="mt-6 max-w-xl text-[15px] leading-[1.9] text-[#3a3a36]">{brand.description}</p>
+              <p className="mt-3 text-[20px] font-bold tracking-[-0.02em] text-tb">{brand.tagline}</p>
+              <p className="mt-5 max-w-xl whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2">{lines(brand.description)}</p>
             </Reveal>
           </div>
           <div className="flex items-start lg:col-span-5 lg:justify-end">
@@ -61,14 +64,14 @@ export function CoverixHero({ brand }: { brand: Brand }) {
                   href={brand.siteUrl!}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-3 bg-[#1a1a1a] px-8 py-4 font-paperlogy text-[13px] font-semibold tracking-[0.08em] text-white transition-colors duration-300 hover:bg-[#3a3a36]"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-tb px-7 py-3.5 text-[16px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98]"
                 >
                   coverix.kr
-                  <span aria-hidden className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+                  <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
                 </a>
                 <Link
                   href="/support/contact"
-                  className="inline-flex items-center border border-[#1a1a1a]/30 px-8 py-4 font-paperlogy text-[13px] font-semibold tracking-[0.08em] text-[#1a1a1a] transition-colors duration-300 hover:border-[#1a1a1a]"
+                  className="inline-flex items-center justify-center rounded-full bg-tg px-7 py-3.5 text-[16px] font-semibold text-tx transition-colors duration-200 hover:bg-tg-2 active:scale-[0.98]"
                 >
                   상담 문의
                 </Link>
@@ -95,69 +98,69 @@ const grades = [
   { grade: "D", range: "50 미만", label: "위험", body: "안전과 효율이 함께 떨어진 상태입니다. 긴급 조치나 장비 교체를 권합니다." },
 ];
 
-/** 원단 넷과 점검 등급 넷. 색은 여전히 없습니다. */
+/** 원단 넷과 점검 등급 넷. 회색 판 위의 흰 카드, 흰 판 위의 회색 카드. */
 export function CoverixMaterials() {
   return (
     <>
-      <section className="border-t border-[#e5e5e2] bg-[#f6f6f5]">
-        <div className="mx-auto max-w-[1440px] px-6 py-24 lg:px-10 lg:py-32">
-          <Reveal>
-            <h2 className="font-paperlogy text-[clamp(1.8rem,3.6vw,3rem)] font-light leading-[1.2] tracking-[-0.02em] text-[#1a1a1a]">
+      <section className="bg-tg text-tx">
+        <div className="mx-auto max-w-[1400px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em] text-balance">
               원단은 현장이 고릅니다
             </h2>
-            <p className="mt-4 max-w-xl text-[15px] leading-[1.9] text-[#52524c]">
-              같은 롤테이너라도 병원과 식품공장과 세탁 공정이 요구하는 표면이 다릅니다. 네 가지에서 고릅니다.
+            <p className="mx-auto mt-4 max-w-2xl whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2">
+              {"같은 롤테이너라도 병원과 식품공장과 세탁 공정이 요구하는 표면이 다릅니다.\n네 가지에서 고릅니다."}
             </p>
           </Reveal>
-          <Stagger className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4" gap={0.08}>
+          <Stagger className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4" gap={0.08}>
             {fabrics.map((f) => (
-              <StaggerItem key={f.en} className="group">
-                <div className="relative aspect-[4/5] overflow-hidden bg-[#ededec]">
+              <StaggerItem key={f.en} className="group rounded-[28px] bg-white p-3 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[20px] bg-tg">
                   <Image
                     src={f.image}
                     alt={`${f.name} 표면`}
                     fill
-                    sizes="(min-width: 1024px) 24vw, 45vw"
+                    sizes="(min-width: 1024px) 24vw, (min-width: 640px) 45vw, 90vw"
                     className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
                   />
-                  {/* 손을 올리면 설명이 아래에서 올라옵니다. */}
-                  <div className="absolute inset-x-0 bottom-0 translate-y-full bg-[#1a1a1a]/90 p-4 text-[13px] leading-relaxed text-white/85 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 motion-reduce:translate-y-0">
-                    {f.body}
-                  </div>
                 </div>
-                <p className="mt-4 text-[11px] font-medium tracking-[0.16em] text-[#9b9a94]">{f.en}</p>
-                <h3 className="mt-1 font-paperlogy text-lg font-medium text-[#1a1a1a]">{f.name}</h3>
-                <p className="mt-1 text-[13px] text-[#52524c]">{f.fit}</p>
+                <div className="px-3 pb-3 pt-5">
+                  <h3 className="text-[18px] font-bold tracking-[-0.02em]">{f.name}</h3>
+                  <p className="mt-1 text-[13px] font-semibold text-tb">{f.fit}</p>
+                  <p className="mt-3 text-[14px] font-medium leading-relaxed text-tx-2">{f.body}</p>
+                </div>
               </StaggerItem>
             ))}
           </Stagger>
         </div>
       </section>
 
-      <section className="border-t border-[#e5e5e2] bg-[#ededec]">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-12 px-6 py-24 lg:grid-cols-12 lg:gap-10 lg:px-10 lg:py-32">
-          <div className="lg:col-span-4">
+      <section className="bg-white text-tx">
+        <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 px-6 py-24 lg:grid-cols-12 lg:gap-10 lg:py-36">
+          <div className="lg:col-span-5">
             <Reveal>
-              <h2 className="font-paperlogy text-[clamp(1.8rem,3.6vw,3rem)] font-light leading-[1.2] tracking-[-0.02em] text-[#1a1a1a]">
+              <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em] text-balance">
                 점검은 등급으로 남습니다
               </h2>
-              <p className="mt-4 max-w-sm text-[15px] leading-[1.9] text-[#52524c]">
+              <p className="mt-4 max-w-md whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2">
                 전국을 순회하며 장비마다 점수를 매기고, 어디를 먼저 손봐야 하는지 리포트에 적습니다.
               </p>
             </Reveal>
             <Reveal delay={0.15}>
-              <div className="relative mt-10 aspect-[4/3] overflow-hidden">
-                <Image src="/images/brands/coverix/inspection-report.webp" alt="점검 리포트" fill sizes="(min-width: 1024px) 30vw, 90vw" className="object-cover" />
+              <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[28px] bg-tg">
+                <Image src="/images/brands/coverix/inspection-report.webp" alt="점검 리포트" fill sizes="(min-width: 1024px) 36vw, 90vw" className="object-cover" />
               </div>
             </Reveal>
           </div>
-          <Stagger className="grid grid-cols-2 gap-x-6 gap-y-10 lg:col-span-8 lg:grid-cols-4 lg:border-l lg:border-[#1a1a1a]/15 lg:pl-12" gap={0.12}>
+          <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-7" gap={0.1}>
             {grades.map((g) => (
-              <StaggerItem key={g.grade}>
-                <p className="font-paperlogy text-[clamp(4rem,8vw,7rem)] font-extralight leading-none tracking-[-0.04em] text-[#1a1a1a]">{g.grade}</p>
-                <p className="mt-3 text-[12px] tracking-[0.1em] text-[#9b9a94]">{g.range}</p>
-                <p className="mt-1 font-paperlogy text-lg font-medium text-[#1a1a1a]">{g.label}</p>
-                <p className="mt-2 text-[13px] leading-relaxed text-[#52524c]">{g.body}</p>
+              <StaggerItem key={g.grade} className="rounded-[24px] bg-tg p-6">
+                <div className="flex items-baseline justify-between gap-4">
+                  <p className="text-[clamp(2.6rem,4.5vw,3.6rem)] font-bold leading-none tracking-[-0.04em] text-tb">{g.grade}</p>
+                  <p className="text-[13px] font-semibold text-tx-3">{g.range}</p>
+                </div>
+                <p className="mt-4 text-[18px] font-bold">{g.label}</p>
+                <p className="mt-2 text-[14px] font-medium leading-relaxed text-tx-2">{g.body}</p>
               </StaggerItem>
             ))}
           </Stagger>

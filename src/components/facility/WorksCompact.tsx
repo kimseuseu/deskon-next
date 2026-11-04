@@ -1,5 +1,8 @@
 import { gas, inspection } from "@/data/facility";
-import Reveal from "@/components/motion/Reveal";
+import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
+
+/** 문장 끝에서 줄을 바꿉니다. 한 문장이 한 줄입니다. */
+const lines = (text: string) => text.replace(/\.\s+/g, ".\n");
 
 /**
  * 시공. 이 페이지의 주인공은 임대라서, 배관공사와 검사대행은 맨 아래에
@@ -9,47 +12,46 @@ import Reveal from "@/components/motion/Reveal";
 export function WorksCompact() {
   const { install } = gas;
   return (
-    <section className="border-t border-line bg-paper" aria-label="설치 · 배관 · 검사대행">
-      <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-6 py-16 lg:grid-cols-12 lg:gap-8 lg:px-10 lg:py-24">
-        <Reveal className="lg:col-span-5">
-          <h2 className="font-paperlogy text-[clamp(1.5rem,2.6vw,2.2rem)] font-light leading-[1.25] tracking-[-0.02em] text-primary text-balance">
+    <section className="bg-tg text-tx" aria-label="설치 · 배관 · 검사대행">
+      <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+        <Reveal className="text-center">
+          <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em] text-balance">
             설치 · 배관 · 검사대행도
             <br />
-            같은 팀이 합니다<span className="text-gold">.</span>
+            같은 팀이 합니다
           </h2>
-          <p className="mt-4 max-w-sm text-[15px] leading-[1.9] text-muted">{install.lead}</p>
-          <p className="mt-6 font-serif text-base italic text-accent-deep">{gas.caption}</p>
+          <p className="mx-auto mt-4 max-w-2xl whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2">
+            {lines(install.lead)}
+          </p>
+          <p className="mt-3 text-[15px] font-semibold text-tb">{gas.caption}</p>
         </Reveal>
 
-        <Reveal delay={0.1} className="lg:col-span-7 lg:border-l lg:border-line lg:pl-14">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-            <div>
-              <h3 className="font-paperlogy text-base font-medium text-primary">{install.title}</h3>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {install.items.map((item) => (
-                  <li key={item} className="border border-line px-3 py-1.5 text-[13px] text-primary/80">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-paperlogy text-base font-medium text-primary">{inspection.title}</h3>
-              <ul className="mt-4 space-y-2">
-                {inspection.items.map((item) => (
-                  <li key={item.title} className="text-[13px] leading-relaxed text-primary/80">
-                    <span className="font-medium text-primary">{item.title}</span>
-                    <span className="mx-2 text-line">|</span>
-                    <span className="text-muted">{item.description}</span>
-                  </li>
-                ))}
-              </ul>
-              <span className="mt-5 inline-block border border-accent-deep/50 px-4 py-2 font-serif text-sm italic tracking-wide text-accent-deep">
-                {inspection.document}
-              </span>
-            </div>
-          </div>
-        </Reveal>
+        <Stagger className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-4 lg:mt-16 lg:grid-cols-2" gap={0.1}>
+          <StaggerItem className="rounded-[28px] bg-white p-7 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+            <h3 className="text-[18px] font-bold">{install.title}</h3>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {install.items.map((item) => (
+                <li key={item} className="rounded-full bg-tg px-3.5 py-1.5 text-[14px] font-semibold text-tx">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </StaggerItem>
+          <StaggerItem className="rounded-[28px] bg-white p-7 shadow-[0_12px_40px_rgba(25,31,40,0.06)]">
+            <h3 className="text-[18px] font-bold">{inspection.title}</h3>
+            <ul className="mt-5 space-y-4">
+              {inspection.items.map((item) => (
+                <li key={item.title}>
+                  <p className="text-[15px] font-semibold">{item.title}</p>
+                  <p className="mt-0.5 text-[14px] font-medium leading-relaxed text-tx-2">{item.description}</p>
+                </li>
+              ))}
+            </ul>
+            <span className="mt-6 inline-flex rounded-full bg-tb-soft px-3 py-1 text-[13px] font-semibold text-tb">
+              {inspection.document}
+            </span>
+          </StaggerItem>
+        </Stagger>
       </div>
     </section>
   );

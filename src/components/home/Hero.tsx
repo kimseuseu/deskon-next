@@ -1,230 +1,116 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { divisions } from "@/data/divisions";
+import type { CSSProperties } from "react";
+import { Scene } from "@/components/film/Scene";
+import { span, through } from "@/components/film/cue";
+import { HeroReel, type Clip, type Window } from "./HeroReel";
 
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const step = (i: number): CSSProperties => ({ animationDelay: `${0.1 + i * 0.09}s` });
 
-/* Splash lasts ~2.65s on first load — hero copy waits for the curtain lift. */
-const BASE_DELAY = 0.4;
+const hero = {
+  title: ["소유에서", "운영", "으로."] as const,
+  lead: "구독, 공유, 렌탈, 자산연대, 유통.\n비즈니스 장비를 쓰는 만큼만 운영하는 아오보 그룹입니다.",
+};
 
-/* 기존 사이트의 히어로 영상 3종 + 시그니처 카피 3연작 (원본 짝 그대로) */
-const SLIDES = [
-  {
-    src: "/images/aovo-brand-bg-web.mp4",
-    skipIntro: false,
-    line: "자리가 비면, 비용도 멈춥니다",
-    context: "사무용 의자 구독",
-  },
-  {
-    src: "/images/hero-rolltainer-web.mp4",
-    skipIntro: false,
-    line: "이직 · 감원 시, 비용도 멈춥니다",
-    context: "사무가구 구독 & 렌탈",
-  },
-  /* desk 클립은 첫 0.9초가 필러박스 세로 컷 — 1초부터 재생 */
-  {
-    src: "/images/hero-desk-web.mp4",
-    skipIntro: true,
-    line: "굴러가지 않으면, 비용도 멈춥니다",
-    context: "롤테이너 구독 & 공유",
-  },
-] as const;
+/* 옛 첫 화면의 영상 셋. 시간 대신 스크롤이 넘깁니다. 이름은 오른쪽 레일에만 작게 섭니다. */
+const CLIPS: Clip[] = [
+  { src: "/images/aovo-brand-bg-web.mp4", poster: "/images/home/poster-chair.jpg", context: "사무용 의자" },
+  { src: "/images/hero-rolltainer-web.mp4", poster: "/images/home/poster-rolltainer.jpg", context: "롤테이너" },
+  { src: "/images/hero-desk-web.mp4", poster: "/images/home/poster-desk.jpg", context: "사무가구" },
+];
 
-const SLIDE_MS = 7000;
+/* 편마다 머무는 구간 [들어옴 시작, 들어옴 끝, 나감 시작, 나감 끝].
+   겹치는 0.18 동안 다음 편이 아래서 올라와 앞 편을 덮습니다. 스크롤 한 화면 반 정도라
+   와이프가 스크롤을 따라오는 것이 눈에 보입니다. 첫 편은 스크롤 전부터 보여야 하므로
+   들어오는 구간을 0 앞에 둡니다. */
+const WINDOWS: Window[] = [
+  [-0.02, -0.01, 0.22, 0.4],
+  [0.22, 0.4, 0.58, 0.76],
+  [0.58, 0.76, 1.2, 1.3],
+];
 
+/**
+ * 첫 장면. 영상이 화면을 가득 채웁니다(옛 사이트의 풀페이지 첫 화면).
+ * 스크롤하면 세 편이 차례로 녹아 바뀌고, 왼쪽 아래의 시그니처 문장도 함께 바뀝니다.
+ * 제목과 버튼은 내내 서 있습니다. 헤더는 이 위에서 투명합니다([data-hero-dark]).
+ */
 export default function Hero() {
-  const [showVideo, setShowVideo] = useState(false);
-  const [slide, setSlide] = useState(0);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const reduce = useReducedMotion();
-
-  useEffect(() => {
-    // Only ship the video loops to viewports that justify it.
-    // setTimeout (not rAF) so background tabs still mount & buffer the video.
-    const id = setTimeout(() => {
-      if (window.matchMedia("(min-width: 768px)").matches && !reduce) {
-        setShowVideo(true);
-      }
-    }, 0);
-    return () => clearTimeout(id);
-  }, [reduce]);
-
-  // Rotate slides on a fixed rhythm (videos stream progressively on demand)
-  useEffect(() => {
-    if (!showVideo) return;
-    const id = setInterval(() => setSlide((s) => (s + 1) % SLIDES.length), SLIDE_MS);
-    return () => clearInterval(id);
-  }, [showVideo]);
-
-  // Play only the active video; pause the rest
-  useEffect(() => {
-    if (!showVideo) return;
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-      if (i === slide) {
-        if (SLIDES[i].skipIntro && v.currentTime < 0.9) v.currentTime = 1;
-        v.play().catch(() => {});
-      } else {
-        v.pause();
-      }
-    });
-  }, [slide, showVideo]);
-
-  // Background tabs block play() — resume the active slide on return
-  const slideRef = useRef(slide);
-  useEffect(() => {
-    slideRef.current = slide;
-  }, [slide]);
-  useEffect(() => {
-    if (!showVideo) return;
-    const onVisible = () => {
-      if (document.hidden) return;
-      videoRefs.current[slideRef.current]?.play().catch(() => {});
-    };
-    document.addEventListener("visibilitychange", onVisible);
-    return () => document.removeEventListener("visibilitychange", onVisible);
-  }, [showVideo]);
-
   return (
-    <section data-hero-dark className="grain relative flex h-[100svh] min-h-[620px] flex-col overflow-hidden bg-ink text-cream">
-      {/* Backdrop */}
-      <div className="absolute inset-0">
-        {/* eslint-disable-next-line @next/next/no-img-element -- full-bleed LCP backdrop; optimizer adds no value for a single pre-sized frame */}
-        <img
-          src="/images/hero-poster.jpg"
-          alt=""
-          fetchPriority="high"
-          className={`h-full w-full object-cover transition-opacity duration-1000 ${showVideo ? "opacity-0" : "opacity-100"}`}
-        />
-        {showVideo &&
-          SLIDES.map((s, i) => (
-            <video
-              key={s.src}
-              ref={(el) => {
-                videoRefs.current[i] = el;
-              }}
-              muted
-              loop
-              playsInline
-              preload={i === 0 ? "auto" : "none"}
-              autoPlay={i === 0}
-              onTimeUpdate={
-                s.skipIntro
-                  ? (e) => {
-                      if (e.currentTarget.currentTime < 0.9) e.currentTarget.currentTime = 1;
-                    }
-                  : undefined
-              }
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[900ms] ease-in-out ${
-                slide === i ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <source src={s.src} type="video/mp4" />
-            </video>
+    <Scene className="home-hero">
+      <div data-hero-dark className="stage relative isolate bg-tk text-white">
+        {/* 영상 세 편. 지금 지나는 편만 재생합니다. */}
+        <HeroReel clips={CLIPS} windows={WINDOWS} />
+        {/* 글이 읽히는 어둠 */}
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-tk/85 via-tk/35 to-tk/30" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-tk/50 via-transparent to-transparent" />
+        {/* 장면 끝에서 어두워진다. 다음 장면의 흰 판이 그 위로 밀려 올라온다. */}
+        <div aria-hidden className="cue-in absolute inset-0 bg-tk [--dy:0px]" style={span(0.86, 1)} />
+
+        {/* 오른쪽 레일: 세 편의 번호와 제목, 스크롤만큼 차오르는 선. 넓은 화면에서만. */}
+        <ol aria-hidden className="absolute top-1/2 right-10 z-10 hidden -translate-y-1/2 lg:block">
+          <span className="absolute top-2 bottom-2 left-[5px] w-px bg-white/20">
+            <span className="home-rail-fill block h-full w-full bg-white" />
+          </span>
+          {CLIPS.map((c, i) => (
+            <li key={c.src} className="relative flex items-center gap-4 py-5 pl-6">
+              <span className="cue-through absolute top-1/2 left-0 h-[11px] w-[11px] -translate-y-1/2 rounded-full bg-white [--dy:0px]" style={through(...WINDOWS[i])} />
+              <span className="absolute top-1/2 left-[3px] h-[5px] w-[5px] -translate-y-1/2 rounded-full bg-white/50" />
+              <span className="font-serif text-[15px] italic text-tb-soft">0{i + 1}</span>
+              <span className="cue-through text-[14px] font-semibold text-white [--dy:0.5rem]" style={through(...WINDOWS[i])}>
+                {c.context}
+              </span>
+            </li>
           ))}
-        {/* Scrim: readable type, visible image */}
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/72 via-ink/38 to-ink/86" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/55 via-transparent to-transparent" />
-      </div>
+        </ol>
 
-      {/* Copy */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end px-6 pb-0 lg:px-10">
-        <div className="pb-14 lg:pb-20">
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: BASE_DELAY, ease: EASE }}
-            className="font-serif text-base italic tracking-wide text-gold md:text-lg"
-          >
-            From ownership to operation
-          </motion.p>
-
-          <h1 className="mt-5 font-paperlogy font-extralight leading-[1.06] tracking-[-0.025em] text-[clamp(3.2rem,9.5vw,8.2rem)]">
-            <span className="block overflow-hidden">
-              <motion.span
-                className="block"
-                initial={reduce ? { opacity: 0 } : { y: "108%" }}
-                animate={reduce ? { opacity: 1 } : { y: 0 }}
-                transition={{ duration: 1.1, delay: BASE_DELAY + 0.12, ease: EASE }}
-              >
-                소유에서
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden">
-              <motion.span
-                className="block"
-                initial={reduce ? { opacity: 0 } : { y: "108%" }}
-                animate={reduce ? { opacity: 1 } : { y: 0 }}
-                transition={{ duration: 1.1, delay: BASE_DELAY + 0.24, ease: EASE }}
-              >
-                운영으로<span className="text-gold">.</span>
-              </motion.span>
-            </span>
-          </h1>
-
-          {/* 시그니처 카피 — 활성 영상과 함께 로테이션 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: BASE_DELAY + 0.5, ease: EASE }}
-            className="mt-7 h-[3.4rem] md:h-[3.8rem]"
-          >
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={slide}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.6, ease: EASE }}
-              >
-                <span className="block font-paperlogy text-base font-medium text-white/85 md:text-lg">
-                  {SLIDES[slide].line}
-                </span>
-                <span className="mt-1 block text-[12px] tracking-[0.04em] text-white/55 md:text-[13px]">
-                  {SLIDES[slide].context}
-                </span>
-              </motion.p>
-            </AnimatePresence>
-          </motion.div>
+        {/* 스크롤 유도. 첫 편이 나가기 시작하면 사라집니다. */}
+        <div
+          aria-hidden
+          className="cue-out absolute bottom-[5.5rem] left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-white/12 py-2 pr-2.5 pl-4 text-[13px] font-semibold text-white backdrop-blur-md lg:right-10 lg:bottom-10 lg:left-auto lg:translate-x-0 lg:text-[14px]"
+          style={span(0.02, 0.14)}
+        >
+          스크롤하면 다음 현장
+          <span className="tw-cue-arrow grid h-6 w-6 place-items-center rounded-full bg-tb">
+            <span className="mb-[3px] block h-[7px] w-[7px] rotate-45 border-r-2 border-b-2 border-white" />
+          </span>
         </div>
 
-        {/* Bottom index bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: BASE_DELAY + 0.8 }}
-          className="border-t border-white/15"
-        >
-          <div className="flex items-center justify-between gap-6 py-5">
-            {/* Scroll cue */}
-            <div className="hidden items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-white/60 md:flex">
-              <span className="relative block h-8 w-px overflow-hidden bg-white/20">
-                <span className="absolute left-0 top-0 h-3 w-px animate-[scrollDown_1.8s_ease-in-out_infinite] bg-gold" />
-              </span>
-              Scroll
-            </div>
-
-            {/* Division quick index */}
-            <nav aria-label="사업분야 바로가기" className="flex w-full flex-wrap items-center gap-x-6 gap-y-1.5 pr-16 md:w-auto md:justify-end md:gap-9 md:pr-20">
-              {divisions.map((d) => (
-                <Link
-                  key={d.slug}
-                  href={d.href}
-                  className="group flex items-baseline gap-2 py-2.5"
-                >
-                  <span className="font-serif text-[11px] italic text-gold">{d.no}</span>
-                  <span className="font-paperlogy text-[13px] font-medium text-white/75 transition-colors duration-300 group-hover:text-white md:text-sm">
-                    {d.nameKo}
-                  </span>
-                </Link>
-              ))}
-            </nav>
+        {/* 글 */}
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-[1440px] flex-col justify-end px-6 pb-10 lg:px-10 lg:pb-16">
+          <h1 className="rise max-w-4xl text-[clamp(2.6rem,7.5vw,6.4rem)] leading-[1.05] text-white text-balance" style={step(1)}>
+            {hero.title[0]} <span className="font-serif italic text-tb-soft">{hero.title[1]}</span>
+            {hero.title[2]}
+          </h1>
+          <p
+            className="rise mt-5 max-w-2xl whitespace-pre-line text-[clamp(0.95rem,1.4vw,1.2rem)] font-medium leading-[1.65] text-white/80"
+            style={step(2)}
+          >
+            {hero.lead}
+          </p>
+          <div className="rise mt-7 flex flex-row items-center gap-2.5 sm:gap-3" style={step(3)}>
+            <Link
+              href="/support/contact"
+              className="inline-flex items-center justify-center rounded-full bg-tb px-5 py-3 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98] sm:px-7 sm:py-3.5 sm:text-[16px]"
+            >
+              상담 문의하기
+            </Link>
+            <Link
+              href="#divisions"
+              className="inline-flex items-center justify-center rounded-full bg-white/14 px-5 py-3 text-[15px] font-semibold text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/24 active:scale-[0.98] sm:px-7 sm:py-3.5 sm:text-[16px]"
+            >
+              사업분야 보기
+            </Link>
           </div>
-        </motion.div>
+
+          {/* 전화기: 세 편 중 어디인지. 막대가 그 편을 지나는 만큼 차오릅니다. */}
+          <div className="cue-out mt-8 flex gap-1.5 lg:hidden" style={span(0.9, 1)} aria-hidden>
+            {CLIPS.map((c, i) => (
+              <span key={c.src} className="block h-1 w-12 overflow-hidden rounded-full bg-white/25">
+                <span className="home-bar cue block h-full w-full bg-white" style={span(Math.max(WINDOWS[i][0], 0), WINDOWS[i][2])} />
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
-    </section>
+    </Scene>
   );
 }

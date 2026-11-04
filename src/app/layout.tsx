@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
-import { Noto_Sans_KR, Syne, Instrument_Serif } from "next/font/google";
+import { Syne, Instrument_Serif } from "next/font/google";
+/* 사이트 서체는 Pretendard 하나. 조각 서체(unicode-range)라 화면에 선 글자가 든 조각만 받아 옵니다. */
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 import MetaPixel from "@/components/seo/MetaPixel";
 import NaverAnalytics from "@/components/seo/NaverAnalytics";
 import SplashScreen from "@/components/SplashScreen";
 import { Analytics } from "@vercel/analytics/next";
-
-const notoSansKR = Noto_Sans_KR({
-  variable: "--font-noto-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-  display: "swap",
-});
 
 // Only /about/ci still renders Syne (brand-typeface specimen)
 const syne = Syne({
@@ -21,6 +16,7 @@ const syne = Syne({
   display: "swap",
 });
 
+/* 액센트 한 줄에만 쓰는 세리프 이탤릭 (eyebrow, 제목 속 낱말 하나) */
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument",
   subsets: ["latin"],
@@ -115,7 +111,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={`${notoSansKR.variable} ${syne.variable} ${instrumentSerif.variable} antialiased`}>
+    <html lang="ko" className={`${syne.variable} ${instrumentSerif.variable} antialiased`}>
       <head>
         {/* 스크롤 필름(/gas, /water)의 정지 화면 — 스크립트가 없을 때만 */}
         <noscript>
@@ -127,7 +123,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-cream text-primary">
+      <body className="min-h-screen flex flex-col bg-white text-tx">
         <SplashScreen />
         {children}
         <MetaPixel />

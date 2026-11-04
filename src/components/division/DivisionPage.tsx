@@ -5,10 +5,25 @@ import Link from "next/link";
 import Image from "next/image";
 import { divisions, type Division } from "@/data/divisions";
 import { brandsForDivision } from "@/data/brands";
-import Reveal, { LineReveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import Parallax from "@/components/motion/Parallax";
 import CountUp from "@/components/motion/CountUp";
 
+const PRIMARY =
+  "inline-flex items-center justify-center gap-2 rounded-full bg-tb px-7 py-3.5 text-[16px] font-semibold text-white transition-colors duration-200 hover:bg-tb-deep active:scale-[0.98]";
+const SECONDARY =
+  "inline-flex items-center justify-center gap-2 rounded-full bg-tg px-7 py-3.5 text-[16px] font-semibold text-tx transition-colors duration-200 hover:bg-tg-2 active:scale-[0.98]";
+
+/**
+ * 사업분야 소개 페이지의 공용 틀.
+ *   첫 화면    라벨 · 제목 · 한 줄 · 설명 · 알약 버튼, 그 밑에 둥근 큰 사진.
+ *   다른 점    회색 카드 셋.
+ *   (children) 분야별 쇼케이스.
+ *   주요 품목  회색 바탕에 흰 카드.
+ *   진행 과정  번호가 든 회색 카드. 순서가 있는 내용이라 번호를 둡니다.
+ *   브랜드     이 분야를 움직이는 브랜드.
+ *   맺음       한 번 오는 어두운 장면. 숫자 하나와 버튼, 이전 · 다음 분야.
+ */
 export default function DivisionPage({
   division,
   children,
@@ -25,76 +40,69 @@ export default function DivisionPage({
 
   return (
     <>
-      {/* ── Intro ── */}
-      <section className="bg-paper pt-36 lg:pt-44">
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-10">
-          <Reveal direction="none" duration={0.7}>
-            <p className="eyebrow text-muted">
-              Division {division.no} — {division.nameEn}
-            </p>
+      {/* ── 첫 화면 ── */}
+      <section className="bg-white pt-32 text-tx lg:pt-40">
+        <div className="mx-auto max-w-[1200px] px-6 text-center">
+          <Reveal direction="none" duration={0.6}>
+            <p className="eyebrow justify-center">Division {division.no} · {division.nameEn}</p>
           </Reveal>
-
-          <div className="mt-8 grid grid-cols-1 gap-10 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-24">
-            <div className="lg:col-span-7">
-              <LineReveal
-                as="h1"
-                className="font-paperlogy text-[clamp(3rem,8vw,6.8rem)] font-extralight leading-[1.05] tracking-[-0.025em] text-primary"
-                lines={[
-                  <>{division.nameKo}<span className="text-gold">.</span></>,
-                ]}
-              />
-              <Reveal delay={0.15}>
-                <p className="mt-6 font-serif text-xl italic text-accent-deep md:text-2xl">
-                  {division.tagline}
-                </p>
-              </Reveal>
+          <Reveal delay={0.06}>
+            <h1 className="mt-5 text-[clamp(2.2rem,6vw,4.8rem)] font-bold leading-[1.12] tracking-[-0.04em]">{division.nameFull}</h1>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <p className="mt-4 text-[clamp(1.1rem,2vw,1.5rem)] font-bold tracking-[-0.02em] text-tb">{division.tagline}</p>
+          </Reveal>
+          <Reveal delay={0.18}>
+            <p className="mx-auto mt-5 max-w-2xl text-[17px] font-medium leading-[1.7] text-tx-2">{division.description}</p>
+          </Reveal>
+          <Reveal delay={0.24}>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link href="/support/contact" className={`${PRIMARY} w-full sm:w-auto`}>
+                상담 문의하기
+              </Link>
+              {division.siteUrl && (
+                <a href={division.siteUrl} target="_blank" rel="noopener noreferrer" className={`${SECONDARY} w-full sm:w-auto`}>
+                  공식 사이트
+                  <span aria-hidden className="text-tb">↗</span>
+                </a>
+              )}
             </div>
-            <div className="flex items-end lg:col-span-5">
-              <Reveal delay={0.25}>
-                <p className="max-w-md text-[15px] leading-[1.9] text-muted">
-                  {division.description}
-                </p>
-              </Reveal>
-            </div>
-          </div>
+          </Reveal>
         </div>
 
-        {/* Hero image */}
-        <Reveal direction="none" duration={1.2} amount={0.2}>
-          <div className="relative">
-            <Parallax strength={7} className="h-[52vh] min-h-[360px] md:h-[68vh]">
-              <Image
-                src={division.heroImage}
-                alt={division.imageAlt}
-                fill
-                sizes="100vw"
-                loading="eager"
-                fetchPriority="high"
-                className="object-cover"
-              />
-            </Parallax>
-            {/* Ink scrim — settles the photo into the editorial palette */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-ink/25 bg-gradient-to-t from-ink/35 via-transparent to-ink/20"
-            />
+        <Reveal direction="none" duration={1} amount={0.15}>
+          <div className="mx-auto mt-12 max-w-[1400px] px-6 lg:mt-16">
+            <div className="overflow-hidden rounded-[32px] bg-tg">
+              <Parallax strength={6} className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]">
+                <Image
+                  src={division.heroImage}
+                  alt={division.imageAlt}
+                  fill
+                  sizes="(min-width: 1400px) 1352px, 100vw"
+                  loading="eager"
+                  fetchPriority="high"
+                  className="object-cover"
+                />
+              </Parallax>
+            </div>
           </div>
         </Reveal>
       </section>
 
-      {/* ── Values ── */}
-      <section className="bg-paper">
-        <div className="mx-auto max-w-[1440px] px-6 py-24 lg:px-10 lg:py-32">
-          <Stagger className="grid grid-cols-1 gap-x-10 md:grid-cols-3" gap={0.12}>
+      {/* ── 다른 점 ── */}
+      <section className="bg-white text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em] text-balance">
+              {division.nameFull}, 이렇게 다릅니다.
+            </h2>
+          </Reveal>
+          <Stagger className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3 lg:mt-16" gap={0.1}>
             {division.values.map((v, i) => (
-              <StaggerItem key={v.title} className="border-t border-primary/20 py-8">
-                <span className="font-serif text-sm italic text-accent-deep">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-6 font-paperlogy text-[22px] font-medium tracking-[-0.01em] text-primary">
-                  {v.title}
-                </h3>
-                <p className="mt-3 text-sm leading-[1.85] text-muted">{v.description}</p>
+              <StaggerItem key={v.title} className="rounded-[24px] bg-tg p-7">
+                <span className="font-serif text-[15px] italic text-tb">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-5 text-[20px] font-semibold leading-snug tracking-[-0.02em]">{v.title}</h3>
+                <p className="mt-3 text-[15px] font-medium leading-[1.7] text-tx-2">{v.description}</p>
               </StaggerItem>
             ))}
           </Stagger>
@@ -103,65 +111,32 @@ export default function DivisionPage({
 
       {children}
 
-      {/* ── Offerings ── */}
-      <section className="border-t border-line bg-surface/60">
-        <div className="mx-auto max-w-[1440px] px-6 py-24 lg:px-10 lg:py-32">
-          <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-            <Reveal>
-              <p className="eyebrow text-muted">What We Operate</p>
-              <h2 className="mt-5 font-paperlogy text-[clamp(1.9rem,4vw,3.4rem)] font-light leading-[1.15] tracking-[-0.02em] text-primary">
-                주요 품목
-              </h2>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <p className="max-w-xs pb-1 text-sm leading-relaxed text-muted">
-                {division.nameFull}가 운영하는 대표 품목입니다.
-                현장에 맞는 구성은 상담을 통해 제안합니다.
-              </p>
-            </Reveal>
-          </div>
+      {/* ── 주요 품목 ── */}
+      <section className="bg-tg text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em]">주요 품목</h2>
+            <p className="mx-auto mt-4 max-w-2xl whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2">
+              {`${division.nameFull}가 운영하는 대표 품목입니다.\n현장에 맞는 구성은 상담을 통해 제안합니다.`}
+            </p>
+          </Reveal>
 
-          <Stagger
-            className="grid grid-cols-1 border-l border-t border-line sm:grid-cols-2 lg:grid-cols-4"
-            gap={0.06}
-          >
-            {division.offerings.map((o, i) => (
-              <StaggerItem
-                key={o.name}
-                direction="none"
-                className="group relative flex min-h-[190px] flex-col justify-between border-b border-r border-line bg-paper p-7 transition-colors duration-400 hover:bg-ink"
-              >
-                <div className="flex items-baseline justify-between gap-3">
-                  <span className="font-serif text-[13px] italic text-muted transition-colors duration-400 group-hover:text-gold">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted transition-colors duration-400 group-hover:text-white/60">
-                    {o.nameEn}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="font-paperlogy text-xl font-medium text-primary transition-colors duration-400 group-hover:text-cream">
-                    {o.name}
-                  </h3>
-                  <p className="mt-2 text-[13px] leading-relaxed text-muted transition-colors duration-400 group-hover:text-white/60">
-                    {o.detail}
-                  </p>
-                </div>
+          <Stagger className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4" gap={0.06}>
+            {division.offerings.map((o) => (
+              <StaggerItem key={o.name} className="flex min-h-[180px] flex-col rounded-[24px] bg-white p-6">
+                <span className="text-[13px] font-semibold text-tx-3">{o.nameEn}</span>
+                <h3 className="mt-5 text-[18px] font-bold tracking-[-0.02em]">{o.name}</h3>
+                <p className="mt-2 text-[14px] font-medium leading-relaxed text-tx-2">{o.detail}</p>
               </StaggerItem>
             ))}
           </Stagger>
 
-          {/* 인증 · 검증 요소 */}
           {division.certifications && division.certifications.length > 0 && (
             <Reveal delay={0.1}>
-              <div className="mt-8 flex flex-wrap items-baseline gap-x-6 gap-y-2">
-                <span className="text-[11px] uppercase tracking-[0.2em] text-muted">
-                  Certified
-                </span>
-                {division.certifications.map((c, i) => (
-                  <span key={c} className="flex items-baseline gap-6">
-                    {i > 0 && <span aria-hidden className="block h-1 w-1 -translate-y-0.5 rotate-45 bg-gold/70" />}
-                    <span className="text-[13px] font-medium text-primary/75">{c}</span>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+                {division.certifications.map((c) => (
+                  <span key={c} className="rounded-full bg-tb-soft px-4 py-2 text-[14px] font-semibold text-tb">
+                    {c}
                   </span>
                 ))}
               </div>
@@ -171,31 +146,22 @@ export default function DivisionPage({
       </section>
 
       {/* ── 진행 과정 ── */}
-      <section className="border-t border-line bg-paper">
-        <div className="mx-auto max-w-[1440px] px-6 py-20 lg:px-10 lg:py-28">
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-            <Reveal>
-              <p className="eyebrow text-muted">How It Works</p>
-              <h2 className="mt-5 font-paperlogy text-[clamp(1.6rem,3vw,2.4rem)] font-light leading-[1.2] tracking-[-0.02em] text-primary">
-                진행 과정
-              </h2>
-            </Reveal>
-          </div>
+      <section className="bg-white text-tx">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <Reveal className="text-center">
+            <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em]">진행 과정</h2>
+          </Reveal>
           <Stagger
-            className={`grid grid-cols-1 gap-x-8 sm:grid-cols-2 ${
+            className={`mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 ${
               division.process.length === 5 ? "lg:grid-cols-5" : "lg:grid-cols-4"
             }`}
-            gap={0.1}
+            gap={0.08}
           >
             {division.process.map((step, i) => (
-              <StaggerItem key={step.title} className="border-t border-primary/20 py-6">
-                <span className="font-serif text-sm italic text-accent-deep">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-4 font-paperlogy text-lg font-medium text-primary">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-muted">{step.description}</p>
+              <StaggerItem key={step.title} className="rounded-[24px] bg-tg p-6">
+                <span className="font-serif text-[17px] italic text-tb">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-4 text-[18px] font-semibold tracking-[-0.02em]">{step.title}</h3>
+                <p className="mt-2 text-[14px] font-medium leading-relaxed text-tx-2">{step.description}</p>
               </StaggerItem>
             ))}
           </Stagger>
@@ -204,37 +170,30 @@ export default function DivisionPage({
 
       {/* ── 이 분야를 움직이는 브랜드 ── */}
       {myBrands.length > 0 && (
-        <section className="border-t border-line bg-paper">
-          <div className="mx-auto max-w-[1440px] px-6 py-20 lg:px-10 lg:py-24">
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
-              <Reveal>
-                <p className="eyebrow text-muted">Brands in This Division</p>
-                <h2 className="mt-5 font-paperlogy text-[clamp(1.6rem,3vw,2.4rem)] font-light leading-[1.2] tracking-[-0.02em] text-primary">
-                  이 분야를 움직이는 브랜드
-                </h2>
-              </Reveal>
-            </div>
-            <Stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" gap={0.08}>
+        <section className="bg-tg text-tx">
+          <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+            <Reveal className="text-center">
+              <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em]">
+                이 분야를 움직이는 브랜드
+              </h2>
+            </Reveal>
+            <Stagger className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4" gap={0.08}>
               {myBrands.map((b) => (
-                <StaggerItem key={b.slug} direction="none">
+                <StaggerItem key={b.slug} className="h-full">
                   <Link
                     href={b.href}
-                    className="group flex h-full flex-col gap-6 border-t border-primary/20 py-6 pr-4"
+                    className="group flex h-full flex-col rounded-[24px] bg-white p-6 transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(25,31,40,0.08)]"
                   >
-                    <span className="flex items-baseline gap-2.5">
-                      <span className="font-paperlogy text-2xl font-semibold tracking-[0.04em] text-primary">
-                        {b.name}
-                      </span>
-                      <span className="font-serif text-sm italic text-accent-deep">{b.nameKo}</span>
+                    <span className="flex items-baseline gap-2">
+                      <span className="text-[22px] font-bold tracking-[0.02em]">{b.name}</span>
+                      <span className="text-[13px] font-semibold text-tx-3">{b.nameKo}</span>
                     </span>
-                    <span className="mt-auto flex items-baseline justify-between gap-4">
-                      <span className="text-[13px] leading-relaxed text-muted">{b.domain}</span>
-                      <span
-                        aria-hidden
-                        className="text-accent-deep opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100"
-                      >
-                        →
-                      </span>
+                    <span className="mt-3 text-[14px] font-medium leading-relaxed text-tx-2">{b.domain}</span>
+                    <span
+                      aria-hidden
+                      className="mt-auto grid h-9 w-9 place-items-center self-end rounded-full bg-tg pt-0 text-tb transition-colors duration-200 group-hover:bg-tb group-hover:text-white"
+                    >
+                      →
                     </span>
                   </Link>
                 </StaggerItem>
@@ -244,92 +203,70 @@ export default function DivisionPage({
         </section>
       )}
 
-      {/* ── Site CTA ── */}
-      <section className="bg-ink text-cream">
-        <div className="mx-auto max-w-[1440px] px-6 py-24 lg:px-10 lg:py-36">
-          <div className="grid grid-cols-1 gap-14 lg:grid-cols-12">
-            <div className="lg:col-span-4">
+      {/* ── 맺음 ── */}
+      <section className="bg-tk text-white">
+        <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+            <div className="lg:col-span-5">
               <Reveal>
-                <p className="eyebrow text-white/55">{division.nameEn}</p>
-                <p className="mt-8 font-paperlogy text-[clamp(3rem,6vw,5rem)] font-extralight leading-none tracking-[-0.02em]">
+                <p className="font-paperlogy text-[clamp(3rem,7vw,5.8rem)] font-light leading-none tracking-[-0.03em]">
                   <CountUp value={statNumber} />
-                  <span className="ml-1 font-serif text-[0.5em] italic text-gold">
-                    {division.stat.suffix}
-                  </span>
+                  <span className="ml-1 font-serif text-[0.5em] italic text-tb-soft">{division.stat.suffix}</span>
                 </p>
-                <p className="mt-3 text-sm text-white/65">{division.stat.label}</p>
+                <p className="mt-3 text-[17px] font-semibold text-white/65">{division.stat.label}</p>
               </Reveal>
             </div>
 
-            <div className="lg:col-span-8 lg:border-l lg:border-white/10 lg:pl-14">
+            <div className="lg:col-span-7">
               <Reveal delay={0.1}>
-                <h2 className="font-paperlogy text-[clamp(1.8rem,3.6vw,3rem)] font-light leading-[1.3] tracking-[-0.02em]">
+                <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.25] tracking-[-0.03em]">
                   {division.nameFull}에 대해
-                  <br />더 깊이 알아보세요<span className="text-gold">.</span>
+                  <br />
+                  더 깊이 알아보세요.
                 </h2>
-
-                {division.siteUrl ? (
-                  <>
-                    <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-white/60">
-                      {division.nameFull} 전문 사이트에서 상세 요금과 품목,
-                      도입 사례를 확인할 수 있습니다.
-                    </p>
-                    <div className="mt-10 flex flex-wrap gap-4">
-                      <a
-                        href={division.siteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-3 bg-gold px-9 py-4 font-paperlogy text-[13px] font-bold tracking-[0.12em] text-ink transition-colors duration-400 hover:bg-cream"
-                      >
-                        공식 사이트 방문
-                        <span aria-hidden className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+                <p className="mt-5 max-w-lg whitespace-pre-line text-[17px] font-medium leading-[1.7] text-white/65">
+                  {division.siteUrl
+                    ? `${division.nameFull} 전문 사이트에서 상세 요금과 품목, 도입 사례를 확인할 수 있습니다.`
+                    : `${division.nameFull} 전문 사이트가 오픈을 준비하고 있습니다.\n그 전에도 상담을 통해 요금과 도입 방안을 바로 안내받을 수 있습니다.`}
+                </p>
+                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                  {division.siteUrl ? (
+                    <>
+                      <a href={division.siteUrl} target="_blank" rel="noopener noreferrer" className={PRIMARY}>
+                        공식 사이트
+                        <span aria-hidden>↗</span>
                       </a>
                       <Link
                         href="/support/contact"
-                        className="inline-flex items-center gap-3 border border-white/30 px-9 py-4 font-paperlogy text-[13px] font-semibold tracking-[0.12em] text-cream transition-colors duration-400 hover:border-cream"
-                      >
-                        상담 문의
-                      </Link>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-white/60">
-                      {division.nameFull} 전문 사이트가 오픈을 준비하고 있습니다.
-                      그 전에도 상담을 통해 요금과 도입 방안을 바로 안내받을 수 있습니다.
-                    </p>
-                    <div className="mt-10 flex flex-wrap items-center gap-6">
-                      <Link
-                        href="/support/contact"
-                        className="group inline-flex items-center gap-3 bg-cream px-9 py-4 font-paperlogy text-[13px] font-bold tracking-[0.12em] text-ink transition-colors duration-400 hover:bg-gold"
+                        className="inline-flex items-center justify-center rounded-full bg-white/12 px-7 py-3.5 text-[16px] font-semibold text-white transition-colors duration-200 hover:bg-white/20 active:scale-[0.98]"
                       >
                         상담 문의하기
-                        <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                       </Link>
-                      <span className="font-serif text-sm italic text-white/60">
-                        Official site — coming soon
-                      </span>
-                    </div>
-                  </>
-                )}
+                    </>
+                  ) : (
+                    <Link href="/support/contact" className={PRIMARY}>
+                      상담 문의하기
+                    </Link>
+                  )}
+                </div>
               </Reveal>
             </div>
           </div>
 
-          {/* Prev / next division */}
-          <div className="mt-24 grid grid-cols-2 border-t border-white/10 pt-8">
-            <Link href={prev.href} className="group flex flex-col gap-2 pr-6">
-              <span className="text-[11px] uppercase tracking-[0.18em] text-white/55">Prev</span>
-              <span className="font-paperlogy text-xl font-light text-white/70 transition-colors duration-300 group-hover:text-cream md:text-2xl">
-                <span aria-hidden className="mr-3 inline-block transition-transform duration-300 group-hover:-translate-x-1">←</span>
+          {/* 이전 · 다음 분야 */}
+          <div className="mt-20 grid grid-cols-2 gap-4">
+            <Link href={prev.href} className="group rounded-[24px] bg-white/8 p-6 transition-colors duration-200 hover:bg-white/14">
+              <span className="text-[13px] font-semibold text-white/50">이전</span>
+              <span className="mt-2 flex items-center gap-2 text-[20px] font-bold tracking-[-0.02em] md:text-[24px]">
+                <span aria-hidden className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
                 {prev.nameKo}
               </span>
             </Link>
-            <Link href={next.href} className="group flex flex-col items-end gap-2 border-l border-white/10 pl-6 text-right">
-              <span className="text-[11px] uppercase tracking-[0.18em] text-white/55">Next</span>
-              <span className="font-paperlogy text-xl font-light text-white/70 transition-colors duration-300 group-hover:text-cream md:text-2xl">
+            <Link href={next.href} className="group rounded-[24px] bg-white/8 p-6 text-right transition-colors duration-200 hover:bg-white/14">
+              <span className="text-[13px] font-semibold text-white/50">다음</span>
+              <span className="mt-2 flex items-center justify-end gap-2 text-[20px] font-bold tracking-[-0.02em] md:text-[24px]">
                 {next.nameKo}
-                <span aria-hidden className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
               </span>
             </Link>
           </div>

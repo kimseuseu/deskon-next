@@ -13,7 +13,7 @@ const STEPS = [
   { no: "04", title: "이용 & 반납", desc: "실시간 요금 확인, 반납도 버튼 하나로" },
 ] as const;
 
-/* ── Phone mockup — the A-flow app screens from the original landing ── */
+/* 전화기 목업. 원래 랜딩의 A-flow 앱 화면 넷입니다. */
 function PhoneMockup({ activeScreen }: { activeScreen: number }) {
   const screens = [
     // Screen 0: Home
@@ -194,7 +194,7 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
 
             <div className="mb-3 text-center">
               <p className="text-[9px]" style={{ color: "#94A3B8" }}>이용 시간</p>
-              <p className="font-paperlogy text-2xl font-bold tabular-nums tracking-tight" style={{ color: "#0F172A" }}>02:34:15</p>
+              <p className="text-2xl font-bold tabular-nums tracking-tight" style={{ color: "#0F172A" }}>02:34:15</p>
             </div>
 
             <div className="flex items-center justify-between rounded-xl p-3" style={{ backgroundColor: "#EFF6FF" }}>
@@ -219,9 +219,8 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
 
   return (
     <div className="relative mx-auto" style={{ width: 280, height: 560 }}>
-      {/* Titanium-dark frame, hairline gold ring */}
-      <div className="absolute -inset-3 rounded-[52px] border border-gold/25" aria-hidden />
-      <div className="absolute inset-0 rounded-[44px] bg-gradient-to-b from-[#2e2e34] via-[#17171c] to-[#0a0a0d] shadow-2xl shadow-black/50" />
+      {/* 어두운 전화기 틀. 장식 테두리는 없습니다. */}
+      <div className="absolute inset-0 rounded-[44px] bg-tk shadow-[0_24px_60px_rgba(25,31,40,0.18)]" />
       <div className="absolute inset-[3px] overflow-hidden rounded-[41px]">
         <div className="absolute inset-0 bg-[#F8FAFC]" />
         {/* Notch */}
@@ -260,84 +259,77 @@ export default function AflowShowcase() {
   }, [autoPlay, reduce]);
 
   return (
-    <section className="overflow-hidden bg-ink text-cream">
-      <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-16 px-6 py-24 lg:grid-cols-12 lg:gap-8 lg:px-10 lg:py-32">
-        {/* Copy + steps */}
+    <section className="overflow-hidden bg-tg text-tx">
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-16 px-6 py-24 lg:grid-cols-12 lg:gap-10 lg:py-36">
+        {/* 글과 단계 */}
         <div className="lg:col-span-6">
           <Reveal>
-            <p className="eyebrow text-white/55">A-flow — QR Sharing Platform</p>
-            <h2 className="mt-6 font-paperlogy text-[clamp(2rem,4.2vw,3.6rem)] font-light leading-[1.2] tracking-[-0.02em]">
-              주머니 속의 <span className="font-serif italic text-gold">스테이션</span>,
+            <h2 className="text-[clamp(1.75rem,3.6vw,2.9rem)] font-bold leading-[1.3] tracking-[-0.03em] text-balance">
+              주머니 속의{" "}
+              <span className="mx-0.5 inline-block rounded-full bg-white px-[0.55em] py-[0.08em] text-[0.82em] font-bold text-tb">스테이션</span>,
               <br />
               에이플로우
             </h2>
-            <p className="mt-6 max-w-md text-[15px] leading-[1.9] text-white/65">
-              장비에 붙은 QR 코드를 스캔하면 대여가 시작됩니다.
-              서류도, 보증금도 없이 — 대여부터 반납, 정산까지
-              앱 하나로 끝납니다.
+            <p className="mt-5 max-w-md whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2">
+              {"장비에 붙은 QR 코드를 스캔하면 대여가 시작됩니다.\n서류도, 보증금도 없이 대여부터 반납, 정산까지 앱 하나로 끝납니다."}
             </p>
           </Reveal>
 
-          {/* Screen steps */}
+          {/* 화면 단계. 고른 단계가 흰 카드로 떠오릅니다. */}
           <Reveal delay={0.15}>
-            <div className="mt-12" role="tablist" aria-label="에이플로우 앱 화면">
-              {STEPS.map((s, i) => (
-                <button
-                  key={s.no}
-                  role="tab"
-                  aria-selected={screen === i}
-                  onClick={() => {
-                    setScreen(i);
-                    setAutoPlay(false);
-                  }}
-                  className={`group flex w-full items-baseline gap-5 border-t border-white/10 py-4 text-left transition-colors duration-300 last:border-b ${
-                    screen === i ? "" : "opacity-50 hover:opacity-80"
-                  }`}
-                >
-                  <span className={`font-serif text-sm italic ${screen === i ? "text-gold" : "text-white/60"}`}>
-                    {s.no}
-                  </span>
-                  <span className="flex-1">
-                    <span className="block font-paperlogy text-lg font-medium text-cream">
-                      {s.title}
-                    </span>
-                    <span
-                      className={`block overflow-hidden text-[13px] leading-relaxed text-white/60 transition-all duration-500 ${
-                        screen === i ? "mt-1 max-h-10" : "max-h-0"
-                      }`}
-                    >
-                      {s.desc}
-                    </span>
-                  </span>
-                  <span
-                    aria-hidden
-                    className={`text-gold transition-all duration-300 ${
-                      screen === i ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"
+            <div className="mt-10 grid gap-2" role="tablist" aria-label="에이플로우 앱 화면">
+              {STEPS.map((s, i) => {
+                const active = screen === i;
+                return (
+                  <button
+                    key={s.no}
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => {
+                      setScreen(i);
+                      setAutoPlay(false);
+                    }}
+                    className={`group flex w-full items-center gap-4 rounded-[20px] px-5 py-4 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tb ${
+                      active ? "bg-white shadow-[0_12px_40px_rgba(25,31,40,0.06)]" : "hover:bg-white/60"
                     }`}
                   >
-                    →
-                  </span>
-                </button>
-              ))}
+                    <span className="flex-1">
+                      <span className={`block text-[17px] font-bold tracking-[-0.02em] transition-colors duration-200 ${active ? "text-tx" : "text-tx-2"}`}>
+                        {s.title}
+                      </span>
+                      <span className={`mt-1 block text-[14px] font-medium leading-relaxed transition-colors duration-200 ${active ? "text-tx-2" : "text-tx-3"}`}>
+                        {s.desc}
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden
+                      className={`text-tb transition-[transform,opacity] duration-200 ${
+                        active ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"
+                      }`}
+                    >
+                      →
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </Reveal>
 
           <Reveal delay={0.25}>
-            <p className="mt-10 font-serif text-sm italic text-white/60">
-              A-flow app — coming soon
+            <p className="mt-8">
+              <span className="inline-flex rounded-full bg-tb-soft px-3 py-1 text-[13px] font-semibold text-tb">A-flow app, coming soon</span>
             </p>
           </Reveal>
         </div>
 
-        {/* Phone */}
+        {/* 전화기 */}
         <div className="lg:col-span-6">
           <Reveal direction="none" duration={1.1}>
             <div className="relative flex justify-center py-6">
-              {/* Soft gold aura */}
+              {/* 파란 빛이 뒤에서 번집니다. */}
               <div
                 aria-hidden
-                className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.07]"
-                style={{ background: "radial-gradient(circle, #caaa61 0%, transparent 62%)" }}
+                className="absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-tb/10 blur-3xl"
               />
               <PhoneMockup activeScreen={screen} />
             </div>

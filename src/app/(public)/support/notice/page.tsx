@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import PageHero from "@/components/ui/PageHero";
 
 interface Notice {
@@ -44,62 +45,52 @@ export default function NoticePage() {
       />
 
       {/* Notice List */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-4xl mx-auto px-6">
+      <section className="bg-white text-tx">
+        <div className="mx-auto max-w-4xl px-6 py-24 lg:py-36">
           {loading ? (
-            <div className="text-center py-20 text-muted">불러오는 중...</div>
+            <p className="py-20 text-center text-[15px] font-medium text-tx-3">불러오는 중...</p>
           ) : notices.length === 0 ? (
-            <div className="text-center py-20 text-muted animate-fade-in" style={{ animation: "fadeIn 0.6s ease-out, scaleIn 0.5s ease-out", transformOrigin: "center" }}>
+            <p className="rounded-[24px] bg-tg py-20 text-center text-[15px] font-medium text-tx-3">
               등록된 공지사항이 없습니다.
-            </div>
+            </p>
           ) : (
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-              {/* Table Header */}
-              <div className="hidden sm:grid grid-cols-12 gap-4 px-6 py-4 bg-surface border-b border-gray-100 text-xs font-medium uppercase tracking-wider text-muted">
-                <div className="col-span-2">분류</div>
-                <div className="col-span-7">제목</div>
-                <div className="col-span-3 text-right">날짜</div>
-              </div>
-
-              {/* Rows */}
-              {notices.map((notice, idx) => (
-                <div
-                  key={notice.id}
-                  className={`grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 px-6 py-5 border-b border-gray-50 last:border-0 hover:bg-surface/50 transition-all duration-300 cursor-pointer group animate-slide-up ${
-                    notice.is_pinned ? "border-l-4 border-l-accent" : ""
-                  }`}
-                  style={{ animationDelay: `${idx * 60}ms`, animationFillMode: "both" }}
-                >
-                  <div className="sm:col-span-2">
-                    <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      notice.category === "공지"
-                        ? "bg-accent/10 text-accent"
-                        : "bg-blue-50 text-blue-600"
-                    }`}>
-                      {notice.category}
-                    </span>
-                  </div>
-                  <div className="sm:col-span-7 flex items-center gap-2">
-                    {notice.is_pinned && (
-                      <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-accent text-white leading-none">
-                        고정
+            <Stagger className="space-y-3" gap={0.06} amount={0.05}>
+              {notices.map((notice) => (
+                <StaggerItem key={notice.id}>
+                  <article
+                    className={`group flex cursor-pointer flex-col gap-3 rounded-[24px] p-6 transition-colors duration-200 sm:flex-row sm:items-center sm:gap-6 lg:px-7 ${
+                      notice.is_pinned ? "bg-tb-soft hover:bg-tb-soft/70" : "bg-tg hover:bg-tg-2/70"
+                    }`}
+                  >
+                    <div className="flex shrink-0 items-center gap-2">
+                      <span
+                        className={`inline-flex rounded-full px-3 py-1 text-[13px] font-semibold ${
+                          notice.category === "공지" ? "bg-tb text-white" : "bg-white text-tb"
+                        }`}
+                      >
+                        {notice.category}
                       </span>
-                    )}
-                    <span className="text-sm font-medium text-primary group-hover:text-accent transition-colors">
-                      {notice.title}
-                    </span>
-                    {isNew(notice.created_at) && (
-                      <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500 text-white leading-none ring-pulse">
-                        N
-                      </span>
-                    )}
-                  </div>
-                  <div className="sm:col-span-3 text-sm text-muted sm:text-right">
-                    {new Date(notice.created_at).toLocaleDateString("ko-KR")}
-                  </div>
-                </div>
+                      {notice.is_pinned && (
+                        <span className="inline-flex rounded-full bg-white px-3 py-1 text-[13px] font-semibold text-tb">고정</span>
+                      )}
+                    </div>
+                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                      <h3 className="truncate text-[16px] font-semibold text-tx transition-colors group-hover:text-tb lg:text-[17px]">
+                        {notice.title}
+                      </h3>
+                      {isNew(notice.created_at) && (
+                        <span className="inline-flex shrink-0 rounded-full bg-tb px-1.5 py-0.5 text-[10px] font-bold leading-none text-white" aria-label="새 글">
+                          N
+                        </span>
+                      )}
+                    </div>
+                    <time dateTime={notice.created_at} className="shrink-0 text-[14px] font-medium text-tx-3 sm:text-right">
+                      {new Date(notice.created_at).toLocaleDateString("ko-KR")}
+                    </time>
+                  </article>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           )}
         </div>
       </section>
