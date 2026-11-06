@@ -1,3 +1,4 @@
+import { Scene } from "@/components/film/Scene";
 import { waterScrubs } from "@/data/water-story";
 import { WaterHero } from "./WaterHero";
 import { ScrubScene } from "./ScrubScene";
@@ -16,8 +17,8 @@ import { WaterClosing } from "./WaterClosing";
  * 흰 바탕이 기본이고 어두운 장면이 두 번 옵니다. 어두운 장면은 늘 스크롤로
  * 넘기는 영상(프레임 시퀀스)으로 시작합니다. 밝음과 어둠의 강약이 곧 리듬입니다.
  *
- *   밝음   1. 첫 장면     제목과 영상 액자. 액자가 자라 화면을 채운다.
- *          2. 스크럽 ①    물탱크에서 싱크대까지(영상 A). 끝에서 둥근 카드가 된다.
+ *   밝음   1. 첫 장면     제목과 영상 액자. 액자가 자라 화면을 채우고 해가 진다.
+ *          2. 스크럽 ①    둥근 시트로 밤 위에 올라온다(.sheet-rise). 연결(영상 A). 끝에서 둥근 카드가 된다.
  *          3. 숫자        사진으로 남은 현장만 센다.
  *          4. 현장의 하루  파란 선이 내려가며 일곱 단계가 켜진다.
  *   어둠   5. 어두운 통로  알약이 자라 어둠이 되고, 그 자리에서 영상 B가 떠오른다.
@@ -35,7 +36,10 @@ export function WaterPage() {
   return (
     <div data-page-white className="tw bg-white text-tx">
       <WaterHero />
-      <ScrubScene {...waterScrubs.tank} n={5} tone="light" shrink />
+      {/* 첫 장면의 마지막 한 화면과 겹쳐, 둥근 시트로 밤 위에 올라옵니다. enter 진행도가 모서리를 폅니다. */}
+      <Scene mode="enter" className="sheet-rise cue">
+        <ScrubScene {...waterScrubs.tank} n={5} tone="light" shrink />
+      </Scene>
       <WaterStats />
       <FlowTimeline />
       <DarkPassage />

@@ -12,7 +12,9 @@ import { useSceneProgress } from "@/components/film/Scene";
  * 그립니다. 장은 화면에 가까워지면 첫 장부터 차례로 받아 오고, 아직 안 온
  * 장이 필요하면 받아 둔 장 중 가장 가까운 것을 그립니다.
  *
- * 파일 이름은 `${base}/f_001.webp`부터 셋째 자리까지 0을 채운 번호입니다.
+ * 프레임은 두 벌입니다. 넓은 화면(lg, 1024px 이상)은 `${base}/lg/`(2560×1440, 첫 장면은 1920×1080),
+ * 좁은 화면은 `${base}/sm/`(1280×720)에서 받습니다. 어느 벌을 쓸지는 받기 시작할 때 한 번 정합니다.
+ * 파일 이름은 `f_001.webp`부터 셋째 자리까지 0을 채운 번호입니다.
  * 움직임을 줄인 환경에서는 첫 장만 그립니다.
  */
 export function FrameScrub({
@@ -57,13 +59,13 @@ export function FrameScrub({
     ctx.drawImage(img, (cw - w) / 2, (ch - h) * 0.4, w, h);
   };
 
-  /* 캔버스는 보이는 크기 × 화소 밀도(최대 1.5)로 잡습니다. 더 크게 잡아도
-     프레임이 1280px이라 더 선명해지지 않습니다. */
+  /* 캔버스는 보이는 크기 × 화소 밀도(최대 2)로 잡습니다. 넓은 화면의 프레임이 2560px이라
+     그보다 크게 잡아도 더 선명해지지 않습니다. */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const fit = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const r = canvas.getBoundingClientRect();
       canvas.width = Math.round(r.width * dpr);
       canvas.height = Math.round(r.height * dpr);
@@ -81,6 +83,8 @@ export function FrameScrub({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    /* 어느 벌을 받을지. 넓은 화면이면 큰 벌, 아니면 작은 벌. 중간에 바꾸지 않습니다. */
+    const size = window.matchMedia("(min-width: 1024px)").matches ? "lg" : "sm";
     const load = (i: number) =>
       new Promise<void>((resolve) => {
         const img = new Image();
@@ -91,7 +95,7 @@ export function FrameScrub({
           resolve();
         };
         img.onerror = () => resolve();
-        img.src = `${base}/f_${String(i + 1).padStart(3, "0")}.webp`;
+        img.src = `${base}/${size}/f_${String(i + 1).padStart(3, "0")}.webp`;
       });
     const start = async () => {
       if (started.current) return;

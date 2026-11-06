@@ -677,22 +677,53 @@ input:focus, textarea:focus, select:focus {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 첫 장면: 제목이 떠나고 영상 액자가 화면을 채운 뒤 논지가 선다. */
+/* 첫 장면: 제목이 떠나고 영상 액자가 화면을 채우는 동안 해가 지고, 밤이 되면 논지가 선다.
+   액자 안은 스크롤이 프레임을 넘기는 캔버스(FrameScrub)라 하루치 길이를 넉넉히 둔다.
+   280svh 중 앞 180svh(진행도 0 → 0.643)가 하루이고, 남은 한 화면(0.643 → 1)은 다음 장면의
+   시트(.sheet-rise)가 밤 위로 올라오는 동안이다. 그동안 액자는 한 뼘 물러나 둥근 카드가 된다. */
 .tw-hero {
-  height: 220svh;
+  height: 380svh;
 }
 .tw-hero-card {
-  --from: 0.08;
-  --to: 0.5;
+  --from: 0.032;
+  --to: 0.244;
+  /* 끝 구간(0.643 → 1)의 진행도. 시트가 올라오는 동안 액자가 물러난다. */
+  --t3: clamp(0, calc((var(--p, 0) - 0.643) / 0.357), 1);
+  --e3: calc(var(--t3) * var(--t3) * (3 - 2 * var(--t3)));
   /* 액자가 자라며 화면을 채운다: 바깥 여백과 모서리가 0으로 간다. */
   inset: calc(var(--hero-top) * (1 - var(--e))) calc(var(--hero-side) * (1 - var(--e))) calc(var(--hero-bottom) * (1 - var(--e)));
-  border-radius: calc(32px * (1 - var(--e)));
-  will-change: inset;
+  border-radius: calc(32px * (1 - var(--e)) + 28px * var(--e3));
+  transform: scale(calc(1 - 0.08 * var(--e3)));
+  transform-origin: center 40%;
+  will-change: inset, transform;
 }
+/* 액자 귀퉁이의 시계. 액자가 화면을 채우는 만큼(--e는 액자에서 물려받음) 헤더 밑으로 내려온다. */
+.tw-hero-clock {
+  top: calc(1rem + (var(--bar) + 0.25rem) * var(--e, 0));
+}
+@media (min-width: 1024px) {
+  .tw-hero-clock {
+    top: calc(1.5rem + (var(--bar) + 0.25rem) * var(--e, 0));
+  }
+}
+/* 밤 프레임이 이미 어두우므로 글을 받치는 겹은 얇게만. */
 .tw-hero-dim {
-  --from: 0.5;
-  --to: 0.72;
-  opacity: calc(0.55 * var(--e));
+  --from: 0.424;
+  --to: 0.54;
+  opacity: calc(0.3 * var(--e));
+}
+
+/* 첫 장면 → 스크럽 ①. 다음 장면이 둥근 시트로 한 화면만큼 밤 위에 올라온다(enter 진행도).
+   위에 닿으면 모서리가 펴지고 그림자가 걷힌다. overflow: clip은 안쪽 sticky를 깨지 않는다. */
+.sheet-rise {
+  --from: 0;
+  --to: 1;
+  position: relative;
+  z-index: 2;
+  margin-top: -100svh;
+  overflow: clip;
+  border-radius: calc(40px * (1 - var(--e))) calc(40px * (1 - var(--e))) 0 0;
+  box-shadow: 0 -24px 64px rgba(23, 23, 28, calc(0.4 * (1 - var(--e))));
 }
 
 /* 스크롤 유도: 화살표 동그라미가 숨 쉬듯 내려갔다 올라옵니다. 1.8초에 한 번. */
@@ -1047,7 +1078,8 @@ input:focus, textarea:focus, select:focus {
   .ring-arc { stroke-dashoffset: 0 !important; }
   .ring-center { display: none !important; }
   .tw-hero { height: auto !important; }
-  .tw-hero-card { position: relative !important; inset: auto !important; border-radius: 32px !important; }
+  .tw-hero-card { position: relative !important; inset: auto !important; aspect-ratio: 16 / 9; margin: 1.5rem 1.25rem 0; border-radius: 32px !important; transform: none !important; }
+  .sheet-rise { margin-top: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
   .tw-hero-dim, .pill-word { display: none !important; }
   .scrub { height: auto !important; }
   .scrub-stage { position: relative !important; height: auto !important; min-height: 100svh; }
@@ -1062,6 +1094,11 @@ input:focus, textarea:focus, select:focus {
   .wf-stack-card { position: relative !important; height: auto !important; margin-bottom: 0 !important; }
   .wf-stack-card > article { height: auto !important; min-height: 70svh; }
 }
+
+
+
+
+
 
 
 

@@ -5,22 +5,38 @@ import { span } from "@/components/film/cue";
 import { water } from "@/data/facility";
 import { waterHero } from "@/data/water-story";
 import { COMPANY } from "@/lib/constants";
-import { HeroVideo } from "./HeroVideo";
+import { FrameScrub } from "./FrameScrub";
+import { HeroClock } from "./HeroClock";
 import { ScrollCue } from "./ScrollCue";
 
 const step = (i: number): CSSProperties => ({ animationDelay: `${0.1 + i * 0.09}s` });
 
+/* 장면은 380svh입니다. 앞 180svh가 하루(아침 → 밤 → 논지)이고, 남은 한 화면은 다음 장면의
+   시트가 밤 위로 올라오는 동안입니다(globals.css의 .sheet-rise). 아래 숫자는 하루 안의 비율이고,
+   film()이 장면 전체의 진행도로 바꿉니다. */
+const FILM = 180 / 280;
+const film = (from: number, to: number) => span(from * FILM, to * FILM);
+
+/** 프레임이 마지막 장(밤)에 닿는 지점(하루 기준). 그 뒤로는 밤에 멈춰 있고 논지가 마저 섭니다.
+    불은 프레임의 0.87에서 켜지므로 하루의 약 0.7부터 밤입니다. */
+const DAY_END = 0.8 * FILM;
+
 /**
  * 첫 장면. 흰 바탕 가운데에 굵은 제목과 알약 버튼, 그 밑에 둥근 영상 액자.
  *
- * 첫 화면은 멈춰 있어도 완성입니다. 스크롤이 시작되면 제목이 떠나고 액자가
- * 자라 화면을 채우며, 그 위에 논지 두 줄이 선 뒤 다음 장면으로 이어집니다.
+ * 액자 안은 «세우는 날» 타임랩스(영상 D)이고, 스크롤이 프레임을 넘깁니다.
+ * 첫 화면은 아침의 빈 잔디에 멈춰 있어도 완성입니다. 스크롤이 시작되면 제목이 떠나고
+ * 액자가 자라 화면을 채우는 동안 천막과 탱크가 서고 해가 집니다. 밤이 되면 그 위에
+ * 논지 두 줄이 서고 다음 장면으로 이어집니다. 귀퉁이의 시계가 시각을 읽어 줍니다.
  *
- *   0.04 → 0.30  제목과 버튼이 올라가며 떠난다.
- *   0.08 → 0.50  액자가 자라 화면을 채운다. 모서리도 펴진다.
- *   0.56 → 0.80  영상이 눌리고 논지가 한 줄씩 선다.
+ * 하루 기준(장면 진행도 × 0.643):
+ *   0.03 → 0.22  제목과 버튼이 올라가며 떠난다.
+ *   0.05 → 0.38  액자가 자라 화면을 채운다. 모서리도 펴진다.
+ *   0.00 → 0.80  프레임이 넘어간다. 아침 → 설치 → 해넘이 → 밤(0.70부터).
+ *   0.68 → 0.86  밤 위에 논지가 한 줄씩 선다. 0.88 → 0.94 덧말.
+ * 장면 기준 0.643 → 1.00: 다음 장면이 둥근 시트로 올라오고 액자는 한 뼘 물러난다.
  *
- * 액자 아래쪽의 스크롤 유도 알약(ScrollCue)은 0.10까지 사라집니다.
+ * 액자 아래쪽의 스크롤 유도 알약(ScrollCue)은 하루의 0.08까지 사라집니다.
  */
 export function WaterHero() {
   const phone = water.phone ?? COMPANY.phone;
@@ -29,7 +45,7 @@ export function WaterHero() {
       <div className="stage bg-white">
         <div
           className="cue-out absolute inset-x-0 top-[calc(var(--bar)+2.5svh)] px-5 text-center lg:top-[calc(var(--bar)+6svh)]"
-          style={span(0.04, 0.3)}
+          style={film(0.03, 0.22)}
         >
           <h1
             className="rise mx-auto max-w-4xl text-[clamp(1.9rem,6vw,4.6rem)] font-bold leading-[1.18] tracking-[-0.035em] text-tx text-balance"
@@ -60,23 +76,28 @@ export function WaterHero() {
           </div>
         </div>
 
-        {/* 영상 액자. 처음엔 제목 밑의 둥근 카드, 스크롤하면 자라 화면을 채웁니다. */}
+        {/* 영상 액자. 처음엔 제목 밑의 둥근 카드, 스크롤하면 자라 화면을 채웁니다.
+            안쪽은 스크롤로 넘기는 프레임이라 액자가 자라는 동안에도 하루가 갑니다. */}
         <div
           className="tw-hero-card cue absolute isolate overflow-hidden bg-tg [--hero-bottom:3svh] [--hero-side:1.25rem] [--hero-top:max(50svh,24rem)] sm:[--hero-top:50svh] lg:[--hero-side:max(2.5rem,calc((100vw-1200px)/2))] lg:[--hero-top:46svh]"
         >
-          <HeroVideo src={waterHero.video} poster={waterHero.poster.src} className="h-full w-full object-cover" />
+          <FrameScrub base={`/seq/${waterHero.seq}`} count={waterHero.count} to={DAY_END} />
           <div aria-hidden className="tw-hero-dim cue film-only absolute inset-0 bg-tk" />
+          <HeroClock from={waterHero.clock.from} to={waterHero.clock.to} labels={waterHero.clock.labels} end={DAY_END} />
           <ScrollCue />
           <div aria-hidden className="film-only absolute inset-0 grid place-items-center px-6">
             <div className="text-center">
-              <p className="text-[clamp(1.75rem,4.6vw,3.8rem)] font-bold leading-[1.25] tracking-[-0.03em] text-white text-balance">
+              <p className="text-[clamp(1.75rem,4.6vw,3.8rem)] font-bold leading-[1.25] tracking-[-0.03em] text-white text-balance [text-shadow:0_2px_18px_rgba(0,0,0,0.4)]">
                 {waterHero.thesis.map((line, i) => (
-                  <span key={line} className="cue-in block" style={span(0.58 + i * 0.1, 0.7 + i * 0.1)}>
+                  <span key={line} className="cue-in block" style={film(0.68 + i * 0.08, 0.78 + i * 0.08)}>
                     {line}
                   </span>
                 ))}
               </p>
-              <p className="cue-in mt-5 text-[clamp(1rem,1.5vw,1.25rem)] font-medium text-white/80" style={span(0.8, 0.9)}>
+              <p
+                className="cue-in mt-5 text-[clamp(1rem,1.5vw,1.25rem)] font-medium text-white/85 [text-shadow:0_1px_12px_rgba(0,0,0,0.4)]"
+                style={film(0.88, 0.94)}
+              >
                 {waterHero.thesisNote}
               </p>
             </div>
