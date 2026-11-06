@@ -5,13 +5,14 @@ import { useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useSceneProgress } from "@/components/film/Scene";
 import { through } from "@/components/film/cue";
 
-export type Clip = { src: string; poster: string; context: string };
+/** src 가 없으면 영상 대신 poster 한 장을 같은 자리에 둡니다(영상이 아직 없는 편). */
+export type Clip = { src?: string; poster: string; context: string };
 export type Window = [number, number, number, number];
 
 /**
  * 첫 장면의 영상 세 편. 장면 진행도를 읽어 지금 지나는 편만 재생하고, 편이 도착하는
  * 순간 처음부터 다시 틉니다. 나머지는 멈춰 둡니다(세 편을 동시에 돌리지 않습니다).
- * 움직임을 줄인 환경에서는 첫 편의 포스터 한 장만 둡니다.
+ * 움직임을 줄인 환경에서는 첫 편의 포스터 한 장만 둡니다. src 없는 편은 사진으로 섭니다.
  */
 export function HeroReel({ clips, windows }: { clips: Clip[]; windows: Window[] }) {
   const p = useSceneProgress();
@@ -67,22 +68,27 @@ export function HeroReel({ clips, windows }: { clips: Clip[]; windows: Window[] 
   return (
     <>
       {clips.map((c, i) => (
-        <div key={c.src} aria-hidden className="home-clip cue-through absolute inset-0" style={through(...windows[i])}>
+        <div key={c.context} aria-hidden className="home-clip cue-through absolute inset-0" style={through(...windows[i])}>
           {/* 와이프 앞머리의 가는 선 */}
           <div className="home-edge absolute inset-x-0 top-0 z-10 h-px bg-white/70" />
-          <video
-            ref={(el) => {
-              refs.current[i] = el;
-            }}
-            src={c.src}
-            poster={c.poster}
-            muted
-            loop
-            playsInline
-            autoPlay={i === 0}
-            preload={i === 0 ? "auto" : "metadata"}
-            className="h-full w-full object-cover"
-          />
+          {c.src ? (
+            <video
+              ref={(el) => {
+                refs.current[i] = el;
+              }}
+              src={c.src}
+              poster={c.poster}
+              muted
+              loop
+              playsInline
+              autoPlay={i === 0}
+              preload={i === 0 ? "auto" : "metadata"}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element -- 영상 자리를 채우는 정지 사진
+            <img src={c.poster} alt="" className="h-full w-full object-cover" />
+          )}
           {/* 덮이는 동안 어두워지는 막 */}
           <div className="home-dim absolute inset-0 bg-tk" />
         </div>

@@ -11,11 +11,13 @@ const hero = {
   lead: "구독, 공유, 렌탈, 자산연대, 유통.\n비즈니스 장비를 쓰는 만큼만 운영하는 아오보 그룹입니다.",
 };
 
-/* 옛 첫 화면의 영상 셋. 시간 대신 스크롤이 넘깁니다. 이름은 오른쪽 레일에만 작게 섭니다. */
+/* 첫 화면의 세 편. 시간 대신 스크롤이 넘깁니다. 이름은 오른쪽 레일에만 작게 섭니다.
+   급배수는 /water 첫 장면의 «세우는 날»을 앞뒤로 이어 붙인 루프(아침→밤→아침)라 끊김이 없습니다.
+   가스기기는 영상이 생길 때까지 정지 사진 한 장입니다(프롬프트: docs/home-hero-video-prompts.md). */
 const CLIPS: Clip[] = [
+  { src: "/images/hero-water-web.mp4", poster: "/images/home/poster-water.jpg", context: "급배수" },
   { src: "/images/aovo-brand-bg-web.mp4", poster: "/images/home/poster-chair.jpg", context: "사무용 의자" },
-  { src: "/images/hero-rolltainer-web.mp4", poster: "/images/home/poster-rolltainer.jpg", context: "롤테이너" },
-  { src: "/images/hero-desk-web.mp4", poster: "/images/home/poster-desk.jpg", context: "사무가구" },
+  { poster: "/images/home/poster-gas.jpg", context: "가스기기" },
 ];
 
 /* 편마다 머무는 구간 [들어옴 시작, 들어옴 끝, 나감 시작, 나감 끝].
@@ -51,7 +53,7 @@ export default function Hero() {
             <span className="home-rail-fill block h-full w-full bg-white" />
           </span>
           {CLIPS.map((c, i) => (
-            <li key={c.src} className="relative flex items-center gap-4 py-5 pl-6">
+            <li key={c.context} className="relative flex items-center gap-4 py-5 pl-6">
               <span className="cue-through absolute top-1/2 left-0 h-[11px] w-[11px] -translate-y-1/2 rounded-full bg-white [--dy:0px]" style={through(...WINDOWS[i])} />
               <span className="absolute top-1/2 left-[3px] h-[5px] w-[5px] -translate-y-1/2 rounded-full bg-white/50" />
               <span className="font-serif text-[15px] italic text-tb-soft">0{i + 1}</span>
@@ -104,7 +106,7 @@ export default function Hero() {
           {/* 전화기: 세 편 중 어디인지. 막대가 그 편을 지나는 만큼 차오릅니다. */}
           <div className="cue-out mt-8 flex gap-1.5 lg:hidden" style={span(0.9, 1)} aria-hidden>
             {CLIPS.map((c, i) => (
-              <span key={c.src} className="block h-1 w-12 overflow-hidden rounded-full bg-white/25">
+              <span key={c.context} className="block h-1 w-12 overflow-hidden rounded-full bg-white/25">
                 <span className="home-bar cue block h-full w-full bg-white" style={span(Math.max(WINDOWS[i][0], 0), WINDOWS[i][2])} />
               </span>
             ))}
