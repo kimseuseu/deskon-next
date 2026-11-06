@@ -28,7 +28,7 @@ const instrumentSerif = Instrument_Serif({
    content="..." 안의 값만 넣습니다. 비어 있으면 메타태그를 출력하지 않습니다.
    구글: search.google.com/search-console → 설정 → 소유권 확인 → HTML 태그
    네이버: searchadvisor.naver.com → 사이트 등록 → HTML 태그 */
-const NAVER_SITE_VERIFICATION = "";
+const NAVER_SITE_VERIFICATION = "a12d2de23ab7215c30420533d512a5cdc80ec4e2";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.aovo.kr"),
