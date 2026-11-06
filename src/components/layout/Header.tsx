@@ -114,8 +114,8 @@ export default function Header() {
               >
                 <Link
                   href={item.href}
-                  aria-haspopup="true"
-                  aria-expanded={activeMenu === index}
+                  aria-haspopup={item.children ? "true" : undefined}
+                  aria-expanded={item.children ? activeMenu === index : undefined}
                   data-active={activeMenu === index}
                   className={`nav-underline inline-flex items-center py-2 text-[15px] font-semibold transition-colors duration-200 ${
                     light ? "text-tx-2 hover:text-tx" : "text-white/85 hover:text-white"

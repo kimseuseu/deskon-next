@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { getPostIndex } from "@/lib/blog";
 
 const BASE_URL = "https://www.aovo.kr";
 
@@ -7,10 +8,11 @@ const BASE_URL = "https://www.aovo.kr";
  *   홈 1 · 사업분야 5 · 설비 랜딩 3(/gas, /gas/rental, /water) · 브랜드 6 · 그룹소개 5 · 고객지원 3 · 법적 고지 2
  * 구 서비스 상세/커머스 경로(/subscribe/chair, /products, /quote, /facility, /indrix …)는
  * 상위 페이지로 리다이렉트되므로 싣지 않습니다. 새 페이지를 만들면 여기에 한 줄 더합니다.
+ * 블로그 글은 워드프레스에서 받아 끝에 붙입니다(글마다 마지막 수정일 그대로).
  */
 const REDESIGNED_AT = "2026-11-04";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   /* 리디자인으로 전 페이지가 바뀌었으므로 마지막 수정일을 그 날짜로 둡니다. */
   const now = new Date(REDESIGNED_AT).toISOString();
 
@@ -45,6 +47,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "/about/location", priority: 0.6, changeFrequency: "monthly" },
     { url: "/about/partners", priority: 0.7, changeFrequency: "monthly" },
 
+    // Blog
+    { url: "/blog", priority: 0.8, changeFrequency: "daily" },
+
     // Support
     { url: "/support/contact", priority: 0.8, changeFrequency: "monthly" },
     { url: "/support/notice", priority: 0.7, changeFrequency: "weekly" },
@@ -55,10 +60,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "/privacy", priority: 0.3, changeFrequency: "yearly" },
   ];
 
-  return pages.map((page) => ({
+  const staticEntries: MetadataRoute.Sitemap = pages.map((page) => ({
     url: `${BASE_URL}${page.url}`,
     lastModified: now,
     changeFrequency: page.changeFrequency,
     priority: page.priority,
   }));
+
+  const posts = await getPostIndex();
+  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${BASE_URL}/blog/${encodeURIComponent(post.slug)}`,
+    lastModified: post.modified,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...postEntries];
 }

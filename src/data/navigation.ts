@@ -58,6 +58,12 @@ export const navigation: NavItem[] = [
     ],
   },
   {
+    label: "블로그",
+    labelEn: "Blog",
+    href: "/blog",
+    desc: "현장에서 배운 것을 씁니다",
+  },
+  {
     label: "고객지원",
     labelEn: "Support",
     href: "/support/contact",

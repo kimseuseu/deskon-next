@@ -15,6 +15,7 @@ const secondaryLinks = [
   { label: "그룹소개", href: "/about" },
   { label: "회사 연혁", href: "/about/history" },
   { label: "오시는 길", href: "/about/location" },
+  { label: "블로그", href: "/blog" },
   { label: "공지사항", href: "/support/notice" },
   { label: "FAQ", href: "/support/faq" },
   { label: "문의하기", href: "/support/contact" },

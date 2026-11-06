@@ -20,6 +20,13 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  /* 블로그 사진은 Cloudinary(관리자 업로드)에서 옵니다. 그 밖의 주소는 PostImage 가 최적화 없이 그대로 보여줍니다. */
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "www.aovo.kr" },
+    ],
+  },
   async headers() {
     return [
       {
