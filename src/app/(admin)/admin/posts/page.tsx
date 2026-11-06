@@ -58,7 +58,7 @@ export default function AdminPostsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-primary font-paperlogy">블로그 글</h1>
+          <h1 className="text-2xl font-bold text-primary font-paperlogy">현장 노트 글</h1>
           <p className="text-muted text-sm mt-1">www.aovo.kr/blog 에 실리는 글을 씁니다.</p>
         </div>
         <Link

@@ -1,4 +1,4 @@
-# 블로그 (www.aovo.kr/blog) 운영 가이드
+# 현장 노트 (www.aovo.kr/blog) 운영 가이드
 
 글은 Supabase 의 `deskon_posts` 테이블에 들어가고, 관리자 페이지(`/admin/posts`)에서 씁니다.
 화면·사이트맵·RSS·검색용 메타데이터는 모두 이 사이트(Next.js)가 만듭니다. 별도 CMS 나 호스팅은 없습니다.

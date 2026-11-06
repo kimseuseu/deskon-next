@@ -14,7 +14,7 @@ const aboutLinks = [
 ];
 
 const supportLinks = [
-  { label: "블로그", href: "/blog" },
+  { label: "현장 노트", href: "/blog" },
   { label: "공지사항", href: "/support/notice" },
   { label: "FAQ", href: "/support/faq" },
   { label: "문의하기", href: "/support/contact" },

@@ -13,7 +13,7 @@ import { getFeedPosts } from "@/lib/blog";
  */
 
 const BASE = "https://www.aovo.kr";
-const TITLE = "아오보 블로그";
+const TITLE = "아오보 현장 노트";
 const DESCRIPTION =
   "행사장 급배수와 가스기기 임대, 사무용 가구 구독과 렌탈, 중고 자산 매입. 아오보가 현장에서 배운 것을 씁니다.";
 

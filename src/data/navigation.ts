@@ -58,8 +58,8 @@ export const navigation: NavItem[] = [
     ],
   },
   {
-    label: "블로그",
-    labelEn: "Blog",
+    label: "현장 노트",
+    labelEn: "Notes",
     href: "/blog",
     desc: "현장에서 배운 것을 씁니다",
   },

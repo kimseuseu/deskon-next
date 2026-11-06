@@ -42,7 +42,7 @@ const navItems = [
     ),
   },
   {
-    label: "블로그 글",
+    label: "현장 노트 글",
     href: "/admin/posts",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

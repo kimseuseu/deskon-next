@@ -76,7 +76,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "홈", item: `${BASE}/` },
-      { "@type": "ListItem", position: 2, name: "블로그", item: `${BASE}/blog` },
+      { "@type": "ListItem", position: 2, name: "현장 노트", item: `${BASE}/blog` },
       ...(category
         ? [{ "@type": "ListItem", position: 3, name: category.name, item: `${BASE}${categoryHref(category)}` }]
         : []),
@@ -94,7 +94,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
         <header className="mx-auto max-w-[720px] px-6 pt-32 lg:pt-40">
           <nav aria-label="현재 위치" className="flex flex-wrap items-center gap-x-2 text-[14px] font-semibold text-tx-3">
             <Link href="/blog" className="transition-colors duration-200 hover:text-tx">
-              블로그
+              현장 노트
             </Link>
             {category && (
               <>
@@ -181,7 +181,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
               href="/blog"
               className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-tx-2 transition-colors duration-200 hover:text-tx"
             >
-              <span aria-hidden>←</span> 블로그 목록
+              <span aria-hidden>←</span> 현장 노트 목록
             </Link>
           </p>
         </footer>
