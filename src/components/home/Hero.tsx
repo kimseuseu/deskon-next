@@ -12,10 +12,11 @@ const hero = {
 };
 
 /* 첫 화면의 세 편. 시간 대신 스크롤이 넘깁니다. 이름은 오른쪽 레일에만 작게 섭니다.
-   급배수는 /water 첫 장면의 «세우는 날»을 앞뒤로 이어 붙인 루프(아침→밤→아침)라 끊김이 없습니다.
-   가스기기는 영상이 생길 때까지 정지 사진 한 장입니다(프롬프트: docs/home-hero-video-prompts.md). */
+   급배수와 가스기기는 지금은 사진 한 장씩입니다(급배수는 2023 롯데타워 크리스마스 마켓 현장 사진).
+   머무는 동안 .home-clip 의 느린 줌이 사진에도 똑같이 걸려 정지 화면으로 보이지 않습니다.
+   영상으로 바꿀 때의 프롬프트와 절차는 docs/home-hero-video-prompts.md 에 있습니다. */
 const CLIPS: Clip[] = [
-  { src: "/images/hero-water-web.mp4", poster: "/images/home/poster-water.jpg", context: "급배수" },
+  { poster: "/images/home/poster-water.jpg", context: "급배수" },
   { src: "/images/aovo-brand-bg-web.mp4", poster: "/images/home/poster-chair.jpg", context: "사무용 의자" },
   { poster: "/images/home/poster-gas.jpg", context: "가스기기" },
 ];

@@ -5,8 +5,10 @@
 
 | 편 | 지금 쓰는 것 | 이 문서의 프롬프트로 바꿀 것 |
 | --- | --- | --- |
-| 급배수 | `/water` «세우는 날»(Seedance 2.5)을 앞뒤로 이어 붙인 10초 루프 `public/images/hero-water-web.mp4` | 아래 A. 행사장 식음 부스에 물이 흐르는 낮 장면 |
-| 가스기기 | 정지 사진 `public/images/home/poster-gas.jpg` (`facility/gas-rental-hero.webp`) | 아래 B. 천막 주방의 가스기기 줄에 불이 켜지는 장면 |
+| 급배수 | 현장 사진 `public/images/home/poster-water.jpg` (2023 롯데타워 크리스마스 마켓, 원본 `~/Documents/kimshop/급배수/2023 롯데타워 크리스마스 마켓 급배수/…014.jpeg`, 16:9 로 잘라 1920×1080) | 아래 A. 행사장 식음 부스에 물이 흐르는 낮 장면 |
+| 가스기기 | 정지 사진 `public/images/home/poster-gas.jpg` (`facility/gas-rental-hero.webp` 를 16:9 로 잘라 1920×1080) | 아래 B. 천막 주방의 가스기기 줄에 불이 켜지는 장면 |
+
+2026-11-06 사용자 결정: 크레딧이 없는 동안은 **사진으로 간다**. `/water` 영상을 앞뒤로 이어 붙였던 `hero-water-web.mp4` 는 저장소에서 뺐다(원본은 `~/Documents/Codex/2026-11-04/new-chat/outputs/water-d-setup-1080p.mp4`). 사진 편에도 `.home-clip` 의 느린 줌(1.02→1.06)이 걸리므로 따로 모션을 넣지 않았다.
 
 생성 도구는 Higgsfield MCP 의 `generate_video`, 모델 `seedance_2_5`, mode `t2v`. 2026-11-06 확인 기준 5초 · 1080p · 16:9 · 무음 한 편에 **80크레딧**이고, 계정 잔액이 0(무료 플랜)이라 아직 돌리지 않았습니다. 크레딧을 채운 뒤 아래 프롬프트를 그대로 넣으면 됩니다.
 
