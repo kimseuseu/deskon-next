@@ -8,8 +8,13 @@ const BASE_URL = "https://www.aovo.kr";
  *   홈 1 · 사업분야 5 · 설비 랜딩 3(/gas, /gas/rental, /water) · 브랜드 6 · 그룹소개 5 · 고객지원 3 · 법적 고지 2
  * 구 서비스 상세/커머스 경로(/subscribe/chair, /products, /quote, /facility, /indrix …)는
  * 상위 페이지로 리다이렉트되므로 싣지 않습니다. 새 페이지를 만들면 여기에 한 줄 더합니다.
- * 블로그 글은 워드프레스에서 받아 끝에 붙입니다(글마다 마지막 수정일 그대로).
+ * 블로그 글(Supabase deskon_posts)은 끝에 붙입니다(글마다 마지막 수정일 그대로).
+ *
+ * 빌드 때 한 번 굳히면 새 글이 사이트맵에 안 실리므로 요청마다 만듭니다.
+ * 글 목록 자체는 blog-posts 태그로 5분 캐시되고 관리자가 저장하면 즉시 갱신됩니다.
  */
+export const dynamic = "force-dynamic";
+
 const REDESIGNED_AT = "2026-11-04";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
