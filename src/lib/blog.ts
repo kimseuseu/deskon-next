@@ -207,6 +207,32 @@ export const getAllPostSummaries = unstable_cache(
   { tags: [BLOG_CACHE_TAG], revalidate: REVALIDATE_SECONDS },
 );
 
+/** RSS 용. 본문 HTML 까지 포함한 최신 글 limit 편. 네이버는 피드에 본문 전체를 싣기를 권합니다. */
+export const getFeedPosts = unstable_cache(
+  async (limit = 20): Promise<Post[]> => {
+    if (!isBlogConfigured()) return [];
+    try {
+      const { data, error } = await createAdminClient()
+        .from("deskon_posts")
+        .select("*")
+        .eq("status", "published")
+        .lte("published_at", new Date().toISOString())
+        .order("published_at", { ascending: false })
+        .limit(limit);
+      if (error) {
+        console.error("[blog] getFeedPosts failed", error);
+        return [];
+      }
+      return (data as PostRow[]).map(toPost);
+    } catch (err) {
+      console.error("[blog] getFeedPosts failed", err);
+      return [];
+    }
+  },
+  ["blog-posts-feed"],
+  { tags: [BLOG_CACHE_TAG], revalidate: REVALIDATE_SECONDS },
+);
+
 export interface PostIndexEntry {
   slug: string;
   modified: string;
