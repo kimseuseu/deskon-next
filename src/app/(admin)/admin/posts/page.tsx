@@ -3,15 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { AdminPost } from "@/lib/post-input";
+import { Badge, Button, Card, EmptyState, ErrorState, FilterTabs, PageHeader, ResponsiveList, SkeletonRows, formatDateTime, td, th } from "@/components/admin/ui";
 
 type Filter = "all" | "published" | "draft";
-
-function formatDate(iso: string | null) {
-  if (!iso) return "-";
-  const d = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
 
 export default function AdminPostsPage() {
   const [posts, setPosts] = useState<AdminPost[]>([]);
@@ -20,6 +14,7 @@ export default function AdminPostsPage() {
   const [error, setError] = useState<string | null>(null);
 
   const load = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/admin/posts", { cache: "no-store" });
       const json = (await res.json().catch(() => ({}))) as { data?: AdminPost[]; error?: string };
@@ -27,6 +22,7 @@ export default function AdminPostsPage() {
         setError(json.error ?? "글 목록을 불러오지 못했습니다.");
         return;
       }
+      setError(null);
       setPosts(json.data ?? []);
     } catch {
       setError("서버에 연결할 수 없습니다.");
@@ -53,133 +49,138 @@ export default function AdminPostsPage() {
     published: posts.filter((p) => p.status === "published").length,
     draft: posts.filter((p) => p.status === "draft").length,
   };
+  const isScheduled = (p: AdminPost) => p.status === "published" && Boolean(p.publishedAt) && new Date(p.publishedAt as string).getTime() > now;
+  const statusOf = (p: AdminPost) =>
+    isScheduled(p) ? { label: "예약", tone: "amber" as const } : p.status === "published" ? { label: "발행", tone: "green" as const } : { label: "초안", tone: "gray" as const };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-primary font-paperlogy">현장 노트 글</h1>
-          <p className="text-muted text-sm mt-1">www.aovo.kr/blog 에 실리는 글을 씁니다.</p>
-        </div>
-        <Link
-          href="/admin/posts/new"
-          className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-          새 글
-        </Link>
-      </div>
+    <div className="space-y-5">
+      <PageHeader
+        title="현장 노트 글"
+        description="www.aovo.kr/blog 에 실리는 글을 씁니다."
+        actions={
+          <Button href="/admin/posts/new">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+              <path strokeLinecap="round" d="M12 5v14M5 12h14" />
+            </svg>
+            새 글
+          </Button>
+        }
+        stats={
+          loading
+            ? undefined
+            : [
+                { label: "전체", value: counts.all },
+                { label: "발행", value: counts.published },
+                { label: "초안", value: counts.draft, tone: counts.draft > 0 ? "accent" : "default" },
+              ]
+        }
+      />
 
-      <div className="flex gap-1">
-        {(
-          [
-            ["all", "전체"],
-            ["published", "발행"],
-            ["draft", "초안"],
-          ] as [Filter, string][]
-        ).map(([key, label]) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => setFilter(key)}
-            className={`px-3.5 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-              filter === key ? "bg-primary text-white" : "text-gray-600 bg-white hover:bg-gray-100"
-            }`}
-          >
-            {label} <span className={filter === key ? "text-white/60" : "text-muted"}>{counts[key]}</span>
-          </button>
-        ))}
-      </div>
+      <FilterTabs
+        tabs={[
+          { key: "all" as Filter, label: "전체", count: loading ? undefined : counts.all },
+          { key: "published" as Filter, label: "발행", count: loading ? undefined : counts.published },
+          { key: "draft" as Filter, label: "초안", count: loading ? undefined : counts.draft },
+        ]}
+        active={filter}
+        onChange={setFilter}
+      />
 
       {error && (
-        <div role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error} {error.includes("목록") && "supabase-posts.sql 이 운영 DB에 실행됐는지 확인해 주세요."}
-        </div>
+        <ErrorState
+          message={`${error}${error.includes("목록") ? " supabase-posts.sql 이 운영 DB에 실행됐는지 확인해 주세요." : ""}`}
+          onRetry={load}
+        />
       )}
 
-      {loading ? (
-        <div className="flex items-center justify-center py-20">
-          <div className="animate-spin h-8 w-8 border-4 border-accent border-t-transparent rounded-full" />
-        </div>
-      ) : visible.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-6 py-16 text-center">
-          <p className="text-sm font-medium text-primary">{filter === "all" ? "아직 글이 없습니다." : "해당하는 글이 없습니다."}</p>
-          {filter === "all" && (
-            <Link href="/admin/posts/new" className="mt-4 inline-flex text-sm font-medium text-accent hover:underline">
-              첫 글 쓰기
-            </Link>
-          )}
-        </div>
-      ) : (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-xs font-medium text-gray-500">
-              <tr>
-                <th className="px-5 py-3">제목</th>
-                <th className="px-3 py-3 w-36">분류</th>
-                <th className="px-3 py-3 w-24">상태</th>
-                <th className="px-3 py-3 w-40">발행</th>
-                <th className="px-3 py-3 w-40">수정</th>
-                <th className="px-3 py-3 w-28" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {visible.map((p) => {
-                const scheduled = p.status === "published" && p.publishedAt && new Date(p.publishedAt).getTime() > now;
-                return (
-                  <tr key={p.id} className="hover:bg-gray-50/60">
-                    <td className="px-5 py-3">
-                      <Link href={`/admin/posts/${p.id}`} className="font-medium text-primary hover:text-accent transition-colors">
-                        {p.title || "(제목 없음)"}
-                      </Link>
-                      <div className="mt-0.5 text-xs text-muted font-mono">/blog/{p.slug}</div>
-                    </td>
-                    <td className="px-3 py-3 text-gray-700">{p.category}</td>
-                    <td className="px-3 py-3">
-                      <span
-                        className={`inline-flex px-2 py-0.5 rounded-md text-xs font-medium ${
-                          scheduled
-                            ? "bg-amber-100 text-amber-700"
-                            : p.status === "published"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-gray-100 text-gray-600"
-                        }`}
-                      >
-                        {scheduled ? "예약" : p.status === "published" ? "발행" : "초안"}
-                      </span>
-                    </td>
-                    <td className="px-3 py-3 text-gray-600 tabular-nums">{formatDate(p.publishedAt)}</td>
-                    <td className="px-3 py-3 text-gray-600 tabular-nums">{formatDate(p.updatedAt)}</td>
-                    <td className="px-3 py-3">
-                      <div className="flex items-center justify-end gap-1">
-                        {p.status === "published" && !scheduled && (
-                          <a
-                            href={`/blog/${encodeURIComponent(p.slug)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-2.5 py-1 text-xs font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                          >
-                            보기
-                          </a>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => remove(p)}
-                          className="px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        >
-                          삭제
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <Card padded={false} className="overflow-hidden">
+        {loading ? (
+          <SkeletonRows rows={5} cols={4} />
+        ) : (
+          <ResponsiveList
+            items={visible}
+            keyOf={(p) => p.id}
+            empty={
+              <EmptyState
+                title={filter === "all" ? "아직 글이 없습니다" : "해당하는 글이 없습니다"}
+                description={filter === "all" ? "첫 글을 쓰면 현장 노트 목록에 바로 섭니다." : undefined}
+                action={filter === "all" ? <Button href="/admin/posts/new">첫 글 쓰기</Button> : undefined}
+              />
+            }
+            head={
+              <>
+                <th className={th}>제목</th>
+                <th className={th}>분류</th>
+                <th className={th}>상태</th>
+                <th className={`${th} hidden lg:table-cell`}>발행</th>
+                <th className={`${th} hidden xl:table-cell`}>수정</th>
+                <th className={th} />
+              </>
+            }
+            row={(p) => {
+              const s = statusOf(p);
+              return (
+                <>
+                  <td className={`${td} max-w-[26rem]`}>
+                    <Link href={`/admin/posts/${p.id}`} className="block truncate font-semibold text-tx transition-colors duration-150 hover:text-tb">
+                      {p.title || "(제목 없음)"}
+                    </Link>
+                    <p className="mt-0.5 truncate font-mono text-[11px] font-medium text-tx-3">/blog/{p.slug}</p>
+                  </td>
+                  <td className={`${td} text-tx-2`}>{p.category}</td>
+                  <td className={td}>
+                    <Badge tone={s.tone}>{s.label}</Badge>
+                  </td>
+                  <td className={`${td} hidden whitespace-nowrap tabular-nums text-tx-3 lg:table-cell`}>{formatDateTime(p.publishedAt)}</td>
+                  <td className={`${td} hidden whitespace-nowrap tabular-nums text-tx-3 xl:table-cell`}>{formatDateTime(p.updatedAt)}</td>
+                  <td className={`${td} text-right`}>
+                    <div className="flex items-center justify-end gap-1">
+                      {p.status === "published" && !isScheduled(p) && (
+                        <Button size="sm" variant="ghost" href={`/blog/${encodeURIComponent(p.slug)}`} external>
+                          보기
+                        </Button>
+                      )}
+                      <Button size="sm" variant="danger" onClick={() => remove(p)}>
+                        삭제
+                      </Button>
+                    </div>
+                  </td>
+                </>
+              );
+            }}
+            card={(p) => {
+              const s = statusOf(p);
+              return (
+                <div>
+                  <div className="flex items-start justify-between gap-3">
+                    <Link href={`/admin/posts/${p.id}`} className="min-w-0 flex-1">
+                      <p className="line-clamp-2 text-[15px] font-semibold text-tx">{p.title || "(제목 없음)"}</p>
+                      <p className="mt-0.5 truncate font-mono text-[11px] font-medium text-tx-3">/blog/{p.slug}</p>
+                    </Link>
+                    <Badge tone={s.tone}>{s.label}</Badge>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between text-[12px] font-medium text-tx-3">
+                    <span>
+                      {p.category} · {formatDateTime(p.publishedAt)}
+                    </span>
+                    <div className="flex gap-1">
+                      {p.status === "published" && !isScheduled(p) && (
+                        <Button size="sm" variant="ghost" href={`/blog/${encodeURIComponent(p.slug)}`} external>
+                          보기
+                        </Button>
+                      )}
+                      <Button size="sm" variant="danger" onClick={() => remove(p)}>
+                        삭제
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              );
+            }}
+          />
+        )}
+      </Card>
     </div>
   );
 }

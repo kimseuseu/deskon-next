@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Link from "next/link";
 import PostEditor from "@/components/admin/PostEditor";
 import type { AdminPost } from "@/lib/post-input";
+import { Button, ErrorState } from "@/components/admin/ui";
 
 export default function EditPostPage() {
   const { id } = useParams<{ id: string }>();
@@ -32,20 +32,25 @@ export default function EditPostPage() {
   if (error) {
     return (
       <div className="space-y-4">
-        <div role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </div>
-        <Link href="/admin/posts" className="text-sm text-accent hover:underline">
-          ← 글 목록
-        </Link>
+        <ErrorState message={error} />
+        <Button variant="ghost" href="/admin/posts">
+          글 목록으로
+        </Button>
       </div>
     );
   }
 
   if (!post) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 border-4 border-accent border-t-transparent rounded-full" />
+      <div className="space-y-4" aria-busy aria-label="불러오는 중">
+        <div className="skeleton h-7 w-40" />
+        <div className="grid gap-4 xl:grid-cols-[1fr_320px]">
+          <div className="space-y-4">
+            <div className="skeleton h-28 rounded-[20px]" />
+            <div className="skeleton h-[480px] rounded-[20px]" />
+          </div>
+          <div className="skeleton h-64 rounded-[20px]" />
+        </div>
       </div>
     );
   }

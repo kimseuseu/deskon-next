@@ -143,6 +143,10 @@ export interface InquiryNotice {
   inquiry_type: string;
   service_category?: string | null;
   message: string;
+  /** 단계형 견적 문의의 요약 줄(분야 · 현장 · 일정 …). 있으면 유형 밑에 한 줄씩 섭니다. */
+  summary?: { label: string; value: string }[];
+  /** 명함 사진 주소. 있으면 마지막 줄에 섭니다. */
+  business_card_url?: string | null;
 }
 
 /**
@@ -157,7 +161,9 @@ export async function notifyNewInquiry(inq: InquiryNotice): Promise<void> {
       `· 이름: ${inq.name}${inq.company ? ` (${inq.company})` : ""}`,
       `· 연락처: ${inq.phone}`,
       `· 유형: ${inq.inquiry_type}${inq.service_category ? ` / ${inq.service_category}` : ""}`,
+      ...(inq.summary ?? []).map((row) => `· ${row.label}: ${row.value}`),
       `· 내용: ${inq.message}`,
+      ...(inq.business_card_url ? [`· 명함: ${inq.business_card_url}`] : []),
     ].join("\n");
     await sendMemo(text, `${SITE_URL.replace(/\/$/, "")}/admin/inquiries`);
   } catch (err) {

@@ -6,15 +6,12 @@ import Link from "next/link";
 import { renderMarkdown, slugify, countChars } from "@/lib/markdown";
 import { uploadImage } from "@/lib/cloudinary-upload";
 import { DEFAULT_CATEGORY, SUGGESTED_CATEGORIES, type AdminPost, type PostInput } from "@/lib/post-input";
+import { Badge, Button, Card, ErrorState, inputClass, labelClass } from "@/components/admin/ui";
 
 /**
  * 글 편집기. 왼쪽에 마크다운, 오른쪽에 미리보기(실제 글 화면과 같은 .post-body 스타일).
  * 사진은 Cloudinary 로 바로 올라가고, 본문에 마크다운 한 줄로 꽂힙니다.
  */
-
-const inputClass =
-  "w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all";
-const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
 
 type Form = Omit<PostInput, "publishedAt"> & { publishedAt: string };
 
@@ -143,93 +140,82 @@ export default function PostEditor({ post }: { post?: AdminPost }) {
   const published = form.status === "published";
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* 머리 */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <Link href="/admin/posts" className="text-sm text-muted hover:text-primary transition-colors">
-            ← 글 목록
+          <Link href="/admin/posts" className="inline-flex items-center gap-1 text-[13px] font-semibold text-tx-3 transition-colors duration-150 hover:text-tx">
+            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 6l-6 6 6 6" />
+            </svg>
+            글 목록
           </Link>
-          <h1 className="mt-1 text-2xl font-bold text-primary font-paperlogy">{post ? "글 수정" : "새 글"}</h1>
+          <div className="mt-1 flex items-center gap-2.5">
+            <h1 className="text-[22px] font-bold leading-tight tracking-[-0.02em] text-tx sm:text-[24px]">{post ? "글 수정" : "새 글"}</h1>
+            <Badge tone={published ? "green" : "gray"}>{published ? "발행됨" : "초안"}</Badge>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          {savedAt && <span className="mr-2 text-xs text-muted">{savedAt} 저장됨</span>}
+        <div className="flex flex-wrap items-center gap-2">
+          {savedAt && <span className="mr-1 text-[12px] font-medium tabular-nums text-tx-3">{savedAt} 저장됨</span>}
           {post && published && (
-            <a
-              href={`/blog/${encodeURIComponent(form.slug)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors"
-            >
+            <Button variant="ghost" href={`/blog/${encodeURIComponent(form.slug)}`} external>
               사이트에서 보기
-            </a>
+            </Button>
           )}
-          <button
-            type="button"
-            onClick={() => save("draft")}
-            disabled={saving}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors disabled:opacity-50"
-          >
+          <Button variant="ghost" onClick={() => save("draft")} disabled={saving}>
             {published ? "초안으로 내리기" : "초안 저장"}
-          </button>
-          <button
-            type="button"
-            onClick={() => save("published")}
-            disabled={saving}
-            className="px-5 py-2 text-sm font-medium text-white bg-accent hover:bg-accent-light rounded-xl transition-colors disabled:opacity-50"
-          >
-            {saving ? "저장 중..." : published ? "수정 반영" : "발행"}
-          </button>
+          </Button>
+          <Button onClick={() => save("published")} disabled={saving}>
+            {saving ? "저장 중" : published ? "수정 반영" : "발행"}
+          </Button>
         </div>
-      </div>
+      </header>
 
-      {error && (
-        <div role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </div>
-      )}
+      {error && <ErrorState message={error} />}
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
         {/* 본문 */}
         <div className="space-y-4">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
-            <div>
-              <label htmlFor="post-title" className={labelClass}>
-                제목 <span className="text-muted font-normal">(검색어가 그대로 들어가게)</span>
-              </label>
-              <input
-                id="post-title"
-                type="text"
-                value={form.title}
-                onChange={(e) => set("title", e.target.value)}
-                placeholder="예) 행사장 급수 비용, 하루 5톤 기준으로 계산해 보면"
-                className={`${inputClass} text-base font-semibold`}
-                maxLength={120}
-              />
+          <Card>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="post-title" className={labelClass}>
+                  제목 <span className="font-medium text-tx-3">(검색어가 그대로 들어가게)</span>
+                </label>
+                <input
+                  id="post-title"
+                  type="text"
+                  value={form.title}
+                  onChange={(e) => set("title", e.target.value)}
+                  placeholder="예) 행사장 급수 비용, 하루 5톤 기준으로 계산해 보면"
+                  className={`${inputClass} text-[16px] font-semibold`}
+                  maxLength={120}
+                />
+              </div>
+              <div>
+                <label htmlFor="post-slug" className={labelClass}>
+                  주소 <span className="font-medium text-tx-3">www.aovo.kr/blog/</span>
+                </label>
+                <input
+                  id="post-slug"
+                  type="text"
+                  value={form.slug}
+                  onChange={(e) => {
+                    setSlugTouched(true);
+                    set("slug", e.target.value);
+                  }}
+                  onBlur={() => set("slug", slugify(form.slug))}
+                  placeholder="event-water-supply-cost"
+                  className={`${inputClass} font-mono`}
+                />
+                <p className="mt-1.5 text-[12px] font-medium text-tx-3">영문-하이픈을 권합니다. 한글도 되지만 공유할 때 주소가 길어집니다.</p>
+              </div>
             </div>
-            <div>
-              <label htmlFor="post-slug" className={labelClass}>
-                주소 <span className="text-muted font-normal">www.aovo.kr/blog/</span>
-              </label>
-              <input
-                id="post-slug"
-                type="text"
-                value={form.slug}
-                onChange={(e) => {
-                  setSlugTouched(true);
-                  set("slug", e.target.value);
-                }}
-                onBlur={() => set("slug", slugify(form.slug))}
-                placeholder="event-water-supply-cost"
-                className={`${inputClass} font-mono`}
-              />
-              <p className="mt-1 text-xs text-muted">영문-하이픈을 권합니다. 한글도 되지만 공유할 때 주소가 길어집니다.</p>
-            </div>
-          </div>
+          </Card>
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
-            <div className="flex items-center justify-between border-b border-gray-100 px-4 py-2">
-              <div className="flex gap-1" role="tablist" aria-label="본문 보기">
+          <Card padded={false}>
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-tg px-4 py-2.5">
+              <div className="flex gap-1 rounded-full bg-tg p-1" role="tablist" aria-label="본문 보기">
                 {(["write", "preview"] as const).map((t) => (
                   <button
                     key={t}
@@ -237,8 +223,8 @@ export default function PostEditor({ post }: { post?: AdminPost }) {
                     role="tab"
                     aria-selected={tab === t}
                     onClick={() => setTab(t)}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                      tab === t ? "bg-primary text-white" : "text-gray-600 hover:bg-gray-100"
+                    className={`rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition-colors duration-150 ${
+                      tab === t ? "bg-white text-tx shadow-[0_1px_2px_rgba(25,31,40,0.06)]" : "text-tx-2 hover:text-tx"
                     }`}
                   >
                     {t === "write" ? "쓰기" : "미리보기"}
@@ -246,7 +232,7 @@ export default function PostEditor({ post }: { post?: AdminPost }) {
                 ))}
               </div>
               <div className="flex items-center gap-3">
-                <span className={`text-xs ${chars < 1500 ? "text-amber-600" : "text-muted"}`}>
+                <span className={`text-[12px] font-medium tabular-nums ${chars < 1500 ? "text-amber-600" : "text-tx-3"}`}>
                   {chars.toLocaleString()}자{chars < 1500 ? " (1,500자 이상 권장)" : ""}
                 </span>
                 <input
@@ -259,14 +245,9 @@ export default function PostEditor({ post }: { post?: AdminPost }) {
                     e.target.value = "";
                   }}
                 />
-                <button
-                  type="button"
-                  onClick={() => bodyFileRef.current?.click()}
-                  disabled={uploading === "body"}
-                  className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-50"
-                >
-                  {uploading === "body" ? "올리는 중..." : "사진 넣기"}
-                </button>
+                <Button size="sm" variant="ghost" onClick={() => bodyFileRef.current?.click()} disabled={uploading === "body"}>
+                  {uploading === "body" ? "올리는 중" : "사진 넣기"}
+                </Button>
               </div>
             </div>
 
@@ -276,7 +257,7 @@ export default function PostEditor({ post }: { post?: AdminPost }) {
                 value={form.contentMd}
                 onChange={(e) => set("contentMd", e.target.value)}
                 placeholder={"## 소제목\n\n본문을 마크다운으로 씁니다. 빈 줄로 문단을 나누고, 사진은 위의 [사진 넣기]로.\n\n- 목록\n- 목록\n\n> 인용\n\n유튜브 주소를 한 줄에 적으면 영상이 들어갑니다."}
-                className="block w-full min-h-[560px] resize-y rounded-b-2xl px-5 py-4 font-mono text-[14px] leading-[1.7] text-gray-800 focus:outline-none"
+                className="block min-h-[560px] w-full resize-y rounded-b-[20px] px-5 py-4 font-mono text-[14px] leading-[1.7] text-tx placeholder:text-tx-3 focus:outline-none"
                 spellCheck={false}
               />
             ) : (
@@ -284,68 +265,47 @@ export default function PostEditor({ post }: { post?: AdminPost }) {
                 {form.contentMd.trim() ? (
                   <div className="post-body mx-auto max-w-[720px]" dangerouslySetInnerHTML={{ __html: previewHtml }} />
                 ) : (
-                  <p className="text-sm text-muted">본문이 비어 있습니다.</p>
+                  <p className="text-[14px] font-medium text-tx-3">본문이 비어 있습니다.</p>
                 )}
               </div>
             )}
-          </div>
+          </Card>
         </div>
 
         {/* 옆 칸: 발행·분류·요약·대표 사진 */}
         <aside className="space-y-4">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-primary">상태</span>
-              <span
-                className={`inline-flex px-2.5 py-1 rounded-lg text-xs font-medium ${
-                  published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
-                }`}
-              >
-                {published ? "발행됨" : "초안"}
-              </span>
+          <Card>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="post-published-at" className={labelClass}>
+                  발행 시각 <span className="font-medium text-tx-3">(비우면 발행 누른 때)</span>
+                </label>
+                <input id="post-published-at" type="datetime-local" value={form.publishedAt} onChange={(e) => set("publishedAt", e.target.value)} className={inputClass} />
+                <p className="mt-1.5 text-[12px] font-medium text-tx-3">미래 시각을 넣고 발행하면 그때부터 보입니다.</p>
+              </div>
+              <div>
+                <label htmlFor="post-category" className={labelClass}>
+                  분류
+                </label>
+                <input id="post-category" type="text" list="post-category-options" value={form.category} onChange={(e) => set("category", e.target.value)} className={inputClass} />
+                <datalist id="post-category-options">
+                  {SUGGESTED_CATEGORIES.map((c) => (
+                    <option key={c} value={c} />
+                  ))}
+                </datalist>
+              </div>
+              <div>
+                <label htmlFor="post-author" className={labelClass}>
+                  글쓴이
+                </label>
+                <input id="post-author" type="text" value={form.authorName} onChange={(e) => set("authorName", e.target.value)} className={inputClass} />
+              </div>
             </div>
-            <div>
-              <label htmlFor="post-published-at" className={labelClass}>
-                발행 시각 <span className="text-muted font-normal">(비우면 발행 누른 때)</span>
-              </label>
-              <input
-                id="post-published-at"
-                type="datetime-local"
-                value={form.publishedAt}
-                onChange={(e) => set("publishedAt", e.target.value)}
-                className={inputClass}
-              />
-              <p className="mt-1 text-xs text-muted">미래 시각을 넣고 발행하면 그때부터 보입니다.</p>
-            </div>
-            <div>
-              <label htmlFor="post-category" className={labelClass}>
-                분류
-              </label>
-              <input
-                id="post-category"
-                type="text"
-                list="post-category-options"
-                value={form.category}
-                onChange={(e) => set("category", e.target.value)}
-                className={inputClass}
-              />
-              <datalist id="post-category-options">
-                {SUGGESTED_CATEGORIES.map((c) => (
-                  <option key={c} value={c} />
-                ))}
-              </datalist>
-            </div>
-            <div>
-              <label htmlFor="post-author" className={labelClass}>
-                글쓴이
-              </label>
-              <input id="post-author" type="text" value={form.authorName} onChange={(e) => set("authorName", e.target.value)} className={inputClass} />
-            </div>
-          </div>
+          </Card>
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-2">
+          <Card>
             <label htmlFor="post-excerpt" className={labelClass}>
-              요약 <span className="text-muted font-normal">(검색 결과 설명문, 카드에 표시)</span>
+              요약 <span className="font-medium text-tx-3">(검색 결과 설명문, 카드에 표시)</span>
             </label>
             <textarea
               id="post-excerpt"
@@ -356,19 +316,17 @@ export default function PostEditor({ post }: { post?: AdminPost }) {
               placeholder="한두 문장. 검색어를 넣어 주세요."
               className={`${inputClass} resize-none`}
             />
-            <p className={`text-xs ${form.excerpt.length > 180 ? "text-amber-600" : "text-muted"}`}>
-              {form.excerpt.length}/180자 권장
-            </p>
-          </div>
+            <p className={`mt-1.5 text-[12px] font-medium tabular-nums ${form.excerpt.length > 180 ? "text-amber-600" : "text-tx-3"}`}>{form.excerpt.length}/180자 권장</p>
+          </Card>
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-3">
-            <span className="block text-sm font-semibold text-primary">대표 사진</span>
-            <div className="aspect-[16/10] overflow-hidden rounded-xl bg-gray-100">
+          <Card>
+            <span className={labelClass}>대표 사진</span>
+            <div className="aspect-[16/10] overflow-hidden rounded-xl bg-tg">
               {form.coverImageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element -- 관리자 미리보기, 임의 주소
                 <img src={form.coverImageUrl} alt={form.coverImageAlt ?? ""} className="h-full w-full object-cover" />
               ) : (
-                <div className="flex h-full items-center justify-center text-xs text-muted">목록 카드와 공유 썸네일에 쓰입니다</div>
+                <div className="flex h-full items-center justify-center px-4 text-center text-[12px] font-medium text-tx-3">목록 카드와 공유 썸네일에 쓰입니다</div>
               )}
             </div>
             <input
@@ -381,49 +339,26 @@ export default function PostEditor({ post }: { post?: AdminPost }) {
                 e.target.value = "";
               }}
             />
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => coverFileRef.current?.click()}
-                disabled={uploading === "cover"}
-                className="flex-1 px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors disabled:opacity-50"
-              >
-                {uploading === "cover" ? "올리는 중..." : form.coverImageUrl ? "사진 바꾸기" : "사진 올리기"}
-              </button>
+            <div className="mt-3 flex gap-2">
+              <Button variant="ghost" className="flex-1" onClick={() => coverFileRef.current?.click()} disabled={uploading === "cover"}>
+                {uploading === "cover" ? "올리는 중" : form.coverImageUrl ? "사진 바꾸기" : "사진 올리기"}
+              </Button>
               {form.coverImageUrl && (
-                <button
-                  type="button"
-                  onClick={() => set("coverImageUrl", null)}
-                  className="px-3 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors"
-                >
+                <Button variant="danger" onClick={() => set("coverImageUrl", null)}>
                   지우기
-                </button>
+                </Button>
               )}
             </div>
-            <input
-              type="url"
-              value={form.coverImageUrl ?? ""}
-              onChange={(e) => set("coverImageUrl", e.target.value || null)}
-              placeholder="또는 https:// 사진 주소 붙여 넣기"
-              className={inputClass}
-            />
-            <input
-              type="text"
-              value={form.coverImageAlt ?? ""}
-              onChange={(e) => set("coverImageAlt", e.target.value || null)}
-              placeholder="사진 설명(캡션·대체 텍스트)"
-              className={inputClass}
-            />
-          </div>
+            <div className="mt-3 space-y-2">
+              <input type="url" value={form.coverImageUrl ?? ""} onChange={(e) => set("coverImageUrl", e.target.value || null)} placeholder="또는 https:// 사진 주소 붙여 넣기" className={inputClass} aria-label="대표 사진 주소" />
+              <input type="text" value={form.coverImageAlt ?? ""} onChange={(e) => set("coverImageAlt", e.target.value || null)} placeholder="사진 설명(캡션·대체 텍스트)" className={inputClass} aria-label="대표 사진 설명" />
+            </div>
+          </Card>
 
           {post && (
-            <button
-              type="button"
-              onClick={remove}
-              className="w-full px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-200 hover:bg-red-50 rounded-xl transition-colors"
-            >
+            <Button variant="danger" className="w-full" onClick={remove}>
               글 삭제
-            </button>
+            </Button>
           )}
         </aside>
       </div>

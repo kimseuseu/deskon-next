@@ -5,6 +5,7 @@ import type {
   QuoteRequest,
   QuoteRequestItem,
 } from "@/types";
+import { parseInquiryDetails } from "@/data/inquiry";
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -215,6 +216,7 @@ export function mapInquiry(row: UnknownRecord): Inquiry {
     status:
       (asString(row.status) as Inquiry["status"] | undefined) ?? "new",
     adminNote: asString(row.admin_note),
+    details: parseInquiryDetails(row.details) ?? undefined,
     createdAt: asString(row.created_at) ?? "",
     updatedAt: asString(row.created_at) ?? "",
   };

@@ -35,6 +35,8 @@ export interface Category {
   isActive: boolean;
 }
 
+import type { InquiryDetails } from "@/data/inquiry";
+
 export interface Inquiry {
   id: string;
   name: string;
@@ -47,6 +49,8 @@ export interface Inquiry {
   message?: string;
   status: "new" | "in-progress" | "resolved";
   adminNote?: string;
+  /** 단계형 견적 문의가 남긴 분야·현장 정보·명함. 옛 문의는 undefined. */
+  details?: InquiryDetails;
   createdAt: string;
   updatedAt: string;
 }
