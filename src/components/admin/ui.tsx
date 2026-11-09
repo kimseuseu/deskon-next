@@ -127,9 +127,10 @@ export function Button({
 }
 
 /** 상태 뱃지. 뜻이 있는 색만 씁니다. */
-export type Tone = "blue" | "amber" | "green" | "red" | "gray";
+export type Tone = "blue" | "violet" | "amber" | "green" | "red" | "gray";
 const toneClass: Record<Tone, string> = {
   blue: "bg-tb-soft text-tb-deep",
+  violet: "bg-violet-50 text-violet-700",
   amber: "bg-amber-50 text-amber-700",
   green: "bg-emerald-50 text-emerald-700",
   red: "bg-red-50 text-red-700",

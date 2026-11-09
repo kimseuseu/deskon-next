@@ -257,6 +257,28 @@ export function fieldLabel(slug?: string | null): string {
 /** 견적 문의가 보내는 inquiry_type 값. 관리자 표의 «유형» 열에 그대로 섭니다. */
 export const QUOTE_INQUIRY_TYPE = "견적 요청";
 
+/* ─── 관리자가 매기는 문의 상태 ─── */
+
+export type InquiryStatus = "new" | "confirmed" | "in-progress" | "resolved" | "rejected";
+
+/** 순서대로 처리 흐름입니다. 반려만 흐름 밖에 있습니다. tone은 관리자 UI의 Badge 색 이름입니다. */
+export const INQUIRY_STATUSES: { key: InquiryStatus; label: string; tone: "blue" | "violet" | "amber" | "green" | "red" | "gray"; hint: string }[] = [
+  { key: "new", label: "신규", tone: "blue", hint: "아직 아무도 보지 않은 문의" },
+  { key: "confirmed", label: "확인", tone: "violet", hint: "내용을 확인했고 곧 연락할 문의" },
+  { key: "in-progress", label: "진행중", tone: "amber", hint: "통화·견적이 오가는 중" },
+  { key: "resolved", label: "완료", tone: "green", hint: "계약 또는 안내가 끝난 문의" },
+  { key: "rejected", label: "반려", tone: "red", hint: "진행하지 않기로 한 문의(범위 밖, 중복, 연락 불가)" },
+];
+
+export const INQUIRY_STATUS_KEYS = INQUIRY_STATUSES.map((s) => s.key);
+
+export function isInquiryStatus(value: unknown): value is InquiryStatus {
+  return typeof value === "string" && (INQUIRY_STATUS_KEYS as string[]).includes(value);
+}
+
+export const INQUIRY_STATUS_LABEL = Object.fromEntries(INQUIRY_STATUSES.map((s) => [s.key, s.label])) as Record<InquiryStatus, string>;
+export const INQUIRY_STATUS_TONE = Object.fromEntries(INQUIRY_STATUSES.map((s) => [s.key, s.tone])) as Record<InquiryStatus, (typeof INQUIRY_STATUSES)[number]["tone"]>;
+
 /** 명함 사진 제한 */
 export const BUSINESS_CARD_MAX_BYTES = 10 * 1024 * 1024;
 export const BUSINESS_CARD_ACCEPT = "image/jpeg,image/png,image/webp,image/heic,image/heif";

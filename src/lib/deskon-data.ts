@@ -5,7 +5,7 @@ import type {
   QuoteRequest,
   QuoteRequestItem,
 } from "@/types";
-import { parseInquiryDetails } from "@/data/inquiry";
+import { isInquiryStatus, parseInquiryDetails } from "@/data/inquiry";
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -214,7 +214,7 @@ export function mapInquiry(row: UnknownRecord): Inquiry {
     serviceCategory: asString(row.service_category),
     message: asString(row.message),
     status:
-      (asString(row.status) as Inquiry["status"] | undefined) ?? "new",
+      (isInquiryStatus(row.status) ? row.status : "new"),
     adminNote: asString(row.admin_note),
     details: parseInquiryDetails(row.details) ?? undefined,
     createdAt: asString(row.created_at) ?? "",
@@ -224,7 +224,7 @@ export function mapInquiry(row: UnknownRecord): Inquiry {
 
 export function serializeInquiryUpdate(body: UnknownRecord) {
   return {
-    status: asString(body.status) ?? "new",
+    status: isInquiryStatus(body.status) ? body.status : "new",
     admin_note: asString(body.adminNote) ?? null,
   };
 }

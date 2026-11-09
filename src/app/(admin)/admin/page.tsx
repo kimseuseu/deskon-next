@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Inquiry } from "@/types";
-import { fieldLabel } from "@/data/inquiry";
+import { INQUIRY_STATUS_LABEL, INQUIRY_STATUS_TONE, fieldLabel } from "@/data/inquiry";
 import { Badge, Card, CardTitle, EmptyState, ErrorState, PageHeader, SkeletonCards, SkeletonRows, formatDateTime, type Tone } from "@/components/admin/ui";
 
 interface DashboardStats {
@@ -14,8 +14,8 @@ interface DashboardStats {
   banners: number;
 }
 
-const statusTone: Record<Inquiry["status"], Tone> = { new: "blue", "in-progress": "amber", resolved: "green" };
-const statusLabel: Record<Inquiry["status"], string> = { new: "신규", "in-progress": "진행중", resolved: "완료" };
+const statusTone: Record<Inquiry["status"], Tone> = INQUIRY_STATUS_TONE;
+const statusLabel: Record<Inquiry["status"], string> = INQUIRY_STATUS_LABEL;
 
 const quickLinks = [
   { href: "/admin/products/new", title: "상품 추가", desc: "새 상품을 등록합니다", external: false },

@@ -47,7 +47,8 @@ export interface Inquiry {
   serviceCategory?: string;
   productId?: string;
   message?: string;
-  status: "new" | "in-progress" | "resolved";
+  /** 신규 → 확인 → 진행중 → 완료. 반려는 진행하지 않기로 한 문의. 문구·색은 data/inquiry.ts의 INQUIRY_STATUSES. */
+  status: "new" | "confirmed" | "in-progress" | "resolved" | "rejected";
   adminNote?: string;
   /** 단계형 견적 문의가 남긴 분야·현장 정보·명함. 옛 문의는 undefined. */
   details?: InquiryDetails;

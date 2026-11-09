@@ -65,10 +65,12 @@ export default function Hero() {
           ))}
         </ol>
 
-        {/* 스크롤 유도. 첫 편이 나가기 시작하면 사라집니다. */}
+        {/* 스크롤 유도. 첫 편이 나가기 시작하면 사라집니다.
+            넓은 화면에서는 오른쪽 아래의 플로팅 문의 버튼(FloatingContact, 오른쪽 1.5rem·지름 3.5rem) 왼쪽에 서고,
+            세로 가운데를 그 버튼과 맞춥니다. */}
         <div
           aria-hidden
-          className="cue-out absolute bottom-[5.5rem] left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-white/12 py-2 pr-2.5 pl-4 text-[13px] font-semibold text-white backdrop-blur-md lg:right-10 lg:bottom-10 lg:left-auto lg:translate-x-0 lg:text-[14px]"
+          className="cue-out absolute bottom-[5.5rem] left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-white/12 py-2 pr-2.5 pl-4 text-[13px] font-semibold text-white backdrop-blur-md lg:right-[6.5rem] lg:bottom-8 lg:left-auto lg:translate-x-0 lg:text-[14px]"
           style={span(0.02, 0.14)}
         >
           스크롤하면 다음 현장

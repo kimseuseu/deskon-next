@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { Inquiry } from "@/types";
-import { fieldLabel, summarizeDetails } from "@/data/inquiry";
+import { INQUIRY_STATUSES, INQUIRY_STATUS_LABEL, INQUIRY_STATUS_TONE, fieldLabel, summarizeDetails } from "@/data/inquiry";
 import {
   Badge,
   Button,
@@ -25,13 +25,11 @@ type TabKey = "all" | Inquiry["status"];
 
 const statusTabs: { key: TabKey; label: string }[] = [
   { key: "all", label: "전체" },
-  { key: "new", label: "신규" },
-  { key: "in-progress", label: "진행중" },
-  { key: "resolved", label: "완료" },
+  ...INQUIRY_STATUSES.map(({ key, label }) => ({ key, label })),
 ];
 
-const statusLabel: Record<Inquiry["status"], string> = { new: "신규", "in-progress": "진행중", resolved: "완료" };
-const statusTone: Record<Inquiry["status"], Tone> = { new: "blue", "in-progress": "amber", resolved: "green" };
+const statusLabel: Record<Inquiry["status"], string> = INQUIRY_STATUS_LABEL;
+const statusTone: Record<Inquiry["status"], Tone> = INQUIRY_STATUS_TONE;
 
 /** f_auto,q_auto 변환을 뺀 원본 주소 */
 function originalUrl(url: string) {
@@ -112,8 +110,10 @@ export default function InquiriesPage() {
             : [
                 { label: "전체", value: inquiries.length },
                 { label: "신규", value: countOf("new"), tone: countOf("new") > 0 ? "accent" : "default" },
+                { label: "확인", value: countOf("confirmed") },
                 { label: "진행중", value: countOf("in-progress") },
                 { label: "완료", value: countOf("resolved") },
+                { label: "반려", value: countOf("rejected") },
               ]
         }
       />
@@ -295,9 +295,9 @@ function InquiryDetail({
           />
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span className="mr-1 text-[12px] font-medium text-tx-3">상태</span>
-            {(["new", "in-progress", "resolved"] as Inquiry["status"][]).map((s) => (
-              <Button key={s} size="sm" variant={inq.status === s ? "secondary" : "ghost"} onClick={() => onStatus(s)} disabled={saving}>
-                {statusLabel[s]}
+            {INQUIRY_STATUSES.map(({ key, label, hint }) => (
+              <Button key={key} size="sm" variant={inq.status === key ? "secondary" : "ghost"} onClick={() => onStatus(key)} disabled={saving} title={hint}>
+                {label}
               </Button>
             ))}
             {saving && <span className="text-[12px] font-medium text-tx-3">저장 중</span>}
