@@ -10,7 +10,8 @@ import { useSceneProgress } from "@/components/film/Scene";
  * 장면 진행도 0 → end를 from시 → to시로 바꿔 «06:30»처럼 적고, labels의 지점을
  * 지나면 «설치 중»이 «행사 중»으로 바뀝니다. 스크롤이 곧 하루라는 것을 글자로
  * 한 번 더 말하는 자리입니다. 다시 그리지 않고 글자만 바꿉니다.
- * 액자가 화면을 채우면 헤더 밑으로 내려와 섭니다(globals.css의 .tw-hero-clock).
+ * 보이는 액자의 왼쪽 위를 따라가다가, 액자가 화면을 채우면 헤더 밑에 섭니다(globals.css의 .tw-hero-clock).
+ * 움직이는 캔버스 위라 backdrop-filter는 쓰지 않습니다(매 프레임 흐림 비용).
  * 움직임을 줄인 환경에서는 첫 시각에 멈춰 있습니다.
  */
 export function HeroClock({
@@ -42,10 +43,12 @@ export function HeroClock({
     return out;
   };
 
+  /* 글자는 바뀔 때만 씁니다. 분이 같으면 DOM을 건드리지 않습니다. */
   useMotionValueEvent(progress, "change", (p) => {
     if (reduce) return;
     const t = Math.min(1, Math.max(0, p / end));
-    if (timeRef.current) timeRef.current.textContent = fmt(from + (to - from) * t);
+    const time = fmt(from + (to - from) * t);
+    if (timeRef.current && timeRef.current.textContent !== time) timeRef.current.textContent = time;
     const label = labelAt(t);
     if (labelRef.current && labelRef.current.textContent !== label) labelRef.current.textContent = label;
   });
@@ -53,7 +56,7 @@ export function HeroClock({
   return (
     <div
       aria-hidden
-      className="tw-hero-clock absolute left-4 inline-flex items-center gap-2 rounded-full bg-white/90 py-1.5 pr-3.5 pl-3 text-[12px] font-semibold text-tx shadow-[0_8px_24px_rgba(25,31,40,0.16)] backdrop-blur-md sm:text-[13px] lg:left-6 lg:text-[14px]"
+      className="tw-hero-clock absolute inline-flex items-center gap-2 rounded-full bg-white/95 py-1.5 pr-3.5 pl-3 text-[12px] font-semibold text-tx shadow-[0_8px_24px_rgba(25,31,40,0.16)] sm:text-[13px] lg:text-[14px]"
     >
       <span className="block h-2 w-2 rounded-full bg-tb" />
       <span ref={labelRef}>{labels[0][1]}</span>

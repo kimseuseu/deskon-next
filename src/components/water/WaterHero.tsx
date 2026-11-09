@@ -7,6 +7,7 @@ import { waterHero } from "@/data/water-story";
 import { COMPANY } from "@/lib/constants";
 import { FrameScrub } from "./FrameScrub";
 import { HeroClock } from "./HeroClock";
+import { HeroHead } from "./HeroHead";
 import { ScrollCue } from "./ScrollCue";
 
 const step = (i: number): CSSProperties => ({ animationDelay: `${0.1 + i * 0.09}s` });
@@ -29,6 +30,10 @@ const DAY_END = 0.8 * FILM;
  * 액자가 자라 화면을 채우는 동안 천막과 탱크가 서고 해가 집니다. 밤이 되면 그 위에
  * 논지 두 줄이 서고 다음 장면으로 이어집니다. 귀퉁이의 시계가 시각을 읽어 줍니다.
  *
+ * 액자는 화면 크기의 상자 하나이고, clip-path로 잘라 보여 줍니다(globals.css .tw-hero-card).
+ * 상자 크기가 바뀌지 않으니 캔버스를 다시 잡지 않고, 레이아웃도 흔들리지 않습니다.
+ * 액자의 시작점(--hero-top)은 글 묶음(HeroHead)이 제 높이를 재서 정합니다.
+ *
  * 하루 기준(장면 진행도 × 0.643):
  *   0.03 → 0.22  제목과 버튼이 올라가며 떠난다.
  *   0.05 → 0.38  액자가 자라 화면을 채운다. 모서리도 펴진다.
@@ -43,8 +48,9 @@ export function WaterHero() {
   return (
     <Scene className="tw-hero">
       <div className="stage bg-white">
-        <div
-          className="cue-out absolute inset-x-0 top-[calc(var(--bar)+2.5svh)] px-5 text-center lg:top-[calc(var(--bar)+6svh)]"
+        {/* 글 묶음. 흐름 속에 서서 높이를 재고, 그 밑에서 액자가 시작됩니다. */}
+        <HeroHead
+          className="cue-out px-5 pt-[calc(var(--bar)+2.5svh)] text-center lg:pt-[calc(var(--bar)+6svh)]"
           style={film(0.03, 0.22)}
         >
           <h1
@@ -54,7 +60,7 @@ export function WaterHero() {
             {waterHero.title[0]} {waterHero.title[1]}
           </h1>
           <p
-            className="rise mx-auto mt-3 max-w-2xl whitespace-pre-line text-[clamp(0.9rem,1.5vw,1.25rem)] font-medium leading-[1.6] text-tx-2 lg:mt-5"
+            className="rise mx-auto mt-3 max-w-4xl whitespace-pre-line text-[clamp(0.9rem,1.5vw,1.25rem)] font-medium leading-[1.6] text-tx-2 lg:mt-5"
             style={step(1)}
           >
             {waterHero.lead}
@@ -74,17 +80,18 @@ export function WaterHero() {
               {water.inquiryLabel ?? "설치 문의하기"}
             </Link>
           </div>
-        </div>
+        </HeroHead>
 
-        {/* 영상 액자. 처음엔 제목 밑의 둥근 카드, 스크롤하면 자라 화면을 채웁니다.
-            안쪽은 스크롤로 넘기는 프레임이라 액자가 자라는 동안에도 하루가 갑니다. */}
-        <div
-          className="tw-hero-card cue absolute isolate overflow-hidden bg-tg [--hero-bottom:3svh] [--hero-side:1.25rem] [--hero-top:max(50svh,24rem)] sm:[--hero-top:50svh] lg:[--hero-side:max(2.5rem,calc((100vw-1200px)/2))] lg:[--hero-top:46svh]"
-        >
+        {/* 영상 액자. 화면 크기의 상자를 clip-path로 잘라, 처음엔 글 밑의 둥근 카드로 보이다가
+            스크롤하면 잘린 자리가 열리며 화면을 채웁니다. 안쪽은 스크롤로 넘기는 프레임입니다. */}
+        <div className="tw-hero-card cue absolute inset-0 isolate bg-tg">
           <FrameScrub base={`/seq/${waterHero.seq}`} count={waterHero.count} to={DAY_END} />
           <div aria-hidden className="tw-hero-dim cue film-only absolute inset-0 bg-tk" />
           <HeroClock from={waterHero.clock.from} to={waterHero.clock.to} labels={waterHero.clock.labels} end={DAY_END} />
-          <ScrollCue />
+          {/* 스크롤 유도 알약은 보이는 액자의 아래 가장자리를 따라갑니다. */}
+          <div className="tw-hero-cue absolute inset-x-0 h-0">
+            <ScrollCue />
+          </div>
           <div aria-hidden className="film-only absolute inset-0 grid place-items-center px-6">
             <div className="text-center">
               <p className="text-[clamp(1.75rem,4.6vw,3.8rem)] font-bold leading-[1.25] tracking-[-0.03em] text-white text-balance [text-shadow:0_2px_18px_rgba(0,0,0,0.4)]">

@@ -452,6 +452,8 @@ input:focus, textarea:focus, select:focus {
   position: sticky;
   top: 0;
   height: 100svh;
+  /* 무대 안의 변화(시계 글자, 캔버스)가 바깥 레이아웃·그리기로 번지지 않게. */
+  contain: layout paint;
   overflow: clip;
 }
 
@@ -684,26 +686,48 @@ input:focus, textarea:focus, select:focus {
 .tw-hero {
   height: 380svh;
 }
+/* 액자의 처음 자리. --hero-top은 글 묶음(HeroHead)이 제 높이를 재서 덮어쓴다. */
+.tw-hero .stage {
+  --hero-top: 52svh;
+  --hero-side: 1.25rem;
+  --hero-bottom: 3svh;
+}
+@media (min-width: 1024px) {
+  .tw-hero .stage {
+    --hero-side: max(2.5rem, calc((100vw - 1200px) / 2));
+  }
+}
+/* 액자는 화면 크기의 상자 하나다. 크기를 바꾸지 않고 clip-path로 잘라 보여 주므로
+   (레이아웃 없이 합성만) 매 프레임 캔버스를 다시 잡지 않는다. */
 .tw-hero-card {
   --from: 0.032;
   --to: 0.244;
   /* 끝 구간(0.643 → 1)의 진행도. 시트가 올라오는 동안 액자가 물러난다. */
   --t3: clamp(0, calc((var(--p, 0) - 0.643) / 0.357), 1);
   --e3: calc(var(--t3) * var(--t3) * (3 - 2 * var(--t3)));
-  /* 액자가 자라며 화면을 채운다: 바깥 여백과 모서리가 0으로 간다. */
-  inset: calc(var(--hero-top) * (1 - var(--e))) calc(var(--hero-side) * (1 - var(--e))) calc(var(--hero-bottom) * (1 - var(--e)));
-  border-radius: calc(32px * (1 - var(--e)) + 28px * var(--e3));
+  /* 잘린 자리가 열리며 화면을 채운다: 바깥 여백과 모서리가 0으로 간다. 끝에서 모서리가 다시 둥글어진다. */
+  clip-path: inset(
+    calc(var(--hero-top) * (1 - var(--e))) calc(var(--hero-side) * (1 - var(--e))) calc(var(--hero-bottom) * (1 - var(--e)))
+      round calc(32px * (1 - var(--e)) + 28px * var(--e3))
+  );
   transform: scale(calc(1 - 0.08 * var(--e3)));
   transform-origin: center 40%;
-  will-change: inset, transform;
+  will-change: clip-path, transform;
 }
-/* 액자 귀퉁이의 시계. 액자가 화면을 채우는 만큼(--e는 액자에서 물려받음) 헤더 밑으로 내려온다. */
+/* 액자 귀퉁이의 시계. 보이는 액자의 왼쪽 위를 따라가다가, 액자가 화면을 채우면 헤더 밑에 선다.
+   (--e는 액자에서 물려받는다) */
 .tw-hero-clock {
-  top: calc(1rem + (var(--bar) + 0.25rem) * var(--e, 0));
+  top: calc(var(--hero-top) * (1 - var(--e, 0)) + 1rem + (var(--bar) + 0.25rem) * var(--e, 0));
+  left: calc(var(--hero-side) * (1 - var(--e, 0)) + 1rem);
+}
+/* 스크롤 유도 알약의 기준선. 보이는 액자의 아래 가장자리를 따라간다. */
+.tw-hero-cue {
+  bottom: calc(var(--hero-bottom) * (1 - var(--e, 0)));
 }
 @media (min-width: 1024px) {
   .tw-hero-clock {
-    top: calc(1.5rem + (var(--bar) + 0.25rem) * var(--e, 0));
+    top: calc(var(--hero-top) * (1 - var(--e, 0)) + 1.5rem + (var(--bar) + 0.25rem) * var(--e, 0));
+    left: calc(var(--hero-side) * (1 - var(--e, 0)) + 1.5rem);
   }
 }
 /* 밤 프레임이 이미 어두우므로 글을 받치는 겹은 얇게만. */
@@ -723,7 +747,8 @@ input:focus, textarea:focus, select:focus {
   margin-top: -100svh;
   overflow: clip;
   border-radius: calc(40px * (1 - var(--e))) calc(40px * (1 - var(--e))) 0 0;
-  box-shadow: 0 -24px 64px rgba(23, 23, 28, calc(0.4 * (1 - var(--e))));
+  /* 그림자는 고정. 위에 닿으면 화면 밖으로 나가 보이지 않으므로 매 프레임 다시 칠할 이유가 없다. */
+  box-shadow: 0 -24px 64px rgba(23, 23, 28, 0.4);
 }
 
 /* 스크롤 유도: 화살표 동그라미가 숨 쉬듯 내려갔다 올라옵니다. 1.8초에 한 번. */
@@ -747,6 +772,7 @@ input:focus, textarea:focus, select:focus {
   top: 0;
   height: 100svh;
   overflow: clip;
+  contain: layout paint;
 }
 /* 끝에서 액자가 한 뼘 물러나 둥근 카드가 된다. */
 .scrub-shrink {
@@ -1078,7 +1104,9 @@ input:focus, textarea:focus, select:focus {
   .ring-arc { stroke-dashoffset: 0 !important; }
   .ring-center { display: none !important; }
   .tw-hero { height: auto !important; }
-  .tw-hero-card { position: relative !important; inset: auto !important; aspect-ratio: 16 / 9; margin: 1.5rem 1.25rem 0; border-radius: 32px !important; transform: none !important; }
+  .tw-hero-card { position: relative !important; inset: auto !important; clip-path: none !important; aspect-ratio: 16 / 9; margin: 1.5rem 1.25rem 0; border-radius: 32px !important; transform: none !important; overflow: hidden; }
+  .tw-hero-clock { top: 1rem !important; left: 1rem !important; }
+  .tw-hero-cue { bottom: 0 !important; }
   .sheet-rise { margin-top: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
   .tw-hero-dim, .pill-word { display: none !important; }
   .scrub { height: auto !important; }
@@ -1250,3 +1278,4 @@ input:focus, textarea:focus, select:focus {
 .post-body .wp-block-button__link:hover { background: var(--color-tk-2); color: #fff; }
 .post-body .has-text-align-center { text-align: center; }
 .post-body .has-text-align-right { text-align: right; }
+

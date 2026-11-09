@@ -15,6 +15,9 @@ import { useSceneProgress } from "@/components/film/Scene";
  * 프레임은 두 벌입니다. 넓은 화면(lg, 1024px 이상)은 `${base}/lg/`(2560×1440, 첫 장면은 1920×1080),
  * 좁은 화면은 `${base}/sm/`(1280×720)에서 받습니다. 어느 벌을 쓸지는 받기 시작할 때 한 번 정합니다.
  * 파일 이름은 `f_001.webp`부터 셋째 자리까지 0을 채운 번호입니다.
+ *
+ * 그리기는 한 프레임(rAF)에 한 번으로 모으고, 같은 장을 같은 크기로 다시 그리지 않습니다.
+ * 받은 장은 미리 디코드해 두어(img.decode) 처음 그릴 때 멈칫하지 않게 합니다.
  * 움직임을 줄인 환경에서는 첫 장만 그립니다.
  */
 export function FrameScrub({
@@ -36,45 +39,74 @@ export function FrameScrub({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frames = useRef<(HTMLImageElement | null)[]>([]);
   const target = useRef(0);
+  const drawn = useRef("");
+  const raf = useRef(0);
   const started = useRef(false);
 
-  const draw = () => {
+  /* 실제로 그립니다. rAF 안에서만 불립니다. */
+  const paint = () => {
+    raf.current = 0;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const list = frames.current;
     let img: HTMLImageElement | null = null;
+    let at = -1;
     /* 원하는 장이 없으면 앞뒤로 가장 가까운 장을 씁니다. */
     for (let d = 0; d < count && !img; d++) {
-      img = list[target.current - d] ?? list[target.current + d] ?? null;
+      const back = target.current - d;
+      const fwd = target.current + d;
+      if (list[back]) {
+        img = list[back]!;
+        at = back;
+      } else if (list[fwd]) {
+        img = list[fwd]!;
+        at = fwd;
+      }
     }
     if (!img) return;
+    const { width: cw, height: ch } = canvas;
+    const key = `${at}:${cw}x${ch}`;
+    if (key === drawn.current) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const { width: cw, height: ch } = canvas;
     const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
     const w = img.naturalWidth * scale;
     const h = img.naturalHeight * scale;
     /* 화면이 16:9보다 길면 위아래가 잘립니다. 피사체 머리가 위에 있으므로
        위는 덜 자르고 아래를 더 자릅니다(위 40%, 아래 60%). */
     ctx.drawImage(img, (cw - w) / 2, (ch - h) * 0.4, w, h);
+    drawn.current = key;
   };
 
-  /* 캔버스는 보이는 크기 × 화소 밀도(최대 2)로 잡습니다. 넓은 화면의 프레임이 2560px이라
-     그보다 크게 잡아도 더 선명해지지 않습니다. */
+  /* 다음 프레임에 한 번만 그리도록 예약합니다. 스크롤 이벤트가 몰려도 한 번입니다. */
+  const schedule = () => {
+    if (!raf.current) raf.current = requestAnimationFrame(paint);
+  };
+
+  /* 캔버스는 보이는 크기 × 화소 밀도(최대 1.5)로 잡습니다. 넓은 화면의 프레임이 2560px이라
+     이 정도면 선명하고, 그 이상은 그리는 비용만 늘어납니다. */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const fit = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const r = canvas.getBoundingClientRect();
-      canvas.width = Math.round(r.width * dpr);
-      canvas.height = Math.round(r.height * dpr);
-      draw();
+      const w = Math.round(r.width * dpr);
+      const h = Math.round(r.height * dpr);
+      if (w === canvas.width && h === canvas.height) return;
+      canvas.width = w;
+      canvas.height = h;
+      drawn.current = "";
+      schedule();
     };
     fit();
     const ro = new ResizeObserver(fit);
     ro.observe(canvas);
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      if (raf.current) cancelAnimationFrame(raf.current);
+      raf.current = 0;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -91,7 +123,9 @@ export function FrameScrub({
         img.decoding = "async";
         img.onload = () => {
           frames.current[i] = img;
-          if (Math.abs(i - target.current) < 2 || !frames.current.some((f, k) => f && k !== i)) draw();
+          /* 미리 디코드해 둡니다. 실패해도 그릴 때 디코드되므로 무시합니다. */
+          img.decode?.().catch(() => {});
+          if (Math.abs(i - target.current) < 2 || !frames.current.some((f, k) => f && k !== i)) schedule();
           resolve();
         };
         img.onerror = () => resolve();
@@ -110,7 +144,7 @@ export function FrameScrub({
         }
       };
       await Promise.all(Array.from({ length: 6 }, worker));
-      draw();
+      schedule();
     };
     const io = new IntersectionObserver(
       (entries) => {
@@ -132,7 +166,7 @@ export function FrameScrub({
     const i = Math.min(count - 1, Math.max(0, Math.round(t * (count - 1))));
     if (i === target.current) return;
     target.current = i;
-    draw();
+    schedule();
   });
 
   return <canvas ref={canvasRef} aria-hidden className={`block h-full w-full ${className}`} />;

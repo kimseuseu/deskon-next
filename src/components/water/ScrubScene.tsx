@@ -70,11 +70,12 @@ export function ScrubScene({
                 : c.y === "bottom"
                   ? "bottom-[9svh]"
                   : "top-1/2 -translate-y-1/2";
-            /* 밝은 장면의 글은 반투명 흰 카드 위에 섭니다. 영상의 파랑과 겹쳐도 읽힙니다.
+            /* 밝은 장면의 글은 거의 흰 카드 위에 섭니다. 영상의 파랑과 겹쳐도 읽힙니다.
+               움직이는 캔버스 위라 backdrop-filter는 쓰지 않습니다(매 프레임 흐림 비용).
                어두운 장면은 그림자로 충분합니다. */
             const card = dark
               ? ""
-              : "rounded-[28px] bg-white/85 px-7 py-6 shadow-[0_16px_48px_rgba(25,31,40,0.14)] backdrop-blur-xl lg:px-9 lg:py-8";
+              : "rounded-[28px] bg-white/92 px-7 py-6 shadow-[0_16px_48px_rgba(25,31,40,0.14)] lg:px-9 lg:py-8";
             return (
               <div
                 key={c.title}

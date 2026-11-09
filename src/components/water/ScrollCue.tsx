@@ -24,7 +24,7 @@ export function ScrollCue({ label = "아래로 내려 보세요" }: { label?: st
       type="button"
       onClick={go}
       aria-label="다음 장면으로 내려가기"
-      className="cue-out absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-white/90 py-2 pr-3 pl-4 text-[13px] font-semibold whitespace-nowrap text-tx shadow-[0_8px_24px_rgba(25,31,40,0.18)] backdrop-blur-md transition-transform duration-200 hover:bg-white active:scale-[0.97] sm:gap-2.5 sm:py-2.5 sm:pr-4 sm:pl-5 sm:text-[14px] lg:bottom-7 lg:text-[15px]"
+      className="cue-out absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-white/95 py-2 pr-3 pl-4 text-[13px] font-semibold whitespace-nowrap text-tx shadow-[0_8px_24px_rgba(25,31,40,0.18)] transition-transform duration-200 hover:bg-white active:scale-[0.97] sm:gap-2.5 sm:py-2.5 sm:pr-4 sm:pl-5 sm:text-[14px] lg:bottom-7 lg:text-[15px]"
       style={span(0, 0.05)}
     >
       {label}
