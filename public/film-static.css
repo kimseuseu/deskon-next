@@ -26,3 +26,9 @@
 .pipe-line { transform: scaleX(1) !important; }
 .ring-arc { stroke-dashoffset: 0 !important; }
 .ring-center { display: none !important; }
+/* 홈의 선언(명세서): 다 지워진 끝 모습으로 서고, 겹쳐 있던 제목 둘은 위아래로 풉니다. */
+.bill-scene .stage { padding-block: 6rem; }
+.bill-row, .bill-rule, .bill-strike, .bill-roll-strip { opacity: 1 !important; transform: none !important; }
+.bill-dim { opacity: 0.4 !important; }
+.bill-swap > * { grid-area: auto !important; }
+.bill-swap > * + * { margin-top: 0.75rem; }

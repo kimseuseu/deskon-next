@@ -914,7 +914,7 @@ input:focus, textarea:focus, select:focus {
 
 /* ── 홈 (/) ──
    급배수 스토리와 다른 문법입니다. 액자가 자라지 않습니다.
-   첫 장면은 글이 서 있고 영상 띠가 가로로 지나가고, 선언문은 낱말이 차례로 켜지고,
+   첫 장면은 글이 서 있고 영상 띠가 가로로 지나가고, 선언은 명세서의 줄이 지워지고,
    분야 카드는 세로로 쌓이고, 숫자는 어두운 원이 번지며 드러납니다. */
 
 /* 첫 장면: 영상이 화면을 가득 채우고, 스크롤하면 세 편이 차례로 바뀝니다.
@@ -951,16 +951,65 @@ input:focus, textarea:focus, select:focus {
   transform-origin: left center;
   will-change: transform;
 }
-/* 선언문: 낱말마다 번호(--i)가 있고 진행도에 낱말 수(--n)를 곱한 값이 번호를 지나면 켜집니다. */
-.word-scene {
-  height: 220svh;
+/* 선언: 명세서. 사면 따라붙는 세 줄이 왼쪽에서 줄줄이 들어오고(--e), 아오보의 제안이 서면
+   파란 줄이 그어지며 흐려집니다(--e2). 끝에 합계 칸의 숫자가 굴러 내려와 0에 섭니다.
+   진행도가 없는 환경(--p 없음)에서는 전부 끝난 모습으로 섭니다. */
+.bill-scene {
+  height: 260svh;
 }
-.wr {
+/* 제목 둘이 같은 칸에 겹쳐 서서 자리를 바꿉니다. */
+.bill-swap {
+  display: grid;
+}
+.bill-swap > * {
+  grid-area: 1 / 1;
+}
+.bill-row {
   --t: clamp(0, calc((var(--p, 1) - var(--from, 0)) / (var(--to, 1) - var(--from, 0))), 1);
-  --e: var(--t);
+  --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+  --t2: clamp(0, calc((var(--p, 1) - var(--ofrom, 0)) / (var(--oto, 1) - var(--ofrom, 0))), 1);
+  --e2: calc(var(--t2) * var(--t2) * (3 - 2 * var(--t2)));
+  opacity: var(--e);
+  transform: translate3d(calc((1 - var(--e)) * -2.5rem), 0, 0);
 }
-.wr-word {
-  opacity: clamp(0.14, calc(var(--e) * var(--n) - var(--i)), 1);
+.bill-dim {
+  opacity: calc(1 - 0.6 * var(--e2));
+}
+.bill-strike {
+  transform: scaleX(var(--e2));
+  transform-origin: left center;
+}
+.bill-rule {
+  transform: scaleX(var(--e));
+  transform-origin: left center;
+}
+/* 숫자 창. 안 보이는 0 한 글자가 폭과 기준선을 잡고, 그 위에서 0~9 띠가 내려옵니다.
+   overflow 대신 clip-path로 가려야 옆의 «원»과 기준선이 맞습니다.
+   위아래만 가립니다. 자간을 좁혀 창이 글자보다 좁으므로 양옆은 열어 둬야 0의 오른쪽이 안 잘립니다. */
+.bill-roll {
+  position: relative;
+  display: inline-block;
+  clip-path: inset(0 -0.25em);
+}
+.bill-roll-strip {
+  /* 0에 다가갈수록 느려집니다(ease-out). */
+  --o: calc(1 - (1 - var(--t)) * (1 - var(--t)) * (1 - var(--t)));
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate3d(0, calc((var(--o) - 1) * 90%), 0);
+  will-change: transform;
+}
+.bill-roll-strip > span {
+  display: block;
+  height: 1em;
+}
+/* 키가 작은 전화기(주소창이 열린 iPhone SE 등): 한 화면에 다 들어오게 간격과 숫자를 줄입니다. */
+@media (max-width: 1023px) and (max-height: 700px) {
+  .bill-grid { row-gap: 1.1rem; }
+  .bill-row { padding-block: 0.6rem; }
+  .bill-zero { font-size: 4.25rem; }
+  .bill-foot a { margin-top: 0.75rem; padding-block: 0.7rem; }
 }
 
 /* 분야 스택: 넓은 화면에서 카드가 헤더 밑에 붙고 다음 카드가 그 위로 올라와 덮습니다.
@@ -984,12 +1033,16 @@ input:focus, textarea:focus, select:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-hero, .word-scene, .ink-scene { height: auto !important; }
+  .home-hero, .bill-scene, .ink-scene { height: auto !important; }
   .home-hero .stage { min-height: 100svh; }
   .home-clip { opacity: 1 !important; transform: none !important; clip-path: none !important; }
   .home-dim, .home-edge { display: none !important; }
   .home-bar, .home-rail-fill { transform: none !important; }
-  .wr-word { opacity: 1 !important; }
+  /* 명세서는 다 지워진 끝 모습으로 서고, 겹쳐 있던 제목 둘은 위아래로 풉니다. */
+  .bill-row, .bill-rule, .bill-strike, .bill-roll-strip { opacity: 1 !important; transform: none !important; }
+  .bill-dim { opacity: 0.4 !important; }
+  .bill-swap > * { grid-area: auto !important; }
+  .bill-swap > * + * { margin-top: 0.75rem; }
   .dstack-card { position: relative !important; top: auto !important; }
   .ink { clip-path: none !important; }
 }
