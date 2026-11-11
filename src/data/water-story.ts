@@ -70,27 +70,16 @@ export interface Stage {
   layout: "row3" | "bigLeft" | "quad" | "pair" | "bigTop";
 }
 
-/** 현장의 하루. 호스가 지나는 순서 그대로입니다. */
+/** 현장의 하루. 호스가 지나는 순서 그대로, 네 단계로 묶었습니다(끌어오고, 잇고, 빼내고, 걷는다). */
 export const waterStages: { label: string; title: string[]; lead: string; stages: Stage[] } = {
   label: "How a site gets its water",
   title: ["물이 흐르기까지,", "현장의 하루."],
   lead: "급수차에서 싱크대까지, 싱크대에서 회수 탱크까지.\n행사장 급배수 한 현장에서 아오보가 하는 일을 순서대로 놓았습니다.",
   stages: [
     {
-      key: "load",
-      title: "싣고 갑니다",
-      body: "1톤 물탱크와 펌프, 호스와 싱크대를 전날 상차합니다.\n지게차로 올리고 트럭으로 옮기는 것까지 저희 일입니다.",
-      layout: "row3",
-      photos: [
-        img("move-lift", "지게차로 1톤 물탱크를 트럭에 올리는 작업자들", "portrait"),
-        img("move-truck", "트럭 적재함에 실린 파란 1톤 물탱크", "portrait"),
-        img("goyang-truck", "체육관 앞 트럭에 실어 온 물탱크", "portrait"),
-      ],
-    },
-    {
       key: "intake",
       title: "물을 끌어옵니다",
-      body: "수도계량기나 급수차에서 물탱크까지 호스를 깔고 밸브를 잇습니다.\n사람이 지나는 길에는 보호 덮개를 덮습니다.",
+      body: "1톤 물탱크와 펌프, 호스를 싣고 가 수도계량기나 급수차에서 물을 끌어옵니다.\n사람이 지나는 길에는 호스 위에 보호 덮개를 덮습니다.",
       layout: "bigLeft",
       photos: [
         img("goyang-cover", "주차장을 가로질러 급수차에서 파란 급수 호스를 끌어오는 모습", "landscape"),
@@ -99,27 +88,15 @@ export const waterStages: { label: string; title: string[]; lead: string; stages
       ],
     },
     {
-      key: "pipe",
-      title: "관을 잇습니다",
-      body: "탱크 아래에 펌프를 두고 밸브와 호스를 연결합니다.\n겨울 현장은 관을 보온재로 감쌉니다.",
-      layout: "quad",
-      photos: [
-        img("siheung-valve", "물탱크 출구에 체결한 황동 밸브와 급수 호스", "portrait"),
-        img("siheung-pump", "물탱크 받침 아래 설치한 가압 펌프", "portrait"),
-        img("ottogi-insulation", "보온재로 감싼 급수 배관", "portrait"),
-        img("gangneung-pump", "돌담 아래 펌프와 주황색 급수 호스", "square"),
-      ],
-    },
-    {
-      key: "sink",
-      title: "싱크대를 놓습니다",
-      body: "부스마다 급수와 배수를 연결한 싱크대를 둡니다.\n천막, 컨테이너, 목조 부스 어디든 같습니다.",
+      key: "connect",
+      title: "싱크대까지 잇습니다",
+      body: "탱크 아래 펌프에서 부스마다 놓은 싱크대까지 관을 잇습니다.\n천막이든 컨테이너든 같고, 겨울 현장은 관을 보온재로 감쌉니다.",
       layout: "pair",
       photos: [
         img("lotte-sink", "목조 부스 안에 급수와 배수를 연결한 스테인리스 싱크대", "landscape"),
-        img("gongju-sink", "파란 컨테이너 부스 안에 설치한 싱크대", "portrait"),
-        img("gangneung-sink", "검은 가벽 앞에 놓인 2조 싱크대", "landscape"),
+        img("siheung-pump", "물탱크 받침 아래 설치한 가압 펌프", "portrait"),
         img("ottogi-cover", "노란 천막 아래 한 줄로 놓인 싱크대", "landscape"),
+        img("siheung-valve", "물탱크 출구에 체결한 황동 밸브와 급수 호스", "portrait"),
       ],
     },
     {
@@ -134,25 +111,14 @@ export const waterStages: { label: string; title: string[]; lead: string; stages
       ],
     },
     {
-      key: "run",
-      title: "행사가 돌아갑니다",
-      body: "물이 나오고 빠지는 동안 저희는 사용량을 재고 호스를 점검합니다.\n손님은 물이 어디서 오는지 몰라야 합니다.",
+      key: "strike",
+      title: "지키고, 걷어 갑니다",
+      body: "행사 동안 사용량을 재고 호스를 점검합니다.\n끝나면 탱크를 비우고 호스를 걷어, 현장을 들어오기 전으로 돌려놓습니다.",
       layout: "bigTop",
       photos: [
         img("lpga-cover", "빨간 파라솔 아래 식음 부스가 열린 골프 대회 갤러리 플라자", "landscape"),
         img("siheung-crowd", "축제장 입구를 지나는 방문객들", "landscape"),
-        img("bbq-crowd", "바비큐 페스티벌 부스 앞에서 식사하는 사람들", "portrait"),
-      ],
-    },
-    {
-      key: "strike",
-      title: "걷어 갑니다",
-      body: "행사가 끝나면 탱크의 물을 비우고 호스를 걷습니다.\n현장은 들어오기 전과 같아야 합니다.",
-      layout: "row3",
-      photos: [
         img("move-forklift", "빈 물탱크를 지게차로 옮기는 작업자", "portrait"),
-        img("y2019-outside", "천막 밖에 세워 둔 물탱크와 걷어 낸 호스", "portrait"),
-        img("hongdae-street", "행사 뒤 거리에 모아 둔 조리대", "portrait"),
       ],
     },
   ],

@@ -11,7 +11,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 /**
  * 현장의 하루. 이 페이지의 서명입니다.
  *
- * 왼쪽에 제목과 일곱 단계가 붙어 있고, 오른쪽으로 단계가 하나씩 지나갑니다.
+ * 왼쪽에 제목과 네 단계가 붙어 있고, 오른쪽으로 단계가 하나씩 지나갑니다.
  * 두 칸 사이의 선은 호스입니다. 스크롤을 내리면 선이 아래로 그어지고,
  * 선이 닿은 단계에 불이 들어옵니다. 배관을 파는 페이지라, 선이 그어지는
  * 동작 자체가 내용입니다.
@@ -144,7 +144,7 @@ function Shot({ photo, className = "", sizes }: { photo: Photo; className?: stri
   );
 }
 
-/** 단계마다 사진의 짜임이 다릅니다. 같은 격자가 일곱 번 반복되면 기록이 아니라 카탈로그로 읽힙니다. */
+/** 단계마다 사진의 짜임이 다릅니다. 같은 격자가 단계마다 반복되면 기록이 아니라 카탈로그로 읽힙니다. */
 function PhotoGrid({ layout, photos }: { layout: Stage["layout"]; photos: Photo[] }) {
   const [a, b, c, d] = photos;
   switch (layout) {
