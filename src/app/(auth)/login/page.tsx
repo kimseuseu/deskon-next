@@ -10,6 +10,13 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  /* 허브의 자동 로그인이 실패해 돌아온 경우(?error=hub) */
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("error") !== "hub") return;
+    const t = setTimeout(() => setError("허브의 자동 로그인에 실패했습니다. 허브에 저장한 아이디·비밀번호를 확인해 주세요."), 0);
+    return () => clearTimeout(t);
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
 
