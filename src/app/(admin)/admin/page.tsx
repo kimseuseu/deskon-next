@@ -22,6 +22,7 @@ const quickLinks = [
   { href: "/admin/inquiries", title: "문의 확인", desc: "새로 들어온 문의를 봅니다", external: false },
   { href: "/admin/posts/new", title: "현장 노트 쓰기", desc: "블로그 글을 올립니다", external: false },
   { href: "/admin/banners", title: "배너 관리", desc: "메인 배너를 바꿉니다", external: false },
+  { href: "/admin/analytics", title: "트래픽 통계", desc: "누가 얼마나 들어왔는지 봅니다", external: false },
   { href: "http://w.aovo.kr", title: "후이즈메일", desc: "웹메일로 갑니다", external: true },
   { href: "/api/kakao/authorize", title: "카카오 알림 연동", desc: "새 문의를 카톡으로 받습니다", external: false, plain: true },
 ];

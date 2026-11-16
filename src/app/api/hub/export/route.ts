@@ -12,7 +12,7 @@ import { createAdminClient } from "@/lib/supabase-admin";
  *   Authorization: Bearer <HUB_API_TOKEN>
  *
  * 관리자 메뉴의 목록(견적 · 문의 · 상품 · 현장 노트 글 · 배너)과 공지 · FAQ 를 묶음 하나씩,
- * 현장 노트 조회수를 날짜별 지표로 보냅니다. 개인정보는 관리자 목록에 이미 보이는 범위까지만 담고,
+ * 사이트 방문(페이지뷰 · 방문자)과 현장 노트 조회수를 날짜별 지표로 보냅니다. 개인정보는 관리자 목록에 이미 보이는 범위까지만 담고,
  * 글 본문(content_md)과 비밀번호 해시 같은 것은 넣지 않습니다.
  */
 
@@ -111,6 +111,16 @@ async function selectAll(supabase: Admin, table: string, columns: string, orderB
     rows.push(...page);
     if (page.length < PAGE) return rows;
   }
+}
+
+/** 사이트 방문(트래픽) 날짜별 합계. supabase-page-views.sql 을 아직 실행하지 않았으면 null. */
+async function loadPageViewsDaily(supabase: Admin): Promise<{ day: string; views: number; visitors: number }[] | null> {
+  const { data, error } = await supabase.rpc("deskon_page_views_daily", { p_days: 365 });
+  if (error) {
+    if (isMissingRelation(error)) return null;
+    throw new Error(`deskon_page_views_daily: ${error.message}`);
+  }
+  return Array.isArray(data) ? (data as { day: string; views: number; visitors: number }[]) : [];
 }
 
 /** 현장 노트 조회 통계. supabase-post-views.sql 을 아직 실행하지 않았으면 null. */
@@ -366,6 +376,17 @@ function faqsCollection(rows: Row[], now: string): ExportCollection {
   };
 }
 
+/** 사이트 방문 지표 둘(페이지뷰 · 방문자). 표가 없으면 비웁니다. */
+function trafficMetrics(daily: { day: string; views: number; visitors: number }[] | null): ExportMetric[] {
+  if (!daily) return [];
+  const ok = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : 0);
+  const rows = daily.filter((d) => typeof d.day === "string").sort((a, b) => a.day.localeCompare(b.day));
+  return [
+    { key: "page_views", label: "사이트 페이지뷰", unit: "회", series: rows.map((d) => ({ date: d.day, value: ok(d.views) })) },
+    { key: "visitors", label: "사이트 방문자", unit: "명", series: rows.map((d) => ({ date: d.day, value: ok(d.visitors) })) },
+  ];
+}
+
 /** 글별 누적 조회수와 날짜별 합계 지표. 통계 표가 없으면 둘 다 비웁니다. */
 function viewsOf(stats: RawViewStats | null): { perPost: Map<string, number> | null; metrics: ExportMetric[] } {
   if (!stats) return { perPost: null, metrics: [] };
@@ -391,7 +412,7 @@ export async function GET(req: NextRequest) {
     const supabase = createAdminClient();
     const now = new Date().toISOString();
 
-    const [quotes, inquiries, products, posts, banners, notices, faqs, stats] = await Promise.all([
+    const [quotes, inquiries, products, posts, banners, notices, faqs, stats, pageViews] = await Promise.all([
       selectAll(supabase, "deskon_quotes", "id,company,contact_name,phone,email,delivery_date,items,status,created_at", "created_at"),
       /* details(jsonb) 는 supabase-inquiry-details.sql 을 아직 실행하지 않은 운영 DB 에는 없으므로 열을 지정하지 않고 읽습니다. */
       selectAll(supabase, "deskon_inquiries", "*", "created_at"),
@@ -402,6 +423,7 @@ export async function GET(req: NextRequest) {
       selectAll(supabase, "deskon_notices", "id,title,category,is_pinned,views,created_at", "created_at"),
       selectAll(supabase, "deskon_faqs", "id,question,category,sort_order,is_active,created_at", "created_at"),
       loadViewStats(supabase),
+      loadPageViewsDaily(supabase),
     ]);
 
     const views = viewsOf(stats);
@@ -421,7 +443,7 @@ export async function GET(req: NextRequest) {
           noticesCollection(notices, now),
           faqsCollection(faqs, now),
         ],
-        metrics: views.metrics,
+        metrics: [...trafficMetrics(pageViews), ...views.metrics],
       },
       { headers: { "cache-control": "no-store" } },
     );
