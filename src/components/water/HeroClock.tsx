@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { useMotionValueEvent, useReducedMotion } from "framer-motion";
+import { useMotionValueEvent } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import { useSceneProgress } from "@/components/film/Scene";
 
 /**
@@ -29,7 +30,7 @@ export function HeroClock({
   end?: number;
 }) {
   const progress = useSceneProgress();
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const timeRef = useRef<HTMLSpanElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
 

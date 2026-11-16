@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* 움직임 최소화: «동작 줄이기»를 켰거나 휴대폰 폭(767px 이하)이면 같은 정지 화면.
+   이 파일의 (prefers-reduced-motion: reduce) 블록과 useMinimalMotion 훅이 같은 기준을 씁니다. */
+@custom-variant motion-safe {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) { @slot; }
+}
+@custom-variant motion-reduce {
+  @media (prefers-reduced-motion: reduce) { @slot; }
+  @media (max-width: 767px) { @slot; }
+}
+
 /* ── Tailwind v4 Theme ── */
 @theme {
   /* 사이트 전체 팔레트. 토스 메인의 문법: 흰 바탕, 먹색 글자, 파랑 하나.
@@ -325,8 +335,8 @@ input:focus, textarea:focus, select:focus {
   transition: box-shadow 300ms ease, border-color 300ms ease;
 }
 
-/* Reduced motion — disable ALL animations */
-@media (prefers-reduced-motion: reduce) {
+/* Reduced motion or phone width — disable ALL animations */
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -334,6 +344,10 @@ input:focus, textarea:focus, select:focus {
     scroll-behavior: auto !important;
   }
   #scroll-progress { display: none; }
+  /* 스크롤 등장(Reveal · StaggerItem · LineReveal)과 첫 문장 떠오르기는
+     처음부터 제자리에. 스크립트가 늦게 깨어나는 휴대폰에서도 글이 비지 않습니다. */
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .rise { animation: none !important; }
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -759,7 +773,7 @@ input:focus, textarea:focus, select:focus {
 .tw-cue-arrow {
   animation: cueDip 1.8s ease-in-out infinite;
 }
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
   .tw-cue-arrow { animation: none; }
 }
 
@@ -1032,7 +1046,7 @@ input:focus, textarea:focus, select:focus {
   will-change: clip-path;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
   .home-hero, .bill-scene, .ink-scene { height: auto !important; }
   .home-hero .stage { min-height: 100svh; }
   .home-clip { opacity: 1 !important; transform: none !important; clip-path: none !important; }
@@ -1133,13 +1147,13 @@ input:focus, textarea:focus, select:focus {
   will-change: transform;
 }
 .ticker:hover .ticker-track { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
   .ticker-track { animation: none; transform: none; }
 }
 
 /* 움직임을 줄인 환경: 장면은 고정을 풀고 평범한 페이지가 됩니다.
    같은 규칙을 public/film-static.css가 스크립트 없는 환경에 적용합니다. */
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
   .scene { height: auto !important; }
   .stage, .pan-stage, .film-stage { position: relative !important; height: auto !important; overflow: visible !important; }
   .cue, .cue-in, .cue-out, .cue-through,

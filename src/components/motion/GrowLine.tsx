@@ -1,12 +1,14 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 
 /** 화면에 들어오면 왼쪽에서 오른쪽으로 그어지는 가는 선. 섹션 머리 밑에 둡니다. */
 export default function GrowLine({ className = "bg-tg-2", delay = 0 }: { className?: string; delay?: number }) {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   return (
     <motion.span
+      data-reveal
       aria-hidden
       initial={reduce ? { opacity: 0 } : { scaleX: 0 }}
       whileInView={reduce ? { opacity: 1 } : { scaleX: 1 }}

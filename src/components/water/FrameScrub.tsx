@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useMotionValueEvent, useReducedMotion } from "framer-motion";
+import { useMotionValueEvent } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import { useSceneProgress } from "@/components/film/Scene";
 
 /**
@@ -35,7 +36,7 @@ export function FrameScrub({
   className?: string;
 }) {
   const progress = useSceneProgress();
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frames = useRef<(HTMLImageElement | null)[]>([]);
   const target = useRef(0);

@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useInView, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { motion, useInView, useScroll, useSpring } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import { waterStages } from "@/data/water-story";
 import type { Photo, Stage } from "@/data/water-story";
 
@@ -21,7 +22,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
  */
 export function FlowTimeline() {
   const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const [active, setActive] = useState(0);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.62", "end 0.62"] });
   const line = useSpring(scrollYProgress, { stiffness: 110, damping: 26, mass: 0.4 });
@@ -114,12 +115,14 @@ function StageBlock({
         variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
       >
         <motion.h3
+          data-reveal
           variants={{ hidden: { opacity: 0, y: 28 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } } }}
           className="text-[clamp(1.6rem,3vw,2.6rem)] font-bold leading-[1.25] tracking-[-0.03em] text-tx"
         >
           {stage.title}
         </motion.h3>
         <motion.p
+          data-reveal
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } } }}
           className="mt-4 max-w-2xl whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-2"
         >
@@ -138,7 +141,7 @@ const photoVariants = {
 
 function Shot({ photo, className = "", sizes }: { photo: Photo; className?: string; sizes: string }) {
   return (
-    <motion.figure variants={photoVariants} className={`img-zoom relative overflow-hidden rounded-[20px] bg-tg ${className}`}>
+    <motion.figure data-reveal variants={photoVariants} className={`img-zoom relative overflow-hidden rounded-[20px] bg-tg ${className}`}>
       <Image src={photo.src} alt={photo.alt} fill sizes={sizes} className="object-cover" />
     </motion.figure>
   );

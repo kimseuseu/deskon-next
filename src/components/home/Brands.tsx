@@ -3,7 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { brands, type Brand } from "@/data/brands";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import Reveal from "@/components/motion/Reveal";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -25,7 +26,7 @@ function Mark({ brand }: { brand: Brand }) {
 
 /** 여섯 브랜드. 카드가 작은 데서 커지며 차례로 섭니다. */
 export default function Brands() {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   return (
     <section id="brands" className="scroll-mt-16 bg-white text-tx">
       <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
@@ -45,6 +46,7 @@ export default function Brands() {
           {brands.map((b, i) => (
             <motion.div
               key={b.slug}
+              data-reveal
               className="h-full"
               initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 20 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}

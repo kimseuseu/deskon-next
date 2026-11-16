@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type DragEvent } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import { uploadImage, type UploadedImage } from "@/lib/cloudinary-upload";
 import { BUSINESS_CARD_ACCEPT, BUSINESS_CARD_MAX_BYTES } from "@/data/inquiry";
 import { EASE } from "./ui";
@@ -20,7 +21,7 @@ export default function BusinessCardUpload({
   onChange: (next: UploadedImage | null) => void;
   onUploadingChange?: (uploading: boolean) => void;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const [preview, setPreview] = useState<string | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);

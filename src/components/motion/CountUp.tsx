@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 
 /** Number that counts up (with locale commas) when it enters the viewport. */
 export default function CountUp({
@@ -20,7 +21,7 @@ export default function CountUp({
   // Vertical-only margin: a horizontal inset would swallow narrow spans
   // sitting within 60px of the screen edge (mobile left column)
   const inView = useInView(ref, { once: true, margin: "-60px 0px -60px 0px" });
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const [display, setDisplay] = useState(0);
   const go = active === undefined ? inView : active;
 

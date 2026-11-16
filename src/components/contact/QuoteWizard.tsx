@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import {
   EMPTY_DRAFT,
   INQUIRY_FIELD_MAP,
@@ -70,7 +71,7 @@ function validate(stepKey: string, draft: InquiryDraft, field: InquiryField | nu
 type Status = "idle" | "submitting" | "error" | "done";
 
 export default function QuoteWizard() {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const [draft, setDraft] = useState<InquiryDraft>(EMPTY_DRAFT);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);

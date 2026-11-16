@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useMotionValueEvent, useReducedMotion } from "framer-motion";
+import { useMotionValueEvent } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import { useSceneProgress } from "@/components/film/Scene";
 import { through } from "@/components/film/cue";
 
@@ -16,7 +17,7 @@ export type Window = [number, number, number, number];
  */
 export function HeroReel({ clips, windows }: { clips: Clip[]; windows: Window[] }) {
   const p = useSceneProgress();
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const refs = useRef<(HTMLVideoElement | null)[]>([]);
   const [active, setActive] = useState(0);
 

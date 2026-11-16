@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import type { ReactNode } from "react";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -36,7 +37,7 @@ export default function Reveal({
   className,
   once = true,
 }: RevealProps) {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const { x, y } = offsets[direction];
 
   const variants: Variants = {
@@ -51,6 +52,7 @@ export default function Reveal({
 
   return (
     <motion.div
+      data-reveal
       className={className}
       initial="hidden"
       whileInView="visible"
@@ -98,10 +100,11 @@ export function StaggerItem({
   className?: string;
   direction?: Direction;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const { x, y } = offsets[direction];
   return (
     <motion.div
+      data-reveal
       className={className}
       variants={{
         hidden: reduce ? { opacity: 0 } : { opacity: 0, x, y },
@@ -130,7 +133,7 @@ export function LineReveal({
   delay?: number;
   as?: "h1" | "h2" | "h3" | "p" | "div";
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   return (
     <Tag className={className}>
       {lines.map((line, i) => (
@@ -145,6 +148,7 @@ export function LineReveal({
           viewport={{ once: true, amount: 0.6 }}
         >
           <motion.span
+            data-reveal
             className={`block ${lineClassName ?? ""}`}
             variants={{
               hidden: reduce ? { opacity: 0 } : { y: "110%" },

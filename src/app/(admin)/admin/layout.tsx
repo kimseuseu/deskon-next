@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 
 /*
   관리자 틀. 넓은 화면은 왼쪽에 고정 사이드바, 전화기는 위 막대와 서랍.
@@ -67,7 +68,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isChecking, setIsChecking] = useState(true);

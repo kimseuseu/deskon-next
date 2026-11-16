@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, useMotionValueEvent, useReducedMotion } from "framer-motion";
+import { motion, useMotionValueEvent } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import type { CSSProperties } from "react";
 import { span } from "@/components/film/cue";
 import { useSceneProgress } from "@/components/film/Scene";
@@ -23,7 +24,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
  */
 export function ShelfCards({ items, at = 0.34, panFrom = 0.42, panTo = 0.88 }: { items: Project[]; at?: number; panFrom?: number; panTo?: number }) {
   const progress = useSceneProgress();
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const [shown, setShown] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
   const close = useCallback(() => setOpen(null), []);
@@ -46,7 +47,8 @@ export function ShelfCards({ items, at = 0.34, panFrom = 0.42, panTo = 0.88 }: {
         <motion.li
           key={p.slug}
           initial={false}
-          animate={reduce ? { opacity: shown ? 1 : 0 } : shown ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 56, scale: 0.96 }}
+          data-reveal
+          animate={reduce ? { opacity: 1 } : shown ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 56, scale: 0.96 }}
           transition={
             shown
               ? { duration: 0.7, delay: i * 0.07, ease: EASE }

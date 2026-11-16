@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import Reveal, { LineReveal } from "@/components/motion/Reveal";
 import { COMPANY } from "@/lib/constants";
 import QuoteWizard from "./QuoteWizard";
@@ -12,7 +13,7 @@ import QuoteWizard from "./QuoteWizard";
  * 폼 구역의 바탕에도 큰 원 하나가 천천히 따라옵니다. 움직임을 줄인 환경에서는 가만히 있습니다.
  */
 export default function ContactExperience() {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const heroRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLElement>(null);
 

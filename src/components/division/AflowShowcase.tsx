@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import Reveal from "@/components/motion/Reveal";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -250,7 +251,7 @@ function PhoneMockup({ activeScreen }: { activeScreen: number }) {
 export default function AflowShowcase() {
   const [screen, setScreen] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
 
   useEffect(() => {
     if (!autoPlay || reduce) return;

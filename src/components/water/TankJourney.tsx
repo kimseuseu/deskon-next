@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import type { ReactNode } from "react";
 import { controlBox } from "@/data/facility";
 import { waterCompare, waterJourney } from "@/data/water-story";
@@ -23,7 +24,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
  * 전화기에서는 액자를 붙이지 않고, 패널마다 글 위에 그 물건을 둡니다.
  */
 export function TankJourney() {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const [active, setActive] = useState(0);
   const tr = { duration: reduce ? 0 : 0.7, ease: EASE };
 
@@ -144,6 +145,7 @@ function Panel({ index, onEnter, children }: { index: number; onEnter: (i: numbe
   return (
     <div ref={ref} className="flex min-h-[100svh] flex-col justify-center py-20 lg:pl-4">
       <motion.div
+        data-reveal
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}

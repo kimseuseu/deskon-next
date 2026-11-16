@@ -3,7 +3,8 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import type { Brand } from "@/data/brands";
 import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
 
@@ -18,7 +19,7 @@ const lines = (s: string) => s.replace(/\.\s+/g, ".\n");
 
 export function CoverixHero({ brand }: { brand: Brand }) {
   const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const wordY = useTransform(scrollYProgress, [0, 1], ["0vh", reduce ? "0vh" : "15vh"]);
   const productY = useTransform(scrollYProgress, [0, 1], ["0vh", reduce ? "0vh" : "-9vh"]);

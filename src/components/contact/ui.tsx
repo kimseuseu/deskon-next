@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
 import type { ReactNode } from "react";
 
 /*
@@ -103,7 +104,7 @@ export function OptionCard({
   titleEn: string;
   description: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   return (
     <motion.button
       type="button"
@@ -163,7 +164,7 @@ export function Chip({
   hint?: string;
   role?: "checkbox" | "radio";
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   return (
     <motion.button
       type="button"
@@ -204,7 +205,7 @@ export function Stepper({
   unit: string;
   label: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useMinimalMotion();
   const clamp = (n: number) => Math.min(max, Math.max(min, n));
   const btn =
     "grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white text-tx transition-colors duration-200 hover:bg-tb-soft hover:text-tb disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-tx focus:outline-none focus-visible:ring-2 focus-visible:ring-tb";
