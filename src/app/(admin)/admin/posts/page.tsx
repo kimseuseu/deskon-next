@@ -182,7 +182,7 @@ export default function AdminPostsPage() {
             }
             head={
               <>
-                <th className={th}>제목</th>
+                <th className={`${th} w-full min-w-[14rem] max-w-0`}>제목</th>
                 <th className={th}>분류</th>
                 <th className={th}>상태</th>
                 <th className={`${th} text-right`}>조회</th>
@@ -196,7 +196,8 @@ export default function AdminPostsPage() {
               const s = statusOf(p);
               return (
                 <>
-                  <td className={`${td} max-w-[26rem]`}>
+                  {/* 제목 칸이 남는 폭을 다 받고, 좁으면 말줄임으로 줄어듭니다(max-w-0 + w-full). 표가 가로로 넘치지 않게 하는 자리입니다. */}
+                  <td className={`${td} w-full min-w-[14rem] max-w-0`}>
                     <Link href={`/admin/posts/${p.id}`} className="block truncate font-semibold text-tx transition-colors duration-150 hover:text-tb">
                       {p.title || "(제목 없음)"}
                     </Link>
