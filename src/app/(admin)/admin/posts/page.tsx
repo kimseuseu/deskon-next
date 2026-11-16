@@ -186,9 +186,9 @@ export default function AdminPostsPage() {
                 <th className={th}>분류</th>
                 <th className={th}>상태</th>
                 <th className={`${th} text-right`}>조회</th>
-                <th className={`${th} hidden text-right lg:table-cell`}>최근 {range}일</th>
-                <th className={`${th} hidden lg:table-cell`}>발행</th>
-                <th className={`${th} hidden xl:table-cell`}>수정</th>
+                <th className={`${th} hidden text-right xl:table-cell`}>최근 {range}일</th>
+                <th className={`${th} hidden xl:table-cell`}>발행</th>
+                <th className={`${th} hidden 2xl:table-cell`}>수정</th>
                 <th className={th} />
               </>
             }
@@ -202,14 +202,14 @@ export default function AdminPostsPage() {
                     </Link>
                     <p className="mt-0.5 truncate font-mono text-[11px] font-medium text-tx-3">/blog/{p.slug}</p>
                   </td>
-                  <td className={`${td} text-tx-2`}>{p.category}</td>
+                  <td className={`${td} whitespace-nowrap text-tx-2`}>{p.category}</td>
                   <td className={td}>
                     <Badge tone={s.tone}>{s.label}</Badge>
                   </td>
                   <td className={`${td} text-right font-semibold tabular-nums text-tx`}>{viewsOf(p, "total")}</td>
-                  <td className={`${td} hidden text-right tabular-nums text-tx-2 lg:table-cell`}>{viewsOf(p, "period")}</td>
-                  <td className={`${td} hidden whitespace-nowrap tabular-nums text-tx-3 lg:table-cell`}>{formatDateTime(p.publishedAt)}</td>
-                  <td className={`${td} hidden whitespace-nowrap tabular-nums text-tx-3 xl:table-cell`}>{formatDateTime(p.updatedAt)}</td>
+                  <td className={`${td} hidden text-right tabular-nums text-tx-2 xl:table-cell`}>{viewsOf(p, "period")}</td>
+                  <td className={`${td} hidden whitespace-nowrap tabular-nums text-tx-3 xl:table-cell`}>{formatDateTime(p.publishedAt)}</td>
+                  <td className={`${td} hidden whitespace-nowrap tabular-nums text-tx-3 2xl:table-cell`}>{formatDateTime(p.updatedAt)}</td>
                   <td className={`${td} text-right`}>
                     <div className="flex items-center justify-end gap-1">
                       {statsButton(p)}
