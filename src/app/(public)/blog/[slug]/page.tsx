@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PostImage from "@/components/blog/PostImage";
+import ViewBeacon from "@/components/blog/ViewBeacon";
 import { notFound } from "next/navigation";
 import { PostRow } from "@/components/blog/PostCard";
 import { COMPANY } from "@/lib/constants";
@@ -89,6 +90,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
+      <ViewBeacon slug={post.slug} />
       <article className="bg-white text-tx">
         {/* 머리. 읽기 폭(720px)에 맞춰 가운데에 섭니다. */}
         <header className="mx-auto max-w-[720px] px-6 pt-32 lg:pt-40">

@@ -24,6 +24,9 @@
 | 목록 (`/blog`, `?category=`, `?page=`) | `src/app/(public)/blog/page.tsx` |
 | 글 상세 (`/blog/글주소`) | `src/app/(public)/blog/[slug]/page.tsx` |
 | RSS (`/feed.xml`) | `src/app/feed.xml/route.ts` |
+| 조회 통계 테이블 (한 번 실행) | `supabase-post-views.sql` |
+| 조회 기록 (글 페이지 → API) | `src/components/blog/ViewBeacon.tsx`, `src/app/api/blog/view/route.ts` |
+| 조회 통계 (관리자 API · 화면) | `src/app/api/admin/posts/stats/route.ts`, `src/components/admin/PostStats.tsx`, `src/lib/post-stats.ts` |
 | 사이트맵에 글 추가 | `src/app/sitemap.ts` |
 | 본문 모양 (`.post-body`) | `src/app/globals.css` 끝부분 |
 
@@ -71,7 +74,23 @@ Cloudinary 콘솔 → Settings → Upload → Upload presets 에 이름이 `aovo
 
 네이버 블로그에 요약본을 같이 올리는 방안은 보류 상태입니다(2026-11-06). 나중에 켜려면 Uplika 연동으로 요약과 www.aovo.kr 링크를 올리면 됩니다.
 
-## 5. 자주 겪는 문제
+## 5. 조회 통계
+
+관리자 글 목록(`/admin/posts`) 위에 현장 노트 전체의 오늘 · 최근 N일 · 누적 조회수, 날짜별 막대, 유입 경로가 나오고, 표에는 글마다 누적과 최근 N일 조회수가 붙습니다. 글 줄의 "통계"를 누르면 그 글의 날짜별 조회와 유입 경로가 펼쳐집니다. 기간은 위의 "조회 기간"(최근 7 · 30 · 90일)에서 바꿉니다.
+
+처음 한 번: Supabase SQL Editor 에 `supabase-post-views.sql` 을 붙여 넣고 Run. 실행 전에는 목록 위에 "조회 통계가 아직 켜지지 않았습니다" 안내가 보이고, 실행한 뒤부터 숫자가 쌓입니다(그 전의 조회는 포함되지 않습니다).
+
+세는 방식
+
+- 방문자가 글 페이지를 화면에 띄우면 한 번. 같은 탭에서 같은 글을 그날 다시 열거나 새로 고쳐도 한 번입니다.
+- 검색 로봇(네이버 Yeti, Googlebot 등)과 로그인한 관리자의 조회는 세지 않습니다. 발행 전 글도 세지 않습니다.
+- 날짜는 한국 시간 기준입니다.
+- 유입 경로는 네이버 · 구글 · 다음 · 카카오 · 사이트 안에서 이동 · 직접 방문 · 그 밖의 사이트로 나눕니다. 주소창 입력, 즐겨찾기, 리퍼러를 주지 않는 앱에서 온 방문은 "직접 방문"입니다(카카오톡 인앱 브라우저는 카카오로 셉니다).
+- 저장하는 것은 글 · 날짜 · 유입 경로별 숫자뿐입니다. IP, 쿠키, 검색어, 리퍼러 주소는 저장하지 않습니다.
+
+검색어별 노출 · 클릭은 여기서 알 수 없습니다. 네이버 서치어드바이저의 리포트 → 검색 유입에서 봅니다.
+
+## 6. 자주 겪는 문제
 
 | 증상 | 원인 | 조치 |
 | --- | --- | --- |
@@ -80,5 +99,7 @@ Cloudinary 콘솔 → Settings → Upload → Upload presets 에 이름이 `aovo
 | 사진 올리기 실패 | Cloudinary 프리셋 없음·Signed | 2절. 또는 주소 붙여 넣기 |
 | 발행했는데 안 보임 | 발행 시각이 미래 | 편집기에서 시각을 비우고 다시 발행 |
 | 같은 주소의 글이 이미 있다는 오류 | 슬러그 중복 | 주소 끝에 숫자나 단어 추가 |
+| 글 목록 위에 "조회 통계가 아직 켜지지 않았습니다" | `supabase-post-views.sql` 미실행 | 5절 SQL 실행 |
+| 내가 글을 열어 봤는데 조회수가 안 오른다 | 관리자로 로그인한 브라우저는 세지 않음 | 로그아웃한 브라우저나 전화기에서 확인 |
 | 서치어드바이저 RSS 제출에 "사이트맵/RSS 형식이 올바르지 않습니다" | 발행된 글이 0개라 피드에 item 이 없음 | 첫 글을 발행한 뒤 다시 제출 |
 | 글 주소가 `%EA%B8%89...` 처럼 길다 | 한글 슬러그 | 발행 전에 영문으로 |
