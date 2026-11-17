@@ -67,7 +67,9 @@ Cloudinary 콘솔 → Settings → Upload → Upload presets 에 이름이 `aovo
 1. **서치어드바이저 등록**: searchadvisor.naver.com → 웹마스터 도구 → 사이트 등록 → `https://www.aovo.kr` → 소유확인 "HTML 태그" → `content="..."` 값을 `src/app/layout.tsx` 의 `NAVER_SITE_VERIFICATION` 에 넣고 배포 → 소유확인.
 2. **요청 → 사이트맵 제출**: `https://www.aovo.kr/sitemap.xml` (발행 글이 자동으로 붙습니다).
 3. **요청 → RSS 제출**: `https://www.aovo.kr/feed.xml`.
-4. **새 글마다**: 요청 → 웹 페이지 수집에 글 주소를 넣습니다. 이걸 해야 며칠 안에 잡힙니다.
+4. **새 글마다**: 글을 발행 · 수정 · 삭제하면 사이트가 네이버와 빙에 그 주소를 자동으로 알립니다(IndexNow, `src/lib/indexnow.ts`, 열쇠 파일 `public/eca540d09ef3633ac20e0158fbbd01ff.txt`). 운영 배포에서만 보내고, 초안과 예약 글은 보내지 않습니다. 서치어드바이저 «웹 페이지 수집»은 이제 넣지 않아도 되지만, 급한 글은 같이 넣어도 됩니다.
+   - 이미 올라간 글을 한꺼번에 다시 알리려면 관리자로 로그인한 상태에서 `POST /api/admin/posts/indexnow` 를 부릅니다. 응답의 `results` 에 엔진별 상태(200 · 202 면 접수)가 나옵니다.
+   - 알림은 «와서 읽어 가라»는 신호일 뿐 색인을 보장하지 않습니다. 접수 여부는 서치어드바이저 → 요청 → IndexNow 에서 볼 수 있습니다.
 5. **검증 → 웹 페이지 최적화**: 글 주소 하나를 넣어 제목·설명·OG·canonical 이 "정상"인지 확인.
 
 구글은 search.google.com/search-console 에 같은 사이트맵을 제출합니다(소유확인은 이미 되어 있습니다).

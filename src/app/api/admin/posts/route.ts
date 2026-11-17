@@ -4,6 +4,8 @@ import { getAdminSession } from "@/lib/admin-session";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { BLOG_CACHE_TAG, type PostRow } from "@/lib/blog";
 import { fromRow, parsePostInput, toRowPatch } from "@/lib/post-input";
+import { notifyPostChanged } from "@/lib/indexnow";
+import { isLive } from "@/lib/post-live";
 
 /** 관리자 전용. 초안을 포함한 모든 글. */
 export async function GET() {
@@ -47,7 +49,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "글을 저장하지 못했습니다." }, { status: 500 });
     }
     revalidateTag(BLOG_CACHE_TAG, "max");
-    return NextResponse.json({ data: fromRow(data as PostRow) }, { status: 201 });
+    const row = data as PostRow;
+    /* 지금 공개된 글이면 검색엔진에 바로 알립니다(초안 · 예약 글은 알리지 않습니다). */
+    if (isLive(row)) notifyPostChanged(row.slug);
+    return NextResponse.json({ data: fromRow(row) }, { status: 201 });
   } catch (err) {
     console.error("[admin/posts] insert error", err);
     return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });

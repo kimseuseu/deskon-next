@@ -65,14 +65,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: "/privacy", priority: 0.3, changeFrequency: "yearly" },
   ];
 
+  const posts = await getPostIndex();
+  /* 글 목록(/blog)은 가장 최근에 고친 글의 시각을 마지막 수정일로 씁니다. 새 글이 올라온 것을 로봇이 알 수 있게. */
+  const latestPost = posts.reduce((max, p) => (p.modified > max ? p.modified : max), "");
+
   const staticEntries: MetadataRoute.Sitemap = pages.map((page) => ({
     url: `${BASE_URL}${page.url}`,
-    lastModified: now,
+    lastModified: page.url === "/blog" && latestPost ? latestPost : now,
     changeFrequency: page.changeFrequency,
     priority: page.priority,
   }));
 
-  const posts = await getPostIndex();
   const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${BASE_URL}/blog/${encodeURIComponent(post.slug)}`,
     lastModified: post.modified,
