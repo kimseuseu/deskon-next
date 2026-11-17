@@ -43,9 +43,9 @@ export function DarkPassage() {
         </div>
 
         {/* 어두운 겹. 알약으로 잘려 있다가 화면을 덮습니다. */}
-        <div className="pill-dark cue absolute inset-0 overflow-hidden bg-tk text-white" style={span(0.02, 0.2)}>
+        <div className="pill-dark scrub-body cue absolute inset-0 overflow-hidden bg-tk text-white" style={span(0.02, 0.2)}>
           {/* 영상. 어둠 위에서 떠오르고, 0.36부터 프레임이 넘어갑니다. */}
-          <div className="cue-in absolute inset-0" style={{ ...span(0.3, 0.4), "--dy": "0px" } as CSSProperties}>
+          <div className="scrub-media cue-in absolute inset-0" style={{ ...span(0.3, 0.4), "--dy": "0px" } as CSSProperties}>
             <FrameScrub base={`/seq/${seq}`} count={count} from={0.36} to={1} />
             <div
               aria-hidden
@@ -55,7 +55,7 @@ export function DarkPassage() {
 
           {/* 가운데 설명. 제목 밑에 섰다가 영상이 뜨기 전에 사라집니다. */}
           <p
-            className="cue-through absolute top-1/2 left-1/2 w-[min(92vw,36rem)] -translate-x-1/2 translate-y-[clamp(2.4rem,4.2vw,3.6rem)] text-center whitespace-pre-line text-[clamp(1rem,1.5vw,1.25rem)] font-medium leading-[1.65] text-white/75"
+            className="scrub-cap scrub-lead cue-through absolute top-1/2 left-1/2 w-[min(92vw,36rem)] -translate-x-1/2 translate-y-[clamp(2.4rem,4.2vw,3.6rem)] text-center whitespace-pre-line text-[clamp(1rem,1.5vw,1.25rem)] font-medium leading-[1.65] text-white/75"
             style={{ ...through(0.19, 0.25, 0.28, 0.34), "--dy": "1rem" } as CSSProperties}
           >
             {waterPill.lead}
@@ -72,7 +72,7 @@ export function DarkPassage() {
             restFrom={0.43}
             restTo={0.49}
             ghostClassName="text-[clamp(2.2rem,5.4vw,4.4rem)] font-bold leading-[1.2] tracking-[-0.035em]"
-            wrapperClassName="cue-through absolute top-1/2 right-6 flex w-[min(90vw,44rem)] -translate-y-1/2 flex-col items-end text-right lg:right-[8vw]"
+            wrapperClassName="scrub-cap cue-through absolute top-1/2 right-6 flex w-[min(90vw,44rem)] -translate-y-1/2 flex-col items-end text-right lg:right-[8vw]"
             wrapperStyle={{ ...through(0.17, 0.23, 0.55, 0.61), "--dy": "1.5rem" } as CSSProperties}
             className="pointer-events-none"
           />
@@ -81,7 +81,7 @@ export function DarkPassage() {
           {others.map((c) => (
             <div
               key={c.title}
-              className="cue-through pointer-events-none absolute top-1/2 left-6 flex w-[min(90vw,44rem)] -translate-y-1/2 flex-col items-start gap-3 text-left lg:left-[8vw]"
+              className="scrub-cap cue-through pointer-events-none absolute top-1/2 left-6 flex w-[min(90vw,44rem)] -translate-y-1/2 flex-col items-start gap-3 text-left lg:left-[8vw]"
               style={{ ...through(c.at[0], c.at[1], c.at[2], c.at[3]), "--dy": "2rem" } as CSSProperties}
             >
               <p className="text-[clamp(1.9rem,4.6vw,3.6rem)] font-bold leading-[1.22] tracking-[-0.03em] text-balance text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]">

@@ -14,7 +14,12 @@
 .tw-hero, .scrub, .pill-scene { height: auto !important; }
 .tw-hero-card { position: relative !important; inset: auto !important; }
 .tw-hero-dim, .pill-word { display: none !important; }
-.scrub-stage { position: relative !important; height: auto !important; min-height: 100svh; }
+.scrub-stage { position: relative !important; height: auto !important; min-height: 0; }
+/* 스크럽 장면의 자막은 한 자리를 번갈아 쓰므로, 영상 한 장 아래로 차례로 놓습니다. */
+.scrub-body { position: relative !important; inset: auto !important; height: auto !important; display: flex; flex-direction: column; gap: 2.25rem; padding-block: 0 3.5rem; }
+.scrub-media { position: relative !important; inset: auto !important; width: 100%; aspect-ratio: 4 / 5; max-height: 72svh; }
+.scrub-cap { position: relative !important; inset: auto !important; translate: none !important; width: auto !important; margin-inline: 1.5rem; text-align: left !important; align-items: flex-start !important; }
+.scrub-lead { order: -1; margin-top: 3.5rem; margin-bottom: -0.75rem; }
 .pill-dark { clip-path: none !important; }
 .ty-char::after { display: none; }
 .shelf { height: auto !important; }
@@ -26,6 +31,10 @@
 .pipe-line { transform: scaleX(1) !important; }
 .ring-arc { stroke-dashoffset: 0 !important; }
 .ring-center { display: none !important; }
+/* 홈의 숫자: 원은 다 번진 모습으로, 제 높이로 섭니다. */
+.ink-scene { height: auto !important; }
+.ink-under { display: none !important; }
+.ink { clip-path: none !important; position: relative !important; inset: auto !important; padding-block: 6rem; }
 /* 홈의 선언(명세서): 다 지워진 끝 모습으로 서고, 겹쳐 있던 제목 둘은 위아래로 풉니다. */
 .bill-scene .stage { padding-block: 6rem; }
 .bill-row, .bill-rule, .bill-strike, .bill-roll-strip { opacity: 1 !important; transform: none !important; }

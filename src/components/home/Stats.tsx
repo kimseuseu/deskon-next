@@ -46,7 +46,7 @@ export default function Stats() {
     <Scene className="ink-scene">
       <div className="stage bg-white text-tx">
         {/* 흰 무대: 제목만 */}
-        <div className="absolute inset-0 flex items-center justify-center px-6 text-center [&_h2_span]:text-tb">{title}</div>
+        <div className="ink-under absolute inset-0 flex items-center justify-center px-6 text-center [&_h2_span]:text-tb">{title}</div>
 
         {/* 어두운 원 */}
         <div className="ink cue absolute inset-0 bg-tk text-white">

@@ -46,16 +46,20 @@ export function ScrubScene({
   return (
     <Scene className={`scrub ${dark ? "bg-tk" : "bg-white"}`} style={{ "--n": n } as CSSProperties} aria-label={label}>
       <div className={`scrub-stage ${dark ? "bg-tk text-white" : "bg-white text-tx"}`}>
-        <div className={`${shrink ? "scrub-shrink cue " : ""}relative h-full w-full overflow-hidden ${dark ? "bg-tk-2" : "bg-tg"}`}>
-          <FrameScrub base={`/seq/${seq}`} count={count} />
-          {/* 어두운 장면만 위아래를 조금 눌러 글을 받칩니다. 밝은 장면은 영상 그대로 둡니다.
-              흰 겹을 얹으면 화면이 뿌옇게 보입니다. */}
-          {dark && (
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(23,23,28,0.45)_0%,rgba(23,23,28,0)_32%,rgba(23,23,28,0)_68%,rgba(23,23,28,0.55)_100%)]"
-            />
-          )}
+        {/* scrub-body · scrub-media · scrub-cap: 움직임 최소 모드에서 자막을 한 자리에 겹치지 않고
+            영상 아래로 차례로 세우는 표시(globals.css). */}
+        <div className={`scrub-body ${shrink ? "scrub-shrink cue " : ""}relative h-full w-full overflow-hidden ${dark ? "bg-tk-2" : "bg-tg"}`}>
+          <div className="scrub-media absolute inset-0">
+            <FrameScrub base={`/seq/${seq}`} count={count} />
+            {/* 어두운 장면만 위아래를 조금 눌러 글을 받칩니다. 밝은 장면은 영상 그대로 둡니다.
+                흰 겹을 얹으면 화면이 뿌옇게 보입니다. */}
+            {dark && (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(23,23,28,0.45)_0%,rgba(23,23,28,0)_32%,rgba(23,23,28,0)_68%,rgba(23,23,28,0.55)_100%)]"
+              />
+            )}
+          </div>
           {captions.map((c) => {
             const [a, b, c2, d] = c.at;
             const x =
@@ -79,7 +83,7 @@ export function ScrubScene({
             return (
               <div
                 key={c.title}
-                className={`cue-through pointer-events-none absolute flex flex-col gap-3 ${dark ? "w-[min(90vw,44rem)]" : "w-[min(90vw,36rem)]"} ${x} ${yPos} ${card}`}
+                className={`scrub-cap cue-through pointer-events-none absolute flex flex-col gap-3 ${dark ? "w-[min(90vw,44rem)]" : "w-[min(90vw,36rem)]"} ${x} ${yPos} ${card}`}
                 style={{ ...through(a, b, c2, d), "--dy": "2rem" } as CSSProperties}
               >
                 <p
