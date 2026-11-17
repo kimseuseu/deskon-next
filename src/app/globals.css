@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-/* 움직임 최소화: «동작 줄이기»를 켰거나 휴대폰 폭(767px 이하)이면 같은 정지 화면.
-   이 파일의 (prefers-reduced-motion: reduce) 블록과 useMinimalMotion 훅이 같은 기준을 씁니다. */
+/* 스크롤 연출 멈춤: «동작 줄이기»를 켰거나 휴대폰 폭(767px 이하)이면 장면 고정 · 프레임 넘김 ·
+   스크롤 등장이 멈춘 정지 화면. 이 파일의 (max-width: 767px) 블록과 useMinimalMotion 훅이 같은 기준을 씁니다.
+   누르면 반응하는 움직임(버튼 · 메뉴 · 모달 · 문의 단계)은 휴대폰에서도 남고, «동작 줄이기»만 끕니다. */
 @custom-variant motion-safe {
   @media (prefers-reduced-motion: no-preference) and (min-width: 768px) { @slot; }
 }
@@ -335,19 +336,24 @@ input:focus, textarea:focus, select:focus {
   transition: box-shadow 300ms ease, border-color 300ms ease;
 }
 
-/* Reduced motion or phone width — disable ALL animations */
-@media (prefers-reduced-motion: reduce), (max-width: 767px) {
+/* «동작 줄이기»: 모든 움직임을 끕니다. */
+@media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  #scroll-progress { display: none; }
-  /* 스크롤 등장(Reveal · StaggerItem · LineReveal)과 첫 문장 떠오르기는
-     처음부터 제자리에. 스크립트가 늦게 깨어나는 휴대폰에서도 글이 비지 않습니다. */
-  [data-reveal] { opacity: 1 !important; transform: none !important; }
   .rise { animation: none !important; }
+}
+
+/* «동작 줄이기» 또는 휴대폰 폭: 스크롤에 묶인 것만 멈춥니다. 버튼 · 메뉴 · 모달의
+   전환과 짧은 첫 문장 떠오르기는 휴대폰에서도 그대로 둡니다. */
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
+  #scroll-progress { display: none; }
+  /* 스크롤 등장(Reveal · StaggerItem · LineReveal)은 처음부터 제자리에.
+     스크립트가 늦게 깨어나는 휴대폰에서도 글이 비지 않습니다. */
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -773,7 +779,7 @@ input:focus, textarea:focus, select:focus {
 .tw-cue-arrow {
   animation: cueDip 1.8s ease-in-out infinite;
 }
-@media (prefers-reduced-motion: reduce), (max-width: 767px) {
+@media (prefers-reduced-motion: reduce) {
   .tw-cue-arrow { animation: none; }
 }
 
@@ -1151,7 +1157,7 @@ input:focus, textarea:focus, select:focus {
   will-change: transform;
 }
 .ticker:hover .ticker-track { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce), (max-width: 767px) {
+@media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; transform: none; }
 }
 

@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
+import { motion, useReducedMotion } from "framer-motion";
 import { EASE } from "./ui";
 
 export interface StepMeta {
@@ -23,7 +22,7 @@ export default function StepIndicator({
   current: number;
   onJump: (index: number) => void;
 }) {
-  const reduce = useMinimalMotion();
+  const reduce = useReducedMotion();
   return (
     <nav aria-label="문의 단계">
       {/* 넓은 화면 */}

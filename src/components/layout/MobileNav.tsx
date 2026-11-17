@@ -2,8 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { divisions } from "@/data/divisions";
 import { brands } from "@/data/brands";
 import { featured } from "@/data/navigation";
@@ -29,7 +28,7 @@ interface MobileNavProps {
 
 /** 전화기 메뉴. 흰 화면이 위에서 내려오고, 강조 메뉴 둘이 파란 카드로 맨 위에 섭니다. */
 export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
-  const reduce = useMinimalMotion();
+  const reduce = useReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {

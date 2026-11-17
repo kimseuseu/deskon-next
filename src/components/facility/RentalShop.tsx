@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
 import { categories, products, type CategoryId, type RentalProduct } from "@/data/gasRental";
 import { gas } from "@/data/facility";
 import { COMPANY } from "@/lib/constants";
@@ -30,7 +29,7 @@ export function RentalShop() {
   const [open, setOpen] = useState<RentalProduct | null>(null);
   const [page, setPage] = useState(1);
   const gridRef = useRef<HTMLDivElement>(null);
-  const reduce = useMinimalMotion();
+  const reduce = useReducedMotion();
 
   const list = useMemo(() => {
     const base = filter === "all" ? products : products.filter((p) => p.category === filter);
@@ -231,7 +230,7 @@ function ProductCard({ p, onOpen, phone }: { p: RentalProduct; onOpen: () => voi
 
 /** 빠른 보기. 카드를 누르면 가운데에서 열리고, 바깥을 누르거나 Esc로 닫힙니다. */
 function QuickView({ p, phone, onClose }: { p: RentalProduct | null; phone: string; onClose: () => void }) {
-  const reduce = useMinimalMotion();
+  const reduce = useReducedMotion();
   useEffect(() => {
     if (!p) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();

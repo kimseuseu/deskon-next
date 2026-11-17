@@ -1,7 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { COMPANY } from "@/lib/constants";
 import { summarizeDetails, type InquiryDetails, type InquiryDraft } from "@/data/inquiry";
 import { EASE } from "./ui";
@@ -26,7 +25,7 @@ export function summaryRows(details: InquiryDetails | null, draft: InquiryDraft)
 }
 
 export default function SummaryCard({ details, draft }: { details: InquiryDetails | null; draft: InquiryDraft }) {
-  const reduce = useMinimalMotion();
+  const reduce = useReducedMotion();
   const rows = summaryRows(details, draft);
   const memo = details?.memo;
 

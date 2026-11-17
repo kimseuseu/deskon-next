@@ -1,7 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { COMPANY } from "@/lib/constants";
 import {
   DURATION_OPTIONS,
@@ -184,7 +183,7 @@ export function DetailsStep({ draft, set, errors, field }: StepProps & { field: 
 
 /* ── ④ 연락처 + 명함 ──────────────────────────────────────────────────── */
 export function ContactStep({ draft, set, errors, onUploadingChange }: StepProps & { onUploadingChange: (u: boolean) => void }) {
-  const reduce = useMinimalMotion();
+  const reduce = useReducedMotion();
   const fromCard = draft.contactFromCard && Boolean(draft.businessCard);
   return (
     <>

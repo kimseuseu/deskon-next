@@ -8,13 +8,14 @@ import { useIsMobile } from "@/components/motion/useMinimalMotion";
 /**
  * Site-wide inertial smooth scrolling (public pages only).
  * MotionConfig makes every framer-motion animation honor the
- * user's prefers-reduced-motion setting, and on phones it always
- * drops transform/layout motion. Anchor links jump instead of glide there.
+ * user's prefers-reduced-motion setting. Phones keep interaction motion
+ * (menus, dialogs, form steps); scroll choreography opts out on its own
+ * via useMinimalMotion. Anchor links jump instead of glide on phones.
  */
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   const mobile = useIsMobile();
   return (
-    <MotionConfig reducedMotion={mobile ? "always" : "user"}>
+    <MotionConfig reducedMotion="user">
       <ReactLenis
         root
         options={{

@@ -2,8 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
-import { useMinimalMotion } from "@/components/motion/useMinimalMotion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { Project } from "@/data/water-story";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -28,7 +27,7 @@ export function ProjectLightbox({
   onClose: () => void;
   onStep: (dir: 1 | -1) => void;
 }) {
-  const reduce = useMinimalMotion();
+  const reduce = useReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
   const open = index !== null;
   const p = open ? items[index] : null;
