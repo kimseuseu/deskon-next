@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CountUp from "@/components/motion/CountUp";
 import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { COMPANY } from "@/lib/constants";
 
 /* ── Data ── */
 const milestones = [
@@ -50,7 +51,7 @@ const milestones = [
 ];
 
 const stats = [
-  { value: 10, suffix: "년+", label: "업력" },
+  { value: COMPANY.years, suffix: "년", label: "업력" },
   { value: 2500, suffix: "+", label: "거래 기업" },
   { value: 50000, suffix: "+", label: "운영 장비" },
 ];

@@ -33,7 +33,7 @@ const stats = [
   { value: 2500, suffix: "+", label: "누적 거래 기업" },
   { value: 50000, suffix: "+", label: "운영 장비 수" },
   { value: 98, suffix: "%", label: "고객 만족도" },
-  { value: 10, suffix: "년+", label: "업력" },
+  { value: COMPANY.years, suffix: "년", label: "업력" },
 ];
 
 const storyCards = [

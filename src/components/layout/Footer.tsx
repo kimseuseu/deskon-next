@@ -3,6 +3,7 @@ import { divisions } from "@/data/divisions";
 import { brands } from "@/data/brands";
 import { featured } from "@/data/navigation";
 import { COMPANY } from "@/lib/constants";
+import { officialChannels } from "@/data/company-intro";
 import Logo from "@/components/ui/Logo";
 
 const aboutLinks = [
@@ -13,12 +14,13 @@ const aboutLinks = [
   { label: "파트너 계약", href: "/about/partners" },
 ];
 
-const supportLinks = [
+const supportLinks: { label: string; href: string; external?: boolean }[] = [
   { label: "현장 노트", href: "/blog" },
   { label: "공지사항", href: "/support/notice" },
   { label: "FAQ", href: "/support/faq" },
   { label: "문의하기", href: "/support/contact" },
-  { label: "카카오 채널", href: COMPANY.kakaoChannel, external: true },
+  /* 공식 채널. 검색엔진용 회사 정보(sameAs)와 같은 주소입니다. */
+  ...officialChannels.filter((c) => c.footer).map((c) => ({ label: c.label, href: c.url, external: true })),
 ];
 
 function Column({ title, children }: { title: string; children: React.ReactNode }) {

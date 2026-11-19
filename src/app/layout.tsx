@@ -98,7 +98,7 @@ const organizationJsonLd = {
   email: "mbc8447289@naver.com",
   areaServed: "KR",
   /* 네이버 «사이트 연관채널» 이 읽는 속성. 확인된 공식 채널만 넣습니다. */
-  sameAs: officialChannels,
+  sameAs: officialChannels.map((c) => c.url),
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+82-2-2683-4459",

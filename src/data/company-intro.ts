@@ -7,7 +7,8 @@ import { COMPANY } from "@/lib/constants";
  * 검색 요약 글과 AI 브리핑은 «X 는 ~하는 Y 입니다» 꼴의 정의 문장, 품목 목록, 번호가 붙은 절차를
  * 그대로 가져다 씁니다. 그래서 여기 문장은 구호가 아니라 사실 문장으로 씁니다.
  *
- * 숫자(시작 연도, 거래 기업 수, 요금)는 넣지 않습니다. 채널마다 값이 달라 사용자가 하나로 정하기 전입니다.
+ * 업력은 COMPANY.years(22년, 2026-11-19 사용자 확인) 하나만 씁니다. 설립 연도는 적지 않습니다(법인 설립 연도와
+ * 업력의 시작이 달라 구조화 데이터의 foundingDate 도 넣지 않음). 거래 기업 수와 요금은 넣지 않습니다.
  */
 export const companyIntro = {
   /** 한 문장 정의. 어디서든 이 문장으로 시작합니다. */
@@ -57,7 +58,7 @@ export const introQA: IntroQA[] = [
   },
   {
     q: "아오보와 킴샵은 어떤 관계인가요?",
-    a: `아오보(AOVO Group)는 브랜드 이름이고, 운영 법인은 ${COMPANY.legalName}(대표 ${COMPANY.ceo}, 사업자등록번호 ${COMPANY.bizNumber})입니다. 킴샵이 해 온 장비 렌탈과 설비 일을 구독, 공유, 재정비 중고, 매입까지 넓혀 한곳에 모은 이름이 아오보입니다.`,
+    a: `아오보(AOVO Group)는 브랜드 이름이고, 운영 법인은 ${COMPANY.legalName}(대표 ${COMPANY.ceo}, 사업자등록번호 ${COMPANY.bizNumber})입니다. 킴샵이 ${COMPANY.years}년 동안 해 온 장비 렌탈과 설비 일을 구독, 공유, 재정비 중고, 매입까지 넓혀 한곳에 모은 이름이 아오보입니다.`,
   },
   {
     q: "아오보에서 무엇을 이용할 수 있나요?",
@@ -91,7 +92,13 @@ export function introAnswerText(item: IntroQA): string {
 }
 
 /**
- * 공식 채널. 조직 구조화 데이터의 sameAs 로 나갑니다(네이버 «사이트 연관채널»).
- * 우리가 운영하는 것이 확인된 채널만 넣습니다. 네이버 블로그와 스마트스토어는 사용자 확인 뒤 추가.
+ * 공식 채널. 조직 구조화 데이터의 sameAs 로 나가고(네이버 «사이트 연관채널»), 바닥글에도 같은 주소로 섭니다.
+ * 우리가 운영하는 것이 확인된 채널만 넣습니다(2026-11-19 사용자 확인: 카카오톡 채널, 네이버 블로그 둘, 스마트스토어).
+ * footer 가 true 인 것만 바닥글에 보입니다.
  */
-export const officialChannels: string[] = ["https://pf.kakao.com/_qxkxnRX"];
+export const officialChannels = [
+  { label: "카카오 채널", url: "https://pf.kakao.com/_qxkxnRX", footer: true },
+  { label: "네이버 블로그", url: "https://blog.naver.com/kimshop365", footer: true },
+  { label: "네이버 블로그(킴샵)", url: "https://blog.naver.com/kimshop19", footer: false },
+  { label: "스마트스토어", url: "https://smartstore.naver.com/kimshop19", footer: true },
+] as const;

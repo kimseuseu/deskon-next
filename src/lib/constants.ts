@@ -2,6 +2,8 @@ export const COMPANY = {
   name: "AOVO Group",
   nameKo: "아오보 그룹",
   legalName: "주식회사 킴샵",
+  /** 업력(년). 2026-11-19 사용자 확인값. 화면의 «업력», «22년 동안» 이 모두 이 값을 씁니다. 해가 바뀌면 여기만 올립니다. */
+  years: 22,
   ceo: "김영식",
   bizNumber: "302-88-01373",
   salesReportNumber: "제2019-인천중구-0276호",

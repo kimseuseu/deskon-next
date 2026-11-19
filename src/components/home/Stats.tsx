@@ -6,6 +6,7 @@ import { Scene, useSceneProgress } from "@/components/film/Scene";
 import { span } from "@/components/film/cue";
 import { groupStats, network } from "@/data/divisions";
 import CountUp from "@/components/motion/CountUp";
+import { COMPANY } from "@/lib/constants";
 
 /** 어두운 원이 다 번진 뒤(0.45)에야 숫자가 올라갑니다. */
 function Numbers() {
@@ -54,7 +55,7 @@ export default function Stats() {
             <div className="mx-auto w-full max-w-[1200px] text-center [&_h2_span]:text-tb-soft">
               {title}
               <p className="cue-in mx-auto mt-4 max-w-2xl text-[17px] font-medium leading-[1.7] text-white/65" style={span(0.4, 0.52)}>
-                2015년부터 지금까지 현장에서 쌓아 온 운영의 기록입니다.
+                {COMPANY.years}년 동안 현장에서 쌓아 온 운영의 기록입니다.
               </p>
               <Numbers />
               <div className="cue-in mt-12 flex flex-col items-center gap-4 lg:mt-16" style={span(0.66, 0.8)}>
