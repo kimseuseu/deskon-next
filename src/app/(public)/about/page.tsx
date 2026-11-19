@@ -1,8 +1,32 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { AboutIntro } from "@/components/about/AboutIntro";
+import { companyIntro, introAnswerText, introQA } from "@/data/company-intro";
 import CountUp from "@/components/motion/CountUp";
 import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { COMPANY, SERVICE_CATEGORIES } from "@/lib/constants";
+
+/* «아오보» 검색에서 이 페이지가 잡히므로 요약 글이 될 설명문을 정의 문장으로 둡니다. */
+export const metadata: Metadata = {
+  title: "아오보 그룹 소개 · 주식회사 킴샵이 운영하는 비즈니스 장비 서비스",
+  description: companyIntro.metaDescription,
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "아오보 그룹 소개 | 아오보",
+    description: companyIntro.definition,
+  },
+};
+
+const introLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: introQA.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: introAnswerText(item) },
+  })),
+};
 
 /* ── Data ── */
 const stats = [
@@ -63,6 +87,7 @@ const LEAD = "whitespace-pre-line text-[17px] font-medium leading-[1.7] text-tx-
 export default function AboutPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(introLd) }} />
       {/* ═══ HERO ═══ */}
       <section data-hero-dark className="relative isolate overflow-hidden bg-tk text-white">
         <Image src="/images/aovo-banner2.webp" alt="" fill className="-z-20 object-cover" priority />
@@ -78,7 +103,7 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mx-auto mt-6 max-w-2xl whitespace-pre-line text-[17px] font-medium leading-[1.7] text-white/80">
-              {"비즈니스 장비의 구매부터 운영, 자산연대까지.\nAOVO Group은 기업이 본업에만 집중할 수 있는 환경을 만듭니다."}
+              {"비즈니스 장비의 구매부터 운영, 자산연대까지.\n아오보 그룹(AOVO Group)은 기업이 본업에만 집중할 수 있는 환경을 만듭니다."}
             </p>
           </Reveal>
           <Reveal delay={0.2}>
@@ -91,6 +116,9 @@ export default function AboutPage() {
           </Reveal>
         </div>
       </section>
+
+      {/* ═══ 아오보 소개: 정의 문장과 질문 · 답 ═══ */}
+      <AboutIntro />
 
       {/* ═══ STATS ═══ */}
       <section className="bg-white text-tx" aria-label="주요 수치">

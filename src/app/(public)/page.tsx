@@ -4,6 +4,7 @@ import DivisionIndex from "@/components/home/DivisionIndex";
 import Brands from "@/components/home/Brands";
 import Stats from "@/components/home/Stats";
 import LandingPair from "@/components/home/LandingPair";
+import HomeIntro from "@/components/home/HomeIntro";
 import ContactCTA from "@/components/home/ContactCTA";
 
 const websiteJsonLd = {
@@ -22,7 +23,8 @@ const websiteJsonLd = {
  *   4. 다섯 분야  머리 밑의 선이 그어지고, 카드가 헤더 밑에 붙어 차례로 덮인다.
  *   5. 여섯 브랜드 카드가 작은 데서 커지며 차례로 선다.
  *   6. 숫자       흰 무대 위로 어두운 원이 번지고 그 안에서 숫자가 센다.
- *   7. 맺음       제목이 줄 단위로 가려졌다 올라온다.
+ *   7. 아오보는   회사를 한 문단의 사실 문장으로 말하고, 여섯 곳으로 가는 문을 둔다.
+ *   8. 맺음       제목이 줄 단위로 가려졌다 올라온다.
  */
 export default function HomePage() {
   return (
@@ -34,6 +36,7 @@ export default function HomePage() {
       <DivisionIndex />
       <Brands />
       <Stats />
+      <HomeIntro />
       <ContactCTA />
     </>
   );

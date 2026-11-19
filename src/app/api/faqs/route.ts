@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getAdminSession } from "@/lib/admin-session";
 import { createAdminClient } from "@/lib/supabase-admin";
 
@@ -54,6 +55,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    /* 자주 묻는 질문 페이지는 서버에서 그려 5분 동안 보관합니다. 고치면 바로 다시 그리게 합니다. */
+    revalidatePath("/support/faq");
     return NextResponse.json({ data }, { status: 201 });
   } catch (err) {
     console.error("FAQ POST error:", err);

@@ -6,6 +6,7 @@ import "./globals.css";
 import MetaPixel from "@/components/seo/MetaPixel";
 import NaverAnalytics from "@/components/seo/NaverAnalytics";
 import { Analytics } from "@vercel/analytics/next";
+import { companyIntro, officialChannels } from "@/data/company-intro";
 
 // Only /about/ci still renders Syne (brand-typeface specimen)
 const syne = Syne({
@@ -37,8 +38,8 @@ export const metadata: Metadata = {
     default: "아오보 | 비즈니스 자산 통합 운영 플랫폼",
     template: "%s | 아오보",
   },
-  description:
-    "구독 · 공유 · 렌탈 · 자산연대 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법. 쓰는 만큼만, 낭비 없이.",
+  /* 검색 결과의 요약 글. 구호가 아니라 «아오보는 ~입니다» 꼴의 정의 문장입니다(src/data/company-intro.ts). */
+  description: companyIntro.metaDescription,
   // favicon/apple icon은 src/app/icon.png, apple-icon.png 파일 컨벤션으로 자동 연결
   keywords: [
     "아오보",
@@ -65,8 +66,7 @@ export const metadata: Metadata = {
     url: "https://www.aovo.kr/",
     siteName: "아오보",
     title: "아오보 | 비즈니스 자산 통합 운영 플랫폼",
-    description:
-      "구독 · 공유 · 렌탈 · 자산연대 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법",
+    description: companyIntro.definition,
     images: [
       {
         url: "/images/og-image.png",
@@ -79,8 +79,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "아오보 | 비즈니스 자산 통합 운영 플랫폼",
-    description:
-      "구독 · 공유 · 렌탈 · 자산연대 · 유통 — 비즈니스 장비를 가장 효율적으로 운영하는 방법",
+    description: companyIntro.definition,
     images: ["/images/og-image.png"],
   },
 };
@@ -91,10 +90,22 @@ const organizationJsonLd = {
   name: "아오보",
   alternateName: ["AOVO", "AOVO Group", "아오보 그룹"],
   legalName: "주식회사 킴샵",
+  description: `${companyIntro.definition} ${companyIntro.scope}`,
+  disambiguatingDescription: companyIntro.disambiguation,
   url: "https://www.aovo.kr/",
   logo: "https://www.aovo.kr/images/aovo_symbol.png",
   telephone: "02-2683-4459",
   email: "mbc8447289@naver.com",
+  areaServed: "KR",
+  /* 네이버 «사이트 연관채널» 이 읽는 속성. 확인된 공식 채널만 넣습니다. */
+  sameAs: officialChannels,
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+82-2-2683-4459",
+    contactType: "customer service",
+    areaServed: "KR",
+    availableLanguage: "Korean",
+  },
   address: {
     "@type": "PostalAddress",
     streetAddress: "서해대로 111 킴샵그룹",

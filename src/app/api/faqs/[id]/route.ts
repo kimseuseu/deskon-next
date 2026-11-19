@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getAdminSession } from "@/lib/admin-session";
 import { createAdminClient } from "@/lib/supabase-admin";
 
@@ -29,6 +30,7 @@ export async function PUT(
       return NextResponse.json({ error: "FAQ 수정에 실패했습니다." }, { status: 500 });
     }
 
+    revalidatePath("/support/faq");
     return NextResponse.json({ data });
   } catch (err) {
     console.error("FAQ PUT error:", err);
@@ -60,6 +62,7 @@ export async function DELETE(
       return NextResponse.json({ error: "FAQ 삭제에 실패했습니다." }, { status: 500 });
     }
 
+    revalidatePath("/support/faq");
     return NextResponse.json({ message: "삭제되었습니다." });
   } catch (err) {
     console.error("FAQ DELETE error:", err);

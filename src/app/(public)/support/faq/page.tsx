@@ -1,101 +1,65 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import Reveal, { Stagger, StaggerItem } from "@/components/motion/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import PageHero from "@/components/ui/PageHero";
+import { FaqList, type Faq } from "@/components/support/FaqList";
+import { createAdminClient } from "@/lib/supabase-admin";
 
-interface FAQ {
-  id: string;
-  question: string;
-  answer: string;
-  sort_order: number;
+export const metadata: Metadata = {
+  title: "자주 묻는 질문 · 구독 · 렌탈 · 배송 · 견적",
+  description:
+    "아오보 구독과 렌탈의 차이, 최소 계약 기간, 장비 고장 대응, 배송 지역, 견적 받는 방법, 쓰던 장비 매입까지. 아오보에 자주 들어오는 질문과 답을 모았습니다.",
+  alternates: { canonical: "/support/faq" },
+};
+
+/* 서버에서 그립니다. 예전에는 화면이 열린 뒤 /api/faqs 를 불러서 검색 로봇이 받는 첫 문서에 질문과 답이 없었습니다.
+   5분마다 다시 읽고, 관리자가 고치면 /api/faqs 가 이 페이지를 바로 갱신합니다. */
+export const revalidate = 300;
+
+async function getFaqs(): Promise<Faq[]> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) return [];
+  try {
+    const { data, error } = await createAdminClient()
+      .from("deskon_faqs")
+      .select("id, question, answer")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+    if (error) {
+      console.error("[faq] fetch failed", error);
+      return [];
+    }
+    return (data ?? []) as Faq[];
+  } catch (err) {
+    console.error("[faq] fetch failed", err);
+    return [];
+  }
 }
 
-function FAQItem({ faq }: { faq: FAQ }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const panelId = `faq-panel-${faq.id}`;
-
-  return (
-    <div className="rounded-[24px] bg-tg transition-colors duration-200 hover:bg-tg-2/70">
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        className="flex w-full items-start justify-between gap-4 rounded-[24px] px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-tb lg:px-7"
-      >
-        <span className="text-[16px] font-semibold leading-relaxed text-tx lg:text-[17px]">{faq.question}</span>
-        <span
-          aria-hidden
-          className={`mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-tb transition-transform duration-300 ${
-            isOpen ? "rotate-45" : ""
-          }`}
-        >
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-        </span>
-      </button>
-      <div
-        id={panelId}
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-        style={{
-          maxHeight: isOpen ? "500px" : "0px",
-          opacity: isOpen ? 1 : 0,
-        }}
-      >
-        <div className="px-6 pb-6 lg:px-7">
-          <p className="text-[15px] font-medium leading-[1.75] text-tx-2">{faq.answer}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function FAQPage() {
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/faqs")
-      .then((res) => res.json())
-      .then((json) => {
-        setFaqs(json.data || []);
-      })
-      .catch(() => {
-        setFaqs([]);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+export default async function FAQPage() {
+  const faqs = await getFaqs();
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
 
   return (
     <>
-      {/* Hero */}
-      <PageHero
-        eyebrow="FAQ"
-        title="자주 묻는 질문"
-        description="궁금한 점을 빠르게 확인하세요."
-      />
+      {faqs.length > 0 && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
+      <PageHero eyebrow="FAQ" title="자주 묻는 질문" description="아오보에 자주 들어오는 질문과 답입니다." />
 
-      {/* FAQ List */}
       <section className="bg-white text-tx">
         <div className="mx-auto max-w-3xl px-6 py-24 lg:py-36">
-          {loading ? (
-            <p className="py-20 text-center text-[15px] font-medium text-tx-3">불러오는 중...</p>
-          ) : faqs.length === 0 ? (
-            <p className="rounded-[24px] bg-tg py-20 text-center text-[15px] font-medium text-tx-3">등록된 FAQ가 없습니다.</p>
+          {faqs.length === 0 ? (
+            <p className="rounded-[24px] bg-tg py-20 text-center text-[15px] font-medium text-tx-3">등록된 질문이 아직 없습니다.</p>
           ) : (
-            <Stagger className="space-y-3" gap={0.06} amount={0.05}>
-              {faqs.map((faq) => (
-                <StaggerItem key={faq.id}>
-                  <FAQItem faq={faq} />
-                </StaggerItem>
-              ))}
-            </Stagger>
+            <FaqList faqs={faqs} />
           )}
 
-          {/* Extra CTA */}
           <Reveal className="mt-16 text-center">
             <p className="text-[17px] font-medium text-tx-2">원하는 답변을 찾지 못하셨나요?</p>
             <Link
