@@ -70,6 +70,8 @@ Cloudinary 콘솔 → Settings → Upload → Upload presets 에 이름이 `aovo
 4. **새 글마다**: 글을 발행 · 수정 · 삭제하면 사이트가 네이버와 빙에 그 주소를 자동으로 알립니다(IndexNow, `src/lib/indexnow.ts`, 열쇠 파일 `public/eca540d09ef3633ac20e0158fbbd01ff.txt`). 운영 배포에서만 보내고, 초안과 예약 글은 보내지 않습니다. 서치어드바이저 «웹 페이지 수집»은 이제 넣지 않아도 되지만, 급한 글은 같이 넣어도 됩니다.
    - 이미 올라간 글을 한꺼번에 다시 알리려면 관리자로 로그인한 상태에서 `POST /api/admin/posts/indexnow` 를 부릅니다. 응답의 `results` 에 엔진별 상태(200 · 202 면 접수)가 나옵니다.
    - 알림은 «와서 읽어 가라»는 신호일 뿐 색인을 보장하지 않습니다. 접수 여부는 서치어드바이저 → 요청 → IndexNow 에서 볼 수 있습니다.
+   - **구글**은 IndexNow 를 받지 않습니다. 대신 같은 순간에 WebSub 허브(`https://pubsubhubbub.appspot.com/`)에 «피드가 바뀌었다»고 알립니다(`src/lib/websub.ts`, 묶는 곳은 `src/lib/search-notify.ts`). 허브가 `/feed.xml` 을 바로 읽어 가므로, 알리기 전에 피드가 새 내용으로 바뀔 때까지 최대 3초쯤 기다리고, 피드 응답은 CDN 에 묵혀 두지 않습니다. 피드의 `<atom:link rel="hub">` 가 같은 허브를 가리킵니다. 일괄 경로 응답의 `websub.status` 가 204 면 접수입니다.
+   - 구글에 색인을 직접 요청하는 길은 서치 콘솔 → URL 검사 → «색인 생성 요청» 뿐이고 손으로만 됩니다. 며칠이 지나도 `site:aovo.kr/blog` 에 안 나오는 글만 넣습니다. Indexing API 는 채용 공고 · 라이브 방송 전용이라 쓰지 않습니다.
 5. **검증 → 웹 페이지 최적화**: 글 주소 하나를 넣어 제목·설명·OG·canonical 이 "정상"인지 확인.
 
 구글은 search.google.com/search-console 에 같은 사이트맵을 제출합니다(소유확인은 이미 되어 있습니다).

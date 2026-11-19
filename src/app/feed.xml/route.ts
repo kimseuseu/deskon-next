@@ -1,4 +1,5 @@
 import { getFeedPosts } from "@/lib/blog";
+import { WEBSUB_HUB } from "@/lib/websub";
 
 /**
  * RSS 2.0 피드. 네이버 서치어드바이저 → 요청 → RSS 제출에 이 주소를 넣습니다.
@@ -9,7 +10,10 @@ import { getFeedPosts } from "@/lib/blog";
  * - 최신 20편만 실어 본문 크기 제한에 걸리지 않게 합니다.
  *
  * 발행된 글이 하나도 없으면 item 이 비어 네이버가 "형식이 올바르지 않습니다" 로 거절합니다. 첫 글을 발행한 뒤 제출하세요.
- * 글 데이터는 5분 캐시(태그 blog-posts)이고, 관리자가 글을 저장하면 즉시 새로 만들어집니다.
+ * 글 데이터는 5분 캐시(태그 blog-posts)이고, 관리자가 글을 저장하면 새로 만들어집니다.
+ *
+ * <atom:link rel="hub"> 는 WebSub 허브 주소입니다(구글용, src/lib/websub.ts). 글을 저장하면 그 허브에 알리고,
+ * 허브가 곧바로 이 피드를 읽어 가므로 응답을 CDN 에 묵혀 두지 않습니다. 묵혀 두면 허브가 새 글이 없는 옛 피드를 받습니다.
  */
 
 const BASE = "https://www.aovo.kr";
@@ -60,6 +64,7 @@ export async function GET() {
     <language>ko-KR</language>
     <lastBuildDate>${lastBuild.toUTCString()}</lastBuildDate>
     <atom:link href="${BASE}/feed.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="${WEBSUB_HUB}" rel="hub" />
     <image>
       <url>${BASE}/images/aovo_symbol.png</url>
       <title>${escapeXml(TITLE)}</title>
@@ -72,7 +77,7 @@ ${items}
   return new Response(xml, {
     headers: {
       "Content-Type": "application/rss+xml; charset=utf-8",
-      "Cache-Control": "public, max-age=600, s-maxage=600, stale-while-revalidate=3600",
+      "Cache-Control": "public, max-age=0, must-revalidate",
     },
   });
 }

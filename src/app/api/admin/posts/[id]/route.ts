@@ -4,7 +4,7 @@ import { getAdminSession } from "@/lib/admin-session";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { BLOG_CACHE_TAG, type PostRow } from "@/lib/blog";
 import { fromRow, parsePostInput, toRowPatch } from "@/lib/post-input";
-import { notifyPostChanged } from "@/lib/indexnow";
+import { notifyPostChanged } from "@/lib/search-notify";
 import { isLive } from "@/lib/post-live";
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -79,7 +79,7 @@ export async function DELETE(_req: NextRequest, { params }: Ctx) {
       return NextResponse.json({ error: "글을 삭제하지 못했습니다." }, { status: 500 });
     }
     revalidateTag(BLOG_CACHE_TAG, "max");
-    /* 공개돼 있던 글을 지웠으면 그 주소가 사라졌다고 알립니다(IndexNow 는 삭제도 받습니다). */
+    /* 공개돼 있던 글을 지웠으면 그 주소가 사라졌다고 알립니다(IndexNow 는 삭제도 받고, 피드에서도 빠집니다). */
     if (data && isLive(data as Pick<PostRow, "status" | "published_at">)) notifyPostChanged((data as { slug: string }).slug);
     return NextResponse.json({ ok: true });
   } catch (err) {

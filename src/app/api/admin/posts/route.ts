@@ -4,7 +4,7 @@ import { getAdminSession } from "@/lib/admin-session";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { BLOG_CACHE_TAG, type PostRow } from "@/lib/blog";
 import { fromRow, parsePostInput, toRowPatch } from "@/lib/post-input";
-import { notifyPostChanged } from "@/lib/indexnow";
+import { notifyPostChanged } from "@/lib/search-notify";
 import { isLive } from "@/lib/post-live";
 
 /** 관리자 전용. 초안을 포함한 모든 글. */

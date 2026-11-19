@@ -1,5 +1,3 @@
-import { after } from "next/server";
-
 /**
  * IndexNow: 글을 발행 · 수정 · 삭제한 순간 검색엔진에 그 주소를 알립니다.
  *
@@ -71,12 +69,4 @@ export async function submitToIndexNow(paths: string[]): Promise<IndexNowResult[
       }
     }),
   );
-}
-
-/**
- * 응답을 보낸 뒤에 알립니다(저장 응답이 검색엔진 때문에 늦어지지 않게).
- * 글 주소와 함께 목록(/blog)도 보냅니다. 새 글이 목록 맨 위에 올라오기 때문입니다.
- */
-export function notifyPostChanged(slug: string) {
-  after(() => submitToIndexNow([postPath(slug), "/blog"]));
 }
