@@ -1,77 +1,60 @@
-"use client";
-
-import { useState } from "react";
-import { useMotionValueEvent } from "framer-motion";
-import { Scene, useSceneProgress } from "@/components/film/Scene";
-import { span } from "@/components/film/cue";
-import { groupStats, network } from "@/data/divisions";
 import CountUp from "@/components/motion/CountUp";
+import GrowLine from "@/components/motion/GrowLine";
+import { groupStats, network } from "@/data/divisions";
 import { COMPANY } from "@/lib/constants";
 
-/** 어두운 원이 다 번진 뒤(0.45)에야 숫자가 올라갑니다. */
-function Numbers() {
-  const p = useSceneProgress();
-  const [go, setGo] = useState(false);
-  useMotionValueEvent(p, "change", (v) => {
-    if (v > 0.45 && !go) setGo(true);
-  });
-  return (
-    <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 lg:mt-20 lg:grid-cols-4">
-      {groupStats.map((stat, i) => (
-        <div key={stat.label} className="cue-in text-center" style={span(0.46 + i * 0.04, 0.6 + i * 0.04)}>
-          <p className="whitespace-nowrap font-paperlogy text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">
-            <CountUp value={stat.value} active={go} />
-            <span className="ml-1 font-serif text-[0.5em] italic text-tb-soft">{stat.suffix}</span>
-          </p>
-          <p className="mt-4 text-[17px] font-semibold">{stat.label}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
+const [companies, assets, satisfaction, hubs] = groupStats;
+
+/* 장부의 줄. 업력이 맨 위, 거점 줄에만 배송 기준을 덧붙입니다. */
+const ROWS: { value: number; suffix: string; label: string; note?: string }[] = [
+  { value: COMPANY.years, suffix: "년", label: "업력" },
+  companies,
+  assets,
+  { ...hubs, note: network.sla },
+  satisfaction,
+];
 
 /**
- * 숫자. 흰 무대 가운데 제목이 서 있고, 스크롤하면 어두운 원이 번져 화면을 덮습니다.
- * 원 안에서 같은 제목이 흰 글자로 남고 그 밑에 숫자 넷이 올라옵니다.
+ * 숫자로 보는 아오보. 어두운 띠 위의 장부 한 장입니다.
+ *
+ * 숫자는 가운데 조금 오른쪽의 세로축에 오른쪽 끝을 맞춰 서고, 이름은 그 축 오른편에 섭니다.
+ * 줄마다 화면에 들어오면 위의 선이 그어지고 숫자가 0에서 올라갑니다.
+ * 고정 장면이 아니라 보통 구역이라, 휴대폰과 동작 줄이기에서는 끝 모습 그대로 섭니다.
+ * 세는 숫자는 화면 읽기와 검색에 0으로 읽히지 않게 실제 값을 따로 둡니다.
  */
 export default function Stats() {
-  const title = (
-    <>
-      <p className="eyebrow justify-center">AOVO in Numbers</p>
-      <h2 className="mt-5 text-[clamp(1.75rem,3.6vw,2.9rem)] leading-[1.25] text-balance">
-        숫자가 말하는 <span className="font-serif italic">신뢰</span>
-      </h2>
-    </>
-  );
   return (
-    <Scene className="ink-scene">
-      <div className="stage bg-white text-tx">
-        {/* 흰 무대: 제목만 */}
-        <div className="ink-under absolute inset-0 flex items-center justify-center px-6 text-center [&_h2_span]:text-tb">{title}</div>
+    <section aria-labelledby="stats-title" className="bg-tk text-white">
+      <div className="mx-auto max-w-[1200px] px-6 py-24 lg:py-36">
+        <h2 id="stats-title" className="text-[clamp(1.75rem,3.6vw,2.9rem)] leading-[1.25] text-balance">
+          숫자로 보는 아오보
+        </h2>
 
-        {/* 어두운 원 */}
-        <div className="ink cue absolute inset-0 bg-tk text-white">
-          <div className="flex h-full items-center justify-center px-6">
-            <div className="mx-auto w-full max-w-[1200px] text-center [&_h2_span]:text-tb-soft">
-              {title}
-              <p className="cue-in mx-auto mt-4 max-w-2xl text-[17px] font-medium leading-[1.7] text-white/65" style={span(0.4, 0.52)}>
-                {COMPANY.years}년 동안 현장에서 쌓아 온 운영의 기록입니다.
-              </p>
-              <Numbers />
-              <div className="cue-in mt-12 flex flex-col items-center gap-4 lg:mt-16" style={span(0.66, 0.8)}>
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  {network.regions.map((r) => (
-                    <span key={r} className="rounded-full bg-white/10 px-4 py-2 text-[14px] font-semibold text-white/85">
-                      {r}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-[15px] font-medium text-white/60">{network.sla}</p>
+        <dl className="mt-12 lg:mt-20">
+          {ROWS.map((r, i) => (
+            <div key={r.label}>
+              <GrowLine className="bg-white/15" delay={i * 0.06} />
+              <div className="grid grid-cols-[minmax(0,11fr)_minmax(0,9fr)] items-baseline gap-x-5 py-7 sm:gap-x-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-x-14 lg:py-10">
+                <dt className="col-start-2 row-start-1">
+                  <span className="block text-[17px] font-semibold tracking-[-0.01em] text-white/90 lg:text-[22px]">{r.label}</span>
+                  {r.note && <span className="mt-2 block text-[14px] font-medium leading-[1.5] text-balance text-white/55 lg:text-[15px]">{r.note}</span>}
+                </dt>
+                <dd className="col-start-1 row-start-1 justify-self-end whitespace-nowrap font-paperlogy text-[clamp(2.4rem,7.2vw,6.25rem)] font-light leading-none tracking-[-0.035em] tabular-nums">
+                  <span className="sr-only">
+                    {r.value.toLocaleString("ko-KR")}
+                    {r.suffix}
+                  </span>
+                  <span aria-hidden>
+                    <CountUp value={r.value} />
+                    <span className="ml-[0.08em] text-[0.42em] font-normal tracking-normal text-accent-light">{r.suffix}</span>
+                  </span>
+                </dd>
               </div>
             </div>
-          </div>
-        </div>
+          ))}
+          <GrowLine className="bg-white/15" delay={ROWS.length * 0.06} />
+        </dl>
       </div>
-    </Scene>
+    </section>
   );
 }

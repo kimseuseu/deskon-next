@@ -1041,19 +1041,8 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* 숫자: 흰 무대 위에서 어두운 원이 번져 화면을 덮고, 그 안에 숫자가 섭니다. */
-.ink-scene {
-  height: 200svh;
-}
-.ink {
-  --from: 0.04;
-  --to: 0.5;
-  clip-path: circle(calc(var(--e) * 100%) at 50% 50%);
-  will-change: clip-path;
-}
-
 @media (prefers-reduced-motion: reduce), (max-width: 767px) {
-  .home-hero, .bill-scene, .ink-scene { height: auto !important; }
+  .home-hero, .bill-scene { height: auto !important; }
   .home-hero .stage { min-height: 100svh; }
   .home-clip { opacity: 1 !important; transform: none !important; clip-path: none !important; }
   .home-dim, .home-edge { display: none !important; }
@@ -1064,11 +1053,6 @@ input:focus, textarea:focus, select:focus {
   .bill-swap > * { grid-area: auto !important; }
   .bill-swap > * + * { margin-top: 0.75rem; }
   .dstack-card { position: relative !important; top: auto !important; }
-  .ink { clip-path: none !important; }
-  /* 숫자 장면은 두 겹이 다 absolute라, 높이를 풀면 무대가 0이 되어 앞뒤 섹션 위로 넘칩니다.
-     흰 겹은 감추고 어두운 겹을 제 높이로 세웁니다. */
-  .ink-under { display: none !important; }
-  .ink { position: relative !important; inset: auto !important; padding-block: 6rem; }
 }
 
 /* ── 임대 묶음 장면 넷 (/gas RentalShowcase) ──
