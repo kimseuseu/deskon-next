@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, Instrument_Serif } from "next/font/google";
+import localFont from "next/font/local";
 /* 사이트 서체는 Pretendard 하나. 조각 서체(unicode-range)라 화면에 선 글자가 든 조각만 받아 옵니다. */
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
@@ -8,21 +8,30 @@ import NaverAnalytics from "@/components/seo/NaverAnalytics";
 import { Analytics } from "@vercel/analytics/next";
 import { companyIntro, officialChannels } from "@/data/company-intro";
 
-// Only /about/ci still renders Syne (brand-typeface specimen)
-const syne = Syne({
+/*
+ * 영문 서체 두 개는 저장소에 넣어 둔 파일을 씁니다(src/app/fonts, 라틴 글자만, OFL 라이선스).
+ * next/font/google 은 빌드할 때마다 구글 폰트 서버에서 받아 오는데, 그 단계에서 Vercel 빌드가
+ * 여러 번 실패했습니다(«next/font/google queries have exactly one entry»). 파일을 직접 두면
+ * 빌드가 바깥 서버에 기대지 않습니다. 서체를 바꾸려면 파일과 아래 설정을 같이 바꿉니다.
+ */
+
+// Only /about/ci still renders Syne (brand-typeface specimen). 가변 서체 한 파일로 400~800 을 모두 냅니다.
+const syne = localFont({
+  src: "./fonts/syne-latin-wght-normal.woff2",
   variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: "400 800",
+  style: "normal",
   display: "swap",
 });
 
 /* 액센트 한 줄에만 쓰는 세리프 이탤릭 (eyebrow, 제목 속 낱말 하나) */
-const instrumentSerif = Instrument_Serif({
+const instrumentSerif = localFont({
+  src: "./fonts/instrument-serif-latin-400-italic.woff2",
   variable: "--font-instrument",
-  subsets: ["latin"],
   weight: "400",
   style: "italic",
   display: "swap",
+  adjustFontFallback: "Times New Roman",
 });
 
 /* 서치콘솔 소유확인 토큰. 콘솔에서 'HTML 태그' 방식을 고르면 나오는
